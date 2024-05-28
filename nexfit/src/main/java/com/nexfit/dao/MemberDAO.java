@@ -19,9 +19,9 @@ public class MemberDAO {
 		String sql;
 		
 		try {
-			sql = " SELECT userId, userName, userPwd, register_date, modify_date "
-					+ " FROM member1"
-					+ " WHERE userId = ? AND userPwd = ? AND enabled = 1";
+			sql = " SELECT userId, userName, password, reg_date, modify_date "
+					+ " FROM member "
+					+ " WHERE userId = ? AND password = ? AND enabled = 1";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -34,9 +34,9 @@ public class MemberDAO {
 				dto = new MemberDTO();
 				
 				dto.setUserId(rs.getString("userId"));
-				dto.setUserPwd(rs.getString("userPwd"));
+				dto.setUserPwd(rs.getString("password"));
 				dto.setUserName(rs.getString("userName"));
-				dto.setRegister_date(rs.getString("register_date"));
+				dto.setRegister_date(rs.getString("reg_date"));
 				dto.setModify_date(rs.getString("modify_date"));
 			}
 		} catch (SQLException e) {
