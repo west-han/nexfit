@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'nexon lv1 light';
+    src:url('/nexfit/resources/fonts/NEXON Lv1 Gothic OTF Light.otf') format('wotf'),
+        url('/nexfit/resources/fonts/NEXON Lv1 Gothic OTF Light.otf') format('woff2');
+}
+
+@font-face {
+    font-family: 'nexon lv2 medium';
+    src:url('/nexfit/resources/fonts/NEXON Lv2 Gothic OTF Medium.otf') format('wotf'),
+        url('/nexfit/resources/fonts/NEXON Lv2 Gothic OTF Medium.otf') format('woff2');
+}
