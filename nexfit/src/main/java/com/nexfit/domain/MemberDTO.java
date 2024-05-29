@@ -3,6 +3,7 @@ package com.nexfit.domain;
 public class MemberDTO {
 	private String userId;
 	private String userName;
+	private String nickname;
 	private String userPwd;
 	private String register_date;
 	private String modify_date;
@@ -120,5 +121,11 @@ public class MemberDTO {
 	}
 	public void setEnabled(int enabled) {
 		this.enabled = enabled;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 }
