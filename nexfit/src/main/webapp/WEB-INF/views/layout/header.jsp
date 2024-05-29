@@ -4,7 +4,7 @@
 
 
 
-	<nav class="navbar navbar-expand-lg navbar-light" style="background: #80c3f0">
+	<nav class="navbar navbar-expand-lg navbar-light" style="background: #00AEEA; font-family: 'nexon lv2 medium';" >
 		<div class="container">
 			<a href="${pageContext.request.contextPath}/">
                       
@@ -16,17 +16,12 @@
 			</button>
 				
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mx-auto flex-nowrap"> <!-- ms-auto : 우측으로 정렬 -->
-					<li class="nav-item">
-						<a class="nav-link" aria-current="page" href="${pageContext.request.contextPath}/">홈</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">회사소개</a>
-					</li>
+				<ul class="navbar-nav mx-auto flex-nowrap">   
+			
 
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							IT 강좌
+						<a class="nav-link dropdown-toggle px-5" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							SPORTS
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<li><a class="dropdown-item" href="#">프로그래밍</a></li>
@@ -38,8 +33,8 @@
 					</li>
 
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							커뮤니티
+						<a class="nav-link dropdown-toggle px-5" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							PLAYGROUND
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<li><a class="dropdown-item" href="#">방명록</a></li>
@@ -51,8 +46,8 @@
 					</li>
 					
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							고객센터
+						<a class="nav-link dropdown-toggle px-5" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							CHALLENGE
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<li><a class="dropdown-item" href="#">자주하는질문</a></li>
@@ -63,8 +58,8 @@
 					</li>
 					
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							마이페이지
+						<a class="nav-link dropdown-toggle px-5" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							NEWS
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<li><a class="dropdown-item" href="#">일정관리</a></li>
