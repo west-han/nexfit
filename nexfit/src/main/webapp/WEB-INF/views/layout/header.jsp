@@ -4,7 +4,7 @@
 
 
 
-	<nav class="navbar navbar-expand-lg navbar-light" style="background: #00AEEA; font-family: 'nexon lv2 medium';" >
+	<nav class="navbar navbar-expand-lg navbar-light" style="background: #272727; font-family: 'nexon lv2 medium';" >
 		<div class="container">
 			<a href="${pageContext.request.contextPath}/">
                       
@@ -12,15 +12,15 @@
                        
                       </a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
+				<span class="navbar-toggler-icon"></span> 
 			</button>
 				
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<div class="collapse navbar-collapse" id="navbarSupportedContent"> 
 				<ul class="navbar-nav mx-auto flex-nowrap">   
 			
 
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle px-5" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<a class="nav-link dropdown-toggle px-5" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
 							SPORTS
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -33,7 +33,7 @@
 					</li>
 
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle px-5" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<a class="nav-link dropdown-toggle px-5" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
 							PLAYGROUND
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -46,7 +46,7 @@
 					</li>
 					
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle px-5" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<a class="nav-link dropdown-toggle px-5" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
 							CHALLENGE
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -58,7 +58,7 @@
 					</li>
 					
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle px-5" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<a class="nav-link dropdown-toggle px-5" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
 							NEWS
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -78,23 +78,23 @@
 					<div class="d-flex justify-content-end">
 						<c:if test="${empty sessionScope.member}">
 							<div class="p-2">
-								<a href="javascript:dialogLogin();" title="로그인"><i class="bi bi-lock"></i></a>
+								<a href="javascript:dialogLogin();" title="로그인"><i class="bi bi-lock" style="color: white;"></i></a>
 							</div>
 							<div class="p-2">
-								<a href="${pageContext.request.contextPath}/" title="회원가입"><i class="bi bi-person-plus"></i></a>
+								<a href="${pageContext.request.contextPath}/" title="회원가입"><i class="bi bi-person-plus" style="color: white;"></i></a>
 							</div>	
 						</c:if>
 						<c:if test="${not empty sessionScope.member}">
 							<div class="p-2">
-								<a href="#" title="알림"><i class="bi bi-bell"></i></a>
+								<a href="#" title="알림"><i class="bi bi-bell" style="color: white;"></i></a> 
 							</div>
 							<div class="p-2">
-								<a href="${pageContext.request.contextPath}/member/logout" title="로그아웃"><i class="bi bi-unlock"></i></a>
+								<a href="${pageContext.request.contextPath}/member/logout" title="로그아웃"><i class="bi bi-unlock" style="color: white;"></i></a>
 							</div>					
 						</c:if>
 						<c:if test="${sessionScope.member.userId == 'admin'}">
 							<div class="p-2">
-								<a href="#" title="관리자"><i class="bi bi-gear"></i></a>
+								<a href="#" title="관리자"><i class="bi bi-gear" style="color: white;"></i></a>
 							</div>					
 						</c:if>
 					
