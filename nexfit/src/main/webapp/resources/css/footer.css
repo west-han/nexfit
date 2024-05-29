@@ -9,11 +9,11 @@ body {
     font-family: 'Open Sans', sans-serif;
     .footer {
         z-index: 1;
-        --footer-background:#00aeea;
+        --footer-background: #272727;
         display:grid;
         position: relative;
         grid-area: footer;
-        min-height:12rem;
+        min-height:12rem; 
         .bubbles {
             position: absolute;
             top:0;
