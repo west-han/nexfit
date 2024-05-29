@@ -17,29 +17,38 @@
 </style>
 
 </head>
+
 <body>
+	<div class="container-fluid px-0">
+		<header>
+			<jsp:include page="/WEB-INF/views/layout/header.jsp"/> 
+		</header>
 
-<header>
-	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
-</header>
-	
-<main>
-	<div class="container">
-		<div class="body-container">	
-			<div class="body-title">
-				<h3><i class="bi bi-app"></i> 제목 </h3>
+		<main>
+			<div class="container-xxl text-center">
+				<div class="row py-5">
+					<div class="col">
+						<h1 class="fs-1 text-start">
+							화면 타이틀
+						</h1>
+					</div>
+				</div>
+				
+				<c:forEach var="i" begin="0" end="5">
+					<div class="row gx-2">
+						<div class="col-sm-3">여기에는 좌측 공간에 들어갈 거 작성</div>
+						<div class="col-sm-6">여기에 메인 컨텐츠 작성</div>
+						<div class="col-sm-3">여기에는 우측 공간에 들어갈 거 작성</div>
+					</div>
+				</c:forEach>
 			</div>
-			
-			<div class="body-main">
-				내용 입니다.
-			</div>
-		</div>
+		</main>
 	</div>
-</main>
-
-<footer>
-	<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
-</footer>
+	
+	<footer>
+		<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+	</footer>
+</body>
 
 <jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
 </body>
