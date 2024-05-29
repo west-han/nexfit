@@ -31,12 +31,16 @@
 			
 
 			<nav>
-				<div style="border: 1px solid black; height: 300px; width: 100%;"></div>
-				<div style="border: 1px solid red; height: 400px; width:50%; margin:20px 15px 15px 40px;"></div>
+				<div>
+					<img alt="" src="resources/images/nav_run.jpg" style="height: 700px; width: 100%;">
+				</div>
+				<div>
+					<img alt="" src="resources/images/rec_img.jpg" style="height: 400px; width: 58%;margin:20px 15px 15px 40px;">
+				</div>
 			</nav>
 			<main>
 				<div class="body-container">	
-					<div class="d-grid">
+					<div class="d-grid" style="font-family: nexon lv2 medium">
 						메인 화면 입니다.
 					</div>
 				</div>
