@@ -2,48 +2,15 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 
-	<div class="container-fluid bg-light header-top">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="p-2">
-						<i class="bi bi-telephone-inbound-fill"></i> +82-1234-1234
-					</div>
-				</div>
-				<div class="col">
-					<div class="d-flex justify-content-end">
-						<c:if test="${empty sessionScope.member}">
-							<div class="p-2">
-								<a href="javascript:dialogLogin();" title="로그인"><i class="bi bi-lock"></i></a>
-							</div>
-							<div class="p-2">
-								<a href="${pageContext.request.contextPath}/" title="회원가입"><i class="bi bi-person-plus"></i></a>
-							</div>	
-						</c:if>
-						<c:if test="${not empty sessionScope.member}">
-							<div class="p-2">
-								<a href="#" title="알림"><i class="bi bi-bell"></i></a>
-							</div>
-							<div class="p-2">
-								<a href="${pageContext.request.contextPath}/member/logout" title="로그아웃"><i class="bi bi-unlock"></i></a>
-							</div>					
-						</c:if>
-						<c:if test="${sessionScope.member.userId == 'admin'}">
-							<div class="p-2">
-								<a href="#" title="관리자"><i class="bi bi-gear"></i></a>
-							</div>					
-						</c:if>
-					
-					</div>
-					
-				</div>
-			</div>
-		</div>
-	</div>
 
-	<nav class="navbar navbar-expand-lg navbar-light">
+
+	<nav class="navbar navbar-expand-lg navbar-light" style="background: #80c3f0">
 		<div class="container">
-			<a class="navbar-brand" href="${pageContext.request.contextPath}/"><i class="bi bi-app-indicator"></i></a>
+			<a href="${pageContext.request.contextPath}/">
+                      
+                           <img src="/nexfit/resources/images/NEXFIT.png" style="width:220px; height:50px;">
+                       
+                      </a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -111,6 +78,34 @@
 					
 				</ul>
 			</div>
+			
+			<div class="col">
+					<div class="d-flex justify-content-end">
+						<c:if test="${empty sessionScope.member}">
+							<div class="p-2">
+								<a href="javascript:dialogLogin();" title="로그인"><i class="bi bi-lock"></i></a>
+							</div>
+							<div class="p-2">
+								<a href="${pageContext.request.contextPath}/" title="회원가입"><i class="bi bi-person-plus"></i></a>
+							</div>	
+						</c:if>
+						<c:if test="${not empty sessionScope.member}">
+							<div class="p-2">
+								<a href="#" title="알림"><i class="bi bi-bell"></i></a>
+							</div>
+							<div class="p-2">
+								<a href="${pageContext.request.contextPath}/member/logout" title="로그아웃"><i class="bi bi-unlock"></i></a>
+							</div>					
+						</c:if>
+						<c:if test="${sessionScope.member.userId == 'admin'}">
+							<div class="p-2">
+								<a href="#" title="관리자"><i class="bi bi-gear"></i></a>
+							</div>					
+						</c:if>
+					
+					</div>
+					
+				</div>
 			
 		</div>
 	</nav>
