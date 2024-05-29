@@ -11,32 +11,41 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
 <style type="text/css">
-.body-container {
-	max-width: 800px;
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
 }
+
+.body-container {
+	max-width: 800px;	
+}
+
 </style>
 
 </head>
 <body>
+	<div class="container-fluid p-0">
+		<header>
+			<jsp:include page="/WEB-INF/views/layout/header.jsp"/> 
+		</header>
+			
 
-<header>
-	<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
-</header>
-
-<main>
-	<div class="container">
-		<div class="body-container">	
-			<div class="d-grid">
-				메인 화면 입니다.
-			</div>
-		</div>
+			<nav>
+				<div style="border: 1px solid black; height: 300px; width: 100%;"></div>
+				<div style="border: 1px solid red; height: 400px; width:50%; margin:20px 15px 15px 40px;"></div>
+			</nav>
+			<main>
+				<div class="body-container">	
+					<div class="d-grid">
+						메인 화면 입니다.
+					</div>
+				</div>
+			</main>
 	</div>
-</main>
-
-<footer>
-	<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
-</footer>
-
-<jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
+	
+	<footer>
+		<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+	</footer>
 </body>
+<jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/> 
 </html>
