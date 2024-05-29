@@ -32,7 +32,7 @@
 
 			<nav>
 				<div>
-					<img alt="" src="resources/images/nav_run.jpg" style="height: 800px; width: 100%;">
+					<img alt="" src="resources/images/nav_run.jpg" style="height: 900px; width: 100%;">
 				</div>
 				<div>
 					<img alt="" src="resources/images/rec_img.jpg" style="height: 400px; width: 58%;margin:20px 15px 15px 40px;">
