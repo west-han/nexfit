@@ -4,7 +4,7 @@
 
 
 
-	<nav class="navbar navbar-expand-lg navbar-light" style="background: #272727; font-family: 'nexon lv2 medium';" >
+	<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background: #272727; font-family: 'nexon lv2 medium';" >
 		<div class="container">
 			<a href="${pageContext.request.contextPath}/"> 
                       

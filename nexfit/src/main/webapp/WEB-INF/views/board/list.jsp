@@ -70,8 +70,8 @@
 							<thead class="table-light">
 								<tr>
 									<th class="num">번호</th>
-									<th class="subject">제목</th>
-									<th class="categoryName">
+									<th class="subject">카테고리</th>
+									<th class="categoryName">제목</th>
 									<th class="name">작성자</th>
 									<th class="date">작성일</th>
 									<th class="hit">조회수</th>
@@ -82,10 +82,11 @@
 								<c:forEach var="dto" items="${list}" varStatus="status">
 									<tr>
 										<td>${dataCount - (page-1) * size - status.index}</td>
+										<td>${dto.categoryName}</td>
 										<td class="left">
 											<a href="${articleUrl}&num=${dto.num}" class="text-reset">${dto.subject}</a>
 										</td>
-										<td>${dto.userName}</td>
+										<td>${dto.nickname}</td>
 										<td>${dto.reg_date}</td>
 										<td>${dto.hitCount}</td>
 									</tr>

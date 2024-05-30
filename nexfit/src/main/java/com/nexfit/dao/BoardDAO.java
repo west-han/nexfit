@@ -120,39 +120,28 @@ public class BoardDAO {
 		StringBuilder sb = new StringBuilder();
 
 		try {
-			sb.append(" SELECT f.num, categoryId, nickname, subject, hitCount, ");
-			sb.append("      TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, ");
-			sb.append("      NVL(replyCount, 0) replyCount ");
-			sb.append(" FROM freeboard f ");
-			sb.append(" JOIN member_detail m ON f.userId = m.userId ");
-			sb.append(" LEFT OUTER JOIN ( ");
-			sb.append("     SELECT num, COUNT(*) replyCount ");
-			sb.append("     FROM freeboard_Reply ");
-			sb.append("     WHERE answer = 0 ");
-			sb.append("     GROUP BY num");
-			sb.append(" ) c ON f.num = c.num");
-			sb.append(" ORDER BY num DESC ");
-			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
+			sb.append("select f.num, nickname, categoryName, subject, content, hitCount, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, f.categoryId, f.userId ");
+			sb.append("FROM freeBoard f ");
+			sb.append("JOIN member_detail m ON m.userId = f.userId ");
+			sb.append("JOIN freeboard_category c ON f.categoryId = c.categoryId ");
+			sb.append("ORDER BY num DESC ");
+			sb.append("OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 
 			pstmt = conn.prepareStatement(sb.toString());
-			
 			pstmt.setInt(1, offset);
 			pstmt.setInt(2, size);
 
 			rs = pstmt.executeQuery();
-			
 			while (rs.next()) {
 				BoardDTO dto = new BoardDTO();
 
 				dto.setNum(rs.getLong("num"));
-				dto.setCategoryId(rs.getInt("categoryId"));
+				dto.setCategoryName(rs.getString("categoryName"));
 				dto.setNickname(rs.getString("nickname"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setReg_date(rs.getString("reg_date"));
 
-				dto.setReplyCount(rs.getInt("replyCount"));
-				
 				list.add(dto);
 			}
 

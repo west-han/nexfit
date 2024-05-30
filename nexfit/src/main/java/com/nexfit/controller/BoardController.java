@@ -99,6 +99,8 @@ public class BoardController {
 
 			String paging = util.paging(current_page, total_page, listUrl);
 
+			
+			
 			// 포워딩할 JSP에 전달할 속성
 			mav.addObject("list", list);
 			mav.addObject("page", current_page);
