@@ -43,31 +43,61 @@
 						<h3> 등록된 챌린지 </h3>
 						</div>  
 						<div class="body-main">
-		        <div class="row list-header">
-		            <div class="col-auto me-auto">
-		            	<p class="form-control-plaintext">
-		            		${dataCount}개(${page}/${total_page} 페이지)
-		            	</p>
-		            </div>
-		            <div class="col-auto">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chellenge/write';">챌린지 등록</button>
-					</div>
+		        <div class="row board-list-header">
+		            <div class="col-auto me-auto">${dataCount}개(${page}/${total_page} 페이지)</div>
+		            <div class="col-auto">&nbsp;</div>
 		        </div>				
 				
-				 <div class="row row-cols-4 px-1 py-1 g-2">
-				 	<c:forEach var="dto" items="${list}" varStatus="status">
-				 		<div>
-				 			<div class="col border rounded p-1 item"
-				 				onclick="location.href='${articleUrl}&num=${dto.num}';">
-				 				<img src="${pageContext.request.contextPath}/uploads/photo/${dto.imageFilename}">
-				 				<p class="item-title">${dto.subject}</p>
-				 			</div>
-				 		</div>
-				 	</c:forEach>
-				 </div>
+				<table class="table table-hover board-list">
+					<thead class="table-light">
+						<tr>
+							<th class="chellengeId" width="100px">번호</th>
+							<th class="ch_subject">제목</th>
+							<th class="fee" width="200px">참가비</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<c:forEach var="dto" items="${list}" varStatus="status">
+							<tr>
+								<td>${dataCount - (page-1) * size - status.index}</td>
+								<td class="left">
+									<a href="${articleUrl}&chellengeId=${dto.chellengeId}" class="text-reset">${dto.ch_subject}</a>
+								</td>
+								<td>${dto.fee}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 				
 				<div class="page-navigation">
-					${dataCount == 0 ? "등록된 게시물이 없습니다." : paging }
+					${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+				</div>
+
+				<div class="row board-list-footer">
+					<div class="col">
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chellenge/list';"><i class="bi bi-arrow-clockwise"></i></button>
+					</div>
+					<div class="col-6 text-center">
+						<form class="row" name="searchForm" action="${pageContext.request.contextPath}/bbs/list" method="post">
+							<div class="col-auto p-1">
+								<select name="schType" class="form-select">
+									<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
+									<option value="subject" ${schType=="subject"?"selected":""}>제목</option>
+									<option value="content" ${schType=="content"?"selected":""}>내용</option>
+								</select>
+							</div>
+							<div class="col-auto p-1">
+								<input type="text" name="kwd" value="${kwd}" class="form-control">
+							</div>
+							<div class="col-auto p-1">
+								<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
+							</div>
+						</form>
+					</div>
+					<div class="col text-end">
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chellenge/write';">글올리기</button>
+					</div>
 				</div>
 
 			</div>
