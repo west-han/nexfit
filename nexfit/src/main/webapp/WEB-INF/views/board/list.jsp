@@ -71,6 +71,7 @@
 								<tr>
 									<th class="num">번호</th>
 									<th class="subject">제목</th>
+									<th class="categoryName">
 									<th class="name">작성자</th>
 									<th class="date">작성일</th>
 									<th class="hit">조회수</th>

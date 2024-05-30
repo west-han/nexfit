@@ -23,13 +23,14 @@ public class BoardDAO {
 		String sql;
 
 		try {
-			sql = "INSERT INTO freeboard(num, userId, subject, content, hitCount, reg_date) "
-					+ " VALUES (freeboard_seq.NEXTVAL, ?, ?, ?, 0, SYSDATE)";
+			sql = "INSERT INTO freeboard(num, userId, categoryId, subject, content, hitCount, reg_date) "
+					+ " VALUES (freeboard_seq.NEXTVAL, ?, ?, ?, ?, 0, SYSDATE)";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getUserId());
-			pstmt.setString(2, dto.getSubject());
-			pstmt.setString(3, dto.getContent());
+			pstmt.setInt(2, dto.getCategoryId());
+			pstmt.setString(3, dto.getSubject());
+			pstmt.setString(4, dto.getContent());
 
 			pstmt.executeUpdate();
 
@@ -80,7 +81,7 @@ public class BoardDAO {
 					+ " FROM freeboard f "
 					+ " JOIN member_detail m ON f.userId = m.userId ";
 			if (schType.equals("all")) {
-				sql += "  WHERE INSTR(subject, ?) >= 1 OR INSTR(content, ?) >= 1 ";
+				sql += "  WHERE INSTR(subject, ?) >= 1 OR INSTR(content, ?) >= 1 OR INSTR(categoryId, ?)";
 			} else if (schType.equals("reg_date")) {
 				kwd = kwd.replaceAll("(\\-|\\/|\\.)", "");
 				sql += "  WHERE TO_CHAR(reg_date, 'YYYYMMDD') = ? ";
@@ -119,7 +120,7 @@ public class BoardDAO {
 		StringBuilder sb = new StringBuilder();
 
 		try {
-			sb.append(" SELECT f.num, nickname, subject, hitCount, ");
+			sb.append(" SELECT f.num, categoryId, nickname, subject, hitCount, ");
 			sb.append("      TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, ");
 			sb.append("      NVL(replyCount, 0) replyCount ");
 			sb.append(" FROM freeboard f ");
@@ -144,6 +145,7 @@ public class BoardDAO {
 				BoardDTO dto = new BoardDTO();
 
 				dto.setNum(rs.getLong("num"));
+				dto.setCategoryId(rs.getInt("categoryId"));
 				dto.setNickname(rs.getString("nickname"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setHitCount(rs.getInt("hitCount"));
@@ -171,7 +173,7 @@ public class BoardDAO {
 		StringBuilder sb = new StringBuilder();
 
 		try {
-			sb.append(" SELECT f.num, nickName, subject, hitCount, ");
+			sb.append(" SELECT f.num, categoryName, nickName, subject, hitCount, ");
 			sb.append("      TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, ");
 			sb.append("      NVL(replyCount, 0) replyCount ");
 			sb.append(" FROM freeboard f ");
@@ -183,7 +185,7 @@ public class BoardDAO {
 			sb.append("     GROUP BY num");
 			sb.append(" ) c ON f.num = c.num");
 			if (schType.equals("all")) {
-				sb.append(" WHERE INSTR(subject, ?) >= 1 OR INSTR(content, ?) >= 1 ");
+				sb.append(" WHERE INSTR(subject, ?) >= 1 OR INSTR(content, ?) >= 1 OR INSTR(categoryId, ?) ");
 			} else if (schType.equals("reg_date")) {
 				kwd = kwd.replaceAll("(\\-|\\/|\\.)", "");
 				sb.append(" WHERE TO_CHAR(reg_date, 'YYYYMMDD') = ?");
@@ -212,6 +214,7 @@ public class BoardDAO {
 				BoardDTO dto = new BoardDTO();
 
 				dto.setNum(rs.getLong("num"));
+				dto.setCategoryName(rs.getString("categoryid"));
 				dto.setNickname(rs.getString("nickname"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setHitCount(rs.getInt("hitCount"));
@@ -427,13 +430,14 @@ public class BoardDAO {
 		String sql;
 
 		try {
-			sql = "UPDATE freeboard SET subject=?, content=? WHERE num=? AND userId=?";
+			sql = "UPDATE freeboard SET categoryId=?, subject=?, content=? WHERE num=? AND userId=?";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getSubject());
-			pstmt.setString(2, dto.getContent());
-			pstmt.setLong(3, dto.getNum());
-			pstmt.setString(4, dto.getUserId());
+			pstmt.setInt(1, dto.getCategoryId());
+			pstmt.setString(2, dto.getSubject());
+			pstmt.setString(3, dto.getContent());
+			pstmt.setLong(4, dto.getNum());
+			pstmt.setString(5, dto.getUserId());
 			
 			pstmt.executeUpdate();
 

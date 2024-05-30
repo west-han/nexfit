@@ -77,16 +77,29 @@ function sendOk() {
 											<tr>
 												<td class="bg-light col-sm-2" scope="row">카테고리
 													<td>
-													<select name="schType" class="form-select" style="width: 100px;">
-														<option value="il">일상</option>
-														<option value="il">일상</option>
-														<option value="il">일상</option>
-														<option value="il">일상</option>
-														<option value="il">일상</option>
+													<select name="categoryId" class="form-select" style="width: 100px;">
+														<option value="1" ${categoryId=="1"?"selected":""}>IT</option>
+														<option value="2" ${categoryId=="2"?"selected":""}>잡담</option>
+														<option value="3" ${categoryId=="3"?"selected":""}>건강</option>
+														<option value="4" ${categoryId=="4"?"selected":""}>축구</option>
+														<option value="5" ${categoryId=="5"?"selected":""}>야구</option>
+														<option value="6" ${categoryId=="6"?"selected":""}>농구</option>
+														<option value="7" ${categoryId=="7"?"selected":""}>배구</option>
+														<option value="8" ${categoryId=="8"?"selected":""}>기타스포츠</option>
+														<option value="9" ${categoryId=="9"?"selected":""}>반려동물</option>
+														<option value="10" ${categoryId=="10"?"selected":""}>식단</option>
+														<option value="11" ${categoryId=="11"?"selected":""}>게임</option>
+														<option value="12" ${categoryId=="12"?"selected":""}>영화</option>
+														<option value="13" ${categoryId=="13"?"selected":""}>문학</option>
+														<option value="14" ${categoryId=="14"?"selected":""}>유머</option>
+														<option value="15" ${categoryId=="15"?"selected":""}>연애</option>
+														<option value="16" ${categoryId=="16"?"selected":""}>여행</option>
+														<option value="17" ${categoryId=="17"?"selected":""}>음악</option>
+														<option value="18" ${categoryId=="18"?"selected":""}>취업</option>
+														<option value="19" ${categoryId=="19"?"selected":""}>재테크</option>
 													</select> 
 													</td>
-												</td>
-											</tr>
+												</tr>
 											<tr>
 												<td class="bg-light col-sm-2" scope="row">제 목</td>
 												<td>
