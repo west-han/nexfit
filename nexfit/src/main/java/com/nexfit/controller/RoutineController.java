@@ -17,12 +17,15 @@ public class RoutineController {
 	@RequestMapping(value = "/routine", method = RequestMethod.GET)
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글 리스트
+		
 		return new ModelAndView("routineBoard/list");
 	}
 	
 	@RequestMapping(value = "/routine/write", method = RequestMethod.GET)
 	public ModelAndView writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글쓰기 폼
-		return new ModelAndView("routineBoard/write");
+		ModelAndView mav = new ModelAndView("routineBoard/write");
+		mav.addObject("mode", "write");
+		return mav;
 	}
 }
