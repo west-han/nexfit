@@ -31,10 +31,10 @@ public class ReplyDTO {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getnickname() {
+	public String getNickname() {
 		return nickname;
 	}
-	public void setnickname(String nickname) {
+	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
 	public String getContent() {

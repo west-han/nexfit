@@ -14,7 +14,16 @@ public class BoardDTO {
 	private String reg_date;
 	private int notice;
 	private int categoryId;
+	private String categoryName;
 	
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
 	private int replyCount;
 	private int boardLikeCount;
 	

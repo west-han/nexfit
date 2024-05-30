@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class ChellengeBoardController {
+public class ChellengeController {
 	@RequestMapping("/chellenge/list")
 	public ModelAndView chellengelist(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		return new ModelAndView("chellenge/list");

@@ -34,7 +34,7 @@
 					</div>
 				</div>
 				
-				<c:forEach var="i" begin="0" end="5">
+				<c:forEach var="i" begin="0" end="1">
 					<div class="row gx-2">
 						<div class="col-sm-3">여기에는 좌측 공간에 들어갈 거 작성</div>
 						<div class="col-sm-6">여기에 메인 컨텐츠 작성</div>
