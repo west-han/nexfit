@@ -6,7 +6,7 @@
 
 	<nav class="navbar navbar-expand-lg navbar-light" style="background: #272727; font-family: 'nexon lv2 medium';" >
 		<div class="container">
-			<a href="${pageContext.request.contextPath}/">
+			<a href="${pageContext.request.contextPath}/"> 
                       
                            <img src="/nexfit/resources/images/NEXFIT.png" style="width:220px; height:50px;">
                        
@@ -37,9 +37,9 @@
 							PLAYGROUND
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="#">방명록</a></li>
-							<li><a class="dropdown-item" href="#">자유게시판</a></li>
-							<li><a class="dropdown-item" href="#">포토갤러리</a></li>
+							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/board/list">FREE LOUNGE</a></li>
+							<li><a class="dropdown-item" href="#">Q&A LOUNGE</a></li>
+							<li><a class="dropdown-item" href="#">WITH ME</a></li>
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item" href="#">자료실</a></li>
 						</ul>
@@ -104,6 +104,7 @@
 			
 		</div>
 	</nav>
+
 	
 	<!-- Login Modal -->
 	<script type="text/javascript">
