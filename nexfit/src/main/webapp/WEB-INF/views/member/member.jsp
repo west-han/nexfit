@@ -196,7 +196,7 @@ window.addEventListener('load', () => {
 							</div>
 							<c:if test="${mode=='member'}">
 								<small class="form-control-plaintext help-block">아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.</small>
-							</c:if>
+							</c:if> 
 						</div>
 					</div>
 					
