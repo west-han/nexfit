@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>spring</title>
+<title>NEXFIT : 운동이 재밌는 커뮤니티</title>
 
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
@@ -35,13 +35,15 @@ function memberOk() {
 		return;
 	}
 	
+	
+	
 	str = f.userPwd.value;
 	if( !/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str) ) { 
 		alert("패스워드를 다시 입력 하세요. ");
 		f.userPwd.focus();
 		return;
 	}
-
+	
 	if( str !== f.userPwd2.value ) {
         alert("패스워드가 일치하지 않습니다. ");
         f.userPwd.focus();
@@ -196,10 +198,16 @@ window.addEventListener('load', () => {
 							</div>
 							<c:if test="${mode=='member'}">
 								<small class="form-control-plaintext help-block">아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.</small>
-							</c:if> 
+							</c:if>
 						</div>
 					</div>
-					
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label" for="nickname">닉네임</label>
+						<div class="col-sm-10">
+				            <input type="text" name="nickname" id="nickname" class="form-control" autocomplete="off" placeholder="닉네임">
+				            <small class="form-control-plaintext">닉네임은 5~10자 가능합니다.</small>
+				        </div>
+				    </div>
 					<div class="row mb-3">
 						<label class="col-sm-2 col-form-label" for="userPwd">패스워드</label>
 						<div class="col-sm-10">

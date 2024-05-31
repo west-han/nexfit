@@ -68,16 +68,17 @@ public class MemberDAO {
 			pstmt.close();
 			pstmt = null;
 			
-			sql = "insert into member_detail(userId,birth, email, tel, zip,addr1, addr2) values(?,to_date(?,'YYYY-MM-DD'),?,?,?,?,?)"; 
+			sql = "insert into member_detail(userId,nickname,birth, email, tel, zip,addr1, addr2) values(?,?,to_date(?,'YYYY-MM-DD'),?,?,?,?,?)"; 
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getUserId());
-			pstmt.setString(2, dto.getBirth());
-			pstmt.setString(3, dto.getEmail());
-			pstmt.setString(4, dto.getTel());
-			pstmt.setString(5, dto.getZip());
-			pstmt.setString(6, dto.getAddr1());
-			pstmt.setString(7, dto.getAddr2());
+			pstmt.setString(2, dto.getNickname());
+			pstmt.setString(3, dto.getBirth());
+			pstmt.setString(4, dto.getEmail());
+			pstmt.setString(5, dto.getTel());
+			pstmt.setString(6, dto.getZip());
+			pstmt.setString(7, dto.getAddr1());
+			pstmt.setString(8, dto.getAddr2());
 			
 			pstmt.executeUpdate();
 			
@@ -106,7 +107,7 @@ public class MemberDAO {
 		StringBuilder sb = new StringBuilder();
 				
 		try {
-			sb.append("SELECT m.userId, userName, password,");
+			sb.append("SELECT m.userId, userName,nickname, password,");
 			sb.append("      enabled, reg_date, modify_date,");
 			sb.append("      TO_CHAR(birth, 'YYYY-MM-DD') birth, ");
 			sb.append("      email, tel,");
@@ -126,6 +127,7 @@ dto = new MemberDTO();
 				
 				dto.setUserId(rs.getString("userId"));
 				dto.setUserPwd(rs.getString("password"));
+				dto.setNickname(rs.getString("nickname"));
 				dto.setUserName(rs.getString("userName"));
 				dto.setEnabled(rs.getInt("enabled"));
 				dto.setRegister_date(rs.getString("reg_date"));

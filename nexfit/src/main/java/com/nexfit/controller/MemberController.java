@@ -98,6 +98,7 @@ public class MemberController {
 			dto.setUserId(req.getParameter("userId"));
 			dto.setUserPwd(req.getParameter("userPwd"));
 			dto.setUserName(req.getParameter("userName"));
+			dto.setNickname(req.getParameter("nickname"));
 			
 			dto.setBirth(req.getParameter("birth"));
 			
