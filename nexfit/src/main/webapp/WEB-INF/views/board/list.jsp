@@ -19,21 +19,92 @@
 </head>
 
 <body>
-	<div class="container-fluid px-0">
-		<header>
-			<jsp:include page="/WEB-INF/views/layout/header.jsp"/> 
-		</header>
-				<main>
-					<div class="container-xxl text-center">
-						<div class="row py-5 mt-5">
-							<div class="col">
-								<img src="/nexfit/resources/images/freelounge.png" style="width:450px; height:90px;">
-							</div>
-						</div>
+<div class="container-fluid px-0">
+	<header>
+		<jsp:include page="/WEB-INF/views/layout/header.jsp"/> 
+	</header>
+	<main>
+		<div class="container-xxl text-center">
+			<div class="row py-5 mt-5">
+				<div class="col">
+					<img src="/nexfit/resources/images/freelounge.png" style="width:450px; height:90px;">
+				</div>
+			</div>
 						
 	<div class="row gx-2">
-	<div class="col-sm-2">여기에는 좌측 공간에 들어갈 거 작성</div>
-	<div class="col-sm-7">
+		<div class="col-sm-3 mt-5">
+			<h3>CATEGORY</h3>
+			<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+			  <label class="btn btn-outline-dark" for="btnradio1">전체</label>
+			
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio2">잡담</label>
+			
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio3">건강</label>
+			  
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio4">축구</label>
+			  
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio5">야구</label>
+			</div>
+			
+			<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio6">농구</label>
+			
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio7" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio7">배구</label>
+			
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio8" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio8">기타종목</label>
+			  
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio9" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio9">동물</label>
+			  
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio10" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio10">식단</label>
+			</div>
+			
+			<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio11" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio11">게임</label>
+			
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio12" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio12">영화</label>
+			
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio13" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio13">문학</label>
+			  
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio14" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio14">유머</label>
+			  
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio15" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio15">연애</label>
+			</div>
+			
+			<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio16" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio16">여행</label>
+			
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio17" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio17">음악</label>
+			
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio18" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio18">취업</label>
+			  
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio19" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio19">재테크</label>
+			  
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio20" autocomplete="off">
+			  <label class="btn btn-outline-dark" for="btnradio20">IT</label>
+			</div>
+	</div>
+	
+	
+	<div class="col-sm-6">
 		<main>
 			<div class="container">
 				<div class="body-container">	
@@ -51,7 +122,7 @@
 							</select>
 						</div>
 						<div class="col-auto p-1">
-							<input type="text" name="kwd" value="${kwd}" class="form-control" style="width: 500px;">
+							<input type="text" name="kwd" value="${kwd}" class="form-control" style="width: 400px;">
 						</div>
 						<div class="col-auto p-1">
 							<button type="button" class="btn btn-light" onclick="searchList()" style=""> <i class="bi bi-search"></i> </button>
@@ -81,7 +152,11 @@
 									<tr>
 										<td>${dataCount - (page-1) * size - status.index}</td>
 										<td class="left">
-											<a href="${articleUrl}&num=${dto.num}" class="text-reset">[${dto.categoryName}]${dto.subject}</a> 
+									
+											<a href="${articleUrl}&num=${dto.num}" class="text-reset">
+											<span style="color: orange;">[${dto.categoryName}]</span> ${dto.subject}
+											 </a> 
+										
 										</td>
 										<td>${dto.nickname}</td>
 										<td>${dto.reg_date}</td>
