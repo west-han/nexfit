@@ -83,17 +83,10 @@ function sendOk() {
 									<td class="bg-light col-sm-2" scope="row">운동 부위</td>
 									<td>
 										<select name="bodyPart" class="form-select" style="width: 100px;">
-											<option value="chest">가슴</option>
-											<option value="back">등</option>
-											<option value="lowerBody">하체</option>
-											<option value="shoulders">어깨</option>
-											<option value="triceps">삼두</option>
-											<option value="biceps">이두</option>
-											<option value="core">코어</option>
-											<option value="forearm">전완근</option>
-											<option value="aerobic">유산소</option>
-											<option value="sports">스포츠</option>
-										</select> 
+											<c:forEach var="entry" items="${map}" varStatus="status">
+												<option value="${entry.key}">${entry.value}</option>
+											</c:forEach>
+										</select>
 									</td>
 								</tr>
 								

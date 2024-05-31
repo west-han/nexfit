@@ -10,7 +10,6 @@ public class SportTypeDTO {
 
 	private long fileNum;
 	private String saveFilename;
-	private String originalFilename;
 
 	public long getNum() {
 		return num;
@@ -76,12 +75,10 @@ public class SportTypeDTO {
 		this.saveFilename = saveFilename;
 	}
 
-	public String getOriginalFilename() {
-		return originalFilename;
+	@Override
+	public String toString() {
+		return "SportTypeDTO [num=" + num + ", name=" + name + ", bodyPart=" + bodyPart + ", description=" + description
+				+ ", userId=" + userId + ", hitCount=" + hitCount + ", fileNum=" + fileNum + ", saveFilename="
+				+ saveFilename + "]";
 	}
-
-	public void setOriginalFilename(String originalFilename) {
-		this.originalFilename = originalFilename;
-	}
-
 }
