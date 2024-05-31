@@ -1,4 +1,4 @@
-package com.nexfit.controller;
+ 	package com.nexfit.controller;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -84,10 +84,13 @@ public class ChellengeController {
 
 					// 페이징 처리
 					String cp = req.getContextPath();
-					String listUrl = cp + "/chellenge/list" +query;
-					String articleUrl = cp + "/chellenge/article?page=" + current_page + "&" + query;
+					String listUrl = cp + "/chellenge/list";
+					String articleUrl = cp + "/chellenge/article?page=" + current_page;
 					
-
+					if (query.length() != 0) {
+						listUrl += "?" + query;
+						articleUrl += "&" + query;
+					}
 					String paging = util.paging(current_page, total_page, listUrl);
 
 					// 포워딩할 JSP에 전달할 속성
@@ -328,9 +331,10 @@ public class ChellengeController {
 			return new ModelAndView("redirect:/chellenge/list");
 		}
 		
-		String page = req.getParameter("page");
-		String size = req.getParameter("size");
-		String query = "page=" + page + "&size=" + size;
+		
+		String page =req.getParameter("page");
+		if(page ==null) page = "1";
+		String query = "page=" + page;
 		
 		ChellengeDAO dao = new ChellengeDAO();
 		
@@ -360,7 +364,7 @@ public class ChellengeController {
 			e.printStackTrace();
 		}
 		
-		return new ModelAndView("redirect:/chellenge/list");
+		return new ModelAndView("redirect:/chellenge/list?"+query);
 	}
 	
 }

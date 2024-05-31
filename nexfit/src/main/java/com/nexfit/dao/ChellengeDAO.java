@@ -59,6 +59,8 @@ public class ChellengeDAO {
 				dto.setCh_subject(rs.getString("ch_subject"));
 				dto.setCh_content(rs.getString("ch_content"));
 				dto.setFee(rs.getLong("fee"));
+				
+				list.add(dto);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

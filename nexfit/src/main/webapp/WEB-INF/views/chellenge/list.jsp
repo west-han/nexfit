@@ -122,6 +122,11 @@
 						</c:forEach>
 					</tbody>
 				</table>
+				<input type="hidden" name="page" value="${page}">
+				
+				
+				
+				
 				</form>
 				<div class="page-navigation">
 					${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
