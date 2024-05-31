@@ -235,40 +235,29 @@ public class ChellengeDAO {
 
 
 	// 해당 게시물 보기
-	/* public BoardDTO findById(long num) {
-		BoardDTO dto = null;
+	public ChellengeDTO findById(long chellengeId) {
+		ChellengeDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 
 		try {
-			sql = "SELECT b.num, b.userId, userName, subject, content, reg_date, hitCount, "
-					+ "    NVL(boardLikeCount, 0) boardLikeCount "
-					+ " FROM bbs b "
-					+ " JOIN member1 m ON b.userId = m.userId "
-					+ " LEFT OUTER JOIN ("
-					+ "      SELECT num, COUNT(*) boardLikeCount FROM bbsLike"
-					+ "      GROUP BY num"
-					+ " ) bc ON b.num = bc.num"
-					+ " WHERE b.num = ? ";
+			sql = "SELECT chellengeId,ch_subject,ch_content,fee "
+					+ " FROM chellenge "
+					+ " WHERE chellengeId = ? ";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setLong(1, num);
+			pstmt.setLong(1, chellengeId);
 
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				dto = new BoardDTO();
+				dto = new ChellengeDTO();
 				
-				dto.setNum(rs.getLong("num"));
-				dto.setUserId(rs.getString("userId"));
-				dto.setUserName(rs.getString("userName"));
-				dto.setSubject(rs.getString("subject"));
-				dto.setContent(rs.getString("content"));
-				dto.setHitCount(rs.getInt("hitCount"));
-				dto.setReg_date(rs.getString("reg_date"));
-				
-				dto.setBoardLikeCount(rs.getInt("boardLikeCount"));				
+				dto.setChellengeId(rs.getLong("chellengeId"));
+				dto.setCh_subject(rs.getString("ch_subject"));
+				dto.setCh_content(rs.getString("ch_content"));
+				dto.setFee(rs.getLong("fee"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -281,18 +270,18 @@ public class ChellengeDAO {
 	}
 	
 	// 게시물 수정
-		public void updateBoard(BoardDTO dto) throws SQLException {
+		public void updateChellenge(ChellengeDTO dto) throws SQLException {
 			PreparedStatement pstmt = null;
 			String sql;
 
 			try {
-				sql = "UPDATE bbs SET subject=?, content=? WHERE num=? AND userId=?";
+				sql = "UPDATE chellenge SET ch_subject=?, ch_content=?, fee=? WHERE chellengeId=?";
 				pstmt = conn.prepareStatement(sql);
 				
-				pstmt.setString(1, dto.getSubject());
-				pstmt.setString(2, dto.getContent());
-				pstmt.setLong(3, dto.getNum());
-				pstmt.setString(4, dto.getUserId());
+				pstmt.setString(1, dto.getCh_subject());
+				pstmt.setString(2, dto.getCh_content());
+				pstmt.setLong(3, dto.getFee());
+				pstmt.setLong(4, dto.getChellengeId());
 				
 				pstmt.executeUpdate();
 
@@ -306,27 +295,19 @@ public class ChellengeDAO {
 		}
 
 		// 게시물 삭제
-		public void deleteBoard(long num, String userId) throws SQLException {
+		public void deleteChellenge(long chellengeId, String userId) throws SQLException {
 			PreparedStatement pstmt = null;
 			String sql;
 
 			try {
 				if (userId.equals("admin")) {
-					sql = "DELETE FROM bbs WHERE num=?";
+					sql = "DELETE FROM chellenge WHERE chellengeId=?";
 					pstmt = conn.prepareStatement(sql);
 					
-					pstmt.setLong(1, num);
+					pstmt.setLong(1, chellengeId);
 					
 					pstmt.executeUpdate();
-				} else {
-					sql = "DELETE FROM bbs WHERE num=? AND userId=?";
-					
-					pstmt = conn.prepareStatement(sql);
-					
-					pstmt.setLong(1, num);
-					pstmt.setString(2, userId);
-					
-					pstmt.executeUpdate();
+				} else { return;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -335,7 +316,6 @@ public class ChellengeDAO {
 				DBUtil.close(pstmt);
 			}
 		}
-		
-		*/
+	
 		
 }

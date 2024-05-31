@@ -57,7 +57,7 @@ function sendOk() {
 
 		<main>
 		<div class="container">
-		<div class="body-container">	
+		<div class="body-container m-auto" >	
 			<div class="body-title">
 				<h3><i class="bi bi-clipboard"></i> NEW 챌린지 등록 </h3>
 			</div>
