@@ -316,6 +316,26 @@ public class ChellengeDAO {
 				DBUtil.close(pstmt);
 			}
 		}
-	
+		
+		//게시글 선택 삭제
+		public void deleteChellenge(long[] nums) throws SQLException {
+			PreparedStatement pstmt = null;
+			String sql;
+			
+			try {
+				sql = "DELETE FROM chellenge WHERE chellengId = ?";
+				pstmt = conn.prepareStatement(sql);
+				
+				for(long chellengeId : nums) {
+					pstmt.setLong(1, chellengeId);
+					pstmt.executeUpdate();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			} finally {
+				DBUtil.close(pstmt);
+			}
+		}
 		
 }

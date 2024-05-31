@@ -1,8 +1,5 @@
 package com.nexfit.controller;
 
-
-
-
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -274,8 +271,8 @@ public class ChellengeController {
 			ChellengeDTO dto = new ChellengeDTO();
 			
 			dto.setChellengeId(Long.parseLong(req.getParameter("chellengeId")));
-			dto.setCh_subject(req.getParameter("ch_subject"));
-			dto.setCh_content(req.getParameter("ch_content"));
+			dto.setCh_subject(req.getParameter("subject"));
+			dto.setCh_content(req.getParameter("content"));
 			dto.setFee(Long.parseLong(req.getParameter("fee")));
 			
 			
@@ -285,11 +282,86 @@ public class ChellengeController {
 			e.printStackTrace();
 		}
 		
-		return new ModelAndView("redirect:/notice/list?page="+page+"&size="+size);
+		return new ModelAndView("redirect:/chellenge/list?page="+page+"&size="+size);
 	}
 	
+	@RequestMapping(value = "/chellenge/delete", method = RequestMethod.GET)
+	public ModelAndView delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 삭제
+		ChellengeDAO dao = new ChellengeDAO();
+
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		String page = req.getParameter("page");
+		String query = "page=" + page;
+
+		try {
+			long id = Long.parseLong(req.getParameter("chellengeId"));
+			String schType = req.getParameter("schType");
+			String kwd = req.getParameter("kwd");
+			if (schType == null) {
+				schType = "all";
+				kwd = "";
+			}
+			kwd = URLDecoder.decode(kwd, "utf-8");
+
+			if (kwd.length() != 0) {
+				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "UTF-8");
+			}
+
+			dao.deleteChellenge(id, info.getUserId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ModelAndView("redirect:/chellenge/list?" + query);
+	}
 	
-	
+	@RequestMapping(value = "/chellenge/deleteList", method = RequestMethod.POST)
+	public ModelAndView deleteList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 선택 파일 삭제
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		if(! info.getUserId().equals("admin")) {
+			return new ModelAndView("redirect:/chellenge/list");
+		}
+		
+		String page = req.getParameter("page");
+		String size = req.getParameter("size");
+		String query = "page=" + page + "&size=" + size;
+		
+		ChellengeDAO dao = new ChellengeDAO();
+		
+		try {
+			String schType = req.getParameter("schType");
+			String kwd = req.getParameter("kwd");
+			if(schType == null) {
+				schType = "all";
+				kwd = "";
+			}
+			if(kwd.length() != 0) {
+				query += "&schType=" + schType + "&kwd="
+						+ URLEncoder.encode(kwd, "utf-8");
+			}
+			
+			String []snums = req.getParameterValues("nums");
+			long []nums = new long[snums.length];
+			for(int i=0; i<snums.length; i++) {
+				nums[i] = Long.parseLong(snums[i]);
+			}
+			
+			
+			// 게시글 지우기
+			dao.deleteChellenge(nums);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ModelAndView("redirect:/notice/list?"+query);
+	}
 	
 }
 	
