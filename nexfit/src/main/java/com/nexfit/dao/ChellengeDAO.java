@@ -323,7 +323,7 @@ public class ChellengeDAO {
 			String sql;
 			
 			try {
-				sql = "DELETE FROM chellenge WHERE chellengId = ?";
+				sql = "DELETE FROM chellenge WHERE chellengeId = ?";
 				pstmt = conn.prepareStatement(sql);
 				
 				for(long chellengeId : nums) {

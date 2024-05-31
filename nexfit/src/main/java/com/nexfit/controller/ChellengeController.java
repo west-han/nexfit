@@ -318,7 +318,7 @@ public class ChellengeController {
 		return new ModelAndView("redirect:/chellenge/list?" + query);
 	}
 	
-	@RequestMapping(value = "/chellenge/deleteList", method = RequestMethod.POST)
+	@RequestMapping(value = "/chellenge/deletelist", method = RequestMethod.POST)
 	public ModelAndView deleteList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 선택 파일 삭제
 		HttpSession session = req.getSession();
@@ -360,7 +360,7 @@ public class ChellengeController {
 			e.printStackTrace();
 		}
 		
-		return new ModelAndView("redirect:/notice/list?"+query);
+		return new ModelAndView("redirect:/chellenge/list");
 	}
 	
 }
