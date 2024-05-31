@@ -175,8 +175,8 @@ window.addEventListener('load', () => {
 	<main>
 	<div class="container">
 		<div class="body-container" style="padding: 80px;">
-			<div class="body-title">
-				<h3><i class="bi bi-person-square"></i> 회원가입</h3>
+			<div class="body-title" style="font-family: nexon lv2 medium;">
+				<h3><i class="bi bi-person-square" ></i> 회원가입</h3>
 			</div>
 			
 			<div class="body-main">
@@ -192,7 +192,7 @@ window.addEventListener('load', () => {
 								</div>
 							<div class="col-3 ps-1">
 									<c:if test="${mode=='member'}">
-										<button type="button" class="btn btn-light" style="width:140px;" onclick="userIdCheck();">아이디중복검사</button>
+										<button type="button" class="btn btn-light" style="width:140px; box-shadow: 3px 2px 1px 1px #b3abab;" onclick="userIdCheck();">아이디중복검사</button>
 									</c:if>
 								</div>
 							</div>
@@ -204,7 +204,7 @@ window.addEventListener('load', () => {
 					<div class="row mb-3">
 						<label class="col-sm-2 col-form-label" for="nickname">닉네임</label>
 						<div class="col-sm-10">
-				            <input type="text" name="nickname" id="nickname" class="form-control" autocomplete="off" placeholder="닉네임">
+				            <input type="text" name="nickname" id="nickname" class="form-control" autocomplete="off" placeholder="닉네임" maxlength="10">
 				            <small class="form-control-plaintext">닉네임은 5~10자 가능합니다.</small>
 				        </div>
 				    </div>
@@ -289,7 +289,7 @@ window.addEventListener('load', () => {
 				        <div class="col-sm-5">
 				       		<div class="input-group">
 				           		<input type="text" name="zip" id="zip" class="form-control" placeholder="우편번호" value="${dto.zip}" readonly>
-			           			<button class="btn btn-light" type="button" style="margin-left: 3px;" onclick="daumPostcode();">우편번호 검색</button>
+			           			<button class="btn btn-light" type="button" style="margin-left: 3px; box-shadow: 3px 2px 1px 1px #b3abab;" onclick="daumPostcode();" >우편번호 검색</button>
 				           	</div>
 						</div>
 				    </div>

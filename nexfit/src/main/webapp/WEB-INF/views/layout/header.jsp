@@ -50,14 +50,10 @@
 							CHALLENGE
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="#">진행중인 챌린지</a></li>
-							<li><a class="dropdown-item" href="#">종료된 챌린지</a></li>
-							<li><a class="dropdown-item" href="#">인증게시판</a></li>
-							
-							<c:if test="${sessionScope.member.userName=='admin'}">
+							<li><a class="dropdown-item" href="#">자주하는질문</a></li>
+							<li><a class="dropdown-item" href="#">공지사항</a></li>
 							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/chellenge/list">챌린지관리 게시판</a></li>
-							</c:if>
+							<li><a class="dropdown-item" href="#">질문과답변</a></li>
 						</ul>
 					</li>
 					
@@ -90,11 +86,12 @@
 						</c:if>
 						<c:if test="${not empty sessionScope.member}">
 							<div class="p-2">
-								<a href="#" title="알림"><i class="bi bi-bell" style="color: white;"></i></a> 
+								<a href="${pageContext.request.contextPath}/mypage/mypage" title="마이페이지"><i class="bi bi-person-circle" style="color: white;"></i></a> 
 							</div>
 							<div class="p-2">
 								<a href="${pageContext.request.contextPath}/member/logout" title="로그아웃"><i class="bi bi-unlock" style="color: white;"></i></a>
-							</div>					
+							</div>	
+										
 						</c:if>
 						<c:if test="${sessionScope.member.userId == 'admin'}">
 							<div class="p-2">
