@@ -15,6 +15,10 @@ public class BoardDTO {
 	private int notice;
 	private int categoryId;
 	private String categoryName;
+	private int postType;
+	private int sports;
+	private int career;
+	private int week;
 	
 	public String getCategoryName() {
 		return categoryName;
@@ -152,6 +156,37 @@ public class BoardDTO {
 	public void setListFile(List<MyMultipartFile> listFile) {
 		this.listFile = listFile;
 	}
-	
+
+	public int getPostType() {
+		return postType;
+	}
+
+	public void setPostType(int postType) {
+		this.postType = postType;
+	}
+
+	public int getSports() {
+		return sports;
+	}
+
+	public void setSports(int sports) {
+		this.sports = sports;
+	}
+
+	public int getCareer() {
+		return career;
+	}
+
+	public void setCareer(int career) {
+		this.career = career;
+	}
+
+	public int getWeek() {
+		return week;
+	}
+
+	public void setWeek(int week) {
+		this.week = week;
+	}
 	
 }

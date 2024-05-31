@@ -26,7 +26,7 @@ public class RoutineController {
 	@RequestMapping(value = "/routine/list")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 예시
-		// dto.getType() == 1 ? "추천" : "질문";
+		//dto.getpostType() == 1 ? "추천" : "질문";
 		
 		// 글 리스트
 		ModelAndView mav = new ModelAndView("routineBoard/list");

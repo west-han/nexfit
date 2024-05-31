@@ -66,10 +66,10 @@ function sendOk() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">유 형</td>
 							<td>
-								<input type="radio" class="btn-check" name="post_type" id="option1"  value="1" autocomplete="off">
+								<input type="radio" class="btn-check" name="postType" id="option1"  value="1" autocomplete="off">
 								<label class="btn btn-secondary" for="option1">추천</label>
 								
-								<input type="radio" class="btn-check" name="post_type" id="option2"  value="2" autocomplete="off">
+								<input type="radio" class="btn-check" name="postType" id="option2"  value="2" autocomplete="off">
 								<label class="btn btn-secondary" for="option2">질문</label>
 							</td>
 						</tr>

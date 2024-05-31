@@ -83,9 +83,12 @@
 								<c:forEach var="dto" items="${list}" varStatus="status">
 									<tr>
 										<td>${dataCount - (page-1) * size - status.index}</td>
+										<td>${dto.postType}</td>
+										<td>${dto.sports}</td>
 										<td class="left">
 											<a href="${articleUrl}&num=${dto.num}" class="text-reset">${dto.subject}</a>
 										</td>
+										
 										<td>${dto.nickname}</td>
 										<td>${dto.reg_date}</td>
 										<td>${dto.hitCount}</td>

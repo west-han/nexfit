@@ -22,8 +22,8 @@ public class RoutineDAO {
 		int notice = 0;
 		
 		try {
-			sql = "INSERT INTO routineBoard(num, subject, notice, content, userId, hitCount, reg_date) "
-					+ " VALUES (routineBoard_seq.NEXTVAL, ?, ?, ?, ?, 0, SYSDATE)";
+			sql = "INSERT INTO routineBoard(num, subject, notice, content, userId, postType, sports, career, week, hitCount, reg_date) "
+					+ " VALUES (routineBoard_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, 0, SYSDATE)";
 			
 			if(dto.getUserId().equals("admin")) {
 				notice = 1;
@@ -35,6 +35,10 @@ public class RoutineDAO {
 			pstmt.setInt(2, notice);
 			pstmt.setString(3, dto.getContent());
 			pstmt.setString(4, dto.getUserId());
+			pstmt.setInt(5, dto.getPostType());
+			pstmt.setInt(6, dto.getSports());
+			pstmt.setInt(7, dto.getCareer());
+			pstmt.setInt(8, dto.getWeek());
 			
 			pstmt.executeUpdate();
 			
