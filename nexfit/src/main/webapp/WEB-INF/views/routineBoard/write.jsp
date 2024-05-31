@@ -66,10 +66,10 @@ function sendOk() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">유 형</td>
 							<td>
-								<input type="radio" class="btn-check" name="options" id="option1"  value="1" autocomplete="off">
+								<input type="radio" class="btn-check" name="post_type" id="option1"  value="1" autocomplete="off">
 								<label class="btn btn-secondary" for="option1">추천</label>
 								
-								<input type="radio" class="btn-check" name="options" id="option2"  value="1" autocomplete="off">
+								<input type="radio" class="btn-check" name="post_type" id="option2"  value="2" autocomplete="off">
 								<label class="btn btn-secondary" for="option2">질문</label>
 							</td>
 						</tr>
@@ -77,12 +77,13 @@ function sendOk() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">운 동</td>
 							<td>
-								<select name="schType" class="form-select" style="width: 100px;">
+								<select name="sports" class="form-select" style="width: 100px;">
 									<option value="health">헬스</option>
 									<option value="swimming">수영</option>
 									<option value="climbing">클라이밍</option>
 									<option value="volleyball">배구</option>
 									<option value="kick">킥복싱</option>
+									<option value="kick">기타</option>
 								</select> 
 							</td>
 						</tr>
@@ -90,19 +91,19 @@ function sendOk() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">운동경력</td>
 							<td>
-								<input type="radio" class="btn-check" name="options1" id="option3" value="1" autocomplete="off">
+								<input type="radio" class="btn-check" name="career" id="option3" value="1" autocomplete="off">
 								<label class="btn btn-secondary" for="option3">~6개월</label>
 								
-								<input type="radio" class="btn-check" name="options1" id="option4" value="1" autocomplete="off">
+								<input type="radio" class="btn-check" name="career" id="option4" value="2" autocomplete="off">
 								<label class="btn btn-secondary" for="option4">6개월~1년</label>
 								
-								<input type="radio" class="btn-check" name="options1" id="option5" value="1" autocomplete="off">
+								<input type="radio" class="btn-check" name="career" id="option5" value="3" autocomplete="off">
 								<label class="btn btn-secondary" for="option5">1년~3년</label>
 								
-								<input type="radio" class="btn-check" name="options1" id="option6" value="1" autocomplete="off">
+								<input type="radio" class="btn-check" name="career" id="option6" value="4" autocomplete="off">
 								<label class="btn btn-secondary" for="option6">3년~7년</label>
 							
-								<input type="radio" class="btn-check" name="options1" id="option7" value="1" autocomplete="off">
+								<input type="radio" class="btn-check" name="career" id="option7" value="5" autocomplete="off">
 								<label class="btn btn-secondary" for="option7">7년~</label>
 							</td>
 						</tr>
@@ -110,25 +111,25 @@ function sendOk() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">요일</td>
 							<td>
-								<input type="checkbox" class="btn-check" id="btn-check1" autocomplete="off">
+								<input type="checkbox" class="week" id="btn-check1" value="1" autocomplete="off">
 								<label class="btn btn-primary" for="btn-check1">일</label>
 								
-								<input type="checkbox" class="btn-check" id="btn-check2" autocomplete="off">
+								<input type="checkbox" class="week" id="btn-check2" value="2" autocomplete="off">
 								<label class="btn btn-primary" for="btn-check2">월</label>
 								
-								<input type="checkbox" class="btn-check" id="btn-check3" autocomplete="off">
+								<input type="checkbox" class="week" id="btn-check3" value="3" autocomplete="off">
 								<label class="btn btn-primary" for="btn-check3">화</label>
 								
-								<input type="checkbox" class="btn-check" id="btn-check4" autocomplete="off">
+								<input type="checkbox" class="week" id="btn-check4" value="4" autocomplete="off">
 								<label class="btn btn-primary" for="btn-check4">수</label>
 								
-								<input type="checkbox" class="btn-check" id="btn-check5" autocomplete="off">
+								<input type="checkbox" class="week" id="btn-check5" value="5" autocomplete="off">
 								<label class="btn btn-primary" for="btn-check5">목</label>
 								
-								<input type="checkbox" class="btn-check" id="btn-check6" autocomplete="off">
+								<input type="checkbox" class="week" id="btn-check6" value="6" autocomplete="off">
 								<label class="btn btn-primary" for="btn-check6">금</label>
 								
-								<input type="checkbox" class="btn-check" id="btn-check7" autocomplete="off">
+								<input type="checkbox" class="week" id="btn-check7" value="7" autocomplete="off">
 								<label class="btn btn-primary" for="btn-check7">토</label>
 							</td>
 						</tr>
@@ -146,7 +147,7 @@ function sendOk() {
 							<td class="text-center">
 								<button type="button" class="btn btn-dark" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
 								<button type="reset" class="btn btn-light">다시입력</button>
-								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/bbs/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
+								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/routine/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
 								<c:if test="${mode=='update'}">
 									<input type="hidden" name="num" value="${dto.num}">
 									<input type="hidden" name="page" value="${page}">

@@ -27,7 +27,7 @@
 					<div class="container-xxl text-center">
 						<div class="row py-5">
 							<div class="col">
-								<img src="/nexfit/resources/images/ROUTINE.png" style="width:450px; height:90px;">
+								<img src="/nexfit/resources/images/ROUTINE.png" style="width:450px; height:90px; margin-top: 76px;">
 							</div>
 						</div>
 						
@@ -70,8 +70,9 @@
 							<thead class="table-light">
 								<tr>
 									<th class="num">번호</th>
+									<th class="type">유형</th>
+									<th class="Sports">운동</th>
 									<th class="subject">제목</th>
-									<th class="categoryName">
 									<th class="name">작성자</th>
 									<th class="date">작성일</th>
 									<th class="hit">조회수</th>
@@ -85,7 +86,7 @@
 										<td class="left">
 											<a href="${articleUrl}&num=${dto.num}" class="text-reset">${dto.subject}</a>
 										</td>
-										<td>${dto.userName}</td>
+										<td>${dto.nickname}</td>
 										<td>${dto.reg_date}</td>
 										<td>${dto.hitCount}</td>
 									</tr>
