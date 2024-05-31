@@ -39,18 +39,15 @@
 
 		<main>
 			<div class="container-xxl text-center">
-				<div class="row py-5">
+				<div class="row py-5 mt-5">
 					<div class="col">
-						<h1 class="fs-1 text-start">
-							화면 타이틀
-						</h1>
+						<img src="/nexfit/resources/images/freelounge.png" style="width:450px; height:90px;">
 					</div>
 				</div>
 				
-				<c:forEach var="i" begin="0" end="1">
 					<div class="row gx-2">
-						<div class="col-sm-3">여기에는 좌측 공간에 들어갈 거 작성</div>
-						<div class="col-sm-6">
+						<div class="col-sm-2">여기에는 좌측 공간에 들어갈 거 작성</div>
+						<div class="col-sm-7 mt-3"> <!-- mt-n : margin-top -->
 						<main>
 							<div class="container">
 								<div class="body-container">	
@@ -71,8 +68,8 @@
 											
 											<tbody>
 												<tr>
-													<td width="50%">
-														이름 : ${dto.userName}
+													<td width="50%" style="text-align: left">
+														이름 : ${dto.userId}
 													</td>
 													<td align="right">
 														${dto.reg_date} | 조회 ${dto.hitCount}
@@ -92,7 +89,7 @@
 												</tr>
 												
 												<tr>
-													<td colspan="2">
+													<td colspan="2" style="text-align: left">
 														이전글 :
 														<c:if test="${not empty prevDto}">
 															<a href="${pageContext.request.contextPath}/board/article?${query}&num=${prevDto.num}">${prevDto.subject}</a>
@@ -100,7 +97,7 @@
 													</td>
 												</tr>
 												<tr>
-													<td colspan="2">
+													<td colspan="2" style="text-align: left">
 														다음글 :
 														<c:if test="${not empty nextDto}">
 															<a href="${pageContext.request.contextPath}/board/article?${query}&num=${nextDto.num}">${nextDto.subject}</a>
@@ -112,7 +109,7 @@
 										
 										<table class="table table-borderless">
 											<tr>
-												<td width="50%">
+												<td width="50%" style="text-align: left;">
 													<c:choose>
 														<c:when test="${sessionScope.member.userId==dto.userId}">
 															<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/board/update?num=${dto.num}&page=${page}';">수정</button>
@@ -168,7 +165,7 @@
 						</div>
 						
 					</div>
-				</c:forEach>
+
 			</div>
 		</main>
 		
@@ -265,6 +262,176 @@ function listPage(page) {
 	// AJAX - Text(html)
 	ajaxFun(url, 'get', query, 'text', fn);
 }
+
+//댓글 등록
+$(function() {
+	$(".btnSendReply").click(function() {
+		let num = "${dto.num}";
+		const $tb = $(this).closest("table");
+		let content = $tb.find("textarea").val().trim();
+		
+		if (! content) {
+			$tb.find("textarea").focus();
+			return false;
+		}
+		content = encodeURIComponent(content);
+		
+		let url = "${pageContext.request.contextPath}/board/insertReply";
+		let query = "num=" + num + "&content=" + content + "&answer=0";
+		
+		const fn = function(data) {
+			$tb.find("textarea").val("");
+			let state = data.state;
+			if (state === "true") {
+				listPage(1);
+			} else {
+				alert("댓글 등록에 실패했습니다.");
+			}
+		}
+		
+		ajaxFun(url, "post", query, "json", fn);
+			
+	})
+})
+
+
+//댓글 삭제
+$(function() {
+	$(".reply").on("click", ".deleteReply", function() {
+		if (! confirm("댓글을 삭제하시겠습니까 ? ")) {
+			return false;
+		}
+		
+		let replyNum = $(this).attr("data-replyNum");
+		let page = $(this).attr("data-pageNo");
+		
+		let url = "${pageContext.request.contextPath}/board/deleteReply";
+		let query = "replyNum=" + replyNum;
+		
+		const fn = function(data) {
+			listPage(page);
+		}
+		
+		ajaxFun(url, "post", query, "json", fn);
+		
+	})
+})
+
+
+//댓글별 답글 리스트
+function listReplyAnswer(answer) {
+	let url = "${pageContext.request.contextPath}/board/listReplyAnswer";
+	let query = "answer=" + answer;
+	let selector = "#listReplyAnswer" + answer;
+	
+	const fn = function(data) {
+		$(selector).html(data);
+	}
+	
+	ajaxFun(url, "get", query, "text", fn);
+	
+}
+
+
+//댓글별 답글 개수
+function countReplyAnswer(answer) {
+	let url = "${pageContext.request.contextPath}/board/countReplyAnswer";
+	let query = "answer=" + answer;
+	
+	const fn = function(data) {
+		let count = data.count;
+		let selector = "#answerCount" + answer;
+		$(selector).html(count);
+	}
+	
+	ajaxFun(url, "post", query, "json", fn);
+	
+}
+
+
+// 댓글별 답글 버튼
+$(function() {
+	$(".reply").on("click", ".btnReplyAnswerLayout", function() {
+		const $trReplyAnswer = $(this).closest("tr").next();
+		
+		let isVisible = $trReplyAnswer.is(":visible");
+		let replyNum = $(this).attr("data-replyNum");
+		
+		if (isVisible) {
+			$trReplyAnswer.hide();
+		} else {
+			$trReplyAnswer.show();
+			
+			// 답글 리스트
+			listReplyAnswer(replyNum);
+			
+			// 답글 개수
+			countReplyAnswer(replyNum);
+		}
+		
+	})
+})
+
+
+//댓글별 답글 등록
+$(function() {
+	$(".reply").on("click", ".btnSendReplyAnswer", function() {
+		let num = "${dto.num}";
+		let replyNum = $(this).attr("data-replyNum");
+		const $td = $(this).closest("td");
+		
+		let content = $td.find("textarea").val().trim();
+		if (! content) {
+			$td.find("textarea").focus();
+			return false;
+		}
+		content = encodeURIComponent(content);
+		
+		let url = "${pageContext.request.contextPath}/board/insertReply";
+		let query = "num="+num+"&content="+content+"&answer="+replyNum;
+		
+		const fn = function(data) {
+			$td.find("textarea").val("");
+			
+			let state = data.state;
+			if (state === "true") {
+				listReplyAnswer(replyNum);
+				countReplyAnswer(replyNum);
+			}
+		}
+		
+		ajaxFun(url, "post", query, "json", fn);
+		
+	})
+})
+
+
+//댓글별 답글 삭제
+$(function() {
+	$(".reply").on("click", ".deleteReplyAnswer", function() {
+		if (! confirm("답글을 삭제하시겠습니까 ? ")) {
+			return false;
+		}
+		
+		let replyNum = $(this).attr("data-replyNum");
+		let answer = $(this).attr("data-answer");
+		
+		let url = "${pageContext.request.contextPath}/board/deleteReply";
+		let query = "replyNum=" + replyNum;
+		
+		const fn = function(data) {
+			listReplyAnswer(answer);
+			countReplyAnswer(answer);
+		}
+		
+		ajaxFun(url, "post", query, "json", fn);
+		
+	})
+})
+
+
+
+
 </script>
 	
 	<footer>

@@ -6,12 +6,11 @@ public class ReplyDTO {
 	private String userId;
 	private String nickname;
 	private String content;
-	private String answer;
+	private long answer;
 	private String reg_date;
 	private int replyLike;
 	
 	private int answerCount;
-	private int likeCount;
 	
 	public long getReplyNum() {
 		return replyNum;
@@ -43,10 +42,10 @@ public class ReplyDTO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getAnswer() {
+	public long getAnswer() {
 		return answer;
 	}
-	public void setAnswer(String answer) {
+	public void setAnswer(long answer) {
 		this.answer = answer;
 	}
 	public String getReg_date() {
@@ -66,12 +65,6 @@ public class ReplyDTO {
 	}
 	public void setAnswerCount(int answerCount) {
 		this.answerCount = answerCount;
-	}
-	public int getLikeCount() {
-		return likeCount;
-	}
-	public void setLikeCount(int likeCount) {
-		this.likeCount = likeCount;
 	}
 	
 	

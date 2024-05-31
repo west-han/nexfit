@@ -5,9 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.nexfit.domain.BoardDTO;
 import com.nexfit.domain.ReplyDTO;
@@ -583,7 +581,7 @@ public class BoardDAO {
 			pstmt.setLong(1, dto.getNum());
 			pstmt.setString(2, dto.getUserId());
 			pstmt.setString(3, dto.getContent());
-			pstmt.setString(4, dto.getAnswer());
+			pstmt.setLong(4, dto.getAnswer());
 			
 			pstmt.executeUpdate();
 			
@@ -634,16 +632,20 @@ public class BoardDAO {
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sb.append(" SELECT r.replyNum, r.userId, userName, num, content, r.reg_date, ");
-			sb.append("     NVL(answerCount, 0) answerCount, ");
+			sb.append(" SELECT r.replyNum, r.userId, nickname, num, content, r.reg_date, ");
+			sb.append("     NVL(answerCount, 0) answerCount ");
 			sb.append(" FROM freeboard_Reply r ");
-			sb.append(" JOIN member1 m ON r.userId = m.userId ");
+			sb.append(" JOIN member m ON r.userId = m.userId ");
+			sb.append(" JOIN member_detail d ON d.userId = m.userId ");
 			sb.append(" LEFT OUTER  JOIN (");
 			sb.append("	    SELECT answer, COUNT(*) answerCount ");
 			sb.append("     FROM freeboard_Reply ");
 			sb.append("     WHERE answer != 0 ");
 			sb.append("     GROUP BY answer ");
 			sb.append(" ) a ON r.replyNum = a.answer ");
+			sb.append(" WHERE num = ? AND r.answer=0 ");
+			sb.append(" ORDER BY r.replyNum DESC ");
+			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 
 			
 			pstmt = conn.prepareStatement(sb.toString());
@@ -685,9 +687,9 @@ public class BoardDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT replyNum, num, r.userId, userName, content, r.reg_date "
+			sql = "SELECT replyNum, num, r.userId, nickname, content, r.reg_date "
 					+ " FROM freeboard_reply r  "
-					+ " JOIN member1 m ON r.userId = m.userId  "
+					+ " JOIN member m ON r.userId = m.userId  "
 					+ " WHERE replyNum = ? ";
 			pstmt = conn.prepareStatement(sql);
 			
@@ -715,109 +717,111 @@ public class BoardDAO {
 		return dto;
 	}
 	
+	
 	// 게시물의 댓글 삭제
 	public void deleteReply(long replyNum, String userId) throws SQLException {
-		PreparedStatement pstmt = null;
-		String sql;
-		
-		if(! userId.equals("admin")) {
-			ReplyDTO dto = findByReplyId(replyNum);
-			if(dto == null || (! userId.equals(dto.getUserId()))) {
-				return;
+			PreparedStatement pstmt = null;
+			String sql;
+			
+			if(! userId.equals("admin")) {
+				ReplyDTO dto = findByReplyId(replyNum);
+				if(dto == null || (! userId.equals(dto.getUserId()))) {
+					return;
+				}
 			}
+			
+			try {
+				sql = "DELETE FROM freeBoard_Reply "
+						+ " WHERE replyNum IN  "
+						+ " (SELECT replyNum FROM freeBoard_Reply START WITH replyNum = ?"
+						+ "     CONNECT BY PRIOR replyNum = answer)";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setLong(1, replyNum);
+				
+				pstmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			} finally {
+				DBUtil.close(pstmt);
+			}		
 		}
-		
-		try {
-			sql = "DELETE FROM freeboard_reply "
-					+ " WHERE replyNum IN  "
-					+ " (SELECT replyNum FROM freeboard_reply START WITH replyNum = ?"
-					+ "     CONNECT BY PRIOR replyNum = answer)";
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setLong(1, replyNum);
-			
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		} finally {
-			DBUtil.close(pstmt);
-		}		
-	}
-
+	
+	
 	// 댓글의 답글 리스트
 	public List<ReplyDTO> listReplyAnswer(long answer) {
-		List<ReplyDTO> list = new ArrayList<>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		StringBuilder sb=new StringBuilder();
-		
-		try {
-			sb.append(" SELECT replyNum, num, r.userId, userName, content, reg_date, answer ");
-			sb.append(" FROM freeboard_reply r ");
-			sb.append(" JOIN member1 m ON r.userId = m.userId ");
-			sb.append(" WHERE answer = ? ");
-			sb.append(" ORDER BY replyNum DESC ");
-			pstmt = conn.prepareStatement(sb.toString());
+			List<ReplyDTO> list = new ArrayList<>();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			StringBuilder sb=new StringBuilder();
 			
-			pstmt.setLong(1, answer);
+			try {
+				sb.append(" SELECT replyNum, num, r.userId, nickname, content, r.reg_date, answer ");
+				sb.append(" FROM freeboard_Reply r ");
+				sb.append(" JOIN member m ON r.userId = m.userId ");
+				sb.append(" JOIN member_detail d ON d.userId = m.userId ");
+				sb.append(" WHERE answer = ? ");
+				sb.append(" ORDER BY replyNum DESC ");
+				pstmt = conn.prepareStatement(sb.toString());
+				
+				pstmt.setLong(1, answer);
 
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				ReplyDTO dto=new ReplyDTO();
+				rs = pstmt.executeQuery();
 				
-				dto.setReplyNum(rs.getLong("replyNum"));
-				dto.setNum(rs.getLong("num"));
-				dto.setUserId(rs.getString("userId"));
-				dto.setNickname(rs.getString("nickname"));
-				dto.setContent(rs.getString("content"));
-				dto.setReg_date(rs.getString("reg_date"));
-				dto.setAnswer(rs.getString("answer"));
-				
-				list.add(dto);
+				while(rs.next()) {
+					ReplyDTO dto=new ReplyDTO();
+					
+					dto.setReplyNum(rs.getLong("replyNum"));
+					dto.setNum(rs.getLong("num"));
+					dto.setUserId(rs.getString("userId"));
+					dto.setNickname(rs.getString("nickname"));
+					dto.setContent(rs.getString("content"));
+					dto.setReg_date(rs.getString("reg_date"));
+					dto.setAnswer(rs.getLong("answer"));
+					
+					list.add(dto);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				DBUtil.close(rs);
+				DBUtil.close(pstmt);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			DBUtil.close(rs);
-			DBUtil.close(pstmt);
+			
+			return list;
 		}
 		
-		return list;
-	}
-	
 	// 댓글의 답글 개수
 	public int dataCountReplyAnswer(long answer) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql;
-		
-		try {
-			sql = "SELECT NVL(COUNT(*), 0) "
-					+ " FROM freeboard_reply WHERE answer = ?";
-			pstmt = conn.prepareStatement(sql);
+			int result = 0; 
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql;
 			
-			pstmt.setLong(1, answer);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				result=rs.getInt(1);
+			try {
+				sql = "SELECT NVL(COUNT(*), 0) "
+						+ " FROM freeBoard_Reply WHERE answer = ?";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setLong(1, answer);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					result=rs.getInt(1);
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				DBUtil.close(rs);
+				DBUtil.close(pstmt);
 			}
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			DBUtil.close(rs);
-			DBUtil.close(pstmt);
+			return result;
 		}
-		
-		return result;
-	}
-
-
-		
+	
+	
 	
 }

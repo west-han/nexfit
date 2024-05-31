@@ -25,13 +25,12 @@
 		</header>
 				<main>
 					<div class="container-xxl text-center">
-						<div class="row py-5">
+						<div class="row py-5 mt-5">
 							<div class="col">
 								<img src="/nexfit/resources/images/freelounge.png" style="width:450px; height:90px;">
 							</div>
 						</div>
 						
-<c:forEach var="i" begin="0" end="0">
 	<div class="row gx-2">
 	<div class="col-sm-2">여기에는 좌측 공간에 들어갈 거 작성</div>
 	<div class="col-sm-7">
@@ -45,7 +44,7 @@
 						<div class="col-auto p-1">
 							<select name="schType" class="form-select">
 								<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
-								<option value="userName" ${schType=="userName"?"selected":""}>작성자</option>
+								<option value="nickname" ${schType=="nickname"?"selected":""}>작성자</option>
 								<option value="reg_date" ${schType=="reg_date"?"selected":""}>등록일</option>
 								<option value="subject" ${schType=="subject"?"selected":""}>제목</option>
 								<option value="content" ${schType=="content"?"selected":""}>내용</option>
@@ -70,7 +69,6 @@
 							<thead class="table-light">
 								<tr>
 									<th class="num">번호</th>
-									<th class="subject">카테고리</th>
 									<th class="categoryName">제목</th>
 									<th class="name">작성자</th>
 									<th class="date">작성일</th>
@@ -82,9 +80,8 @@
 								<c:forEach var="dto" items="${list}" varStatus="status">
 									<tr>
 										<td>${dataCount - (page-1) * size - status.index}</td>
-										<td>${dto.categoryName}</td>
 										<td class="left">
-											<a href="${articleUrl}&num=${dto.num}" class="text-reset">${dto.subject}</a>
+											<a href="${articleUrl}&num=${dto.num}" class="text-reset">[${dto.categoryName}]${dto.subject}</a> 
 										</td>
 										<td>${dto.nickname}</td>
 										<td>${dto.reg_date}</td>
@@ -113,8 +110,7 @@
 		<div class="col-sm-3">여기에는 우측 공간에 들어갈 거 작성</div>
 				
 		</div>
-		
-	</c:forEach>
+	
 			</div>
 		</main>
 	</div>
