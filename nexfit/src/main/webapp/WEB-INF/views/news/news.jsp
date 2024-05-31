@@ -34,10 +34,10 @@
 					</div>
 				</div>
 				
-				<c:forEach var="i" begin="0" end="5"> <!-- 컬럼 중앙에 배치하려면 카드 크기 말고 열의 크기를 제어 -->
-					<div class="row row-cols-3 g-3 justify-content-center">
-						<div class="col justify-content-center">
-							<div class="card w-75">
+				<c:forEach var="i" begin="0" end="5">
+					<div class="row row-cols-3 gx-3 pb-4 justify-content-center">
+						<div class="col-4">
+							<div class="card">
 								<img src="${pageContext.request.contextPath}/resources/images/noimage.png" class="card-img-top" alt="기사 사진">
 								<div class="card-body">
 									<h5 class="card-title">Card title</h5>
@@ -45,7 +45,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col justify-content-center">
+						<div class="col-4">
 							<div class="card">
 								<img src="${pageContext.request.contextPath}/resources/images/noimage.png" class="card-img-top" alt="기사 사진">
 								<div class="card-body">
@@ -54,7 +54,7 @@
 								</div>
 							</div>						
 						</div>
-						<div class="col justify-content-center">
+						<div class="col-4">
 							<div class="card">
 								<img src="${pageContext.request.contextPath}/resources/images/noimage.png" class="card-img-top" alt="기사 사진">
 								<div class="card-body">
