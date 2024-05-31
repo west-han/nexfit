@@ -81,7 +81,7 @@
 								<a href="javascript:dialogLogin();" title="로그인"><i class="bi bi-lock" style="color: white;"></i></a>
 							</div>
 							<div class="p-2">
-								<a href="${pageContext.request.contextPath}/" title="회원가입"><i class="bi bi-person-plus" style="color: white;"></i></a>
+								<a href="${pageContext.request.contextPath}/member/member" title="회원가입"><i class="bi bi-person-plus" style="color: white;"></i></a>
 							</div>	
 						</c:if>
 						<c:if test="${not empty sessionScope.member}">
