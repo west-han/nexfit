@@ -61,9 +61,11 @@
 		<header>
 			<jsp:include page="/WEB-INF/views/layout/header.jsp"/> 
 		</header>
-
 		<main>
 			<div class="container-xxl text-center">
+			<div class="container mt-5">
+			
+			</div>
 				<div class="row py-5"> <%-- 챌린지게시판로고 --%>
 					<div class="col-11">
 						<a href="#"><img src="/nexfit/resources/images/chellenge.png"></a> 
@@ -73,6 +75,7 @@
 				
 				
 		<div class="row gx-2">
+		
 				<jsp:include page="/WEB-INF/views/chellenge/ch_leftbar.jsp"></jsp:include> <%-- 왼쪽사이드바 --%>
 				
 						<div class="col-sm-7"> <%-- 메인공간 --%>

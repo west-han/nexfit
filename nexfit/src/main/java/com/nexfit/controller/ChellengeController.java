@@ -2,6 +2,7 @@ package com.nexfit.controller;
 
 
 
+
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -86,12 +87,9 @@ public class ChellengeController {
 
 					// 페이징 처리
 					String cp = req.getContextPath();
-					String listUrl = cp + "/chellenge/list";
-					String articleUrl = cp + "/chellenge/article?page=" + current_page;
-					if (query.length() != 0) {
-						listUrl += "?" + query;
-						articleUrl += "&" + query;
-					}
+					String listUrl = cp + "/chellenge/list" +query;
+					String articleUrl = cp + "/chellenge/article?page=" + current_page + "&" + query;
+					
 
 					String paging = util.paging(current_page, total_page, listUrl);
 
@@ -160,6 +158,136 @@ public class ChellengeController {
 
 		return new ModelAndView("redirect:/chellenge/list");
 	}
+	
+	//챌린지 자세히보기
+		@RequestMapping(value ="/chellenge/article", method = RequestMethod.GET)
+		public ModelAndView article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+			ChellengeDAO dao = new ChellengeDAO();
+			MyUtil util = new MyUtilBootstrap();
+			
+			String page = req.getParameter("page");
+			String size = req.getParameter("size");
+			String query = "page=" + page + "&size=" + size;
+			
+			try {
+				long id = Long.parseLong(req.getParameter("chellengeId"));
+				
+				String schType = req.getParameter("schType");
+				String kwd = req.getParameter("kwd");
+				if(schType == null) {
+					schType = "all";
+					kwd = "";
+				}
+				kwd = URLDecoder.decode(kwd, "utf-8");
+				
+				if(kwd.length() != 0) {
+					query += "&schType=" + schType
+							+ "&kwd=" + URLEncoder.encode(kwd, "utf-8");
+				}
+		
+				
+				ChellengeDTO dto = dao.findById(id);
+				
+				if(dto == null) {
+					return new ModelAndView("redirect:/chellenge/list?"+query);
+				}
+				
+				dto.setCh_content(util.htmlSymbols(dto.getCh_content()));
+
+				
+				ModelAndView mav = new ModelAndView("chellenge/article");
+				
+				mav.addObject("dto", dto);
+				mav.addObject("page", page);
+				mav.addObject("query", query);
+				mav.addObject("size", size);
+				
+				return mav;
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return new ModelAndView("redirect:/chellenge/list?" + query);
+		}
+	
+	@RequestMapping(value = "/chellenge/update", method = RequestMethod.GET)
+	public ModelAndView updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 수정 폼
+		// 넘어온 파라미터 : 글번호, 페이지번호, size
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		if(! info.getUserId().equals("admin")) {
+			return new ModelAndView("redirect:/notice/list");
+		}
+		
+		ChellengeDAO dao = new ChellengeDAO();
+		
+		String page = req.getParameter("page");
+		String size = req.getParameter("size");
+		
+		try {
+			long id = Long.parseLong(req.getParameter("chellengeId"));
+			
+			ChellengeDTO dto = dao.findById(id);
+			if(dto == null) {
+				return new ModelAndView("redirect:/chellenge/list?page="+page+"&size="+size);
+			}
+			ModelAndView mav = new ModelAndView("chellenge/write");
+			mav.addObject("dto", dto);
+			mav.addObject("page", page);
+			mav.addObject("size", size);
+			
+			mav.addObject("mode", "update");
+			
+			return mav;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return new ModelAndView("redirect:/chellenge/list?page="+page+"&size="+size);
+	}
+	
+	@RequestMapping(value = "/chellenge/update", method = RequestMethod.POST)
+	public ModelAndView updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 수정 완료
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		if(! info.getUserId().equals("admin")) {
+			return new ModelAndView("redirect:/chellenge/list");
+		}
+		
+	
+		
+		String page = req.getParameter("page");
+		String size = req.getParameter("size");
+		
+		ChellengeDAO dao = new ChellengeDAO();
+		
+		try {
+			ChellengeDTO dto = new ChellengeDTO();
+			
+			dto.setChellengeId(Long.parseLong(req.getParameter("chellengeId")));
+			dto.setCh_subject(req.getParameter("ch_subject"));
+			dto.setCh_content(req.getParameter("ch_content"));
+			dto.setFee(Long.parseLong(req.getParameter("fee")));
+			
+			
+			dao.updateChellenge(dto);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ModelAndView("redirect:/notice/list?page="+page+"&size="+size);
+	}
+	
 	
 	
 	

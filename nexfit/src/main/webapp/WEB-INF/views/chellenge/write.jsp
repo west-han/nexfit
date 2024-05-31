@@ -54,7 +54,8 @@ function sendOk() {
 		<header>
 			<jsp:include page="/WEB-INF/views/layout/header.jsp"/> 
 		</header>
-
+		<div class="container">
+		</div>
 		<main>
 		<div class="container">
 		<div class="body-container m-auto" >	
