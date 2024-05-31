@@ -16,30 +16,20 @@
 }
 </style>
 
- <c:if test="${sessionScope.member.userId == 'admin'}">
+<c:if test="${sessionScope.member.userId=='admin'}">
 	<script type="text/javascript">
-		$(function(){
-			$('#chkAll').click(function(){
-				$('input[name=nums]').prop('checked', $(this).is(':checked'));
-			});
-			
-			$('#btnDeleteList').click(function(){
-				let cnt = $('input[name=nums]:checked').length;
-				if(cnt === 0) {
-					alert('삭제할 게시물을 선택하세요');
-					return;
-				}
-				
-				if(confirm('게시글을 삭제하시 겠습니까 ? ')) {
-					const f = document.listForm;
-					f.action = '${pageContext.request.contextPath}/notice/deleteList';
-					f.submit();
-				}
-				
-			});
-		});
+		function deleteBoard() {
+		    if(confirm("게시글을 삭제 하시 겠습니까 ? ")) {
+			    let query = "chellengeId=${dto.chellengeId}&${query}";
+			    let url = "${pageContext.request.contextPath}/chellenge/delete?" + query;
+		    	location.href = url;
+		    }
+		}
 	</script>
 </c:if>
+
+
+
 
 
 </head>

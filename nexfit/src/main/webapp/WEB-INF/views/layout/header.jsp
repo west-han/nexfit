@@ -50,10 +50,14 @@
 							CHALLENGE
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="#">자주하는질문</a></li>
-							<li><a class="dropdown-item" href="#">공지사항</a></li>
+							<li><a class="dropdown-item" href="#">진행중인 챌린지</a></li>
+							<li><a class="dropdown-item" href="#">종료된 챌린지</a></li>
+							<li><a class="dropdown-item" href="#">인증게시판</a></li>
+							
+							<c:if test="${sessionScope.member.userName=='admin'}">
 							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="#">질문과답변</a></li>
+							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/chellenge/list">챌린지관리 게시판</a></li>
+							</c:if>
 						</ul>
 					</li>
 					

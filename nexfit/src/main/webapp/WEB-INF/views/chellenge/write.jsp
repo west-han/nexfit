@@ -69,7 +69,7 @@ function sendOk() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">챌린지명</td>
 							<td>
-								<input type="text" name="subject" class="form-control" value="${dto.subject}">
+								<input type="text" name="subject" class="form-control" value="${dto.ch_subject}">
 							</td>
 						</tr>
 	        
@@ -83,14 +83,14 @@ function sendOk() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">챌린지 소개 및 <br>규 &nbsp;&nbsp;칙</td>
 							<td>
-								<textarea name="content" id="content" class="form-control">${dto.content}</textarea>
+								<textarea name="content" id="content" class="form-control">${dto.ch_content}</textarea>
 							</td>
 						</tr>
 						
 						<tr>
 							<td class="bg-light col-sm-2">참&nbsp;가&nbsp;비</td>
 							<td>
-								<input type="text" name="fee" class="form-control" value="${dto.subject}" style="width: 200px;">
+								<input type="text" name="fee" class="form-control" value="${dto.fee}" style="width: 200px;">
 							</td>
 						</tr>
 						
@@ -103,7 +103,7 @@ function sendOk() {
 								<button type="reset" class="btn btn-light">다시입력</button>
 								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chellenge/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
 								<c:if test="${mode == 'update'}">
-									<input type="hidden" name="num" value="${dto.num}">
+									<input type="hidden" name="chellengeId" value="${dto.chellengeId}">
 									<input type="hidden" name="size" value="${size}">
 									<input type="hidden" name="page" value="${page}">
 								</c:if>

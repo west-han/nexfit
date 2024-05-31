@@ -32,7 +32,7 @@
 				
 				if(confirm('게시글을 삭제하시 겠습니까 ? ')) {
 					const f = document.listForm;
-					f.action = '${pageContext.request.contextPath}/notice/deleteList';
+					f.action = '${pageContext.request.contextPath}/chellenge/deletelist';
 					f.submit();
 				}
 				
@@ -82,7 +82,7 @@
 						<div class="body-title">
 						<h3> 등록된 챌린지 </h3>
 						</div>  
-				<div class="body-main" style="font-family: nexon lv2;">
+				<div class="body-main" style="font-family: nexon lv1;">
 		<form name="listForm" method="post">
 		        <div class="row board-list-header">
 		            <div class="col-auto me-auto">${dataCount}개(${page}/${total_page} 페이지)</div>
@@ -91,7 +91,7 @@
 		       <c:if test="${sessionScope.member.userId == 'admin'}">
 									<button type="button" class="btn btn-light" id="btnDeleteList" title="삭제" style="float: right;"><i class="bi bi-trash"></i></button>
 								</c:if>			
-				<table class="table table-hover board-list">
+				<table class="table table-hover board-list" >
 					<thead class="table-light">
 						<tr>
 							<c:if test="${sessionScope.member.userId=='admin'}">
