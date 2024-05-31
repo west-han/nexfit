@@ -567,7 +567,7 @@ public class RoutineDAO {
 			pstmt.setLong(1, dto.getNum());
 			pstmt.setString(2, dto.getUserId());
 			pstmt.setString(3, dto.getContent());
-			pstmt.setString(4, dto.getAnswer());
+			// pstmt.setString(4, dto.getAnswer());
 			
 			pstmt.executeUpdate();
 			
@@ -753,7 +753,7 @@ public class RoutineDAO {
 				dto.setNickname(rs.getString("nickname"));
 				dto.setContent(rs.getString("content"));
 				dto.setReg_date(rs.getString("reg_date"));
-				dto.setAnswer(rs.getString("answer"));
+				// dto.setAnswer(rs.getString("answer"));
 				
 				list.add(dto);
 			}
