@@ -45,7 +45,7 @@ public class SportsTypeDAO {
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getSaveFilename());
+			pstmt.setString(1, dto.getFilename());
 			
 			pstmt.executeUpdate();
 			
@@ -92,7 +92,7 @@ public class SportsTypeDAO {
 				dto.setBodyPart(rs.getString("bodyPart"));
 				dto.setDescription(rs.getString("description"));
 				dto.setHitCount(rs.getInt("hitCount"));
-				dto.setSaveFilename(rs.getString("filename"));
+				dto.setFilename(rs.getString("filename"));
 				
 				list.add(dto);
 			}

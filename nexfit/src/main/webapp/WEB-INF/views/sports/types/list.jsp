@@ -226,11 +226,11 @@ function addNewContent(data) {
 		let deletePermit = item.permit;
 		let bodyPart = item.bodyPart;
 		let filenum = item.filenum;
-		
+
 		htmlText = '<div class="col-xl-3 col-lg-4 col-sm-6 col-xs-12 pb-3 d-flex justify-content-center">';
 		htmlText += '	<div class="card w-100 p-2">';
 		htmlText += '		<div class="card-body">';
-		htmlText += '			<img src="${pageContext.request.contextPath}/resources/images/' + filename + '" class="card-img-top" alt="' + name + '...">';
+		htmlText += '			<img src="${pageContext.request.contextPath}/uploads/sports/types/' + filename + '" class="card-img-top" alt="' + name + '...">';
 		htmlText += '			<div class="card-img-overlay" style="display: none;">';
 		htmlText += '				<h5 class="card-title">' + name + '</h5>';
 		htmlText += '			</div>';

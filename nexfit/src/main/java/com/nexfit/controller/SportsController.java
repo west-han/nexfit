@@ -1,5 +1,6 @@
 package com.nexfit.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -93,9 +94,14 @@ public class SportsController {
 			}
 			
 			boolean admin = false;
-			if (((SessionInfo)req.getSession().getAttribute("member")).getUserId().equals("admin")) {
+			SessionInfo info = (SessionInfo)req.getSession().getAttribute("member"); 
+			if (info != null && info.getUserId().equals("admin")) {
 				admin = true;
 			}
+			
+			String pathname = req.getServletContext().getRealPath("/") + "uploads" + File.separator + "sports" + File.separator + "types";
+			System.out.println(pathname);
+
 			
 			model.put("list", list);
 			model.put("pageNo", currentPage);
@@ -134,8 +140,8 @@ public class SportsController {
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		FileManager fileManager = new FileManager();
 		SportsTypeDAO dao = new SportsTypeDAO();
-		String pathname = req.getServletContext().getRealPath(req.getContextPath()) + "/uploads";
-		
+		String pathname = req.getServletContext().getRealPath("/") + "uploads" + File.separator + "sports" + File.separator + "types";
+
 		try {
 			SportTypeDTO dto = new SportTypeDTO();
 			
