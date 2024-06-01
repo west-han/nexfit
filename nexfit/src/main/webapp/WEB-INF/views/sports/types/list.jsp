@@ -32,9 +32,9 @@
 					</div>
 				</div>
 
-				<div class="row gx-2">
+				<div class="row gx-2 pb-4">
 					<div class="col">
-						<form class="row justify-content-center pb-5" name="searchForm"
+						<form class="row justify-content-center" name="searchForm"
 							action="${pageContext.request.contextPath}/sports/type/list"
 							method="post">
 							<div class="col-auto p-0 pb">
@@ -58,64 +58,71 @@
 							</c:if>
 						</form>
 					</div>
-
-					<div class="btn-group-lg" role="group" aria-label="Basic radio toggle button group" id="btnsTypeSelect">
-						<input type="radio" class="btn-check" name="btnBodyPart" id="all" value="all" autocomplete="off" checked>
-						<label class="btn btn-outline-primary" for="all">전체</label>
+				</div>
+				<div class="row pb-4">
+					<div class="btn-group-lg" role="group"
+						aria-label="Basic radio toggle button group" id="btnsTypeSelect">
+						<input type="radio" class="btn-check" name="btnBodyPart" id="all"
+							value="all" autocomplete="off"
+							${bodyPart == 'all' ? 'checked' : ''}> <label
+							class="btn btn-outline-primary" for="all">전체</label>
 
 						<c:forEach var="entry" items="${map}" varStatus="status">
-							<input type="radio" class="btn-check" name="btnBodyPart" id="${entry.key}" value="${entry.key}" autocomplete="off">
+							<input type="radio" class="btn-check" name="btnBodyPart"
+								id="${entry.key}" value="${entry.key}" autocomplete="off"
+								${bodyPart == entry.key ? 'checked' : ''}>
 							<label class="btn btn-outline-primary" for="${entry.key}">${entry.value}</label>
-						</c:forEach> 
+						</c:forEach>
 					</div>
-					
-					<c:forEach var="dto" items="${list}" varStatus="status">
-						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sportsDetailModal" data-param="${dto.num}">
-							${dto.name}
-						</button>
-					</c:forEach>
-					
-					<div class="modal fade" id="sportsDetailModal" tabindex="-1">
-  						<div class="modal-dialog">
-    						<div class="modal-content">
-      							<div class="modal-header">
-        							<h5 class="modal-title">Modal title</h5>
-        							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    							</div>
+				</div>
 
-								<div class="modal-body">
-									<div class="container-fluid">
-								    	<div class="row">
-								      		<div class="col-md-4">.col-md-4</div>
-								      		<div class="col-md-4 ms-auto">.col-md-4 .ms-auto</div>
-								    	</div>
-								    <div class="row">
-										<div class="col-md-3 ms-auto">.col-md-3 .ms-auto</div>
-										<div class="col-md-2 ms-auto">.col-md-2 .ms-auto</div>
-									</div>
-									<div class="row">
-										<div class="col-md-6 ms-auto">.col-md-6 .ms-auto</div>
-								    </div>
-									<div class="row">
-										<div class="col-sm-9">
-								        	Level 1: .col-sm-9
-								        	<div class="row">
-												<div class="col-8 col-sm-6">
-								            		Level 2: .col-8 .col-sm-6
-								          		</div>
-												<div class="col-4 col-sm-6">
-													Level 2: .col-4 .col-sm-6
-												</div>
-											</div>
-										</div>
-								    </div>
-								  </div>
+				<div class="list-content row justify-content-start gx-2"  data-pageNo="0" data-totalPage="0">
+<!-- 					<div class="col-xl-3 col-lg-4 col-sm-6 col-xs-12 pb-3 d-flex justify-content-center"> -->
+<!-- 						<div class="card w-100 p-2"> -->
+<!-- 							<div class="card-body"> -->
+<%-- 								<img src="${pageContext.request.contextPath}/resources/images/noimage.png" class="card-img-top" alt="..."> --%>
+
+<!-- 								<div class="card-img-overlay" style="display: none;"> -->
+<%-- 									<h5 class="card-title">${dto.name}</h5> --%>
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+						
+<!-- 						<input type="button" class="btnModal" style="display: none;" -->
+<!-- 							data-bs-toggle="modal" data-bs-target="#sportsDetailModal" -->
+<%-- 							data-param="${dto.num}"> --%>
+<!-- 					</div> -->
+					
+					<div class="sentinel" data-loading="false"></div>
+				</div>
+			</div>
+
+			<!-- 모달창 -->
+			<div class="modal fade" id="sportsDetailModal" tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Modal title</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+
+						<div class="modal-body">
+							<div class="container-fluid">
+								<div class="modal-image">
+									<img alt="" src="">
 								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary">Save changes</button>
+								
+								<div class="modal-content">
 								</div>
 							</div>
+						</div>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary">Save
+								changes</button>
 						</div>
 					</div>
 				</div>
@@ -129,11 +136,150 @@
 </body>
 
 <script type="text/javascript">
+function login() {
+	location.href = "${pageContext.request.contextPath}/member/login";
+}
+
+function ajaxFun(url, method, query, dataType, fn) {
+	const sentinelNode = document.querySelector('.sentinel');
+	
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		success:function(data){
+			fn(data);
+		},
+		beforeSend:function(jqXHR) {
+			sentinelNode.setAttribute('data-loading', 'true');
+			
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR) {
+			if(jqXHR.status === 403) {
+				login();
+				return false;
+			} else if(jqXHR.status === 400) {
+				alert("요청 처리가 실패 했습니다.");
+				return false;
+			}
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+
 $(function() {
 	$("#btnsTypeSelect").on("click", ".btn-check", function() {
+		let bodyPart = $(this).val().trim();
 		
+		let url = "${pageContext.request.contextPath}/sports/types/list?bodyPart=" + bodyPart + "&pageNo=" + 1;
+		
+		location.href = url;
 	});
+
+	$(".list-content").on("mouseover", ".card-body", () => $(this).find(".card-img-overlay").show());
+	$(".list-content").on("mouseout", ".card-body", () => $(this).find(".card-img-overlay").hide());
+	
+	$(".list-content").on("click", ".card-body", () => $(this).find(".btnModal").click());
+	
+	$(".btnModal").click( () => console.log("clicked!!")); // btn의 번호를 이용해 세부내용 DB에서 AJAX로 가져오기
 });
+
+const sentinelNode = $('.sentinel')[0];
+const listNode = document.querySelector(".list-content");
+
+function loadContent(bodyPart, page) {
+	let url = "${pageContext.request.contextPath}/sports/types/listAjax";
+	let query = "bodyPart=" + bodyPart + "&pageNo=" + page;
+	
+	const fn = data => addNewContent(data);
+	
+	ajaxFun(url, "get", query, "json", fn);
+}
+
+function addNewContent(data) {
+	console.log('addNewCount!');
+	
+	let dataCount = data.dataCount;
+	let pageNo = data.pageNo;
+	let totalPage = data.totalPage;
+	
+	listNode.setAttribute('data-pageNo', pageNo);
+	listNode.setAttribute('data-totalPage', totalPage);
+	
+	sentinelNode.style.display = "none";
+	
+	if (parseInt(dataCount) === 0) {
+		listNode.innerHTML = "";
+		return;
+	}
+	
+	let htmlText;
+	
+	for (let item of data.list) {
+		console.log(item);
+		let num = item.num;
+		let name = item.name;
+		let filename = item.filename;
+		let content = item.description;
+		let deletePermit = item.permit;
+		let bodyPart = item.bodyPart;
+		let filenum = item.filenum;
+		
+		htmlText = '<div class="col-xl-3 col-lg-4 col-sm-6 col-xs-12 pb-3 d-flex justify-content-center">';
+		htmlText += '	<div class="card w-100 p-2">';
+		htmlText += '		<div class="card-body">';
+		htmlText += '			<img src="${pageContext.request.contextPath}/resources/images/' + filename + '" class="card-img-top" alt="' + name + '...">';
+		htmlText += '			<div class="card-img-overlay" style="display: none;">';
+		htmlText += '				<h5 class="card-title">' + name + '</h5>';
+		htmlText += '			</div>';
+		htmlText += '		</div>';
+		htmlText += '	</div>';
+		htmlText += '	<input type="button" class="btnModal" style="display: none;"';
+		htmlText += '		data-bs-toggle="modal" data-bs-target="#sportsDetailModal"';
+		htmlText += '		data-param="' + num + '">';
+		htmlText += '</div>';
+
+		listNode.insertAdjacentHTML("beforeend", htmlText);
+	}
+	
+	if (pageNo < totalPage) {
+		sentinelNode.setAttribute("data-loading", "false");
+		sentinelNode.style.display = "block";
+		
+		io.observe(sentinelNode);
+	}
+}
+
+const ioCallback = (entries, io) => {
+	console.log('마지막;');
+	entries.forEach((entry) => {
+		if(entry.isIntersecting) { // 관찰자가 화면에 보이면
+			// 현재 페이지가 로딩중이면 빠져 나감
+			let loading = sentinelNode.getAttribute('data-loading');
+			if(loading !== 'false') {
+				return;
+			}
+			
+			// 기존 관찰하던 요소는 더이상 관찰하지 않음
+			io.unobserve(entry.target);
+			
+			let pageNo = parseInt(listNode.getAttribute('data-pageNo'));
+			let total_page = parseInt(listNode.getAttribute('data-totalPage'));
+			let bodyPart = document.querySelector("input[name=btnBodyPart]:checked").value;
+			
+			if(pageNo === 0 || pageNo < total_page) {
+				pageNo++;
+				loadContent(bodyPart, pageNo);
+			}
+		}
+	});
+};
+
+const io = new IntersectionObserver(ioCallback);
+io.observe(sentinelNode);
+
 
 </script>
 

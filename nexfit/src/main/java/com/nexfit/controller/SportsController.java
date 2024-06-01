@@ -147,7 +147,7 @@ public class SportsController {
 			Part part = req.getPart("selectFile");
 			if (part != null) {
 				MyMultipartFile mmf = fileManager.doFileUpload(part, pathname);
-				dto.setSaveFilename(mmf.getSaveFilename());
+				dto.setFilename(mmf.getSaveFilename());
 			}
 			
 			dao.insert(dto);

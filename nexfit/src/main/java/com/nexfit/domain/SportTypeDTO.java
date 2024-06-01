@@ -9,7 +9,7 @@ public class SportTypeDTO {
 	private int hitCount;
 
 	private long fileNum;
-	private String saveFilename;
+	private String filename;
 
 	public long getNum() {
 		return num;
@@ -67,18 +67,18 @@ public class SportTypeDTO {
 		this.fileNum = fileNum;
 	}
 
-	public String getSaveFilename() {
-		return saveFilename;
+	public String getFilename() {
+		return filename;
 	}
 
-	public void setSaveFilename(String saveFilename) {
-		this.saveFilename = saveFilename;
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 	@Override
 	public String toString() {
 		return "SportTypeDTO [num=" + num + ", name=" + name + ", bodyPart=" + bodyPart + ", description=" + description
-				+ ", userId=" + userId + ", hitCount=" + hitCount + ", fileNum=" + fileNum + ", saveFilename="
-				+ saveFilename + "]";
+				+ ", userId=" + userId + ", hitCount=" + hitCount + ", fileNum=" + fileNum + ", filename="
+				+ filename + "]";
 	}
 }
