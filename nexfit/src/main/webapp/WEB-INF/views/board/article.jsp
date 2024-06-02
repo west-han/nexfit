@@ -11,9 +11,67 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
 <style type="text/css">
+.form-control::placeholder {
+    color: #BDBDBD;
+    font-weight: bold;
+}
+
 .body-container {
 	max-width: 800px;
 }
+
+.table-style {
+	border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
+    background-color: #fff;
+}
+
+.image-container {
+    position: relative;
+    width: 1300px; 
+    height: 200px; 
+}
+
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.overlay-image2 {
+    position: absolute;
+    top: 80%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes heart {
+	0% {transform: translateY(0px) scale(1); opacity: 1;}
+	100% {transform: translateY(-20px) scale(1.3); opacity: 0;}
+}
+
+.float-heart {
+    position: absolute;
+    font-size: 1.5em;
+    color: #FF73B8;
+    animation: heart 1s ease-in-out forwards;
+}
+
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board2.css" type="text/css">
 <!-- 클라이언트에 자바스크립트 소스를 보이지 않도록 하기 위한 장치 -->
@@ -40,24 +98,26 @@
 		<main>
 			<div class="container-xxl text-center">
 				<div class="row py-5 mt-5">
-					<div class="col">
-						<img src="/nexfit/resources/images/freelounge.png" style="width:450px; height:90px;">
-					</div>
+					<div class="col image-container">
+					<img src="/nexfit/resources/images/exercisebg.PNG" class="background-image" style="width:1300px; height:200px; opacity: 0.3;">
+					<img src="/nexfit/resources/images/freelounge.png" class="overlay-image" style="width:450px; height:90px;"><br>
+					<img src="/nexfit/resources/images/sci.png" class="overlay-image2" style="width:300px; height:20px;">
+				</div>
 				</div>
 				
-					<div class="row gx-2">
+					<div class="row gx-2" style="font-family: 'nexon lv1 light'; font-weight: 600;">
 						<div class="col-sm-2">여기에는 좌측 공간에 들어갈 거 작성</div>
 						<div class="col-sm-7 mt-3"> <!-- mt-n : margin-top -->
 						<main>
 							<div class="container">
 								<div class="body-container">	
 									<div class="body-title">
-										<h3><i class="bi bi-app"></i> 자유 게시판 </h3>
+										<h3 style="font-family: 'nexon lv2 medium';"> 자유 게시판 </h3>
 									</div>
 									
 									<div class="body-main">
 										
-										<table class="table">
+										<table class="table table-style">
 											<thead>
 												<tr>
 													<td colspan="2" align="center">
@@ -69,7 +129,7 @@
 											<tbody>
 												<tr>
 													<td width="50%" style="text-align: left">
-														이름 : ${dto.userId}
+														이름 : ${dto.nickname}
 													</td>
 													<td align="right">
 														${dto.reg_date} | 조회 ${dto.hitCount}
@@ -77,14 +137,14 @@
 												</tr>
 												
 												<tr>
-													<td colspan="2" valign="top" height="200" style="border-bottom: none;">
+													<td colspan="2" valign="top" height="200" style="border-bottom: none;" align="left">
 														${dto.content}
 													</td>
 												</tr>
 												
 												<tr>
-													<td colspan="2" class="text-center p-3">
-														<button type="button" class="btn btn-outline-secondary btnSendBoardLike" title="좋아요"><i class="far fa-hand-point-up" style="color: ${isUserLike?'blue':'black'}"></i>&nbsp;&nbsp;<span id="boardLikeCount">${dto.boardLikeCount}</span></button>
+													<td colspan="2" class="text-center p-3" style="position: relative;">
+														<button type="button" class="btn btn-outline-secondary btnSendBoardLike" title="좋아요" style="color: ${isUserLike?'#FF73B8':'black'}"><i class="far">🖤&nbsp;<span id="boardLikeCount">${dto.boardLikeCount}</span></i></button>
 													</td>
 												</tr>
 												
@@ -104,51 +164,46 @@
 														</c:if>
 													</td>
 												</tr>
+												<tr>
+													<td width="50%" style="text-align: left;">
+														<c:choose>
+															<c:when test="${sessionScope.member.userId==dto.userId}">
+																<button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/board/update?num=${dto.num}&page=${page}';">수정</button>
+															</c:when>
+															<c:otherwise>
+																<button type="button" class="btn btn-outline-dark" disabled>수정</button>
+															</c:otherwise>
+														</c:choose>
+												    	
+														<c:choose>
+												    		<c:when test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
+												    			<button type="button" class="btn btn-outline-dark" onclick="deleteBoard();">삭제</button>
+												    		</c:when>
+												    		<c:otherwise>
+												    			<button type="button" class="btn btn-outline-dark" disabled>삭제</button>
+												    		</c:otherwise>
+												    	</c:choose>
+													</td>
+													<td class="text-end">
+														<button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/board/list?${query}';">리스트</button>
+													</td>
+												</tr>
 											</tbody>
 										</table>
 										
-										<table class="table table-borderless">
-											<tr>
-												<td width="50%" style="text-align: left;">
-													<c:choose>
-														<c:when test="${sessionScope.member.userId==dto.userId}">
-															<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/board/update?num=${dto.num}&page=${page}';">수정</button>
-														</c:when>
-														<c:otherwise>
-															<button type="button" class="btn btn-light" disabled>수정</button>
-														</c:otherwise>
-													</c:choose>
-											    	
-													<c:choose>
-											    		<c:when test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
-											    			<button type="button" class="btn btn-light" onclick="deleteBoard();">삭제</button>
-											    		</c:when>
-											    		<c:otherwise>
-											    			<button type="button" class="btn btn-light" disabled>삭제</button>
-											    		</c:otherwise>
-											    	</c:choose>
-												</td>
-												<td class="text-end">
-													<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/board/list?${query}';">리스트</button>
-												</td>
-											</tr>
-										</table>
 										
 										<div class="reply">
 											<form name="replyForm" method="post">
-												<div class='form-header'>
-													<span class="bold">댓글</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가해 주세요.</span>
-												</div>
 												
-												<table class="table table-borderless reply-form">
+												<table class="table table-borderless table-style reply-form">
 													<tr>
 														<td>
-															<textarea class='form-control' name="content"></textarea>
+															<textarea class='form-control' name="content" placeholder="댓글 이쁘게 써라."></textarea>
 														</td>
 													</tr>
 													<tr>
 													   <td align='right'>
-													        <button type='button' class='btn btn-light btnSendReply'>댓글 등록</button>
+													        <button type='button' class='btn btn-outline-dark btnSendReply'>댓글 등록</button>
 													    </td>
 													 </tr>
 												</table>
@@ -213,6 +268,16 @@ function ajaxFun(url, method, formData, dataType, fn, file = false) {
 
 // 게시글 공감 여부
 $(function() {
+	$('.btnSendBoardLike').hover(function() {
+        const floatHeart = $('<i class="far float-heart" style="margin-left: -46px;">🖤</i>');
+       
+        $(this).parent().append(floatHeart);
+        
+        setTimeout(function() {
+            floatHeart.remove();
+        }, 1000);
+    });
+	
 	$('.btnSendBoardLike').click(function(){
 		const $i = $(this).find("i");
 		let isNoLike = $i.css("color") === "rgb(0, 0, 0)";
@@ -231,7 +296,7 @@ $(function() {
 			if (state === 'true') {
 				let color = 'black';
 				if (isNoLike) {
-					color = 'blue';
+					color = '#FF73B8';
 				}
 				$i.css("color", color);
 				

@@ -15,6 +15,15 @@
 	max-width: 800px;
 }
 
+.table-style {
+	border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 16px;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
+    background-color: #fff;
+}
+
 .btn-light:hover {
 	background: black; 
 	color: white;
@@ -62,7 +71,8 @@
         }
         window.location.href = window.location.pathname + '?' + urlParams.toString();
     }
-    </script> 
+	</script>
+ 
 
 </head>
 
@@ -84,7 +94,7 @@
 			</div>
 						
 	<div class="row gx-2">
-		<div class="col-sm-3 mt-5" style="font-family: 'nexon lv1 light';"> 
+		<div class="col-sm-3 mt-5" style="font-family: 'nexon lv1 light'; font-weight: 600;">
 			<h3>CATEGORY</h3>
 			<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 			  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" onclick="filterCategory('전체')" ${category == '전체' ? 'checked' : ''} checked>
@@ -161,35 +171,40 @@
 			<div class="container" style="font-family: 'nexon lv2 medium';">
 				<div class="body-container">	
 					<div class="body-title">
-						<h3>자유 게시판</h3>
+						<h3 style="font-family: 'nexon lv2 medium';">자유 게시판</h3>
 					</div>
-					<form class="row mx-auto" name="searchForm" action="${pageContext.request.contextPath}/board/list" method="post" >
-						<div class="col-auto p-1">
-							<select name="schType" class="form-select">
-								<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
-								<option value="nickname" ${schType=="nickname"?"selected":""}>작성자</option>
-								<option value="reg_date" ${schType=="reg_date"?"selected":""}>등록일</option>
-								<option value="subject" ${schType=="subject"?"selected":""}>제목</option>
-								<option value="content" ${schType=="content"?"selected":""}>내용</option>
-							</select>
-						</div>
-						<div class="col-auto p-1">
-							<input type="text" name="kwd" value="${kwd}" class="form-control" style="width: 400px;">
-						</div>
-						<div class="col-auto p-1">
-							<button type="button" class="btn btn-light" onclick="searchList()" style=""> <i class="bi bi-search"></i> </button>
-						</div>
-					</form>
-					<br>
+					
+				
 					
 					<div class="body-main">
 				        <div class="row board-list-header">
 				            <div class="col-auto me-auto">${dataCount}개(${page}/${total_page} 페이지)</div>
-				            <div class="col-auto">&nbsp;<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/board/write';">글쓰기</button></div>
-				        </div> 
-				     				
+				            
+				        </div>
+				        
+				        <form class="row mx-auto" name="searchForm" action="${pageContext.request.contextPath}/board/list" method="post" > 
+							<div class="col-auto p-1">
+								<select name="schType" class="form-select">
+									<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
+									<option value="nickname" ${schType=="nickname"?"selected":""}>작성자</option>
+									<option value="reg_date" ${schType=="reg_date"?"selected":""}>등록일</option>
+									<option value="subject" ${schType=="subject"?"selected":""}>제목</option>
+									<option value="content" ${schType=="content"?"selected":""}>내용</option>
+								</select>
+							</div>
+							<div class="col-auto p-1">
+								<input type="text" name="kwd" value="${kwd}" class="form-control" style="width: 350px;">
+							</div>
+							<div class="col-auto p-1">
+								<button type="button" class="btn btn-light" onclick="searchList()" style=""> <i class="bi bi-search"></i> </button>
+							</div>
+						</form>
+						 
+						<div class="col-auto">&nbsp;<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/board/write';" style="float: right;">글쓰기</button></div>
+				     	
+				     	<div class="table-style">		
 						<table class="table table-hover board-list">
-							<thead class="table-light">
+							<thead>
 								<tr>
 									<th class="num">번호</th>
 									<th class="categoryName">제목</th>
@@ -206,7 +221,7 @@
 										<td class="left">
 									
 											<a href="${articleUrl}&num=${dto.num}" class="text-reset">
-											<span style="float: left"><span style="color: orange;">[${dto.categoryName}]</span> ${dto.subject} 	<span style="color: #23A41A; font-weight: bold;"> 🗨 ${dto.replyCount}</span>
+											<span style="float: left"><span style="color: orange;">[${dto.categoryName}]</span> ${dto.subject} 	<span style="color: #23A41A; font-weight: bold;">&nbsp; 🗨 ${dto.replyCount}</span>
 											<span style="color: #FF73B8; font-weight: bold;">♥ ${dto.boardLikeCount}</span>
 											</span>
 											</a>
@@ -219,6 +234,7 @@
 								</c:forEach>
 							</tbody>
 						</table>
+						</div>
 						
 						<div class="page-navigation">
 							${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
@@ -241,6 +257,9 @@
 	
 			</div>
 		</main>
+	</div>
+	<div class="row py-5">
+										
 	</div>
 	
 	<footer>

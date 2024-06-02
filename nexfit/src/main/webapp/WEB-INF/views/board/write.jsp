@@ -14,6 +14,15 @@
 .body-container {
 	max-width: 800px;
 }
+
+.table-style {
+	border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 16px;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
+    background-color: #fff;
+}
 </style>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board2.css" type="text/css">
@@ -67,11 +76,7 @@ function filterCategory(category) {
 							<main>
 								<div class="container-xxl text-center">
 									<div class="row py-5">
-										<div class="col">
-											<h1 class="fs-1 text-start">
-												화면 타이틀
-											</h1>
-										</div>
+										
 									</div>
 									
 		<c:forEach var="i" begin="0" end="0">
@@ -80,14 +85,14 @@ function filterCategory(category) {
 				<div class="col-sm-7">
 					<main>
 						<div class="container">
-							<div class="body-container">	
+							<div class="body-container" style="font-family: 'nexon lv2 medium';">	
 								<div class="body-title">
-									<h3><i class="bi bi-app"></i> 자유 게시판 </h3>
+									<h3 style="font-family: 'nexon lv2 medium';">자유 게시판 </h3>
 								</div>
 								
 								<div class="body-main">
 									<form name="boardForm" method="post">
-										<table class="table write-form mt-5">
+										<table class="table write-form mt-5 table-style">
 											<tr>
 												<td class="bg-light col-sm-2" scope="row">카테고리
 													<td>
@@ -121,12 +126,6 @@ function filterCategory(category) {
 												</td>
 											</tr>
 						        
-											<tr>
-												<td class="bg-light col-sm-2" scope="row">작성자명</td>
-						 						<td>
-													<p class="form-control-plaintext" style="text-align: left;">${sessionScope.member.userName}</p>
-												</td>
-											</tr>
 						
 											<tr>
 												<td class="bg-light col-sm-2" scope="row">내 용</td>
@@ -136,7 +135,7 @@ function filterCategory(category) {
 											</tr>
 										</table>
 										 
-										<table class="table table-borderless">
+										<table class="table table-borderless table-style">
 						 					<tr>
 												<td class="text-center">
 													<button type="button" class="btn btn-dark" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
@@ -162,7 +161,9 @@ function filterCategory(category) {
 			</div>
 		</main>
 	</div>
-	
+	<div class="row py-5">
+										
+	</div>
 	<footer>
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 	</footer>

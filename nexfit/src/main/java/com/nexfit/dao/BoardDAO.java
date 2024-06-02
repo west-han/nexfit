@@ -501,8 +501,10 @@ public class BoardDAO {
 	public void deleteBoard(long num, String userId) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
+		
 
 		try {
+			
 			if (userId.equals("admin")) {
 				sql = "DELETE FROM freeboard WHERE num=?";
 				pstmt = conn.prepareStatement(sql);
@@ -749,7 +751,8 @@ public class BoardDAO {
 		try {
 			sql = "SELECT replyNum, num, r.userId, nickname, content, r.reg_date "
 					+ " FROM freeboard_reply r  "
-					+ " JOIN member m ON r.userId = m.userId  "
+					+ " JOIN member m ON r.userId = m.userId "
+					+ " JOIN member_detail d ON d.userId = m.userId "
 					+ " WHERE replyNum = ? ";
 			pstmt = conn.prepareStatement(sql);
 			
