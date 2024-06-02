@@ -51,18 +51,13 @@ function sendOk() {
         f.subject.focus();
         return;
     }
-
-    str = f.content.value.trim();
-    if(!str) {
-        alert("내용을 입력하세요. ");
-        f.content.focus();
-        return;
-    }
     
-    str = f.challengesub.value.trim();
-    if(!str) {
-        alert("챌린지를 선택하세요 ");
-        f.content.focus();
+    var selectElement = document.getElementById('challengeSelect');
+    var selectedValue = selectElement.value.trim();
+    
+    if (selectedValue === "none") {
+        alert("챌린지를 선택하세요!");
+        selectElement.focus();
         return;
     }
     
@@ -76,6 +71,14 @@ function sendOk() {
     str = f.end_date.value.trim();
     if(!str) {
         alert("기간을 선택하세요 ");
+        f.content.focus();
+        return;
+    }
+    
+    
+    str = f.content.value.trim();
+    if(!str) {
+        alert("내용을 입력하세요. ");
         f.content.focus();
         return;
     }
@@ -133,7 +136,17 @@ $(function() {
 });
 
 
+document.addEventListener('DOMContentLoaded', function() {
+   
+    var startDateInput = document.getElementById('start_date');
+   
+    var today = new Date().toISOString().split('T')[0];
+   
+    startDateInput.min = today;
+});
 </script>
+
+
 
 </head>
 
@@ -164,10 +177,10 @@ $(function() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">챌린지 선택</td>
 	 						<td>
-								<select name="challengesub" id="challengeSelect" class="form-select" aria-label="Default select example">
-								  <option selected>챌린지를 선택하세요!</option>
+								<select name="challengeId" id="challengeSelect" class="form-select" aria-label="Default select example">
+								  <option selected value="none">챌린지를 선택하세요!</option>
 								  <c:forEach var="dto" items="${list}" varStatus="status">
-								  	<option value="${dto.challengeId}" data-content="${dto.ch_content}" data-fee="${dto.fee}">${dto.ch_subject}</option>
+								  	<option  value="${dto.challengeId}" data-content="${dto.ch_content}" data-fee="${dto.fee}" data-challengeId="${dto.challengeId}">${dto.ch_subject}</option>
 								  </c:forEach>
 								</select>
 							</td>
@@ -176,9 +189,9 @@ $(function() {
 							<td class="bg-light col-sm-2" scope="row">날짜 선택</td>
 							<td>
 								시작일 :
-								<input type="date" name="start_date" id="start_date" class="form-control date-input" placeholder="시작날짜" value="">
+								<input type="date" name="start_date" id="start_date" class="form-control date-input" placeholder="시작날짜" value="${dto.start_date}">
 								종료일 :
-                				<input type="date" name="end_date" id="end_date" class="form-control date-input" placeholder="종료날짜" value="" disabled>
+                				<input type="date" name="end_date" id="end_date" class="form-control date-input" placeholder="종료날짜" value="${dto.end_date}" readonly>
 							</td>
 						</tr>
 						<tr>
@@ -192,20 +205,20 @@ $(function() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">챌린지 소개</td>
 							 <td>
-                				  <textarea name="content" id="ch_content" class="form-control" disabled></textarea>
+                				  <textarea name="ch_content" id="ch_content" class="form-control" readonly></textarea>
             				</td>
 						</tr>
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">내 용</td>
 							<td>
-								<textarea name="content1" id="content" class="form-control">${dto.content}</textarea>
+								<textarea name="content" id="content" class="form-control">${dto.content}</textarea>
 							</td>
 						</tr>
 						
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">참가비</td>
 							<td>
-								<input name="content" id="fee" class="form-control w-25" disabled>
+								<input name="fee" id="fee" class="form-control w-25" readonly>
 							</td>
 						</tr>
 						
@@ -225,8 +238,10 @@ $(function() {
 	         var selectedOption = select.options[select.selectedIndex];
 	         var content = selectedOption.getAttribute('data-content');
 	         var fee = selectedOption.getAttribute('data-fee');
+	         var challengeId = selectedOption.getAttribute('data-challengeId');
 	         document.getElementById('ch_content').value = content;
 	         document.getElementById('fee').value=fee;
+	         document.getElementById('challengeId').value=challengeId;
 	     }
 		//챌린지 선택시 이벤트 추가 
 	     document.getElementById('challengeSelect').addEventListener('change', updateContent);
@@ -265,10 +280,10 @@ $(function() {
 							<td class="text-center">
 								<button type="button" class="btn btn-dark" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
 								<button type="reset" class="btn btn-light">다시입력</button>
-								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/photo/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
+								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chboard/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
 								
 								<c:if test="${mode == 'update'}">
-									<input type="hidden" name="num" value="${dto.num}">
+									<input type="hidden" name="num" value="${dto.boardnum}">
 									<input type="hidden" name="imageFilename" value="${dto.imageFilename}">
 									<input type="hidden" name="page" value="${page}">
 								</c:if>

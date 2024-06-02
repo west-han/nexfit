@@ -20,8 +20,9 @@ public class ChallengeBoardDAO {
 		String sql;
 		
 		try {
-			sql = "INSERT INTO challengeboard(boardnumber, subject, reg_date, start_date, end_date, content,challengeid,imageFilename)"
-					+" VALUES (challengeboard_seq.NEXTVAL, ?, SYSDATE, ?, ?, ? , ?, ?, ?)";
+			sql = "INSERT INTO challengeboard(boardnumber, subject, reg_date, start_date, end_date, content,challengeId,imageFilename)"
+					+" VALUES (challengeboard_seq.NEXTVAL, ?, SYSDATE, ?, ?, ? , ?, ?)";
+			
 			pstmt =conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getSubject());
@@ -118,15 +119,15 @@ public class ChallengeBoardDAO {
 		String sql;
 
 		try {
-			sql =" SELECT boardnumber, subject,ch_subject, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date "
-			+" TO_CHAR(mod_date, 'YYYY-MM-DD') mod_date"
-			+" TO_CHAR(start_date, 'YYYY-MM-DD') start_date"
-			+" TO_CHAR(end_date, 'YYYY-MM-DD') end_date"
-			+" content, b.challengeId,imageFilename"
-			+" FROM challengeboard b"
-			+" JOIN challenge c ON b.challengeId = c.challengeId "
-			+" ORDER BY boardnumber DESC "
-			+" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ";
+			sql = "SELECT boardnumber, subject, ch_subject, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, "
+				    + "TO_CHAR(mod_date, 'YYYY-MM-DD') mod_date, "
+				    + "TO_CHAR(start_date, 'YYYY-MM-DD') start_date, "
+				    + "TO_CHAR(end_date, 'YYYY-MM-DD') end_date, "
+				    + "content, b.challengeId, imageFilename "
+				    + "FROM challengeboard b "
+				    + "JOIN challenge c ON b.challengeId = c.challengeId "
+				    + "ORDER BY boardnumber DESC "
+				    + "OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
 
 			pstmt = conn.prepareStatement(sql);
 			
