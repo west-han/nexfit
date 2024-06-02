@@ -2,21 +2,26 @@
 
 .body-container{
 	margin:0 auto;
-	width: 1320px;
-	height: 800px;
-	justify-content: center;
-	display: flex;
-}
-.rec{
-	width: 800px;
+	width : 1400px;
 	height: 600px;
-	border: 1px dotted blue;
-	margin-right: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between
 	
 }
-.spti{
-	width: 500px;
+.rec{
+	width: 900px;
 	height: 600px;
+	
+}
+.player{
+	outline: none;
+  border: none;
+	border-radius: 70px; 
+}
+.spti{
+	width: 350px;
+	height: 500px;
 	border: 1px solid #D4D4D4;
 	border-radius: 20px;
 	background: #F8F8F8;
@@ -36,8 +41,8 @@
 }
 .sptibtn{
 	box-shadow: 5px 5px 5px gray;
-	width:180px;
-	height: 60px;
+	width:120px;
+	height: 50px;
 	border-radius:35px;
 	background: #A5D7EC;
 	margin-top: 20px;
@@ -64,24 +69,22 @@
 
 
 .boardcontent{
-	width : 1280px;
+	width : 1400px;
 	height : 1200px;
 	margin:0 auto;
 	justify-content: center;
 	display: flex;
-	
+	margin-top : 100px;
 	border: 1px solid red;
 }
-.main-contents1{
-	
-}
+
 
 .con1{
 	width: 400px;
 	height: 600px;
 	border: 1px solid blue;
 }
-span{
+.main-contents1>span{
 	display:inline-block;
 	width:400px;
 	height: 70px;
@@ -94,6 +97,16 @@ span{
 	display: inline;
 }
 
+ .banner {
+    color: white;
+    background-color: black;
+    font-family: nexon lv2 medium;
+    font-weight: bold;
+    font-style: italic;
+    
+    align-content: center;
+    letter-spacing: 5px;
+ }
 
 
 

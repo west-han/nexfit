@@ -33,19 +33,19 @@
 					<div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
   						<div class="carousel-inner">
     						<div class="carousel-item active">
-      							<img src="resources/images/gym1.jpg" class="d-block w-100" style="max-height:800px;">
+      							<img src="resources/images/gym1.jpg" class="d-block w-100" style="max-height:580px;">
    							 </div>
    							 <div class="carousel-item">
-						      <img src="resources/images/gym2.jpg" class="d-block w-100" style="max-height: 800px;">
+						      <img src="resources/images/gym2.jpg" class="d-block w-100" style="max-height: 580px;">
 						    </div>
 						    <div class="carousel-item">
-						      <img src="resources/images/gym3.jpg" class="d-block w-100" style="max-height: 800px;">
+						      <img src="resources/images/gym3.jpg" class="d-block w-100" style="max-height: 580px;">
 						    </div>
 						    <div class="carousel-item">
-						      <img src="resources/images/gym4.jpg" class="d-block w-100" style="max-height:800px;">
+						      <img src="resources/images/gym4.jpg" class="d-block w-100" style="max-height:580px;">
 						    </div>
 						    <div class="carousel-item">
-						      <img src="resources/images/gym5.jpg" class="d-block w-100" style="max-height: 800px;">
+						      <img src="resources/images/gym5.jpg" class="d-block w-100" style="max-height: 580px;">
 						    </div>
   						</div>
   						
@@ -62,9 +62,16 @@
 				</div>
 			</nav>
 			<main>
+			<div class="banner">
+			
+			<marquee direction="left"><span style='font-size: 100px;color:white; background: black;' >NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT</span></marquee>
+        
+
+    </div>
 				<div class="body-container">	
 					<div class="rec">
-						
+						<video class="player" src="resources/images/content.mp4" autoplay muted="muted" loop="loop" width="1000px;" height="600px;"></video>
+					
 					</div> 
 					<div class="spti">
 						
