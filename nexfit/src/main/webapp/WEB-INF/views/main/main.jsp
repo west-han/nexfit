@@ -68,6 +68,7 @@
         
 
     </div>
+    	<div class="middle">
 				<div class="body-container">	
 					<div class="rec">
 						<video class="player" src="resources/images/content.mp4" autoplay muted="muted" loop="loop" width="1000px;" height="600px;"></video>
@@ -83,6 +84,7 @@
 						</div>
 					</div>
 				</div>
+		</div>
 				<div class="boardcontent">
 				<div class="main-contents1">
 					<div class="con1">

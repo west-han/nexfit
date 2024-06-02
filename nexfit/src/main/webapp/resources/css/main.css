@@ -6,7 +6,7 @@
 	height: 600px;
 	display: flex;
 	align-items: center;
-	justify-content: space-between
+	justify-content: space-between;
 	
 }
 .rec{
@@ -41,7 +41,7 @@
 }
 .sptibtn{
 	box-shadow: 5px 5px 5px gray;
-	width:120px;
+	width:140px;
 	height: 50px;
 	border-radius:35px;
 	background: #A5D7EC;
