@@ -66,7 +66,7 @@
 			
 			<marquee direction="left"><span style='font-size: 100px;color:white; background: black;' >NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT  NEXFIT</span></marquee>
         
-
+ 
     </div>
     	<div class="middle">
 				<div class="body-container">	
