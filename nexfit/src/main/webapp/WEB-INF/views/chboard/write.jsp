@@ -27,6 +27,17 @@
 	background-repeat : no-repeat;
 	background-size : cover;
 }
+
+  .date-input {
+      display: inline-block;
+      width: auto; 
+      margin-right: 10px; 
+        }
+        
+   .selected {
+       background-color: #E0115F;
+       color: white;
+        }
 </style>
 
 <script type="text/javascript">
@@ -98,6 +109,8 @@ $(function() {
 		reader.readAsDataURL(file);
 	});
 });
+
+}
 </script>
 
 </head>
@@ -129,19 +142,48 @@ $(function() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">챌린지 선택</td>
 	 						<td>
-								<select class="form-select" aria-label="Default select example">
+								<select id="challengeSelect" class="form-select" aria-label="Default select example">
 								  <option selected>챌린지를 선택하세요!</option>
 								  <c:forEach var="dto" items="${list}" varStatus="status">
-								  	<option value="${dto.chellengeId}">${dto.ch_subject}</option>
+								  	<option value="${dto.chellengeId}" data-content="${dto.ch_content}" data-fee="${dto.fee}">${dto.ch_subject}</option>
 								  </c:forEach>
 								</select>
 							</td>
 						</tr>
-	
+						<tr>
+							<td class="bg-light col-sm-2" scope="row">날짜 선택</td>
+							<td>
+								시작일 :
+								<input type="date" name="start_date" id="start_date" class="form-control date-input" placeholder="시작날짜" value="">
+								종료일 :
+                				<input type="date" name="end_date" id="end_date" class="form-control date-input" placeholder="종료날짜" value="" disabled>
+							</td>
+						</tr>
+						<tr>
+							<td class="bg-light col-sm-2" scope="row">기간 선택</td>
+							<td>
+								<button type="button" class="btn btn-secondary" data-days="14">14일</button>
+								<button type="button" class="btn btn-secondary" data-days="30">30일</button>
+								<button type="button" class="btn btn-secondary" data-days="90">90일</button>
+							</td>
+						</tr>
+						<tr>
+							<td class="bg-light col-sm-2" scope="row">챌린지 소개</td>
+							 <td>
+                				  <textarea name="content" id="ch_content" class="form-control" disabled></textarea>
+            				</td>
+						</tr>
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">내 용</td>
 							<td>
 								<textarea name="content" id="content" class="form-control">${dto.content}</textarea>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="bg-light col-sm-2" scope="row">참가비</td>
+							<td>
+								<input name="content" id="fee" class="form-control w-25" disabled>
 							</td>
 						</tr>
 						
@@ -154,6 +196,46 @@ $(function() {
 						</tr>
 						
 					</table>
+	 	 <script>
+	 	 function updateContent() {
+	         var select = document.getElementById('challengeSelect');
+	         var selectedOption = select.options[select.selectedIndex];
+	         var content = selectedOption.getAttribute('data-content');
+	         var fee = selectedOption.getAttribute('data-fee');
+	         document.getElementById('ch_content').value = content;
+	         document.getElementById('fee').value=fee;
+	     }
+		//챌린지 선택시 이벤트 추가 
+	     document.getElementById('challengeSelect').addEventListener('change', updateContent);
+		
+        function setEndDate(days) {
+            var startDateInput = document.getElementById('start_date');
+            var endDateInput = document.getElementById('end_date');
+            var startDate = new Date(startDateInput.value);
+
+            if (!isNaN(startDate.getTime())) { 
+                startDate.setDate(startDate.getDate() + days); 
+                var endDate = startDate.toISOString().split('T')[0]; 
+                endDateInput.value = endDate;
+            }
+        }
+
+        function clearSelection() {
+            document.querySelectorAll('.btn.btn-secondary').forEach(button => {
+                button.classList.remove('selected');
+            });
+        }
+
+        document.querySelectorAll('.btn.btn-secondary').forEach(button => {
+            button.addEventListener('click', function() {
+                clearSelection();
+                this.classList.add('selected');
+                var days = parseInt(this.getAttribute('data-days'));
+                setEndDate(days);
+            });
+        });
+       
+    </script>
 					
 					<table class="table table-borderless">
 	 					<tr>
