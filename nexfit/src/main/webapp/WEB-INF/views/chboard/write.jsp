@@ -260,7 +260,9 @@ $(function() {
 		
 		</main>
 	</div>
+	<div class="container">
 	
+	</div>
 	<footer>
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 	</footer>
