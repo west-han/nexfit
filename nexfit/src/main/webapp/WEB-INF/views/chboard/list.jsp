@@ -80,7 +80,7 @@
 				
 			<div class="col-sm-7"> <%-- 메인공간 --%>
 				<div class="body-title">
-					<h3> 등록된 챌린지 </h3>
+					<h3> 진행중인 챌린지 </h3>
 			</div>  
 		<div class="body-main" style="font-family: nexon lv1;">
 			
@@ -102,7 +102,7 @@
 
 				<div class="row board-list-footer">
 					<div class="col text-start">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/challenge/list';"><i class="bi bi-arrow-clockwise"></i></button>
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chboard/list';"><i class="bi bi-arrow-clockwise"></i></button>
 					</div>
 					<div class="col-7 text-center">
 						<form class="row" name="searchForm" action="${pageContext.request.contextPath}/bbs/list" method="post">
@@ -122,7 +122,7 @@
 						</form>
 					</div>
 					<div class="col text-end">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/challenge/write';">글올리기</button>
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chboard/write';">글올리기</button>
 					</div>
 				</div>
 

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.nexfit.domain.ChallengeBoardDTO;
 import com.nexfit.util.DBConn;
 import com.nexfit.util.DBUtil;
@@ -204,5 +205,53 @@ public class ChallengeBoardDAO {
 		}
 		
 		return dto;
+	}
+	
+	public void updateChboard(ChallengeBoardDTO dto) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE challengeboard SET subject=?, mod_date=?, start_date=?, end_date=?, content=?,challengeId=?, imageFilename=? "
+					+ " WHERE boardnumber = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getSubject());
+			pstmt.setString(2, dto.getMod_date());
+			pstmt.setString(3, dto.getStart_date());
+			pstmt.setString(4, dto.getEnd_date());
+			pstmt.setString(5, dto.getContent());
+			pstmt.setLong(6, dto.getChallengeId());
+			pstmt.setString(7, dto.getImageFilename());
+			pstmt.setLong(8, dto.getBoardNumber());
+			
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
+	public void deleteChboard(long boardnum) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "DELETE FROM challengeboard WHERE boardnumber = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, boardnum);
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt);
+		}
 	}
 }

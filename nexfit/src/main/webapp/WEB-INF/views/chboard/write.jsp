@@ -58,6 +58,28 @@ function sendOk() {
         f.content.focus();
         return;
     }
+    
+    str = f.challengesub.value.trim();
+    if(!str) {
+        alert("챌린지를 선택하세요 ");
+        f.content.focus();
+        return;
+    }
+    
+    str = f.start_date.value.trim();
+    if(!str) {
+        alert("시작일을 선택하세요 ");
+        f.content.focus();
+        return;
+    }
+    
+    str = f.end_date.value.trim();
+    if(!str) {
+        alert("기간을 선택하세요 ");
+        f.content.focus();
+        return;
+    }
+    
 
     let mode = "${mode}";
     if( (mode === "write") && (!f.selectFile.value) ) {
@@ -66,7 +88,7 @@ function sendOk() {
         return;
     }
     
-    f.action = "${pageContext.request.contextPath}/photo/${mode}";
+    f.action = "${pageContext.request.contextPath}/chboard/${mode}";
     f.submit();
 }
 
@@ -110,7 +132,7 @@ $(function() {
 	});
 });
 
-}
+
 </script>
 
 </head>
@@ -142,10 +164,10 @@ $(function() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">챌린지 선택</td>
 	 						<td>
-								<select id="challengeSelect" class="form-select" aria-label="Default select example">
+								<select name="challengesub" id="challengeSelect" class="form-select" aria-label="Default select example">
 								  <option selected>챌린지를 선택하세요!</option>
 								  <c:forEach var="dto" items="${list}" varStatus="status">
-								  	<option value="${dto.chellengeId}" data-content="${dto.ch_content}" data-fee="${dto.fee}">${dto.ch_subject}</option>
+								  	<option value="${dto.challengeId}" data-content="${dto.ch_content}" data-fee="${dto.fee}">${dto.ch_subject}</option>
 								  </c:forEach>
 								</select>
 							</td>
@@ -176,7 +198,7 @@ $(function() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">내 용</td>
 							<td>
-								<textarea name="content" id="content" class="form-control">${dto.content}</textarea>
+								<textarea name="content1" id="content" class="form-control">${dto.content}</textarea>
 							</td>
 						</tr>
 						
@@ -196,6 +218,7 @@ $(function() {
 						</tr>
 						
 					</table>
+					
 	 	 <script>
 	 	 function updateContent() {
 	         var select = document.getElementById('challengeSelect');
@@ -207,7 +230,7 @@ $(function() {
 	     }
 		//챌린지 선택시 이벤트 추가 
 	     document.getElementById('challengeSelect').addEventListener('change', updateContent);
-		
+			
         function setEndDate(days) {
             var startDateInput = document.getElementById('start_date');
             var endDateInput = document.getElementById('end_date');

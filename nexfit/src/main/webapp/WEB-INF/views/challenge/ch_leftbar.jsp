@@ -5,7 +5,7 @@
 			<ol class="list-group list-group" style="width:200px; position: fixed;">
 				  <li class="list-group-item d-flex justify-content-between align-items-start">
 				    <div class="ms-2 me-auto ">
-				      <div class="fw-bold" >진행중인 챌린지</div>
+				      <div class="fw-bold" ><a href="${pageContext.request.contextPath}/chboard/list">진행중인 챌린지</a></div>
 				    </div>
 				    <span class="badge text-bg-primary rounded-pill">14</span>
 				  </li>
