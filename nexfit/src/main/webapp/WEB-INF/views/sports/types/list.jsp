@@ -76,22 +76,8 @@
 					</div>
 				</div>
 
-				<div class="list-content row justify-content-start gx-2"  data-pageNo="0" data-totalPage="0">
-<!-- 					<div class="col-xl-3 col-lg-4 col-sm-6 col-xs-12 pb-3 d-flex justify-content-center"> -->
-<!-- 						<div class="card w-100 p-2"> -->
-<!-- 							<div class="card-body"> -->
-<%-- 								<img src="${pageContext.request.contextPath}/resources/images/noimage.png" class="card-img-top" alt="..."> --%>
-
-<!-- 								<div class="card-img-overlay" style="display: none;"> -->
-<%-- 									<h5 class="card-title">${dto.name}</h5> --%>
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-						
-<!-- 						<input type="button" class="btnModal" style="display: none;" -->
-<!-- 							data-bs-toggle="modal" data-bs-target="#sportsDetailModal" -->
-<%-- 							data-param="${dto.num}"> --%>
-<!-- 					</div> -->
+				<div class="list-content row justify-content-start gx-2"
+					data-pageNo="0" data-totalPage="0">
 					
 					<div class="sentinel" data-loading="false"></div>
 				</div>
@@ -112,9 +98,8 @@
 								<div class="modal-image">
 									<img alt="" src="">
 								</div>
-								
-								<div class="modal-content">
-								</div>
+
+								<div class="modal-content"></div>
 							</div>
 						</div>
 
@@ -183,7 +168,24 @@ $(function() {
 	
 	$(".list-content").on("click", ".card-body", () => $(this).find(".btnModal").click());
 	
-	$(".btnModal").click( () => console.log("clicked!!")); // btn의 번호를 이용해 세부내용 DB에서 AJAX로 가져오기
+	$("#sportsDetailModal").on("show.bs.modal", event => {
+		const btnClicked = $(event.relatedTarget)[0];
+		const num = btnClicked.getAttribute("data-num");
+		
+		let url = "${pageContext.request.contextPath}/sports/types/detail"
+		let query = 'num=' + num;
+		
+		const fn = data => {
+			const pathname = '${pageContext.request.contextPath}/uploads/sports/types/' + data.filename;
+			const name = data.name;
+			const content = data.description;
+			console.log(name, content);
+			
+			$("#sportsDetailModal").find('.modal-body').html('<div> <h1>' + name + '</h1> <p>' + content + '</p>');
+		};
+		
+		ajaxFun(url, 'get', query, 'json', fn);
+	});
 });
 
 const sentinelNode = $('.sentinel')[0];
@@ -199,8 +201,6 @@ function loadContent(bodyPart, page) {
 }
 
 function addNewContent(data) {
-	console.log('addNewCount!');
-	
 	let dataCount = data.dataCount;
 	let pageNo = data.pageNo;
 	let totalPage = data.totalPage;
@@ -218,7 +218,6 @@ function addNewContent(data) {
 	let htmlText;
 	
 	for (let item of data.list) {
-		console.log(item);
 		let num = item.num;
 		let name = item.name;
 		let filename = item.filename;
@@ -238,7 +237,7 @@ function addNewContent(data) {
 		htmlText += '	</div>';
 		htmlText += '	<input type="button" class="btnModal" style="display: none;"';
 		htmlText += '		data-bs-toggle="modal" data-bs-target="#sportsDetailModal"';
-		htmlText += '		data-param="' + num + '">';
+		htmlText += '		data-num="' + num + '">';
 		htmlText += '</div>';
 
 		listNode.insertAdjacentHTML("beforeend", htmlText);
@@ -253,7 +252,6 @@ function addNewContent(data) {
 }
 
 const ioCallback = (entries, io) => {
-	console.log('마지막;');
 	entries.forEach((entry) => {
 		if(entry.isIntersecting) { // 관찰자가 화면에 보이면
 			// 현재 페이지가 로딩중이면 빠져 나감
@@ -279,7 +277,6 @@ const ioCallback = (entries, io) => {
 
 const io = new IntersectionObserver(ioCallback);
 io.observe(sentinelNode);
-
 
 </script>
 

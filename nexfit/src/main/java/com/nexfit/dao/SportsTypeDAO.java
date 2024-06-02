@@ -167,8 +167,49 @@ public class SportsTypeDAO {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
 		}
 		
 		return map;
+	}
+	
+	public SportTypeDTO findById(long num) {
+		String sql;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		SportTypeDTO dto = new SportTypeDTO();
+		
+		try {
+			sql = "SELECT s.num, name, b.bodyPart, bodyPartKor, description, hitCount, filename "
+					+ "FROM sportsTypeBoard s "
+					+ "JOIN bodyParts b ON s.bodyPart = b.bodyPart "
+					+ "LEFT OUTER JOIN sportsType_File f ON s.num = f.num "
+					+ "WHERE s.num = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, num);
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				dto.setNum(rs.getLong("num"));
+				dto.setName(rs.getString("name"));
+				dto.setBodyPart(rs.getString("bodyPart"));
+				dto.setBodyPartKor(rs.getString("bodyPartKor"));
+				dto.setDescription(rs.getString("description"));
+				dto.setHitCount(rs.getInt("hitCount"));
+				dto.setFilename(rs.getString("filename"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return dto;
 	}
 }

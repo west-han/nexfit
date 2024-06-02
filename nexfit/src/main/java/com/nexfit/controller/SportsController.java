@@ -89,8 +89,6 @@ public class SportsController {
 				dto.setDescription(dto.getDescription().replaceAll("\\[", "<h3>"));
 				dto.setDescription(dto.getDescription().replaceAll("\\]", "</h3>"));
 				dto.setDescription(dto.getDescription().replaceAll("\n", "<br>"));
-				
-				System.out.println(dto.toString());
 			}
 			
 			boolean admin = false;
@@ -99,15 +97,41 @@ public class SportsController {
 				admin = true;
 			}
 			
-			String pathname = req.getServletContext().getRealPath("/") + "uploads" + File.separator + "sports" + File.separator + "types";
-			System.out.println(pathname);
-
-			
 			model.put("list", list);
 			model.put("pageNo", currentPage);
 			model.put("totalPage", totalPage);
 			model.put("dataCount", dataCount);
 			model.put("permit", admin);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return model;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/sports/types/detail", method = RequestMethod.GET)
+	public Map<String, Object> detail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		SportsTypeDAO dao = new SportsTypeDAO();
+		
+		try {
+			long num = Long.parseLong(req.getParameter("num"));
+			SportTypeDTO dto = dao.findById(num);
+			
+			dto.setDescription(dto.getDescription().replaceAll("\\[", "<h3>"));
+			dto.setDescription(dto.getDescription().replaceAll("\\]", "</h3>"));
+			dto.setDescription(dto.getDescription().replaceAll("\n", "<br>"));
+			
+			model.put("num", dto.getNum());
+			model.put("name", dto.getName());
+			model.put("bodyPart", dto.getBodyPart());
+			model.put("bodyPartKor", dto.getBodyPartKor());
+			model.put("description", dto.getDescription());
+			model.put("hitCount", dto.getHitCount());
+			model.put("filename", dto.getFilename());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

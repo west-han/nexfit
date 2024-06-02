@@ -4,6 +4,7 @@ public class SportTypeDTO {
 	private long num;
 	private String name;
 	private String bodyPart;
+	private String bodyPartKor;
 	private String description;
 	private String userId;
 	private int hitCount;
@@ -33,6 +34,14 @@ public class SportTypeDTO {
 
 	public void setBodyPart(String bodyPart) {
 		this.bodyPart = bodyPart;
+	}
+
+	public String getBodyPartKor() {
+		return bodyPartKor;
+	}
+
+	public void setBodyPartKor(String bodyPartKor) {
+		this.bodyPartKor = bodyPartKor;
 	}
 
 	public String getDescription() {
@@ -75,10 +84,4 @@ public class SportTypeDTO {
 		this.filename = filename;
 	}
 
-	@Override
-	public String toString() {
-		return "SportTypeDTO [num=" + num + ", name=" + name + ", bodyPart=" + bodyPart + ", description=" + description
-				+ ", userId=" + userId + ", hitCount=" + hitCount + ", fileNum=" + fileNum + ", filename="
-				+ filename + "]";
-	}
 }
