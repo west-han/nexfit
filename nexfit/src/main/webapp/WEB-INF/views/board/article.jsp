@@ -62,7 +62,7 @@
 
 @keyframes heart {
 	0% {transform: translateY(0px) scale(1); opacity: 1;}
-	100% {transform: translateY(-20px) scale(1.3); opacity: 0;}
+	100% {transform: translateY(-25px) scale(1.4); opacity: 0;}
 }
 
 .float-heart {
@@ -144,7 +144,7 @@
 												
 												<tr>
 													<td colspan="2" class="text-center p-3" style="position: relative;">
-														<button type="button" class="btn btn-outline-secondary btnSendBoardLike" title="좋아요" style="color: ${isUserLike?'#FF73B8':'black'}"><i class="far">🖤&nbsp;<span id="boardLikeCount">${dto.boardLikeCount}</span></i></button>
+														<button type="button" class="btn btn-outline-secondary btnSendBoardLike" title="좋아요" style="color: ${isUserLike?'#FF73B8':'black'}"><i class="far">🖤&nbsp;&nbsp;<span id="boardLikeCount">${dto.boardLikeCount}</span></i></button>
 													</td>
 												</tr>
 												
@@ -269,7 +269,7 @@ function ajaxFun(url, method, formData, dataType, fn, file = false) {
 // 게시글 공감 여부
 $(function() {
 	$('.btnSendBoardLike').hover(function() {
-        const floatHeart = $('<i class="far float-heart" style="margin-left: -46px;">🖤</i>');
+        const floatHeart = $('<i class="far float-heart" style="margin-left: -51px;">🖤</i>');
        
         $(this).parent().append(floatHeart);
         
