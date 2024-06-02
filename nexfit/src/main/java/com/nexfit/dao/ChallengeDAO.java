@@ -8,20 +8,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import com.nexfit.domain.ChellengeDTO;
+import com.nexfit.domain.ChallengeDTO;
 import com.nexfit.util.DBConn;
 import com.nexfit.util.DBUtil;
 
-public class ChellengeDAO {
+public class ChallengeDAO {
 	private Connection conn = DBConn.getConnection();
 	
-	public void insertChellenge(ChellengeDTO dto) throws SQLException{
+	public void insertChallenge(ChallengeDTO dto) throws SQLException{
 		PreparedStatement pstmt = null;
 		String sql;
 		
 		try {
-			sql = "INSERT INTO chellenge(chellengeId,ch_subject,ch_content,fee)"
-					+" VALUES(chellenge_seq.NEXTVAL, ? , ? , ?)";
+			sql = "INSERT INTO challenge(challengeId,ch_subject,ch_content,fee)"
+					+" VALUES(challenge_seq.NEXTVAL, ? , ? , ?)";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getCh_subject());
@@ -37,25 +37,25 @@ public class ChellengeDAO {
 		}
 	}
 	
-	public List<ChellengeDTO> listChellenge(){
-		List<ChellengeDTO> list = new ArrayList<ChellengeDTO>();
+	public List<ChallengeDTO> listChallenge(){
+		List<ChallengeDTO> list = new ArrayList<ChallengeDTO>();
 		PreparedStatement pstmt =null;
 		ResultSet rs = null;
 		String sql;
 		
 		try {
-			sql = "SELECT chellengeId,ch_subject,ch_content,fee"
-					+" FROM chellenge"
-					+" ORDER BY chellengeId DESC";
+			sql = "SELECT challengeId,ch_subject,ch_content,fee"
+					+" FROM challenge"
+					+" ORDER BY challengeId DESC";
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				ChellengeDTO dto = new ChellengeDTO();
+				ChallengeDTO dto = new ChallengeDTO();
 				
-				dto.setChellengeId(rs.getLong("chellengeId"));
+				dto.setChallengeId(rs.getLong("challengeId"));
 				dto.setCh_subject(rs.getString("ch_subject"));
 				dto.setCh_content(rs.getString("ch_content"));
 				dto.setFee(rs.getLong("fee"));
@@ -81,7 +81,7 @@ public class ChellengeDAO {
 		String sql;
 
 		try {
-			sql = "SELECT NVL(COUNT(*), 0) FROM chellenge";
+			sql = "SELECT NVL(COUNT(*), 0) FROM challenge";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
@@ -110,7 +110,7 @@ public class ChellengeDAO {
 
 		try {
 			sql = "SELECT NVL(COUNT(*), 0) "
-					+ " FROM chellenge";
+					+ " FROM challenge";
 			if (schType.equals("all")) {
 				sql += "  WHERE INSTR(ch_subject, ?) >= 1 OR INSTR(ch_content, ?) >= 1 ";
 			} else {
@@ -142,16 +142,16 @@ public class ChellengeDAO {
 	
 	
 	// 게시물 리스트
-	public List<ChellengeDTO> listChellenge(int offset, int size) {
-		List<ChellengeDTO> list = new ArrayList<ChellengeDTO>();
+	public List<ChallengeDTO> listChallenge(int offset, int size) {
+		List<ChallengeDTO> list = new ArrayList<ChallengeDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
 
 		try {
-			sb.append(" SELECT chellengeId, ch_subject,fee");
-			sb.append(" FROM chellenge ");
-			sb.append(" ORDER BY chellengeId DESC ");
+			sb.append(" SELECT challengeId, ch_subject,fee");
+			sb.append(" FROM challenge ");
+			sb.append(" ORDER BY challengeId DESC ");
 			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 
 			pstmt = conn.prepareStatement(sb.toString());
@@ -162,9 +162,9 @@ public class ChellengeDAO {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				ChellengeDTO dto = new ChellengeDTO();
+				ChallengeDTO dto = new ChallengeDTO();
 
-				dto.setChellengeId(rs.getLong("chellengeId"));
+				dto.setChallengeId(rs.getLong("challengeId"));
 				dto.setCh_subject(rs.getString("ch_subject"));
 				dto.setFee(rs.getLong("fee"));
 				
@@ -182,23 +182,23 @@ public class ChellengeDAO {
 	}
 
 	//검색된 게시물 리스트
-	public List<ChellengeDTO> listBoard(int offset, int size, String schType, String kwd) {
-		List<ChellengeDTO> list = new ArrayList<ChellengeDTO>();
+	public List<ChallengeDTO> listBoard(int offset, int size, String schType, String kwd) {
+		List<ChallengeDTO> list = new ArrayList<ChallengeDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
 
 		try {
-			sb.append(" SELECT chellengeId, ch_subject,fee");
-			sb.append(" FROM chellenge");
-			sb.append(" ORDER BY chellengeId DESC ");
+			sb.append(" SELECT challengeId, ch_subject,fee");
+			sb.append(" FROM challenge");
+			sb.append(" ORDER BY challengeId DESC ");
 			
 			if (schType.equals("all")) {
 				sb.append(" WHERE INSTR(ch_subject, ?) >= 1 OR INSTR(ch_content, ?) >= 1 ");
 			} else {
 				sb.append(" WHERE INSTR(" + schType + ", ?) >= 1 ");
 			}
-			sb.append(" ORDER BY chellengeId DESC ");
+			sb.append(" ORDER BY challengeId DESC ");
 			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 
 			pstmt = conn.prepareStatement(sb.toString());
@@ -217,9 +217,9 @@ public class ChellengeDAO {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				ChellengeDTO dto = new ChellengeDTO();
+				ChallengeDTO dto = new ChallengeDTO();
 
-				dto.setChellengeId(rs.getLong("chellengeId"));
+				dto.setChallengeId(rs.getLong("challengeId"));
 				dto.setCh_subject(rs.getString("ch_subject"));
 				dto.setFee(rs.getLong("fee"));
 				
@@ -237,26 +237,26 @@ public class ChellengeDAO {
 
 
 	// 해당 게시물 보기
-	public ChellengeDTO findById(long chellengeId) {
-		ChellengeDTO dto = null;
+	public ChallengeDTO findById(long challengeId) {
+		ChallengeDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 
 		try {
-			sql = "SELECT chellengeId,ch_subject,ch_content,fee "
-					+ " FROM chellenge "
-					+ " WHERE chellengeId = ? ";
+			sql = "SELECT challengeId,ch_subject,ch_content,fee "
+					+ " FROM challenge "
+					+ " WHERE challengeId = ? ";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setLong(1, chellengeId);
+			pstmt.setLong(1, challengeId);
 
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				dto = new ChellengeDTO();
+				dto = new ChallengeDTO();
 				
-				dto.setChellengeId(rs.getLong("chellengeId"));
+				dto.setChallengeId(rs.getLong("challengeId"));
 				dto.setCh_subject(rs.getString("ch_subject"));
 				dto.setCh_content(rs.getString("ch_content"));
 				dto.setFee(rs.getLong("fee"));
@@ -272,18 +272,18 @@ public class ChellengeDAO {
 	}
 	
 	// 게시물 수정
-		public void updateChellenge(ChellengeDTO dto) throws SQLException {
+		public void updateChallenge(ChallengeDTO dto) throws SQLException {
 			PreparedStatement pstmt = null;
 			String sql;
 
 			try {
-				sql = "UPDATE chellenge SET ch_subject=?, ch_content=?, fee=? WHERE chellengeId=?";
+				sql = "UPDATE challenge SET ch_subject=?, ch_content=?, fee=? WHERE challengeId=?";
 				pstmt = conn.prepareStatement(sql);
 				
 				pstmt.setString(1, dto.getCh_subject());
 				pstmt.setString(2, dto.getCh_content());
 				pstmt.setLong(3, dto.getFee());
-				pstmt.setLong(4, dto.getChellengeId());
+				pstmt.setLong(4, dto.getChallengeId());
 				
 				pstmt.executeUpdate();
 
@@ -297,16 +297,16 @@ public class ChellengeDAO {
 		}
 
 		// 게시물 삭제
-		public void deleteChellenge(long chellengeId, String userId) throws SQLException {
+		public void deleteChallenge(long challengeId, String userId) throws SQLException {
 			PreparedStatement pstmt = null;
 			String sql;
 
 			try {
 				if (userId.equals("admin")) {
-					sql = "DELETE FROM chellenge WHERE chellengeId=?";
+					sql = "DELETE FROM challenge WHERE challengeId=?";
 					pstmt = conn.prepareStatement(sql);
 					
-					pstmt.setLong(1, chellengeId);
+					pstmt.setLong(1, challengeId);
 					
 					pstmt.executeUpdate();
 				} else { return;
@@ -320,16 +320,16 @@ public class ChellengeDAO {
 		}
 		
 		//게시글 선택 삭제
-		public void deleteChellenge(long[] nums) throws SQLException {
+		public void deleteChallenge(long[] nums) throws SQLException {
 			PreparedStatement pstmt = null;
 			String sql;
 			
 			try {
-				sql = "DELETE FROM chellenge WHERE chellengeId = ?";
+				sql = "DELETE FROM challenge WHERE challengeId = ?";
 				pstmt = conn.prepareStatement(sql);
 				
-				for(long chellengeId : nums) {
-					pstmt.setLong(1, chellengeId);
+				for(long challengeId : nums) {
+					pstmt.setLong(1, challengeId);
 					pstmt.executeUpdate();
 				}
 			} catch (SQLException e) {

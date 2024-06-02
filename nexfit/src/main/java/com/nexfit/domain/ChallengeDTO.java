@@ -1,17 +1,17 @@
 package com.nexfit.domain;
 
-public class ChellengeDTO {
-	private long chellengeId;
+public class ChallengeDTO {
+	private long challengeId;
 	private String ch_subject;
 	private String ch_content;
 	private long fee;
 	
 	
-	public long getChellengeId() {
-		return chellengeId;
+	public long getChallengeId() {
+		return challengeId;
 	}
-	public void setChellengeId(long chellengeId) {
-		this.chellengeId = chellengeId;
+	public void setChallengeId(long challengeId) {
+		this.challengeId = challengeId;
 	}
 	public String getCh_subject() {
 		return ch_subject;

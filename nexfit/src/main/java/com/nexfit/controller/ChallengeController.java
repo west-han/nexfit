@@ -8,8 +8,8 @@ import java.util.List;
 import com.nexfit.annotation.Controller;
 import com.nexfit.annotation.RequestMapping;
 import com.nexfit.annotation.RequestMethod;
-import com.nexfit.dao.ChellengeDAO;
-import com.nexfit.domain.ChellengeDTO;
+import com.nexfit.dao.ChallengeDAO;
+import com.nexfit.domain.ChallengeDTO;
 import com.nexfit.domain.SessionInfo;
 import com.nexfit.servlet.ModelAndView;
 import com.nexfit.util.MyUtil;
@@ -21,14 +21,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class ChellengeController {
+public class ChallengeController {
 
-	@RequestMapping("/chellenge/list")
-	public ModelAndView chellengelist(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	@RequestMapping("/challenge/list")
+	public ModelAndView challengelist(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시물 리스트
-				ModelAndView mav = new ModelAndView("chellenge/list");
+				ModelAndView mav = new ModelAndView("challenge/list");
 
-				ChellengeDAO dao = new ChellengeDAO();
+				ChallengeDAO dao = new ChallengeDAO();
 				MyUtil util = new MyUtilBootstrap();
 				
 				try {
@@ -70,9 +70,9 @@ public class ChellengeController {
 					int offset = (current_page - 1) * size;
 					if(offset < 0) offset = 0;
 					
-					List<ChellengeDTO> list = null;
+					List<ChallengeDTO> list = null;
 					if (kwd.length() == 0) {
-						list = dao.listChellenge(offset, size);
+						list = dao.listChallenge(offset, size);
 					} else {
 						list = dao.listBoard(offset, size, schType, kwd);
 					}
@@ -84,8 +84,8 @@ public class ChellengeController {
 
 					// 페이징 처리
 					String cp = req.getContextPath();
-					String listUrl = cp + "/chellenge/list";
-					String articleUrl = cp + "/chellenge/article?page=" + current_page;
+					String listUrl = cp + "/challenge/list";
+					String articleUrl = cp + "/challenge/article?page=" + current_page;
 					
 					if (query.length() != 0) {
 						listUrl += "?" + query;
@@ -113,24 +113,24 @@ public class ChellengeController {
 	}
 	
 	
-	@RequestMapping(value ="/chellenge/write", method = RequestMethod.GET)
-	public ModelAndView newchellenge(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	@RequestMapping(value ="/challenge/write", method = RequestMethod.GET)
+	public ModelAndView newchallenge(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//챌린지 추가 폼
 		
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		if(! info.getUserId().equals("admin")) {
-			return new ModelAndView("redirect:/chellenge/list");
+			return new ModelAndView("redirect:/challenge/list");
 			
 		}
 		
-		ModelAndView mav = new ModelAndView("/chellenge/write");
+		ModelAndView mav = new ModelAndView("/challenge/write");
 		mav.addObject("mode", "write");
 		return mav;
 	}
 	
-	@RequestMapping(value = "/chellenge/write", method = RequestMethod.POST)
+	@RequestMapping(value = "/challenge/write", method = RequestMethod.POST)
 	public ModelAndView writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글등록
 		
@@ -141,29 +141,29 @@ public class ChellengeController {
 			return new ModelAndView("redirect:/notice/list");
 		}
 		
-		ChellengeDAO dao = new ChellengeDAO();
+		ChallengeDAO dao = new ChallengeDAO();
 		
 		try {
-			ChellengeDTO dto = new ChellengeDTO();
+			ChallengeDTO dto = new ChallengeDTO();
 			
 			dto.setCh_subject(req.getParameter("subject"));
 			dto.setCh_content(req.getParameter("content"));
 			dto.setFee(Long.parseLong(req.getParameter("fee")));
 			
-			dao.insertChellenge(dto);
+			dao.insertChallenge(dto);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return new ModelAndView("redirect:/chellenge/list");
+		return new ModelAndView("redirect:/challenge/list");
 	}
 	
 	//챌린지 자세히보기
-		@RequestMapping(value ="/chellenge/article", method = RequestMethod.GET)
+		@RequestMapping(value ="/challenge/article", method = RequestMethod.GET)
 		public ModelAndView article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-			ChellengeDAO dao = new ChellengeDAO();
+			ChallengeDAO dao = new ChallengeDAO();
 			MyUtil util = new MyUtilBootstrap();
 			
 			String page = req.getParameter("page");
@@ -171,7 +171,7 @@ public class ChellengeController {
 			String query = "page=" + page + "&size=" + size;
 			
 			try {
-				long id = Long.parseLong(req.getParameter("chellengeId"));
+				long id = Long.parseLong(req.getParameter("challengeId"));
 				
 				String schType = req.getParameter("schType");
 				String kwd = req.getParameter("kwd");
@@ -187,16 +187,16 @@ public class ChellengeController {
 				}
 		
 				
-				ChellengeDTO dto = dao.findById(id);
+				ChallengeDTO dto = dao.findById(id);
 				
 				if(dto == null) {
-					return new ModelAndView("redirect:/chellenge/list?"+query);
+					return new ModelAndView("redirect:/challenge/list?"+query);
 				}
 				
 				dto.setCh_content(util.htmlSymbols(dto.getCh_content()));
 
 				
-				ModelAndView mav = new ModelAndView("chellenge/article");
+				ModelAndView mav = new ModelAndView("challenge/article");
 				
 				mav.addObject("dto", dto);
 				mav.addObject("page", page);
@@ -209,10 +209,10 @@ public class ChellengeController {
 				e.printStackTrace();
 			}
 			
-			return new ModelAndView("redirect:/chellenge/list?" + query);
+			return new ModelAndView("redirect:/challenge/list?" + query);
 		}
 	
-	@RequestMapping(value = "/chellenge/update", method = RequestMethod.GET)
+	@RequestMapping(value = "/challenge/update", method = RequestMethod.GET)
 	public ModelAndView updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 수정 폼
 		// 넘어온 파라미터 : 글번호, 페이지번호, size
@@ -221,22 +221,22 @@ public class ChellengeController {
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		if(! info.getUserId().equals("admin")) {
-			return new ModelAndView("redirect:/notice/list");
+			return new ModelAndView("redirect:/challenge/list");
 		}
 		
-		ChellengeDAO dao = new ChellengeDAO();
+		ChallengeDAO dao = new ChallengeDAO();
 		
 		String page = req.getParameter("page");
 		String size = req.getParameter("size");
 		
 		try {
-			long id = Long.parseLong(req.getParameter("chellengeId"));
+			long id = Long.parseLong(req.getParameter("challengeId"));
 			
-			ChellengeDTO dto = dao.findById(id);
+			ChallengeDTO dto = dao.findById(id);
 			if(dto == null) {
-				return new ModelAndView("redirect:/chellenge/list?page="+page+"&size="+size);
+				return new ModelAndView("redirect:/challenge/list?page="+page+"&size="+size);
 			}
-			ModelAndView mav = new ModelAndView("chellenge/write");
+			ModelAndView mav = new ModelAndView("challenge/write");
 			mav.addObject("dto", dto);
 			mav.addObject("page", page);
 			mav.addObject("size", size);
@@ -250,17 +250,17 @@ public class ChellengeController {
 		}
 		
 		
-		return new ModelAndView("redirect:/chellenge/list?page="+page+"&size="+size);
+		return new ModelAndView("redirect:/challenge/list?page="+page+"&size="+size);
 	}
 	
-	@RequestMapping(value = "/chellenge/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/challenge/update", method = RequestMethod.POST)
 	public ModelAndView updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 수정 완료
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		if(! info.getUserId().equals("admin")) {
-			return new ModelAndView("redirect:/chellenge/list");
+			return new ModelAndView("redirect:/challenge/list");
 		}
 		
 	
@@ -268,30 +268,30 @@ public class ChellengeController {
 		String page = req.getParameter("page");
 		String size = req.getParameter("size");
 		
-		ChellengeDAO dao = new ChellengeDAO();
+		ChallengeDAO dao = new ChallengeDAO();
 		
 		try {
-			ChellengeDTO dto = new ChellengeDTO();
+			ChallengeDTO dto = new ChallengeDTO();
 			
-			dto.setChellengeId(Long.parseLong(req.getParameter("chellengeId")));
+			dto.setChallengeId(Long.parseLong(req.getParameter("challengeId")));
 			dto.setCh_subject(req.getParameter("subject"));
 			dto.setCh_content(req.getParameter("content"));
 			dto.setFee(Long.parseLong(req.getParameter("fee")));
 			
 			
-			dao.updateChellenge(dto);
+			dao.updateChallenge(dto);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return new ModelAndView("redirect:/chellenge/list?page="+page+"&size="+size);
+		return new ModelAndView("redirect:/challenge/list?page="+page+"&size="+size);
 	}
 	
-	@RequestMapping(value = "/chellenge/delete", method = RequestMethod.GET)
+	@RequestMapping(value = "/challenge/delete", method = RequestMethod.GET)
 	public ModelAndView delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 삭제
-		ChellengeDAO dao = new ChellengeDAO();
+		ChallengeDAO dao = new ChallengeDAO();
 
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
@@ -300,7 +300,7 @@ public class ChellengeController {
 		String query = "page=" + page;
 
 		try {
-			long id = Long.parseLong(req.getParameter("chellengeId"));
+			long id = Long.parseLong(req.getParameter("challengeId"));
 			String schType = req.getParameter("schType");
 			String kwd = req.getParameter("kwd");
 			if (schType == null) {
@@ -313,22 +313,22 @@ public class ChellengeController {
 				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "UTF-8");
 			}
 
-			dao.deleteChellenge(id, info.getUserId());
+			dao.deleteChallenge(id, info.getUserId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return new ModelAndView("redirect:/chellenge/list?" + query);
+		return new ModelAndView("redirect:/challenge/list?" + query);
 	}
 	
-	@RequestMapping(value = "/chellenge/deletelist", method = RequestMethod.POST)
+	@RequestMapping(value = "/challenge/deletelist", method = RequestMethod.POST)
 	public ModelAndView deleteList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 선택 파일 삭제
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		if(! info.getUserId().equals("admin")) {
-			return new ModelAndView("redirect:/chellenge/list");
+			return new ModelAndView("redirect:/challenge/list");
 		}
 		
 		
@@ -336,7 +336,7 @@ public class ChellengeController {
 		if(page ==null) page = "1";
 		String query = "page=" + page;
 		
-		ChellengeDAO dao = new ChellengeDAO();
+		ChallengeDAO dao = new ChallengeDAO();
 		
 		try {
 			String schType = req.getParameter("schType");
@@ -358,13 +358,13 @@ public class ChellengeController {
 			
 			
 			// 게시글 지우기
-			dao.deleteChellenge(nums);
+			dao.deleteChallenge(nums);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return new ModelAndView("redirect:/chellenge/list?"+query);
+		return new ModelAndView("redirect:/challenge/list?"+query);
 	}
 	
 }

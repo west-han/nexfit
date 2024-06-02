@@ -1,6 +1,6 @@
 package com.nexfit.domain;
 
-public class ChellengeBoardDTO {
+public class ChallengeBoardDTO {
 	private long boardNumber;
 	private String subject;
 	private String reg_date;
@@ -8,7 +8,7 @@ public class ChellengeBoardDTO {
 	private String start_date;
 	private String end_date;
 	private String content;
-	private long chellengeId;
+	private long challengeId;
 	
 	
 	public long getBoardNumber() {
@@ -53,11 +53,11 @@ public class ChellengeBoardDTO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public long getChellengeId() {
-		return chellengeId;
+	public long getChallengeId() {
+		return challengeId;
 	}
-	public void setChellengeId(long chellengeId) {
-		this.chellengeId = chellengeId;
+	public void setChallengeId(long challengeId) {
+		this.challengeId = challengeId;
 	}
 	
 	
