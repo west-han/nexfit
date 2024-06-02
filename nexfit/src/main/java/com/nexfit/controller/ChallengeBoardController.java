@@ -78,14 +78,14 @@ public class ChallengeBoardController {
 	}
 	
 	@RequestMapping(value = "/chboard/write", method = RequestMethod.GET )
-	public ModelAndView newChboard(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public ModelAndView writeChboard(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		ChallengeDAO dao = new ChallengeDAO();
 		if(! info.getUserId().equals("admin")) {
-			return new ModelAndView("redirect:/challenge/list");
+			return new ModelAndView("redirect:/chboard/list");
 			
 		}
 		
@@ -94,12 +94,14 @@ public class ChallengeBoardController {
 		ModelAndView mav = new ModelAndView("chboard/write");
 		
 		mav.addObject("list", list);
+		mav.addObject("mode", "write");
 		
 		return mav;
 	}
 	
 	@RequestMapping(value = "/chboard/write", method = RequestMethod.POST)
 	public ModelAndView writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
 		ChallengeBoardDAO dao = new ChallengeBoardDAO();
 		
 		HttpSession session = req.getSession();
@@ -110,6 +112,7 @@ public class ChallengeBoardController {
 		String root = session.getServletContext().getRealPath("/");
 		String pathname = root + "uploads" + File.separator + "photo";
 		
+	
 		try {
 			ChallengeBoardDTO dto = new ChallengeBoardDTO();
 			
@@ -137,7 +140,7 @@ public class ChallengeBoardController {
 			e.printStackTrace();
 		}
 		
-		return new ModelAndView("redirect:/chboard/list");
+		return new ModelAndView("redirect:/challenge/list");
 	}
 	
 	@RequestMapping(value = "/chboard/update", method = RequestMethod.GET)
