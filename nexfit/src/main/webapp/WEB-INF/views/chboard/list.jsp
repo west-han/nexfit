@@ -14,6 +14,27 @@
 .body-container {
 	max-width: 800px;
 }
+
+.background-image {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%; 
+    height: 45%; 
+    z-index: -1; 
+    object-fit: cover; 
+    opacity: 0.7; 
+}
+
+.text-with-border {
+    color: white; 
+    text-shadow: 
+        -1px -1px 0 black,  
+        1px -1px 0 black,
+        -1px 1px 0 black,
+        1px 1px 0 black; 
+}
+
 </style>
 
  <c:if test="${sessionScope.member.userId == 'admin'}">
@@ -68,6 +89,7 @@
 			</div>
 				<div class="row py-5"> <%-- 챌린지게시판로고 --%>
 					<div class="col-11">
+						<img src="/nexfit/resources/images/3.jpg" class="background-image">
 						<a href="#"><img src="/nexfit/resources/images/challenge.png"></a> 
 						<p><img id="no-click-image" src="/nexfit/resources/images/passion.png"></p>
 					</div>
@@ -80,19 +102,59 @@
 				
 			<div class="col-sm-7"> <%-- 메인공간 --%>
 				<div class="body-title">
-					<h3> 진행중인 챌린지 </h3>
-			</div>  
-		<div class="body-main" style="font-family: nexon lv1;">
+					<h2 style="font-family: 'nexon lv2 medium';" class="text-with-border"> 진행중인 챌린지 </h2>
+			</div>
+			<form class="row mx-auto d-flex justify-content-center" name="searchForm" action="${pageContext.request.contextPath}/board/list" method="post">
+    				<div class="col text-start">
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chboard/list';"><i class="bi bi-arrow-clockwise"></i></button>
+					</div>
+    <div class="col-auto p-1" style="font-family: 'nexon lv1 light';">
+        <select name="schType" class="form-select">
+            <option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
+            <option value="nickname" ${schType=="nickname"?"selected":""}>작성자</option>
+            <option value="reg_date" ${schType=="reg_date"?"selected":""}>등록일</option>
+            <option value="subject" ${schType=="subject"?"selected":""}>제목</option>
+            <option value="content" ${schType=="content"?"selected":""}>내용</option>
+        </select>
+    </div>
+    <div class="col-auto p-1">
+        <input type="text" name="kwd" value="${kwd}" class="form-control" style="width: 400px;">
+    </div>
+    <div class="col-auto p-1">
+        <button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
+    </div>
+    <div class="col-auto p-1">
+        <button type="button" style="font-family: 'nexon lv1 light';" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chboard/write';">글올리기</button>
+    </div>
+</form>
+		<div class="body-main" style="font-family: 'nexon lv1 medium';">
 			
 		        <div class="row board-list-header">
-		            <div class="col-auto me-auto">${dataCount}개(${page}/${total_page} 페이지)</div>
+		            <div class="col-auto me-auto" style="font-family: 'nexon lv1 light';">${dataCount}개(${page}/${total_page} 페이지)</div>
 		            <div class="col-auto">&nbsp;</div>
+		            
 		        </div>	
-	
+				<p>&nbsp;</p>
 				
 				<input type="hidden" name="page" value="${page}">
 				
 				
+			<div class="row">
+    <c:forEach var="dto" items="${list}" varStatus="status">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <img src="${pageContext.request.contextPath}/uploads/photo/${dto.imageFilename}" class="card-img-top img-fluid" style="height: 250px;">
+                <div class="card-body" >
+                    <h5 class="card-title" style="font-family: 'nexon lv2 medium';">${dto.subject}</h5>
+                    <p class="card-text" style="font-family: 'nexon lv1 light';">${dto.ch_subject}</p>
+                     <p class="card-text" style="font-family: 'nexon lv1 light';">${dto.start_date} ~ ${dto.end_date}</p>
+                    <a href="location.href='${articleUrl}&num=${dto.boardNumber}';" class="btn btn-danger">Go Challenge</a>
+                </div>
+            </div>
+        </div>
+    </c:forEach>
+</div>
+
 				
 				
 				
@@ -101,29 +163,11 @@
 				</div>
 
 				<div class="row board-list-footer">
-					<div class="col text-start">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chboard/list';"><i class="bi bi-arrow-clockwise"></i></button>
-					</div>
+					
 					<div class="col-7 text-center">
-						<form class="row" name="searchForm" action="${pageContext.request.contextPath}/bbs/list" method="post">
-							<div class="col-auto p-1">
-								<select name="schType" class="form-select">
-									<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
-									<option value="subject" ${schType=="subject"?"selected":""}>제목</option>
-									<option value="content" ${schType=="content"?"selected":""}>내용</option>
-								</select>
-							</div>
-							<div class="col-auto p-1">
-								<input type="text" name="kwd" value="${kwd}" class="form-control">
-							</div>
-							<div class="col-auto p-1">
-								<button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
-							</div>
-						</form>
+						
 					</div>
-					<div class="col text-end">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chboard/write';">글올리기</button>
-					</div>
+					
 				</div>
 
 			</div>

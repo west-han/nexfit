@@ -10,6 +10,13 @@ public class ChallengeBoardDTO {
 	private String end_date;
 	private String content;
 	private long challengeId;
+	private String ch_content;
+	public String getCh_content() {
+		return ch_content;
+	}
+	public void setCh_content(String ch_content) {
+		this.ch_content = ch_content;
+	}
 	private String imageFilename;
 	
 	

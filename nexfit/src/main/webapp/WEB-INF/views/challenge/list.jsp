@@ -14,6 +14,8 @@
 .body-container {
 	max-width: 800px;
 }
+
+
 </style>
 
  <c:if test="${sessionScope.member.userId == 'admin'}">
@@ -80,12 +82,12 @@
 				
 						<div class="col-sm-7"> <%-- 메인공간 --%>
 						<div class="body-title">
-						<h3> 등록된 챌린지 </h3>
+						<h3 style="font-family: 'nexon lv2 medium';"> 등록된 챌린지 </h3>
 						</div>  
 				<div class="body-main" style="font-family: nexon lv1;">
 		<form name="listForm" method="post">
 		        <div class="row board-list-header">
-		            <div class="col-auto me-auto">${dataCount}개(${page}/${total_page} 페이지)</div>
+		            <div class="col-auto me-auto" style="font-family: 'nexon lv1 light';">${dataCount}개(${page}/${total_page} 페이지)</div>
 		            <div class="col-auto">&nbsp;</div>
 		        </div>	
 		       <c:if test="${sessionScope.member.userId == 'admin'}">
@@ -105,7 +107,7 @@
 						</tr>
 					</thead>
 					
-					<tbody>
+					<tbody style="font-family: 'nexon lv1 light';">
 						<c:forEach var="dto" items="${list}" varStatus="status">
 							<tr>
 								<c:if test="${sessionScope.member.userId=='admin'}">
@@ -128,7 +130,7 @@
 				
 				
 				</form>
-				<div class="page-navigation">
+				<div class="page-navigation" style="font-family: 'nexon lv2 medium';">
 					${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 				</div>
 
@@ -139,7 +141,7 @@
 					<div class="col-7 text-center">
 						<form class="row" name="searchForm" action="${pageContext.request.contextPath}/bbs/list" method="post">
 							<div class="col-auto p-1">
-								<select name="schType" class="form-select">
+								<select name="schType" class="form-select" style="font-family: 'nexon lv1 light';">
 									<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
 									<option value="subject" ${schType=="subject"?"selected":""}>제목</option>
 									<option value="content" ${schType=="content"?"selected":""}>내용</option>
@@ -153,14 +155,14 @@
 							</div>
 						</form>
 					</div>
-					<div class="col text-end">
+					<div class="col text-end" style="font-family: 'nexon lv2 medium';">
 						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/challenge/write';">글올리기</button>
 					</div>
 				</div>
 
 			</div>
 						</div>
-						<div class="col-sm-2"><%-- 우측공간 --%>
+						<div class="col-sm-3"><%-- 우측공간 --%>
 						
 						</div>
 					</div>

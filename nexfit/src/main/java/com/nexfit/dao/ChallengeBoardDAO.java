@@ -123,7 +123,7 @@ public class ChallengeBoardDAO {
 				    + "TO_CHAR(mod_date, 'YYYY-MM-DD') mod_date, "
 				    + "TO_CHAR(start_date, 'YYYY-MM-DD') start_date, "
 				    + "TO_CHAR(end_date, 'YYYY-MM-DD') end_date, "
-				    + "content, b.challengeId, imageFilename "
+				    + "content, b.challengeId, imageFilename,ch_content "
 				    + "FROM challengeboard b "
 				    + "JOIN challenge c ON b.challengeId = c.challengeId "
 				    + "ORDER BY boardnumber DESC "
@@ -149,6 +149,7 @@ public class ChallengeBoardDAO {
 				dto.setContent(rs.getString("content"));
 				dto.setChallengeId(rs.getLong("challengeId"));
 				dto.setImageFilename(rs.getString("imageFilename"));
+				dto.setCh_content(rs.getString("ch_content"));
 				
 				list.add(dto);
 			}

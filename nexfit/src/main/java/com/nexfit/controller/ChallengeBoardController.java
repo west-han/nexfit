@@ -44,7 +44,7 @@ public class ChallengeBoardController {
 			int dataCount = dao.dataCount();
 			
 			// 전체 페이지수
-			int size = 12;
+			int size = 6;
 			int total_page = util.pageCount(dataCount, size);
 			if(current_page > total_page) {
 				current_page = total_page;
@@ -140,7 +140,7 @@ public class ChallengeBoardController {
 			e.printStackTrace();
 		}
 		
-		return new ModelAndView("redirect:/challenge/list");
+		return new ModelAndView("redirect:/chboard/list");
 	}
 	
 	@RequestMapping(value = "/chboard/update", method = RequestMethod.GET)

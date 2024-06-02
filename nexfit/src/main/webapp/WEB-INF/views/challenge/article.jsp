@@ -14,6 +14,73 @@
 .body-container {
 	max-width: 800px;
 }
+
+.font {
+    font-family: 'nexon lv1 light';
+}
+
+.box {
+		margin-bottom: 2rem;
+		background: #FFF;
+	}
+
+		.box .image.fit {
+			margin: 0;
+			border-radius: 0;
+		}
+
+			.box .image.fit img {
+				border-radius: 0;
+			}
+
+		.box header h2 {
+			margin-bottom: 2rem;
+		}
+
+		.box header p {
+			text-transform: uppercase;
+			font-size: .75rem;
+			font-weight: 300;
+			margin: 0 0 .25rem 0;
+			padding: 0 0 .75rem 0;
+			letter-spacing: .25rem;
+		}
+
+
+		.box .content {
+			padding: 3rem;
+		}
+
+		.box > :last-child,
+		.box > :last-child > :last-child,
+		.box > :last-child > :last-child > :last-child {
+			margin-bottom: 0;
+		}
+
+		.box.alt {
+			border: 0;
+			border-radius: 0;
+			padding: 0;
+		}
+
+		@media screen and (max-width: 736px) {
+
+			.box .content {
+				padding: 2rem;
+			}
+
+		}
+
+	.box {
+		border-color: rgba(144, 144, 144, 0.25);
+	}
+
+ .content hr {
+            width: 50%;
+            margin:0 auto;
+            margin-bottom: 10px;
+        }
+
 </style>
 
 <c:if test="${sessionScope.member.userId=='admin'}">
@@ -39,8 +106,10 @@
 		<header>
 			<jsp:include page="/WEB-INF/views/layout/header.jsp"/> 
 		</header>
-
 		<main>
+		<div class="container mt-5">
+			
+			</div>
 			<div class="container-xxl text-center">
 				<div class="row py-5"> <%-- 챌린지게시판로고 --%>
 					<div class="col-11">
@@ -60,38 +129,22 @@
 	<div class="body-main" style="font-family: nexon lv2;">
 		<div class="body-main">
 				
-				<table class="table border border-4">
-					<thead>
-						<tr>
-							<td colspan="2" align="center">
-								챌린지 번호 : ${dto.challengeId}
-							</td>
-						</tr>
-					</thead>
-					
-					<tbody>
-						<tr>
-							<td class=" border border-4" width="50%">
-								챌린지 명 : ${dto.ch_subject}
-							</td>
-						</tr>
-						
-						<tr>
-							<td class=" border border-4" colspan="2" valign="top" height="200" style="border-bottom: none;">
-								${dto.ch_content}
-							</td>
-						</tr>
-						<tr>
-							<td width="50%">
-								참가비 : ${dto.fee}
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="box">
+						<div class="content font" >
+							<header class="align-center"><p>챌린지 번호 : ${dto.challengeId}</p>
+								<hr>
+								<h2>챌린지 명 : ${dto.ch_subject}</h2>
+							</header>
+								<p>${dto.ch_content}</p>
+								<p>참가비 : ${dto.fee}</p>
+								
+							
+						</div>
+					</div>
 				
 				<table class="table table-borderless">
 					<tr>
-						<td width="50%">
+						<td width="50%" class="font">
 							<c:choose>
 								<c:when test="${sessionScope.member.userId=='admin'}">
 									<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/challenge/update?challengeId=${dto.challengeId}&page=${page}';">수정</button>

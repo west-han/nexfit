@@ -83,7 +83,7 @@ function sendOk() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">챌린지 소개 및 <br>규 &nbsp;&nbsp;칙</td>
 							<td>
-								<textarea name="content" id="content" class="form-control">${dto.ch_content}</textarea>
+								<textarea name="content" id="content" class="form-control" style="height: 200px">${dto.ch_content}</textarea>
 							</td>
 						</tr>
 						

@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">챌린지 소개</td>
 							 <td>
-                				  <textarea name="ch_content" id="ch_content" class="form-control" readonly></textarea>
+                				  <textarea name="ch_content" id="ch_content" class="form-control" readonly style="height: 200px"></textarea>
             				</td>
 						</tr>
 						<tr>
