@@ -3,14 +3,29 @@ package com.nexfit.domain;
 public class ChallengeBoardDTO {
 	private long boardNumber;
 	private String subject;
+	private String ch_subject;
 	private String reg_date;
 	private String mod_date;
 	private String start_date;
 	private String end_date;
 	private String content;
 	private long challengeId;
+	private String imageFilename;
 	
 	
+	public String getCh_subject() {
+		return ch_subject;
+	}
+	public void setCh_subject(String ch_subject) {
+		this.ch_subject = ch_subject;
+	}
+	
+	public String getImageFilename() {
+		return imageFilename;
+	}
+	public void setImageFilename(String imageFilename) {
+		this.imageFilename = imageFilename;
+	}
 	public long getBoardNumber() {
 		return boardNumber;
 	}

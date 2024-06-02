@@ -23,7 +23,7 @@
 				  <c:if test="${sessionScope.member.userName=='admin'}">
 				  	 <li class="list-group-item d-flex justify-content-between align-items-start">
 				    <div class="ms-2 me-auto">
-				      <div class="fw-bold"><a href="${pageContext.request.contextPath}/chellenge/list">챌린지관리 게시판</a></div>
+				      <div class="fw-bold"><a href="${pageContext.request.contextPath}/challenge/list">챌린지관리 게시판</a></div>
 				    </div>
 				  </li>
 				  </c:if>

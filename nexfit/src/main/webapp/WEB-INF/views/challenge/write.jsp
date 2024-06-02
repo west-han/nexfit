@@ -18,7 +18,7 @@
 
 <script type="text/javascript">
 function sendOk() {
-    const f = document.newChellengeForm;
+    const f = document.newChallengeForm;
 	let str;
 	
     str = f.subject.value.trim();
@@ -42,7 +42,7 @@ function sendOk() {
         return;
     }
 
-    f.action = "${pageContext.request.contextPath}/chellenge/${mode}";
+    f.action = "${pageContext.request.contextPath}/challenge/${mode}";
     f.submit();
 }
 </script>
@@ -64,7 +64,7 @@ function sendOk() {
 			</div>
 			
 			<div class="body-main">
-				<form name="newChellengeForm" method="post" enctype="multipart/form-data">
+				<form name="newChallengeForm" method="post" enctype="multipart/form-data">
 					<table class="table write-form mt-5">
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">챌린지명</td>
@@ -101,9 +101,9 @@ function sendOk() {
 							<td class="text-center">
 								<button type="button" class="btn btn-dark" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
 								<button type="reset" class="btn btn-light">다시입력</button>
-								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chellenge/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
+								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/challenge/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
 								<c:if test="${mode == 'update'}">
-									<input type="hidden" name="chellengeId" value="${dto.chellengeId}">
+									<input type="hidden" name="challengeId" value="${dto.challengeId}">
 									<input type="hidden" name="size" value="${size}">
 									<input type="hidden" name="page" value="${page}">
 								</c:if>
