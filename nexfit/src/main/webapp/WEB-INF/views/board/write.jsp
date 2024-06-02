@@ -40,6 +40,20 @@ function sendOk() {
     f.action = "${pageContext.request.contextPath}/board/${mode}";
     f.submit();
 }
+
+
+
+function filterCategory(category) {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (categoryName === '전체') {
+        urlParams.delete('category');
+    } else {
+        urlParams.set('category', category);
+    }
+    window.location.href = window.location.pathname + '?' + urlParams.toString();
+}
+
+
 </script>
 
 </head>
@@ -77,7 +91,7 @@ function sendOk() {
 											<tr>
 												<td class="bg-light col-sm-2" scope="row">카테고리
 													<td>
-													<select name="categoryId" class="form-select" style="width: 100px;">
+													<select name="categoryId" class="form-select" style="width: 100px;" onchange="filterCategory(this.value)">
 														<option value="1" ${categoryId=="1"?"selected":""}>IT</option>
 														<option value="2" ${categoryId=="2"?"selected":""}>잡담</option>
 														<option value="3" ${categoryId=="3"?"selected":""}>건강</option>
@@ -85,8 +99,8 @@ function sendOk() {
 														<option value="5" ${categoryId=="5"?"selected":""}>야구</option>
 														<option value="6" ${categoryId=="6"?"selected":""}>농구</option>
 														<option value="7" ${categoryId=="7"?"selected":""}>배구</option>
-														<option value="8" ${categoryId=="8"?"selected":""}>기타스포츠</option>
-														<option value="9" ${categoryId=="9"?"selected":""}>반려동물</option>
+														<option value="8" ${categoryId=="8"?"selected":""}>기타종목</option>
+														<option value="9" ${categoryId=="9"?"selected":""}>동물</option>
 														<option value="10" ${categoryId=="10"?"selected":""}>식단</option>
 														<option value="11" ${categoryId=="11"?"selected":""}>게임</option>
 														<option value="12" ${categoryId=="12"?"selected":""}>영화</option>

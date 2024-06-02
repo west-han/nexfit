@@ -30,7 +30,7 @@ public class BoardController {
 	@RequestMapping(value = "/board/list")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시물 리스트
-		// 파라미터: [페이지 번호, 검색 컬럼, 검색 키워드]
+		// 파라미터: [페이지 번호, 검색 컬럼, 검색 키워드, 카테고리]
 		ModelAndView mav = new ModelAndView("board/list");
 
 		BoardDAO dao = new BoardDAO();
@@ -50,7 +50,17 @@ public class BoardController {
 				schType = "all";
 				kwd = "";
 			}
+			
+			
+			// 카테고리 필터
+            String category = req.getParameter("category");
+            if (category == null || category.isEmpty()) {
+                category = "전체";
+            }
+            
+            
 
+            
 			// GET 방식인 경우 디코딩
 			if (req.getMethod().equalsIgnoreCase("GET")) {
 				kwd = URLDecoder.decode(kwd, "utf-8");
@@ -63,6 +73,7 @@ public class BoardController {
 			} else {
 				dataCount = dao.dataCount(schType, kwd);
 			}
+			
 			
 			// 전체 페이지 수
 			int size = 10;
@@ -86,6 +97,10 @@ public class BoardController {
 			if (kwd.length() != 0) {
 				query = "schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "utf-8");
 			}
+			if (!category.equals("전체")) {
+                query += "&category=" + URLEncoder.encode(category, "utf-8");
+            }
+			
 
 			// 페이징 처리
 			String cp = req.getContextPath();
@@ -110,6 +125,7 @@ public class BoardController {
 			mav.addObject("paging", paging);
 			mav.addObject("schType", schType);
 			mav.addObject("kwd", kwd);
+			mav.addObject("category", category);
 
 		} catch (Exception e) {
 			e.printStackTrace();

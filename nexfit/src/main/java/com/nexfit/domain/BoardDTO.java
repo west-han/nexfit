@@ -20,13 +20,6 @@ public class BoardDTO {
 	private int career;
 	private int week;
 	
-	public String getCategoryName() {
-		return categoryName;
-	}
-
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
 
 	private int replyCount;
 	private int boardLikeCount;
@@ -37,6 +30,7 @@ public class BoardDTO {
 	
 	private List<MyMultipartFile> listFile;
 
+	
 	public long getNum() {
 		return num;
 	}
@@ -108,6 +102,15 @@ public class BoardDTO {
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
+	
+	public String getCategoryName() {
+		return categoryName;
+	}
+	
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+	
 
 	public int getReplyCount() {
 		return replyCount;

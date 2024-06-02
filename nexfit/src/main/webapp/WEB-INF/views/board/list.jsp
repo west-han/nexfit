@@ -14,7 +14,55 @@
 .body-container {
 	max-width: 800px;
 }
+
+.btn-light:hover {
+	background: black; 
+	color: white;
+}
+
+.image-container {
+    position: relative;
+    width: 1300px; 
+    height: 200px; 
+}
+
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.overlay-image2 {
+    position: absolute;
+    top: 80%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 </style>
+	<script>
+	function filterCategory(category) {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (category === '전체') {
+            urlParams.delete('category');
+        } else {
+            urlParams.set('category', category);
+        }
+        window.location.href = window.location.pathname + '?' + urlParams.toString();
+    }
+    </script> 
 
 </head>
 
@@ -26,79 +74,83 @@
 	<main>
 		<div class="container-xxl text-center">
 			<div class="row py-5 mt-5">
-				<div class="col">
-					<img src="/nexfit/resources/images/freelounge.png" style="width:450px; height:90px;">
+				<div class="col image-container">
+					<img src="/nexfit/resources/images/exercisebg.PNG" class="background-image" style="width:1300px; height:200px; opacity: 0.3;">
+					<img src="/nexfit/resources/images/freelounge.png" class="overlay-image" style="width:450px; height:90px;"><br>
+					<img src="/nexfit/resources/images/sci.png" class="overlay-image2" style="width:300px; height:20px;">
 				</div>
+				
+				
 			</div>
 						
 	<div class="row gx-2">
-		<div class="col-sm-3 mt-5">
+		<div class="col-sm-3 mt-5" style="font-family: 'nexon lv1 light';"> 
 			<h3>CATEGORY</h3>
 			<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" onclick="filterCategory('전체')" ${category == '전체' ? 'checked' : ''} checked>
 			  <label class="btn btn-outline-dark" for="btnradio1">전체</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio2" onclick="filterCategory('잡담')" ${category == '잡담' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio2">잡담</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio3" onclick="filterCategory('건강')" ${category == '건강' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio3">건강</label>
 			  
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio4" onclick="filterCategory('축구')" ${category == '축구' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio4">축구</label>
 			  
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio5" onclick="filterCategory('야구')" ${category == '야구' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio5">야구</label>
 			</div>
 			
 			<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio6" onclick="filterCategory('농구')" ${category == '농구' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio6">농구</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio7" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio7" onclick="filterCategory('배구')" ${category == '배구' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio7">배구</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio8" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio8" onclick="filterCategory('기타종목')" ${category == '기타종목' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio8">기타종목</label>
 			  
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio9" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio9" onclick="filterCategory('동물')" ${category == '동물' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio9">동물</label>
 			  
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio10" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio10" onclick="filterCategory('식단')" ${category == '식단' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio10">식단</label>
 			</div>
 			
 			<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio11" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio11" onclick="filterCategory('게임')" ${category == '게임' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio11">게임</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio12" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio12" onclick="filterCategory('영화')" ${category == '영화' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio12">영화</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio13" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio13" onclick="filterCategory('문학')" ${category == '문학' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio13">문학</label>
 			  
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio14" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio14" onclick="filterCategory('유머')" ${category == '유머' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio14">유머</label>
 			  
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio15" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio15" onclick="filterCategory('연애')" ${category == '연애' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio15">연애</label>
 			</div>
 			
 			<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio16" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio16" onclick="filterCategory('여행')" ${category == '여행' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio16">여행</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio17" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio17" onclick="filterCategory('음악')" ${category == '음악' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio17">음악</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio18" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio18" onclick="filterCategory('취업')" ${category == '취업' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio18">취업</label>
 			  
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio19" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio19" onclick="filterCategory('재테크')" ${category == '재테크' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio19">재테크</label>
 			  
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio20" autocomplete="off">
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio20" onclick="filterCategory('IT')" ${category == 'IT' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio20">IT</label>
 			</div>
 	</div>
@@ -106,7 +158,7 @@
 	
 	<div class="col-sm-6">
 		<main>
-			<div class="container">
+			<div class="container" style="font-family: 'nexon lv2 medium';">
 				<div class="body-container">	
 					<div class="body-title">
 						<h3>자유 게시판</h3>
@@ -149,13 +201,15 @@
 							
 							<tbody>
 								<c:forEach var="dto" items="${list}" varStatus="status">
-									<tr>
+									<tr> 
 										<td>${dataCount - (page-1) * size - status.index}</td>
 										<td class="left">
 									
 											<a href="${articleUrl}&num=${dto.num}" class="text-reset">
-											<span style="color: orange;">[${dto.categoryName}]</span> ${dto.subject}
-											 </a> 
+											<span style="float: left"><span style="color: orange;">[${dto.categoryName}]</span> ${dto.subject} 	<span style="color: #23A41A; font-weight: bold;"> 🗨 ${dto.replyCount}</span>
+											<span style="color: #FF73B8; font-weight: bold;">♥ ${dto.boardLikeCount}</span>
+											</span>
+											</a>
 										
 										</td>
 										<td>${dto.nickname}</td>
@@ -168,8 +222,7 @@
 						
 						<div class="page-navigation">
 							${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
-						</div>
-						<br>
+						</div> 
 						<div class="row board-list-footer">
 							<div class="col">
 								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/board/list';" style="float: left;"><i class="bi bi-arrow-clockwise"></i></button>

@@ -37,7 +37,7 @@
 		
 				<tr>
 					<td colspan='2' align="left">
-						<button type='button' class='btn btn-light btnReplyAnswerLayout' data-replyNum='${dto.replyNum}'">답글 <span id="answerCount${dto.replyNum}">${dto.answerCount}</span></button>
+						<button type='button' class='btn btn-light btnReplyAnswerLayout' data-replyNum='${dto.replyNum}'>답글 <span id="answerCount${dto.replyNum}">${dto.answerCount}</span></button>
 					</td>
 				</tr>
 			
