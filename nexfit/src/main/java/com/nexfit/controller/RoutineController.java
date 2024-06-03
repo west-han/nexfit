@@ -198,7 +198,7 @@ public class RoutineController {
 			if (dto == null) { // 게시물이 없으면 다시 리스트로
 				return new ModelAndView("redirect:/routine/list?" + query);
 			}
-			dto.setContent(util.htmlSymbols(dto.getContent()));
+			//dto.setContent(util.htmlSymbols(dto.getContent()));
 
 			// 이전글 다음글
 			BoardDTO prevDto = dao.findByPrev(dto.getNum(), schType, kwd);

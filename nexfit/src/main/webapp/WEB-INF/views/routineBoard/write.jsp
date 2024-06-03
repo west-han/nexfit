@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board2.css" type="text/css">
 
 <script type="text/javascript">
-function sendOk() {
+function check() {
     const f = document.boardForm;
 	let str;
 	
@@ -26,18 +26,18 @@ function sendOk() {
     if(!str) {
         alert("제목을 입력하세요. ");
         f.subject.focus();
-        return;
+        return false;
     }
 
     str = f.content.value.trim();
-    if(!str) {
+    if(! str || str === "<p><br></p>") {
         alert("내용을 입력하세요. ");
         f.content.focus();
-        return;
+        return false;
     }
 
     f.action = "${pageContext.request.contextPath}/routine/${mode}";
-    f.submit();
+    return true;
 }
 </script>
 </head>
@@ -174,7 +174,7 @@ function sendOk() {
 					<table class="table table-borderless">
 	 					<tr>
 							<td class="text-center">
-								<button type="button" class="btn btn-dark" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
+								<button type="button" class="btn btn-dark" onclick="submitContents(this.form);">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
 								<button type="reset" class="btn btn-light">다시입력</button>
 								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/routine/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
 								<c:if test="${mode=='update'}">

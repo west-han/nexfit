@@ -18,13 +18,31 @@ public class RoutineDAO {
 	
 	public void insertRoutine(BoardDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql;
+		long seq;
 		
 		int notice = 0;
 		
 		try {
+			sql = "SELECT routineBoard_seq.NEXTVAL FROM dual";
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			seq = 0;
+			
+			if(rs.next()) {
+				seq = rs.getLong(1);
+			}
+			dto.setNum(seq);
+			
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+			
+			
 			sql = "INSERT INTO routineBoard(num, subject, notice, content, userId, postType, sports, career, week, hitCount, reg_date) "
-					+ " VALUES (routineBoard_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, 0, SYSDATE)";
+					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, SYSDATE)";
 			
 			if(dto.getUserId().equals("admin")) {
 				notice = 1;
@@ -32,14 +50,15 @@ public class RoutineDAO {
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getSubject());
-			pstmt.setInt(2, notice);
-			pstmt.setString(3, dto.getContent());
-			pstmt.setString(4, dto.getUserId());
-			pstmt.setInt(5, dto.getPostType());
-			pstmt.setInt(6, dto.getSports());
-			pstmt.setInt(7, dto.getCareer());
-			pstmt.setInt(8, dto.getWeek());
+			pstmt.setLong(1, dto.getNum());
+			pstmt.setString(2, dto.getSubject());
+			pstmt.setInt(3, notice);
+			pstmt.setString(4, dto.getContent());
+			pstmt.setString(5, dto.getUserId());
+			pstmt.setInt(6, dto.getPostType());
+			pstmt.setInt(7, dto.getSports());
+			pstmt.setInt(8, dto.getCareer());
+			pstmt.setInt(9, dto.getWeek());
 			
 			pstmt.executeUpdate();
 			
@@ -48,12 +67,13 @@ public class RoutineDAO {
 			pstmt=null;
 			
 			sql = "INSERT INTO routineBoard_File(fileNum, saveFilename, originalFilename, num) "
-					+ " VALUES (routineBoard_File_seq.NEXTVAL, ?, ?, routineBoard_seq.CURRVAL)";
+					+ " VALUES (routineBoard_File_seq.NEXTVAL, ?, ?, ?)";
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getSaveFilename());
 			pstmt.setString(2, dto.getOriginalFilename());
+			pstmt.setLong(3, dto.getNum());
 			
 			pstmt.executeUpdate();
 			
@@ -277,6 +297,7 @@ public class RoutineDAO {
 					+ " saveFilename, originalFilename, "
 					+ "    NVL(boardLikeCount, 0) boardLikeCount "
 					+ " FROM routineBoard r "
+					+ " JOIN routineBoard_File f ON r.num = f.num "
 					+ " JOIN member_detail m ON r.userId = m.userId "
 					+ " LEFT OUTER JOIN ("
 					+ "      SELECT num, COUNT(*) boardLikeCount FROM routineBoard_Like"
@@ -444,7 +465,7 @@ public class RoutineDAO {
 		String sql;
 
 		try {
-			sql = "UPDATE routineBoard SET subject=?, content=?, postType=?, sports=?, career=?, week=?, saveFilename=?, originalFilename=? WHERE num=? AND userId=?";
+			sql = "UPDATE routineBoard SET subject=?, content=?, postType=?, sports=?, career=?, week=? WHERE num=? AND userId=?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getSubject());
@@ -453,13 +474,26 @@ public class RoutineDAO {
 			pstmt.setInt(4, dto.getSports());
 			pstmt.setInt(5, dto.getCareer());
 			pstmt.setInt(6, dto.getWeek());
-			pstmt.setString(7, dto.getSaveFilename());
-			pstmt.setString(8, dto.getOriginalFilename());
-			pstmt.setLong(9, dto.getNum());
-			pstmt.setString(10, dto.getUserId());
+			pstmt.setLong(7, dto.getNum());
+			pstmt.setString(8, dto.getUserId());
 			
 			pstmt.executeUpdate();
-
+			
+			pstmt.close();
+			
+			pstmt=null;
+			
+			sql = "UPDATE routineBoard_file SET saveFilename=?, originalFilename=? WHERE num=? AND fileNum=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getSaveFilename());
+			pstmt.setString(2, dto.getOriginalFilename());
+			pstmt.setLong(3, dto.getNum());
+			pstmt.setLong(4, dto.getFileNum());
+			
+			pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
