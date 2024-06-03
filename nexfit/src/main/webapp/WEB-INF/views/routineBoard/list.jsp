@@ -41,7 +41,7 @@
 					<div class="body-title">
 						<h3>ROUTINE</h3>
 					</div>
-					<form class="row mx-auto" name="searchForm" action="${pageContext.request.contextPath}/routineBoard/list" method="post" >
+					<form class="row mx-auto" name="searchForm" action="${pageContext.request.contextPath}/routine/list" method="post" >
 						<div class="col-auto p-1">
 							<select name="schType" class="form-select">
 								<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
@@ -83,12 +83,19 @@
 								<c:forEach var="dto" items="${list}" varStatus="status">
 									<tr>
 										<td>${dataCount - (page-1) * size - status.index}</td>
-										<td>${dto.postType}</td>
-										<td>${dto.sports}</td>
+										<td>${dto.postType == 1? "추천" : "질문"}</td>
+										<td>
+											<c:choose>
+												<c:when test="${dto.sports == 1}">헬스</c:when>
+												<c:when test="${dto.sports == 2}">수영</c:when>
+												<c:when test="${dto.sports == 3}">클라이밍</c:when>
+												<c:when test="${dto.sports == 4}">배구</c:when>
+												<c:when test="${dto.sports == 5}">킥복싱</c:when>
+											</c:choose>
+										</td>
 										<td class="left">
 											<a href="${articleUrl}&num=${dto.num}" class="text-reset">${dto.subject}</a>
 										</td>
-										
 										<td>${dto.nickname}</td>
 										<td>${dto.reg_date}</td>
 										<td>${dto.hitCount}</td>

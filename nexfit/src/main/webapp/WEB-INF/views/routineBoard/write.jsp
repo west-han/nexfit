@@ -78,12 +78,12 @@ function sendOk() {
 							<td class="bg-light col-sm-2" scope="row">운 동</td>
 							<td>
 								<select name="sports" class="form-select" style="width: 100px;">
-									<option value="health">헬스</option>
-									<option value="swimming">수영</option>
-									<option value="climbing">클라이밍</option>
-									<option value="volleyball">배구</option>
-									<option value="kick">킥복싱</option>
-									<option value="kick">기타</option>
+									<option value="1">헬스</option>
+									<option value="2">수영</option>
+									<option value="3">클라이밍</option>
+									<option value="4">배구</option>
+									<option value="5">킥복싱</option>
+									<option value="6">기타</option>
 								</select> 
 							</td>
 						</tr>
@@ -109,31 +109,60 @@ function sendOk() {
 						</tr>
 						
 						<tr>
-							<td class="bg-light col-sm-2" scope="row">요일</td>
+							<td class="bg-light col-sm-2" scope="row">주n일</td>
 							<td>
-								<input type="checkbox" class="week" id="btn-check1" value="1" autocomplete="off">
-								<label class="btn btn-primary" for="btn-check1">일</label>
+								<input type="radio" class="btn-check" name="week" id="option8" value="1" autocomplete="off">
+								<label class="btn btn-secondary" for="option8">주1회</label>
 								
-								<input type="checkbox" class="week" id="btn-check2" value="2" autocomplete="off">
-								<label class="btn btn-primary" for="btn-check2">월</label>
+								<input type="radio" class="btn-check" name="week" id="option9" value="2" autocomplete="off">
+								<label class="btn btn-secondary" for="option9">주2회</label>
 								
-								<input type="checkbox" class="week" id="btn-check3" value="3" autocomplete="off">
-								<label class="btn btn-primary" for="btn-check3">화</label>
+								<input type="radio" class="btn-check" name="week" id="option10" value="3" autocomplete="off">
+								<label class="btn btn-secondary" for="option10">주3회</label>
 								
-								<input type="checkbox" class="week" id="btn-check4" value="4" autocomplete="off">
-								<label class="btn btn-primary" for="btn-check4">수</label>
+								<input type="radio" class="btn-check" name="week" id="option11" value="4" autocomplete="off">
+								<label class="btn btn-secondary" for="option11">주4회</label>
+							
+								<input type="radio" class="btn-check" name="week" id="option12" value="5" autocomplete="off">
+								<label class="btn btn-secondary" for="option12">주5회</label>
 								
-								<input type="checkbox" class="week" id="btn-check5" value="5" autocomplete="off">
-								<label class="btn btn-primary" for="btn-check5">목</label>
+								<input type="radio" class="btn-check" name="week" id="option13" value="6" autocomplete="off">
+								<label class="btn btn-secondary" for="option13">주6회</label>
 								
-								<input type="checkbox" class="week" id="btn-check6" value="6" autocomplete="off">
-								<label class="btn btn-primary" for="btn-check6">금</label>
-								
-								<input type="checkbox" class="week" id="btn-check7" value="7" autocomplete="off">
-								<label class="btn btn-primary" for="btn-check7">토</label>
+								<input type="radio" class="btn-check" name="week" id="option14" value="7" autocomplete="off">
+								<label class="btn btn-secondary" for="option14">주7회</label>
 							</td>
 						</tr>
-	
+						
+						
+						<!--
+						<tr>
+							<td class="bg-light col-sm-2" scope="row">요일</td>
+							<td>
+								<input type="checkbox" class="week" name="week" id="btn-check1" value="1" autocomplete="off">
+								<label class="btn btn-primary" for="btn-check1">주1회</label>
+								
+								<input type="checkbox" class="week" name="week" id="btn-check2" value="2" autocomplete="off">
+								<label class="btn btn-primary" for="btn-check2">주2회</label>
+								
+								<input type="checkbox" class="week" name="week" id="btn-check3" value="3" autocomplete="off">
+								<label class="btn btn-primary" for="btn-check3">주3회</label>
+								
+								<input type="checkbox" class="week" name="week" id="btn-check4" value="4" autocomplete="off">
+								<label class="btn btn-primary" for="btn-check4">주4회</label>
+								
+								<input type="checkbox" class="week" name="week" id="btn-check5" value="5" autocomplete="off">
+								<label class="btn btn-primary" for="btn-check5">주5회</label>
+								
+								<input type="checkbox" class="week" name="week" id="btn-check6" value="6" autocomplete="off">
+								<label class="btn btn-primary" for="btn-check6">주6회</label>
+								
+								<input type="checkbox" class="week" name="week" id="btn-check7" value="7" autocomplete="off">
+								<label class="btn btn-primary" for="btn-check7">주7회</label>
+							</td>
+						</tr>
+						-->
+						
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">내 용</td>
 							<td>

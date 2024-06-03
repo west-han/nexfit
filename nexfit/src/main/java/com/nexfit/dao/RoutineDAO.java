@@ -1,3 +1,4 @@
+
 package com.nexfit.dao;
 
 import java.sql.Connection;
@@ -123,7 +124,7 @@ public class RoutineDAO {
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sb.append("SELECT r.num, nickname, subject, content, hitCount, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, r.userId ");
+			sb.append("SELECT r.num, nickname, subject, content, postType, sports, career, week, hitCount, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, r.userId ");
 			sb.append("FROM routineBoard r ");
 			sb.append("JOIN member_detail m ON m.userId = r.userId ");
 			sb.append("ORDER BY r.num DESC ");
@@ -141,6 +142,10 @@ public class RoutineDAO {
 				dto.setNickname(rs.getString("nickname"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setContent(rs.getString("content"));
+				dto.setPostType(rs.getInt("postType"));
+				dto.setSports(rs.getInt("sports"));
+				dto.setCareer(rs.getInt("career"));
+				dto.setWeek(rs.getInt("week"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setReg_date(rs.getString("reg_date"));
 				
@@ -163,7 +168,7 @@ public class RoutineDAO {
 		StringBuilder sb = new StringBuilder();
 
 		try {
-			sb.append(" SELECT r.num, nickName, subject, hitCount, ");
+			sb.append(" SELECT r.num, nickName, subject, hitCount, postType, sports, career, week ");
 			sb.append("      TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, ");
 			sb.append("      NVL(replyCount, 0) replyCount ");
 			sb.append(" FROM routineBoard r ");
@@ -206,6 +211,10 @@ public class RoutineDAO {
 				dto.setNum(rs.getLong("num"));
 				dto.setNickname(rs.getString("nickname"));
 				dto.setSubject(rs.getString("subject"));
+				dto.setPostType(rs.getInt("postType"));
+				dto.setSports(rs.getInt("sports"));
+				dto.setCareer(rs.getInt("career"));
+				dto.setWeek(rs.getInt("week"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setReg_date(rs.getString("reg_date"));
 
@@ -409,18 +418,22 @@ public class RoutineDAO {
 		return dto;
 	}
 	
-	public void updateBoard(BoardDTO dto) throws SQLException {
+	public void updateRoutine(BoardDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
 
 		try {
-			sql = "UPDATE routineBoard SET subject=?, content=? WHERE num=? AND userId=?";
+			sql = "UPDATE routineBoard SET subject=?, content=?, postType=?, sports=?, career=?, week=? WHERE num=? AND userId=?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getSubject());
 			pstmt.setString(2, dto.getContent());
-			pstmt.setLong(3, dto.getNum());
-			pstmt.setString(4, dto.getUserId());
+			pstmt.setInt(3, dto.getPostType());
+			pstmt.setInt(4, dto.getSports());
+			pstmt.setInt(5, dto.getCareer());
+			pstmt.setInt(6, dto.getWeek());
+			pstmt.setLong(7, dto.getNum());
+			pstmt.setString(8, dto.getUserId());
 			
 			pstmt.executeUpdate();
 
@@ -433,7 +446,7 @@ public class RoutineDAO {
 
 	}
 	
-	public void deleteBoard(long num, String userId) throws SQLException {
+	public void deleteRoutine(long num, String userId) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
 
@@ -571,7 +584,7 @@ public class RoutineDAO {
 			pstmt.setLong(1, dto.getNum());
 			pstmt.setString(2, dto.getUserId());
 			pstmt.setString(3, dto.getContent());
-			// pstmt.setString(4, dto.getAnswer());
+			pstmt.setLong(4, dto.getAnswer());
 			
 			pstmt.executeUpdate();
 			
@@ -621,15 +634,19 @@ public class RoutineDAO {
 		
 		try {
 			sb.append(" SELECT rr.replyNum, rr.userId, nickName, num, content, rr.reg_date, ");
-			sb.append("     NVL(answerCount, 0) answerCount, ");
+			sb.append("     NVL(answerCount, 0) answerCount ");
 			sb.append(" FROM routineBoard_Reply rr ");
-			sb.append(" JOIN member1 m ON rr.userId = m.userId ");
+			sb.append(" JOIN member m ON rr.userId = m.userId ");
+			sb.append(" JOIN member_detail d ON d.userId = m.userId ");
 			sb.append(" LEFT OUTER  JOIN (");
 			sb.append("	    SELECT answer, COUNT(*) answerCount ");
 			sb.append("     FROM routineBoard_Reply ");
 			sb.append("     WHERE answer != 0 ");
 			sb.append("     GROUP BY answer ");
 			sb.append(" ) a ON rr.replyNum = a.answer ");
+			sb.append(" WHERE num = ? AND rr.answer=0 ");
+			sb.append(" ORDER BY rr.replyNum DESC ");
+			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 
 			
 			pstmt = conn.prepareStatement(sb.toString());
@@ -737,9 +754,10 @@ public class RoutineDAO {
 		StringBuilder sb=new StringBuilder();
 		
 		try {
-			sb.append(" SELECT replyNum, num, rr.userId, nickName, content, reg_date, answer ");
-			sb.append(" FROM freeboard_reply rr ");
-			sb.append(" JOIN member1 m ON rr.userId = m.userId ");
+			sb.append(" SELECT replyNum, num, rr.userId, nickName, content, rr.reg_date, answer ");
+			sb.append(" FROM routineBoard_reply rr ");
+			sb.append(" JOIN member m ON rr.userId = m.userId ");
+			sb.append(" JOIN member_detail d ON d.userId = m.userId ");
 			sb.append(" WHERE answer = ? ");
 			sb.append(" ORDER BY replyNum DESC ");
 			pstmt = conn.prepareStatement(sb.toString());
@@ -757,7 +775,7 @@ public class RoutineDAO {
 				dto.setNickname(rs.getString("nickname"));
 				dto.setContent(rs.getString("content"));
 				dto.setReg_date(rs.getString("reg_date"));
-				// dto.setAnswer(rs.getString("answer"));
+				dto.setAnswer(rs.getLong("answer"));
 				
 				list.add(dto);
 			}
