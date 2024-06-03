@@ -91,6 +91,7 @@
 												<c:when test="${dto.sports == 3}">클라이밍</c:when>
 												<c:when test="${dto.sports == 4}">배구</c:when>
 												<c:when test="${dto.sports == 5}">킥복싱</c:when>
+												<c:when test="${dto.sports == 6}">기타</c:when>
 											</c:choose>
 										</td>
 										<td class="left">

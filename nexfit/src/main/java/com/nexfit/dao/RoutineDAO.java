@@ -43,6 +43,20 @@ public class RoutineDAO {
 			
 			pstmt.executeUpdate();
 			
+			pstmt.close();
+			
+			pstmt=null;
+			
+			sql = "INSERT INTO routineBoard_File(fileNum, saveFilename, originalFilename, num) "
+					+ " VALUES (routineBoard_File_seq.NEXTVAL, ?, ?, routineBoard_seq.CURRVAL)";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getSaveFilename());
+			pstmt.setString(2, dto.getOriginalFilename());
+			
+			pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
@@ -168,7 +182,7 @@ public class RoutineDAO {
 		StringBuilder sb = new StringBuilder();
 
 		try {
-			sb.append(" SELECT r.num, nickName, subject, hitCount, postType, sports, career, week ");
+			sb.append(" SELECT r.num, nickName, subject, hitCount, postType, sports, career, week, ");
 			sb.append("      TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, ");
 			sb.append("      NVL(replyCount, 0) replyCount ");
 			sb.append(" FROM routineBoard r ");
@@ -259,7 +273,8 @@ public class RoutineDAO {
 		String sql;
 
 		try {
-			sql = "SELECT r.num, r.userId, nickname, subject, content, reg_date, hitCount, "
+			sql = "SELECT r.num, r.userId, nickname, subject, content, reg_date, hitCount, postType, sports, career, week, "
+					+ " saveFilename, originalFilename, "
 					+ "    NVL(boardLikeCount, 0) boardLikeCount "
 					+ " FROM routineBoard r "
 					+ " JOIN member_detail m ON r.userId = m.userId "
@@ -282,8 +297,14 @@ public class RoutineDAO {
 				dto.setNickname(rs.getString("nickname"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setContent(rs.getString("content"));
+				dto.setPostType(rs.getInt("postType"));
+				dto.setSports(rs.getInt("sports"));
+				dto.setCareer(rs.getInt("career"));
+				dto.setWeek(rs.getInt("week"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setReg_date(rs.getString("reg_date"));
+				dto.setSaveFilename(rs.getString("saveFilename"));
+				dto.setOriginalFilename(rs.getString("originalFilename"));
 				
 				dto.setBoardLikeCount(rs.getInt("boardLikeCount"));				
 			}
@@ -423,7 +444,7 @@ public class RoutineDAO {
 		String sql;
 
 		try {
-			sql = "UPDATE routineBoard SET subject=?, content=?, postType=?, sports=?, career=?, week=? WHERE num=? AND userId=?";
+			sql = "UPDATE routineBoard SET subject=?, content=?, postType=?, sports=?, career=?, week=?, saveFilename=?, originalFilename=? WHERE num=? AND userId=?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getSubject());
@@ -432,8 +453,10 @@ public class RoutineDAO {
 			pstmt.setInt(4, dto.getSports());
 			pstmt.setInt(5, dto.getCareer());
 			pstmt.setInt(6, dto.getWeek());
-			pstmt.setLong(7, dto.getNum());
-			pstmt.setString(8, dto.getUserId());
+			pstmt.setString(7, dto.getSaveFilename());
+			pstmt.setString(8, dto.getOriginalFilename());
+			pstmt.setLong(9, dto.getNum());
+			pstmt.setString(10, dto.getUserId());
 			
 			pstmt.executeUpdate();
 
