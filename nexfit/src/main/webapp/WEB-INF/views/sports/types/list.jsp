@@ -103,12 +103,15 @@
 							</div>
 						</div>
 
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary"
-								data-bs-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary">Save
-								changes</button>
-						</div>
+						<!-- 관리자면 푸터 표시, 수정/삭제 -->
+						<c:if test="">
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-bs-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-primary">Save
+									changes</button>
+							</div>
+						</c:if>
 					</div>
 				</div>
 			</div>
@@ -166,9 +169,9 @@ $(function() {
 	$(".list-content").on("mouseover", ".card-body", () => $(this).find(".card-img-overlay").show());
 	$(".list-content").on("mouseout", ".card-body", () => $(this).find(".card-img-overlay").hide());
 	
-	$(".list-content").on("click", ".card-body", () => $(this).find(".btnModal").click());
+	$(".list-content").on("click", ".card-body", event => { event.target.closest('.card').querySelector(".btnModal").click(); });
 	
-	$("#sportsDetailModal").on("show.bs.modal", event => {
+	$("#sportsDetailModal").on("shown.bs.modal", event => {
 		const btnClicked = $(event.relatedTarget)[0];
 		const num = btnClicked.getAttribute("data-num");
 		
@@ -179,7 +182,6 @@ $(function() {
 			const pathname = '${pageContext.request.contextPath}/uploads/sports/types/' + data.filename;
 			const name = data.name;
 			const content = data.description;
-			console.log(name, content);
 			
 			$("#sportsDetailModal").find('.modal-body').html('<div> <h1>' + name + '</h1> <p>' + content + '</p>');
 		};
@@ -218,13 +220,13 @@ function addNewContent(data) {
 	let htmlText;
 	
 	for (let item of data.list) {
-		let num = item.num;
-		let name = item.name;
-		let filename = item.filename;
-		let content = item.description;
-		let deletePermit = item.permit;
-		let bodyPart = item.bodyPart;
-		let filenum = item.filenum;
+		const num = item.num;
+		const name = item.name;
+		const filename = item.filename;
+		const content = item.description;
+		const deconstePermit = item.permit;
+		const bodyPart = item.bodyPart;
+		const filenum = item.filenum;
 
 		htmlText = '<div class="col-xl-3 col-lg-4 col-sm-6 col-xs-12 pb-3 d-flex justify-content-center">';
 		htmlText += '	<div class="card w-100 p-2">';
@@ -234,10 +236,10 @@ function addNewContent(data) {
 		htmlText += '				<h5 class="card-title">' + name + '</h5>';
 		htmlText += '			</div>';
 		htmlText += '		</div>';
+		htmlText += '		<input type="button" class="btnModal" style="display: none;"';
+		htmlText += '			data-bs-toggle="modal" data-bs-target="#sportsDetailModal"';
+		htmlText += '			data-num="' + num + '">';
 		htmlText += '	</div>';
-		htmlText += '	<input type="button" class="btnModal" style="display: none;"';
-		htmlText += '		data-bs-toggle="modal" data-bs-target="#sportsDetailModal"';
-		htmlText += '		data-num="' + num + '">';
 		htmlText += '</div>';
 
 		listNode.insertAdjacentHTML("beforeend", htmlText);

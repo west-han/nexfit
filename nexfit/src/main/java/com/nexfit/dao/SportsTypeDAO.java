@@ -68,14 +68,14 @@ public class SportsTypeDAO {
 		List<SportTypeDTO> list = new ArrayList<SportTypeDTO>();
 		
 		try {
-			sb.append("SELECT b.num, name, bodyPart, description, hitCount, id, filename ");
-			sb.append("FROM sportsTypeBoard b ");
-			sb.append("JOIN sportsType_File f ON b.num = f.num ");
+			sb.append(" SELECT b.num, name, bodyPart, description, hitCount, id, filename ");
+			sb.append(" FROM sportsTypeBoard b ");
+			sb.append(" JOIN sportsType_File f ON b.num = f.num ");
 			
 			sb.append(generateWhereClause(bodyPart, keyword));
 			
-			sb.append("ORDER BY hitCount DESC, name ASC ");
-			sb.append("OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
+			sb.append(" ORDER BY hitCount DESC, name ASC ");
+			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			
@@ -114,11 +114,11 @@ public class SportsTypeDAO {
 		boolean b = false;
 		
 		if (b = !bodyPart.equals("all")) {
-			sb.append("WHERE bodyPart = " + bodyPart);
+			sb.append("WHERE bodyPart = '" + bodyPart + "' ");
 		}
 		
 		if (keyword.length() != 0) {
-			sb.append(b ? " AND " : " WHERE " + "INSTR(name, " + keyword + ") != 0 OR WHERE INSTR(description, " + keyword + ") != 0 ");
+			sb.append(b ? " AND " : " WHERE " + "INSTR(name, '" + keyword + "') != 0 OR WHERE INSTR(description, '" + keyword + "') != 0 ");
 		}
 
 		return sb.toString();
@@ -131,7 +131,7 @@ public class SportsTypeDAO {
 		ResultSet rs = null;
 		
 		try {
-			sql = "SELECT NVL(COUNT(*), 0) FROM sportsTypeBoard" + generateWhereClause(bodyPart, keyword);
+			sql = "SELECT NVL(COUNT(*), 0) FROM sportsTypeBoard " + generateWhereClause(bodyPart, keyword);
 			
 			pstmt = conn.prepareStatement(sql);
 			
