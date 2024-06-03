@@ -100,69 +100,76 @@
 			  <input type="radio" class="btn-check" name="btnradio" id="btnradio1" onclick="filterCategory('전체')" ${category == '전체' ? 'checked' : ''} checked>
 			  <label class="btn btn-outline-dark" for="btnradio1">전체</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio2" onclick="filterCategory('잡담')" ${category == '잡담' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio2" onclick="filterCategory('2')" ${category == '2' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio2">잡담</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio3" onclick="filterCategory('건강')" ${category == '건강' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio3" onclick="filterCategory('3')" ${category == '3' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio3">건강</label>
 			  
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio4" onclick="filterCategory('축구')" ${category == '축구' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio4" onclick="filterCategory('4')" ${category == '4' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio4">축구</label>
 			  
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio5" onclick="filterCategory('야구')" ${category == '야구' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio5" onclick="filterCategory('5')" ${category == '5' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio5">야구</label>
 			</div>
 			
 			<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio6" onclick="filterCategory('농구')" ${category == '농구' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio6" onclick="filterCategory('6')" ${category == '6' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio6">농구</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio7" onclick="filterCategory('배구')" ${category == '배구' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio7" onclick="filterCategory('7')" ${category == '7' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio7">배구</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio8" onclick="filterCategory('기타종목')" ${category == '기타종목' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio8" onclick="filterCategory('8')" ${category == '8' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio8">기타종목</label>
 			  
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio9" onclick="filterCategory('동물')" ${category == '동물' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio9" onclick="filterCategory('9')" ${category == '9' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio9">동물</label>
 			  
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio10" onclick="filterCategory('식단')" ${category == '식단' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio10" onclick="filterCategory('10')" ${category == '10' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio10">식단</label>
 			</div>
 			
 			<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio11" onclick="filterCategory('게임')" ${category == '게임' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio11" onclick="filterCategory('11')" ${category == '11' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio11">게임</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio12" onclick="filterCategory('영화')" ${category == '영화' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio12" onclick="filterCategory('12')" ${category == '12' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio12">영화</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio13" onclick="filterCategory('문학')" ${category == '문학' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio13" onclick="filterCategory('13')" ${category == '13' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio13">문학</label>
 			  
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio14" onclick="filterCategory('유머')" ${category == '유머' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio14" onclick="filterCategory('14')" ${category == '14' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio14">유머</label>
 			  
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio15" onclick="filterCategory('연애')" ${category == '연애' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio15" onclick="filterCategory('15')" ${category == '15' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio15">연애</label>
 			</div>
 			
 			<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio16" onclick="filterCategory('여행')" ${category == '여행' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio16" onclick="filterCategory('16')" ${category == '16' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio16">여행</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio17" onclick="filterCategory('음악')" ${category == '음악' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio17" onclick="filterCategory('17')" ${category == '17' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio17">음악</label>
 			
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio18" onclick="filterCategory('취업')" ${category == '취업' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio18" onclick="filterCategory('18')" ${category == '18' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio18">취업</label>
 			  
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio19" onclick="filterCategory('재테크')" ${category == '재테크' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio19" onclick="filterCategory('19')" ${category == '19' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio19">재테크</label>
 			  
-			  <input type="radio" class="btn-check" name="btnradio" id="btnradio20" onclick="filterCategory('IT')" ${category == 'IT' ? 'checked' : ''}>
+			  <input type="radio" class="btn-check" name="btnradio" id="btnradio20" onclick="filterCategory('1')" ${category == '1' ? 'checked' : ''}>
 			  <label class="btn btn-outline-dark" for="btnradio20">IT</label>
 			</div>
+			
+			<!-- <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+			<c:forEach var="dto" items="${list}">
+				<input type="radio" class="btn-check" name="btnradio" id="btnradio21" ${category == 'IT' ? 'checked' : ''}>
+				<label class="btn btn-outline-dark" for="btnradio21">${dto.categoryName}, ${dto.categoryId}</label>
+			</c:forEach>
+			</div> -->
 	</div>
 	
 	

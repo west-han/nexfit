@@ -2,6 +2,8 @@ package com.nexfit.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 
 import com.nexfit.annotation.Controller;
@@ -152,16 +154,26 @@ public class ChallengeBoardController {
 			HttpSession session = req.getSession();
 			SessionInfo info = (SessionInfo)session.getAttribute("member");
 			
-			long boardnum = Long.parseLong(req.getParameter("boardnum"));
+			long num = Long.parseLong(req.getParameter("num"));
 			
-			ChallengeBoardDTO dto = dao.findById(boardnum);
+			ChallengeDAO dao1 = new ChallengeDAO();
+			if(! info.getUserId().equals("admin")) {
+				return new ModelAndView("redirect:/chboard/list");
+				
+			}
+			
+			
+			ChallengeBoardDTO dto = dao.findById(num);
 			
 			if(dto == null ||! info.getUserId().equals("admin")) {
 				return new ModelAndView("redirect:/chboard/list?page=" + page);
 			}
 			
+			List<ChallengeDTO> list = dao1.listChallenge();
+			
 			ModelAndView mav = new ModelAndView("chboard/write");
 			
+			mav.addObject("list", list);
 			mav.addObject("dto", dto);
 			mav.addObject("page", page);
 			mav.addObject("mode", "update");
@@ -217,6 +229,94 @@ public class ChallengeBoardController {
 			e.printStackTrace();
 		}
 		
+		return new ModelAndView("redirect:/chboard/list?page="+page);
+	}
+	
+	
+	@RequestMapping(value = "/chboard/article", method = RequestMethod.GET)
+	public ModelAndView article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		ChallengeBoardDAO dao = new ChallengeBoardDAO();
+		String page = req.getParameter("page");
+		String size = req.getParameter("size");
+		String query = "page=" + page + "&size=" + size;
+			
+		
+		try {
+			long num = Long.parseLong(req.getParameter("num"));
+			
+			String schType = req.getParameter("schType");
+			String kwd = req.getParameter("kwd");
+			if(schType == null) {
+				schType = "all";
+				kwd = "";
+			}
+			kwd = URLDecoder.decode(kwd, "utf-8");
+			
+			if(kwd.length() != 0) {
+				query += "&schType=" + schType
+						+ "&kwd=" + URLEncoder.encode(kwd, "utf-8");
+			
+			}
+			
+			ChallengeBoardDTO dto = dao.findById(num);
+			
+			if(dto == null) {
+				return new ModelAndView("redirect:/chboard/list?page=" + query);
+			}
+			
+			
+			ModelAndView mav = new ModelAndView("chboard/article");
+			
+			mav.addObject("dto", dto);
+			mav.addObject("page", page);
+			mav.addObject("query", query);
+			mav.addObject("size", size);
+			
+			return mav;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ModelAndView("redirect:/chboard/list?" + query);
+	}
+	
+	@RequestMapping(value = "/chboard/delete", method = RequestMethod.GET)
+	public ModelAndView delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ChallengeBoardDAO dao = new ChallengeBoardDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		FileManager fileManager = new FileManager();
+		
+		// 파일 저장 경로
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "photo";
+
+		String page = req.getParameter("page");
+
+		try {
+			long num = Long.parseLong(req.getParameter("num"));
+
+			ChallengeBoardDTO dto = dao.findById(num);
+			if (dto == null) {
+				return new ModelAndView("redirect:/chboard/list?page=" + page);
+			}
+			
+			if (!info.getUserId().equals("admin")) {
+				return new ModelAndView("redirect:/chboard/list?page=" + page);
+			}
+
+			fileManager.doFiledelete(pathname, dto.getImageFilename());
+
+			// 테이블 데이터 삭제
+			dao.deleteChboard(num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return new ModelAndView("redirect:/chboard/list?page="+page);
 	}
 }

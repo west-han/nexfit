@@ -165,9 +165,9 @@ public class BoardDAO {
 	    StringBuilder sb = new StringBuilder();
 
 	    try {
-	        sb.append("SELECT f.num, nickname, categoryName, subject, content, hitCount, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, ");
-	        sb.append("(SELECT COUNT(*) FROM freeBoard_reply WHERE freeBoard_reply.board_num = f.num) AS replyCount, ");
-	        sb.append("(SELECT COUNT(*) FROM freeBoard_Like WHERE freeBoard_Like.board_num = f.num) AS boardLikeCount ");
+	        sb.append("SELECT f.num, nickname, categoryId, categoryName, subject, content, hitCount, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, ");
+	        sb.append("(SELECT COUNT(*) FROM freeBoard_reply r WHERE r.num = f.num) AS replyCount, ");
+	        sb.append("(SELECT COUNT(*) FROM freeBoard_Like l WHERE l.num = f.num) AS boardLikeCount ");
 	        sb.append("FROM freeBoard f ");
 	        sb.append("JOIN member_detail m ON m.userId = f.userId ");
 	        sb.append("JOIN freeboard_category c ON f.categoryId = c.categoryId ");
@@ -203,6 +203,7 @@ public class BoardDAO {
 
 	            dto.setNum(rs.getLong("num"));
 	            dto.setCategoryName(rs.getString("categoryName"));
+	            dto.setCategoryId(rs.getInt("categoryId"));
 	            dto.setNickname(rs.getString("nickname"));
 	            dto.setSubject(rs.getString("subject"));
 	            dto.setHitCount(rs.getInt("hitCount"));
@@ -224,6 +225,7 @@ public class BoardDAO {
 	}
 	
 	
+	
 	// 카테고리별 게시물 리스트
 	public List<BoardDTO> listBoard(int offset, int size, String category) {
 	    List<BoardDTO> list = new ArrayList<>();
@@ -232,21 +234,27 @@ public class BoardDAO {
 	    StringBuilder sb = new StringBuilder();
 
 	    try {
-	        sb.append("SELECT f.num, f.categoryId, categoryName, m.nickname, subject, hitCount, ");
+	        sb.append("SELECT f.num, f.categoryId, c.categoryName, m.nickname, subject, hitCount, ");
 	        sb.append("      TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, ");
-	        sb.append("      NVL(replyCount, 0) replyCount ");
+	        sb.append("      NVL(replyCount, 0) replyCount, ");
+	        sb.append("      NVL(boardLikeCount, 0) boardLikeCount ");
 	        sb.append(" FROM freeboard f ");
 	        sb.append(" JOIN member_detail m ON f.userId = m.userId ");
+	        sb.append(" JOIN freeboard_category c ON f.categoryId = c.categoryId ");
 	        sb.append(" LEFT OUTER JOIN ( ");
 	        sb.append("     SELECT num, COUNT(*) replyCount ");
 	        sb.append("     FROM freeboard_Reply ");
-	        sb.append("     WHERE answer=0 ");
-	        sb.append("     GROUP BY num");
-	        sb.append(" ) c ON f.num = c.num");
+	        sb.append("     GROUP BY num ");
+	        sb.append(" ) r ON f.num = r.num ");
+	        sb.append(" LEFT OUTER JOIN ( ");
+	        sb.append("     SELECT num, COUNT(*) boardLikeCount ");
+	        sb.append("     FROM freeboard_Like ");
+	        sb.append("     GROUP BY num ");
+	        sb.append(" ) l ON f.num = l.num ");
 	        if (!category.equals("전체")) {
-	            sb.append(" WHERE f.categoryId = ?");
+	            sb.append(" WHERE f.categoryId = ? ");
 	        }
-	        sb.append(" ORDER BY num DESC ");
+	        sb.append(" ORDER BY f.num DESC ");
 	        sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 
 	        pstmt = conn.prepareStatement(sb.toString());
@@ -268,6 +276,7 @@ public class BoardDAO {
 	            dto.setHitCount(rs.getInt("hitCount"));
 	            dto.setReg_date(rs.getString("reg_date"));
 	            dto.setReplyCount(rs.getInt("replyCount"));
+	            dto.setBoardLikeCount(rs.getInt("boardLikeCount"));
 	            list.add(dto);
 	        }
 	    } catch (SQLException e) {
@@ -277,6 +286,34 @@ public class BoardDAO {
 	        DBUtil.close(pstmt);
 	    }
 	    return list;
+	}
+
+	// 특정 카테고리의 데이터 개수
+	public int dataCountByCategory(String category) {
+	    int result = 0;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String sql;
+
+	    try {
+	        sql = "SELECT NVL(COUNT(*), 0) FROM freeboard WHERE categoryId = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, Integer.parseInt(category));
+
+	        rs = pstmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            result = rs.getInt(1);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        DBUtil.close(rs);
+	        DBUtil.close(pstmt);
+	    }
+
+	    return result;
 	}
 	
 	

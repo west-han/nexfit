@@ -61,7 +61,23 @@
 											<thead>
 												<tr>
 													<td colspan="2" align="left">
-														${dto.postType == 1? "추천" : "질문"} | "sports" | "career" 
+														${dto.postType == 1? "추천" : "질문"} |  
+														<c:choose>
+															<c:when test="${dto.sports == 1}">헬스</c:when>
+															<c:when test="${dto.sports == 2}">수영</c:when>
+															<c:when test="${dto.sports == 3}">클라이밍</c:when>
+															<c:when test="${dto.sports == 4}">배구</c:when>
+															<c:when test="${dto.sports == 5}">킥복싱</c:when>
+															<c:when test="${dto.sports == 6}">기타</c:when>
+														</c:choose> |
+														<c:choose>
+															<c:when test="${dto.career == 1}">~6개월</c:when>
+															<c:when test="${dto.career == 2}">6개월~1년</c:when>
+															<c:when test="${dto.career == 3}">1년~3년</c:when>
+															<c:when test="${dto.career == 4}">3년~7년</c:when>
+															<c:when test="${dto.career == 5}">7년~</c:when>
+														</c:choose>
+														
 													</td>
 												</tr>
 												
@@ -84,7 +100,15 @@
 												
 												<tr>
 													<td colspan="2" align="left">
-														"주n회"
+														<c:choose>
+															<c:when test="${dto.week == 1}">주1회</c:when>
+															<c:when test="${dto.week == 2}">주2회</c:when>
+															<c:when test="${dto.week == 3}">주3회</c:when>
+															<c:when test="${dto.week == 4}">주4회</c:when>
+															<c:when test="${dto.week == 5}">주5회</c:when>
+															<c:when test="${dto.week == 6}">주6회</c:when>
+															<c:when test="${dto.week == 7}">주7회</c:when>
+														</c:choose>
 													</td>
 												</tr>
 												

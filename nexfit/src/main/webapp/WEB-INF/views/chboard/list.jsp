@@ -63,16 +63,19 @@
 </c:if>
 
  <script type="text/javascript">
-        // 마우스 클릭을 막는 함수
+        // 마우스 클릭을 막음
         function disableImageClick(event) {
             event.preventDefault();
         }
 
-        // 페이지 로드 시 특정 이미지에 클릭 이벤트 리스너 추가
-        window.onload = function() {
-            var image = document.getElementById('no-click-image');
-            image.addEventListener('click', disableImageClick);
-        };
+      $(window).on('load', function() {
+    		$('#no-click-image').on('click', disableImageClick);
+		});
+      
+      function searchList() {
+    		const f = document.searchForm;
+    		f.submit();
+    	}
     </script>
 
 </head>
@@ -90,7 +93,7 @@
 				<div class="row py-5"> <%-- 챌린지게시판로고 --%>
 					<div class="col-11">
 						<img src="/nexfit/resources/images/3.jpg" class="background-image">
-						<a href="#"><img src="/nexfit/resources/images/challenge.png"></a> 
+						<a href="${pageContext.request.contextPath}/chboard/list"><img src="/nexfit/resources/images/challenge.png"></a> 
 						<p><img id="no-click-image" src="/nexfit/resources/images/passion.png"></p>
 					</div>
 				</div>
@@ -104,19 +107,20 @@
 				<div class="body-title">
 					<h2 style="font-family: 'nexon lv2 medium';" class="text-with-border"> 진행중인 챌린지 </h2>
 			</div>
+			<div class="body-main" style="font-family: 'nexon lv1 medium';">	
 			<form class="row mx-auto d-flex justify-content-center" name="searchForm" action="${pageContext.request.contextPath}/board/list" method="post">
     				<div class="col text-start">
 						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chboard/list';"><i class="bi bi-arrow-clockwise"></i></button>
 					</div>
-    <div class="col-auto p-1" style="font-family: 'nexon lv1 light';">
-        <select name="schType" class="form-select">
-            <option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
-            <option value="nickname" ${schType=="nickname"?"selected":""}>작성자</option>
-            <option value="reg_date" ${schType=="reg_date"?"selected":""}>등록일</option>
-            <option value="subject" ${schType=="subject"?"selected":""}>제목</option>
-            <option value="content" ${schType=="content"?"selected":""}>내용</option>
-        </select>
-    </div>
+    		<div class="col-auto p-1" style="font-family: 'nexon lv1 light';">
+        		<select name="schType" class="form-select">
+           		 <option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
+            	 <option value="ch_subject" ${schType=="ch_subject"?"selected":""}>작성자</option>
+             	 <option value="reg_date" ${schType=="reg_date"?"selected":""}>등록일</option>
+            	 <option value="subject" ${schType=="subject"?"selected":""}>제목</option>
+            	 <option value="content" ${schType=="content"?"selected":""}>내용</option>
+        	    </select>
+    		</div>
     <div class="col-auto p-1">
         <input type="text" name="kwd" value="${kwd}" class="form-control" style="width: 400px;">
     </div>
@@ -126,8 +130,9 @@
     <div class="col-auto p-1">
         <button type="button" style="font-family: 'nexon lv1 light';" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chboard/write';">글올리기</button>
     </div>
-</form>
-		<div class="body-main" style="font-family: 'nexon lv1 medium';">
+  
+		
+		
 			
 		        <div class="row board-list-header">
 		            <div class="col-auto me-auto" style="font-family: 'nexon lv1 light';">${dataCount}개(${page}/${total_page} 페이지)</div>
@@ -135,10 +140,9 @@
 		            
 		        </div>	
 				<p>&nbsp;</p>
-				
 				<input type="hidden" name="page" value="${page}">
-				
-				
+			</form>	
+		
 			<div class="row">
     <c:forEach var="dto" items="${list}" varStatus="status">
         <div class="col-md-6 mb-4">
@@ -148,7 +152,7 @@
                     <h5 class="card-title" style="font-family: 'nexon lv2 medium';">${dto.subject}</h5>
                     <p class="card-text" style="font-family: 'nexon lv1 light';">${dto.ch_subject}</p>
                      <p class="card-text" style="font-family: 'nexon lv1 light';">${dto.start_date} ~ ${dto.end_date}</p>
-                    <a href="location.href='${articleUrl}&num=${dto.boardNumber}';" class="btn btn-danger">Go Challenge</a>
+                    <a href="${articleUrl}&num=${dto.boardNumber}" class="btn btn-danger">Go Challenge</a>
                 </div>
             </div>
         </div>

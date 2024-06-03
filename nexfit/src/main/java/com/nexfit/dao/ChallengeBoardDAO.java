@@ -164,23 +164,25 @@ public class ChallengeBoardDAO {
 		return list;
 	}
 	
-	public ChallengeBoardDTO findById(long boardnum) {
+	public ChallengeBoardDTO findById(long num) {
 		ChallengeBoardDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 		
 		try {
-			sql =" SELECT boardnumber, subject,ch_subject, reg_date "
-					+" mod_date,start_date,end_date "
-					+" content, b.challengeId,imageFilename"
+			sql =" SELECT boardnumber, subject,ch_subject, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, "
+					+" TO_CHAR(mod_date, 'YYYY-MM-DD') mod_date, "
+					+" TO_CHAR(start_date, 'YYYY-MM-DD') start_date, "
+					+" TO_CHAR(end_date, 'YYYY-MM-DD') end_date, "
+					+" content, b.challengeId, imageFilename,fee, ch_content "
 					+" FROM challengeboard b"
 					+" JOIN challenge c ON b.challengeId = c.challengeId "
-					+ " WHERE boardnumber  = ? ";
+					+" WHERE boardnumber  = ? ";
 
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setLong(1, boardnum);
+			pstmt.setLong(1, num);
 			
 			rs = pstmt.executeQuery();
 			
@@ -195,8 +197,11 @@ public class ChallengeBoardDAO {
 				dto.setStart_date(rs.getString("start_date"));
 				dto.setEnd_date(rs.getString("end_date"));
 				dto.setContent(rs.getString("content"));
+				dto.setCh_content(rs.getString("ch_content"));
 				dto.setChallengeId(rs.getLong("challengeId"));
 				dto.setImageFilename(rs.getString("imageFilename"));
+				dto.setFee(rs.getLong("fee"));
+				
 			}
 			
 		} catch (Exception e) {

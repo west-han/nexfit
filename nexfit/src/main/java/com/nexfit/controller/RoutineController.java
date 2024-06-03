@@ -18,11 +18,11 @@ import com.nexfit.domain.SessionInfo;
 import com.nexfit.servlet.ModelAndView;
 import com.nexfit.util.MyUtil;
 import com.nexfit.util.MyUtilBootstrap;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 
 @Controller
 public class RoutineController {
@@ -135,6 +135,7 @@ public class RoutineController {
 
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
 
 		try {
 			BoardDTO dto = new BoardDTO();
