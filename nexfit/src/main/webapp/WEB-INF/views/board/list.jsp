@@ -86,9 +86,9 @@
 			<div class="row py-5 mt-5">
 				<div class="col image-container">
 					<img src="/nexfit/resources/images/exercisebg.PNG" class="background-image" style="width:1300px; height:200px; opacity: 0.3;">
-					<img src="/nexfit/resources/images/freelounge.png" class="overlay-image" style="width:450px; height:90px;"><br>
-					<img src="/nexfit/resources/images/sci.png" class="overlay-image2" style="width:300px; height:20px;">
-				</div>
+					<img src="/nexfit/resources/images/freelounge.png" class="overlay-image" style="width:550px; height:110px;"><br>
+					<img src="/nexfit/resources/images/sci.png" class="overlay-image2" style="width:330px; height:25px;">
+				</div> 
 				
 				
 			</div>
