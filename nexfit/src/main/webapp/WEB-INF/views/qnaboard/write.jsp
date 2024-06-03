@@ -52,17 +52,6 @@ function sendOk() {
 
 
 
-function filterCategory(category) {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (categoryName === '전체') {
-        urlParams.delete('category');
-    } else {
-        urlParams.set('category', category);
-    }
-    window.location.href = window.location.pathname + '?' + urlParams.toString();
-}
-
-
 </script>
 
 </head>

@@ -99,9 +99,9 @@
 			<div class="container-xxl text-center">
 				<div class="row py-5 mt-5">
 					<div class="col image-container">
-					<img src="/nexfit/resources/images/exercisebg.PNG" class="background-image" style="width:1300px; height:200px; opacity: 0.3;">
-					<img src="/nexfit/resources/images/freelounge.png" class="overlay-image" style="width:550px; height:110px;"><br>
-					<img src="/nexfit/resources/images/sci.png" class="overlay-image2" style="width:330px; height:25px;">
+					<img src="/nexfit/resources/images/qnapeople.png" class="background-image" style="width:1300px; height:200px; opacity: 0.3;">
+					<img src="/nexfit/resources/images/qnalounge.png" class="overlay-image" style="width:550px; height:110px;"><br>
+					<img src="/nexfit/resources/images/aae.png" class="overlay-image2" style="width:300px; height:20px;"> 
 				</div>
 				</div>
 				
@@ -192,7 +192,7 @@
 												<table class="table table-borderless table-style reply-form">
 													<tr>
 														<td>
-															<textarea class='form-control' name="content" placeholder="댓글 이쁘게 써라."></textarea>
+															<textarea class='form-control' name="content" placeholder="답변 이쁘게 해라."></textarea>
 														</td>
 													</tr>
 													<tr>

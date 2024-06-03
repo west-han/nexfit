@@ -72,6 +72,7 @@
     animation: heart 1s ease-in-out forwards;
 }
 
+.table-article img {max-width: 100%;}
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board2.css" type="text/css">
 <!-- 클라이언트에 자바스크립트 소스를 보이지 않도록 하기 위한 장치 -->

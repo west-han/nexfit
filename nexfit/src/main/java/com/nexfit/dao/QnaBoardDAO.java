@@ -252,7 +252,8 @@ public class QnaBoardDAO {
 			try {
 				sql = "SELECT q.num, q.userId, nickname, subject, content, reg_date, hitCount "
 						+ " FROM qnaboard q "
-						+ " JOIN member_detail m ON q.userId = m.userId ";
+						+ " JOIN member_detail m ON q.userId = m.userId "
+						+ " WHERE q.num = ? ";
 				pstmt = conn.prepareStatement(sql);
 				
 				pstmt.setLong(1, num);
@@ -403,6 +404,66 @@ public class QnaBoardDAO {
 			}
 
 			return dto;
+		}
+		
+		
+		// 게시물 수정
+		public void updateBoard(QnaBoardDTO dto) throws SQLException {
+			PreparedStatement pstmt = null;
+			String sql;
+
+			try {
+				sql = "UPDATE qnaboard SET subject=?, content=? WHERE num=? AND userId=?";
+				pstmt = conn.prepareStatement(sql);
+			
+				pstmt.setString(1, dto.getSubject());
+				pstmt.setString(2, dto.getContent());
+				pstmt.setLong(3, dto.getNum());
+				pstmt.setString(4, dto.getUserId());
+				
+				pstmt.executeUpdate();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			} finally {
+				DBUtil.close(pstmt);
+			}
+
+		}
+		
+		
+		// 게시물 삭제
+		public void deleteBoard(long num, String userId) throws SQLException {
+			PreparedStatement pstmt = null;
+			String sql;
+			
+
+			try {
+				
+				if (userId.equals("admin")) {
+					sql = "DELETE FROM qnaboard WHERE num=?";
+					pstmt = conn.prepareStatement(sql);
+					
+					pstmt.setLong(1, num);
+					
+					pstmt.executeUpdate();
+				} else {
+					sql = "DELETE FROM qnaboard WHERE num=? AND userId=?";
+					
+					pstmt = conn.prepareStatement(sql);
+					
+					pstmt.setLong(1, num);
+					pstmt.setString(2, userId);
+					
+					pstmt.executeUpdate();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			} finally {
+				DBUtil.close(pstmt);
+			}
 		}
 
 }

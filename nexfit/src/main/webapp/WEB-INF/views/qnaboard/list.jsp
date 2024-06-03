@@ -128,6 +128,7 @@
 								<tr>
 									<th class="num">번호</th>
 									<th class="categoryName">제목</th>
+									<th></th>
 									<th class="name">작성자</th>
 									<th class="date">작성일</th>
 									<th class="hit">조회수</th>
@@ -141,10 +142,13 @@
 										<td class="left">
 									
 											<a href="${articleUrl}&num=${dto.num}" class="text-reset">
-											<span style="float: left">${dto.subject} <span style="color: #23A41A; font-weight: bold;">&nbsp; 🗨 ${dto.replyCount}</span>
+											<span style="float: left"><span style="color: blue;">Q.</span> ${dto.subject} <span style="color: #23A41A; font-weight: bold;"> 
 											</span>
 											</a>
 										
+										</td>
+										<td>
+										<span style="color: #23A41A; font-weight: bold;">&nbsp;&nbsp; <span style="color: red; text-align: right;">A.</span> ${dto.replyCount}개</span>
 										</td>
 										<td>${dto.nickname}</td>
 										<td>${dto.reg_date}</td>
