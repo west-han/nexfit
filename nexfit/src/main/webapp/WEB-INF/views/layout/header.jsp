@@ -3,7 +3,6 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 
 
-
 	<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background: #272727; font-family: 'nexon lv2 medium';" >
 		<div class="container">
 			<a href="${pageContext.request.contextPath}/"> 
@@ -38,7 +37,7 @@
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/board/list">FREE LOUNGE</a></li>
-							<li><a class="dropdown-item" href="#">Q&A LOUNGE</a></li>
+							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/qnaboard/list">Q&A LOUNGE</a></li>
 							<li><a class="dropdown-item" href="#">WITH ME</a></li>
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item" href="#">자료실</a></li>

@@ -3,6 +3,7 @@ package com.nexfit.domain;
 public class SessionInfo {
 	private String userId;
 	private String userName;
+	private String nickname;
 	private int userRoll;
 	
 	public String getUserId() {
@@ -23,4 +24,11 @@ public class SessionInfo {
 	public void setUserRoll(int userRoll) {
 		this.userRoll = userRoll;
 	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	
 }

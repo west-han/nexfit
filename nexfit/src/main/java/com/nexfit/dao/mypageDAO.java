@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import com.nexfit.domain.BoardDTO;
 import com.nexfit.util.DBConn;
 import com.nexfit.util.DBUtil;
 

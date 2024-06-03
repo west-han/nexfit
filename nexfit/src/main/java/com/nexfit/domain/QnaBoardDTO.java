@@ -17,7 +17,7 @@ public class QnaBoardDTO {
 	private int depth;
 	private long parent;
 	
-	private String replyCount;
+	private int replyCount;
 	
 	private long fileNum;
 	private String saveFilename;
@@ -105,11 +105,11 @@ public class QnaBoardDTO {
 		this.parent = parent;
 	}
 
-	public String getReplyCount() {
+	public int getReplyCount() {
 		return replyCount;
 	}
 
-	public void setReplyCount(String replyCount) {
+	public void setReplyCount(int replyCount) {
 		this.replyCount = replyCount;
 	}
 
