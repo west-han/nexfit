@@ -5,7 +5,9 @@ import java.io.IOException;
 import com.nexfit.annotation.Controller;
 import com.nexfit.annotation.RequestMapping;
 import com.nexfit.annotation.RequestMethod;
+import com.nexfit.dao.MemberDAO;
 import com.nexfit.dao.mypageDAO;
+import com.nexfit.domain.MemberDTO;
 import com.nexfit.domain.SessionInfo;
 import com.nexfit.servlet.ModelAndView;
 
@@ -29,6 +31,25 @@ public class mypageController {
 		mav.addObject("count", count);
 
 		return mav;
+	}
+	
+	@RequestMapping(value = "/mypage/mypage", method = RequestMethod.POST)
+	public ModelAndView nickName(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+		ModelAndView mav = new ModelAndView("mypage/mypage");
+		MemberDAO dao = new MemberDAO();
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		try {
+			MemberDTO dto = dao.findById(info.getUserId());
+			
+			mav.addObject("dto", dto);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return mav;
+		
 	}
 	
 	

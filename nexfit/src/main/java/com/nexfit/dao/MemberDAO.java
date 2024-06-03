@@ -20,9 +20,10 @@ public class MemberDAO {
 		String sql;
 		
 		try {
-			sql = " SELECT userId, userName, password, reg_date, modify_date "
-					+ " FROM member "
-					+ " WHERE userId = ? AND password = ? AND enabled = 1";
+			sql = " SELECT m.userId, userName, nickname, password, reg_date, modify_date "
+					+ " FROM member m "
+					+ " JOIN member_detail d ON m.userId = d.userId "
+					+ " WHERE m.userId = ? AND password = ? AND enabled = 1";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -34,7 +35,8 @@ public class MemberDAO {
 			if(rs.next()) {
 				dto = new MemberDTO();
 				
-				dto.setUserId(rs.getString("userId"));
+				dto.setUserId(rs.getString("userId")); 
+				dto.setNickname(rs.getString("nickname")); 
 				dto.setUserPwd(rs.getString("password"));
 				dto.setUserName(rs.getString("userName"));
 				dto.setRegister_date(rs.getString("reg_date"));
@@ -107,7 +109,7 @@ public class MemberDAO {
 		StringBuilder sb = new StringBuilder();
 				
 		try {
-			sb.append("SELECT m.userId, userName,nickname, password,");
+			sb.append("SELECT m.userId, userName, nickname, password,");
 			sb.append("      enabled, reg_date, modify_date,");
 			sb.append("      TO_CHAR(birth, 'YYYY-MM-DD') birth, ");
 			sb.append("      email, tel,");
@@ -123,7 +125,7 @@ public class MemberDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-dto = new MemberDTO();
+				dto = new MemberDTO();
 				
 				dto.setUserId(rs.getString("userId"));
 				dto.setUserPwd(rs.getString("password"));
