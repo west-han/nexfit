@@ -88,7 +88,7 @@ public class LoginFilter implements Filter {
 				"/member/login", "/member/logout",
 				"/member/member", "/member/userIdCheck",
 				"/notice/list",
-				"/uploads/photo/**",
+				"/uploads/**",
 				"/resources/**", "/temp",
 				"/news", "/sports/types/list",
 				"/sports/types/listAjax", "/sports/types/detail"

@@ -84,7 +84,7 @@ function sendOk() {
 									<td>
 										<select name="bodyPart" class="form-select" style="width: 100px;">
 											<c:forEach var="entry" items="${map}" varStatus="status">
-												<option value="${entry.key}">${entry.value}</option>
+												<option value="${entry.key}" ${mode == 'update' && dto.bodyPart == entry.key ? 'selected' : ''}>${entry.value}</option>
 											</c:forEach>
 										</select>
 									</td>

@@ -188,4 +188,28 @@ public class SportsController {
 		
 		return new ModelAndView("redirect:/sports/types/list");
 	}
+	
+	public ModelAndView updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 파라미터: 글번호
+		ModelAndView mav = new ModelAndView("/sports/types/write");
+		SportsTypeDAO dao = new SportsTypeDAO();
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		try {
+			if (! info.getUserId().equals("admin")) {
+				return new ModelAndView("redirect:/sports/types/list");
+			}
+			
+			long num = Long.parseLong(req.getParameter("num"));
+			SportTypeDTO dto = dao.findById(num);
+			mav.addObject("dto", dto);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		mav.addObject("mode", "update");
+		return mav;
+	}
 }
