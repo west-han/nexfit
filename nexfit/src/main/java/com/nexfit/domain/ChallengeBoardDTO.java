@@ -11,14 +11,21 @@ public class ChallengeBoardDTO {
 	private String content;
 	private long challengeId;
 	private String ch_content;
+	private String imageFilename;
+	private long fee;
+	
+	public long getFee() {
+		return fee;
+	}
+	public void setFee(long fee) {
+		this.fee = fee;
+	}
 	public String getCh_content() {
 		return ch_content;
 	}
 	public void setCh_content(String ch_content) {
 		this.ch_content = ch_content;
 	}
-	private String imageFilename;
-	
 	
 	public String getCh_subject() {
 		return ch_subject;

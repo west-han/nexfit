@@ -15,6 +15,26 @@
 	max-width: 800px;
 }
 
+.background-image {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%; 
+    height: 45%; 
+    z-index: -1; 
+    object-fit: cover; 
+    opacity: 0.7; 
+}
+
+.text-with-border {
+    color: white; 
+    text-shadow: 
+        -1px -1px 0 black,  
+        1px -1px 0 black,
+        -1px 1px 0 black,
+        1px 1px 0 black; 
+}
+
 
 </style>
 
@@ -50,10 +70,9 @@
         }
 
         // 페이지 로드 시 특정 이미지에 클릭 이벤트 리스너 추가
-        window.onload = function() {
-            var image = document.getElementById('no-click-image');
-            image.addEventListener('click', disableImageClick);
-        };
+       $(window).on('load', function() {
+    		$('#no-click-image').on('click', disableImageClick);
+}		);
     </script>
 
 </head>
@@ -70,11 +89,11 @@
 			</div>
 				<div class="row py-5"> <%-- 챌린지게시판로고 --%>
 					<div class="col-11">
-						<a href="#"><img src="/nexfit/resources/images/challenge.png"></a> 
+						<img src="/nexfit/resources/images/3.jpg" class="background-image">
+						<a href="${pageContext.request.contextPath}/chboard/list"><img src="/nexfit/resources/images/challenge.png"></a> 
 						<p><img id="no-click-image" src="/nexfit/resources/images/passion.png"></p>
 					</div>
-				</div>
-				
+				</div>				
 				
 		<div class="row gx-2">
 		
@@ -82,13 +101,14 @@
 				
 						<div class="col-sm-7"> <%-- 메인공간 --%>
 						<div class="body-title">
-						<h3 style="font-family: 'nexon lv2 medium';"> 등록된 챌린지 </h3>
+						<h2 style="font-family: 'nexon lv2 medium';" class="text-with-border"> 등록된 챌린지 </h2>
 						</div>  
 				<div class="body-main" style="font-family: nexon lv1;">
 		<form name="listForm" method="post">
 		        <div class="row board-list-header">
+		        	<p> </p>
+		        	<p> </p>
 		            <div class="col-auto me-auto" style="font-family: 'nexon lv1 light';">${dataCount}개(${page}/${total_page} 페이지)</div>
-		            <div class="col-auto">&nbsp;</div>
 		        </div>	
 		       <c:if test="${sessionScope.member.userId == 'admin'}">
 									<button type="button" class="btn btn-light" id="btnDeleteList" title="삭제" style="float: right;"><i class="bi bi-trash"></i></button>

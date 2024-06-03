@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
 								<select name="challengeId" id="challengeSelect" class="form-select" aria-label="Default select example">
 								  <option selected value="none">챌린지를 선택하세요!</option>
 								  <c:forEach var="dto" items="${list}" varStatus="status">
-								  	<option  value="${dto.challengeId}" data-content="${dto.ch_content}" data-fee="${dto.fee}" data-challengeId="${dto.challengeId}">${dto.ch_subject}</option>
+								  	<option ${mode=='update'?'selected':'' } value="${dto.challengeId}" data-content="${dto.ch_content}" data-fee="${dto.fee}" data-challengeId="${dto.challengeId}">${dto.ch_subject}</option>
 								  </c:forEach>
 								</select>
 							</td>
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">챌린지 소개</td>
 							 <td>
-                				  <textarea name="ch_content" id="ch_content" class="form-control" readonly style="height: 200px"></textarea>
+                				  <textarea name="ch_content" id="ch_content" class="form-control" readonly style="height: 200px">${dto.ch_content}</textarea>
             				</td>
 						</tr>
 						<tr>
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">참가비</td>
 							<td>
-								<input name="fee" id="fee" class="form-control w-25" readonly>
+								<input name="fee" id="fee" class="form-control w-25" readonly value="${dto.fee}">
 							</td>
 						</tr>
 						
@@ -233,46 +233,40 @@ document.addEventListener('DOMContentLoaded', function() {
 					</table>
 					
 	 	 <script>
-	 	 function updateContent() {
-	         var select = document.getElementById('challengeSelect');
-	         var selectedOption = select.options[select.selectedIndex];
-	         var content = selectedOption.getAttribute('data-content');
-	         var fee = selectedOption.getAttribute('data-fee');
-	         var challengeId = selectedOption.getAttribute('data-challengeId');
-	         document.getElementById('ch_content').value = content;
-	         document.getElementById('fee').value=fee;
-	         document.getElementById('challengeId').value=challengeId;
-	     }
-		//챌린지 선택시 이벤트 추가 
-	     document.getElementById('challengeSelect').addEventListener('change', updateContent);
+	 	function updateContent() {
+	 	    var selectedOption = $('#challengeSelect option:selected');
+	 	    var content = selectedOption.data('content');
+	 	    var fee = selectedOption.data('fee');
+	 	    var challengeId = selectedOption.data('challenge-id');
+	 	    $('#ch_content').val(content);
+	 	    $('#fee').val(fee);
+	 	    $('#challengeId').val(challengeId);
+	 	}
+	         $('#challengeSelect').on('change', updateContent);
 			
-        function setEndDate(days) {
-            var startDateInput = document.getElementById('start_date');
-            var endDateInput = document.getElementById('end_date');
-            var startDate = new Date(startDateInput.value);
+	    function setEndDate(days) {
+	        var startDateInput = $('#start_date');
+	        var endDateInput = $('#end_date');
+	        var startDate = new Date(startDateInput.val());
 
-            if (!isNaN(startDate.getTime())) { 
-                startDate.setDate(startDate.getDate() + days); 
-                var endDate = startDate.toISOString().split('T')[0]; 
-                endDateInput.value = endDate;
-            }
-        }
+	        if (!isNaN(startDate.getTime())) { 
+	        	  startDate.setDate(startDate.getDate() + days); 
+	        	  var endDate = startDate.toISOString().split('T')[0]; 
+	        	  endDateInput.val(endDate);
+	        	}
+	    }
 
         function clearSelection() {
-            document.querySelectorAll('.btn.btn-secondary').forEach(button => {
-                button.classList.remove('selected');
-            });
+            $('.btn.btn-secondary').removeClass('selected');
         }
 
-        document.querySelectorAll('.btn.btn-secondary').forEach(button => {
-            button.addEventListener('click', function() {
-                clearSelection();
-                this.classList.add('selected');
-                var days = parseInt(this.getAttribute('data-days'));
-                setEndDate(days);
-            });
+        $('.btn.btn-secondary').on('click', function() {
+            clearSelection();
+            $(this).addClass('selected');
+            var days = parseInt($(this).data('days'));
+            setEndDate(days);
         });
-       
+        
     </script>
 					
 					<table class="table table-borderless">
@@ -283,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
 								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chboard/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
 								
 								<c:if test="${mode == 'update'}">
-									<input type="hidden" name="num" value="${dto.boardnum}">
+									<input type="hidden" name="num" value="${dto.boardNumber}">
 									<input type="hidden" name="imageFilename" value="${dto.imageFilename}">
 									<input type="hidden" name="page" value="${page}">
 								</c:if>
