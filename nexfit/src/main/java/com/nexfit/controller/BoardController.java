@@ -29,111 +29,105 @@ public class BoardController {
 
 	@RequestMapping(value = "/board/list")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 게시물 리스트
-		// 파라미터: [페이지 번호, 검색 컬럼, 검색 키워드, 카테고리]
-		ModelAndView mav = new ModelAndView("board/list");
+	    ModelAndView mav = new ModelAndView("board/list");
 
-		BoardDAO dao = new BoardDAO();
-		MyUtil util = new MyUtilBootstrap();
-		
-		try {
-			String page = req.getParameter("page");
-			int current_page = 1;
-			if (page != null) {
-				current_page = Integer.parseInt(page);
-			}
-			
-			// 검색
-			String schType = req.getParameter("schType");
-			String kwd = req.getParameter("kwd");
-			if (schType == null) {
-				schType = "all";
-				kwd = "";
-			}
-			
-			
-			// 카테고리 필터
-            String category = req.getParameter("category");
-            if (category == null || category.isEmpty()) {
-                category = "전체";
-            }
-            
-            
+	    BoardDAO dao = new BoardDAO();
+	    MyUtil util = new MyUtilBootstrap();
 
-            
-			// GET 방식인 경우 디코딩
-			if (req.getMethod().equalsIgnoreCase("GET")) {
-				kwd = URLDecoder.decode(kwd, "utf-8");
-			}
+	    try {
+	        String page = req.getParameter("page");
+	        int current_page = 1;
+	        if (page != null) {
+	            current_page = Integer.parseInt(page);
+	        }
 
-			// 전체 데이터 개수
-			int dataCount;
-			if (kwd.length() == 0) {
-				dataCount = dao.dataCount();
-			} else {
-				dataCount = dao.dataCount(schType, kwd);
-			}
-			
-			
-			// 전체 페이지 수
-			int size = 10;
-			int total_page = util.pageCount(dataCount, size);
-			if (current_page > total_page) {
-				current_page = total_page;
-			}
+	        // 검색
+	        String schType = req.getParameter("schType");
+	        String kwd = req.getParameter("kwd");
+	        if (schType == null) {
+	            schType = "all";
+	            kwd = "";
+	        }
 
-			// 게시물 가져오기
-			int offset = (current_page - 1) * size;
-			if(offset < 0) offset = 0;
+	        // 카테고리 필터
+	        String category = req.getParameter("category");
+	        if (category == null || category.isEmpty()) {
+	            category = "전체";
+	        }
 
-			List<BoardDTO> list = null;
-			if (kwd.length() == 0) {
-				list = dao.listBoard(offset, size);
-			} else {
-				list = dao.listBoard(offset, size, schType, kwd);
-			}
+	        // GET 방식인 경우 디코딩
+	        if (req.getMethod().equalsIgnoreCase("GET")) {
+	            kwd = URLDecoder.decode(kwd, "utf-8");
+	        }
 
-			String query = "";
-			if (kwd.length() != 0) {
-				query = "schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "utf-8");
-			}
-			if (!category.equals("전체")) {
-                query += "&category=" + URLEncoder.encode(category, "utf-8");
-            }
-			
+	        // 전체 데이터 개수
+	        int dataCount;
+	        if (kwd.length() == 0) {
+	            if (category.equals("전체")) {
+	                dataCount = dao.dataCount();
+	            } else {
+	                dataCount = dao.dataCountByCategory(category);
+	            }
+	        } else {
+	            dataCount = dao.dataCount(schType, kwd);
+	        }
 
-			// 페이징 처리
-			String cp = req.getContextPath();
-			String listUrl = cp + "/board/list";
-			String articleUrl = cp + "/board/article?page=" + current_page;
-			if (query.length() != 0) {
-				listUrl += "?" + query;
-				articleUrl += "&" + query;
-			}
+	        // 전체 페이지 수
+	        int size = 10;
+	        int total_page = util.pageCount(dataCount, size);
+	        if (current_page > total_page) {
+	            current_page = total_page;
+	        }
 
-			String paging = util.paging(current_page, total_page, listUrl);
+	        // 게시물 가져오기
+	        int offset = (current_page - 1) * size;
+	        if (offset < 0) offset = 0;
 
-			
-			
-			// 포워딩할 JSP에 전달할 속성
-			mav.addObject("list", list);
-			mav.addObject("page", current_page);
-			mav.addObject("total_page", total_page);
-			mav.addObject("dataCount", dataCount);
-			mav.addObject("size", size);
-			mav.addObject("articleUrl", articleUrl);
-			mav.addObject("paging", paging);
-			mav.addObject("schType", schType);
-			mav.addObject("kwd", kwd);
-			mav.addObject("category", category);
+	        List<BoardDTO> list;
+	        if (kwd.length() == 0) {
+	            list = dao.listBoard(offset, size, category);
+	        } else {
+	            list = dao.listBoard(offset, size, schType, kwd);
+	        }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	        String query = "";
+	        if (kwd.length() != 0) {
+	            query = "schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "utf-8");
+	        }
+	        if (!category.equals("전체")) {
+	            query += (query.isEmpty() ? "" : "&") + "category=" + URLEncoder.encode(category, "utf-8");
+	        }
 
-		// JSP로 포워딩
-		return mav;
+	        // 페이징 처리
+	        String cp = req.getContextPath();
+	        String listUrl = cp + "/board/list";
+	        String articleUrl = cp + "/board/article?page=" + current_page;
+	        if (query.length() != 0) {
+	            listUrl += "?" + query;
+	            articleUrl += "&" + query;
+	        }
+
+	        String paging = util.paging(current_page, total_page, listUrl);
+
+	        // 포워딩할 JSP에 전달할 속성
+	        mav.addObject("list", list);
+	        mav.addObject("page", current_page);
+	        mav.addObject("total_page", total_page);
+	        mav.addObject("dataCount", dataCount);
+	        mav.addObject("size", size);
+	        mav.addObject("articleUrl", articleUrl);
+	        mav.addObject("paging", paging);
+	        mav.addObject("schType", schType);
+	        mav.addObject("kwd", kwd);
+	        mav.addObject("category", category);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return mav;
 	}
+
 
 	@RequestMapping(value = "/board/write", method = RequestMethod.GET)
 	public ModelAndView writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
