@@ -112,16 +112,18 @@
 							<div class="container">
 								<div class="body-container">	
 									<div class="body-title">
-										<h3 style="font-family: 'nexon lv2 medium';"> 자유 게시판 </h3>
+										<h3 style="font-family: 'nexon lv2 medium';"> 질의 게시판 </h3>
 									</div>
 									
 									<div class="body-main">
 										
 										<table class="table table-style">
 											<thead>
+												
+												
 												<tr>
-													<td colspan="2" align="center">
-														${dto.subject}
+													<td colspan="2" align="center" style="background: #1266FF; color: white; font-family: 'nexon lv2 medium';"> 
+														<h5>Q. ${dto.subject}</h5>
 													</td>
 												</tr>
 											</thead>
