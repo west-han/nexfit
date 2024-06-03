@@ -52,6 +52,14 @@ public class RoutineController {
 				schType = "all";
 				kwd = "";
 			}
+			
+			/**
+			// 공지글
+			List<BoardDTO> listNotice = null;
+			if(current_page == 1) {
+				listNotice = dao.listNotice();
+			}
+			**/
 
 			// GET 방식인 경우 디코딩
 			if (req.getMethod().equalsIgnoreCase("GET")) {
@@ -171,7 +179,7 @@ public class RoutineController {
 		// 글보기
 		// 파라미터: 글번호, [페이지 번호, 검색할 컬럼, 검색어]
 		RoutineDAO dao = new RoutineDAO();
-		MyUtil util = new MyUtilBootstrap();
+		// MyUtil util = new MyUtilBootstrap();
 
 		String page = req.getParameter("page");
 		String query = "page=" + page;
@@ -198,7 +206,7 @@ public class RoutineController {
 			if (dto == null) { // 게시물이 없으면 다시 리스트로
 				return new ModelAndView("redirect:/routine/list?" + query);
 			}
-			//dto.setContent(util.htmlSymbols(dto.getContent()));
+			// dto.setContent(util.htmlSymbols(dto.getContent()));
 
 			// 이전글 다음글
 			BoardDTO prevDto = dao.findByPrev(dto.getNum(), schType, kwd);

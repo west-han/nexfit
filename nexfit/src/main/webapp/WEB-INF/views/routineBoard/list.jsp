@@ -16,6 +16,12 @@
 }
 </style>
 
+<script type="text/javascript">
+function searchList() {
+	const f = document.searchForm;
+	f.submit();
+}
+</script>
 </head>
 
 <body>
@@ -45,7 +51,7 @@
 						<div class="col-auto p-1">
 							<select name="schType" class="form-select">
 								<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
-								<option value="userName" ${schType=="userName"?"selected":""}>작성자</option>
+								<option value="nickname" ${schType=="nickname"?"selected":""}>작성자</option>
 								<option value="reg_date" ${schType=="reg_date"?"selected":""}>등록일</option>
 								<option value="subject" ${schType=="subject"?"selected":""}>제목</option>
 								<option value="content" ${schType=="content"?"selected":""}>내용</option>
@@ -80,6 +86,19 @@
 							</thead>
 							
 							<tbody>
+								<c:forEach var="dto" items="${listNotice}">
+								<tr>
+									
+									<td><span class="badge bg-primary">공지</span></td>
+									<td class="left">
+										<span class="d-inline-block text-truncate align-middle" style="max-width: 390px;"><a href="${articleUrl}&num=${dto.num}" class="text-reset">${dto.subject}</a></span>
+									</td>
+									<td>${dto.userName}</td>
+									<td>${dto.reg_date}</td>
+									<td>${dto.hitCount}</td>
+								</tr>
+							</c:forEach>
+							
 								<c:forEach var="dto" items="${list}" varStatus="status">
 									<tr>
 										<td>${dataCount - (page-1) * size - status.index}</td>

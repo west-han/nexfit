@@ -123,7 +123,7 @@ public class RoutineDAO {
 				sql += " WHERE INSTR(subject, ?) >= 1 OR INSTR(content, ?) >= 1 ";
 			} else if (schType.equals("reg_date")) {
 				kwd = kwd.replaceAll("(\\-|\\/|\\.)", "");
-				sql += " WEHRE TO_CHAR(reg_date, 'YYYYMMDD') = ? ";
+				sql += " WHERE TO_CHAR(reg_date, 'YYYYMMDD') = ? ";
 			} else {
 				sql += " WHERE INSTR(" + schType + ", ?) >= 1 ";
 			}
@@ -149,6 +149,46 @@ public class RoutineDAO {
 		}
 		
 		return result;
+	}
+	
+	public List<BoardDTO> listNotice() {
+		List<BoardDTO> list = new ArrayList<BoardDTO>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			sb.append(" SELECT num, nickname, subject, hitCount, ");
+			sb.append(" TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date ");
+			sb.append(" FROM routineBoard r ");
+			sb.append(" JOIN member_detail m ON r.userId = m.userId ");
+			sb.append(" WHERE notice = 1 ");
+			sb.append(" ORDER BY num DESC ");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				BoardDTO dto = new BoardDTO();
+				
+				dto.setNum(rs.getLong("num"));
+				dto.setNickname(rs.getString("nickname"));
+				dto.setSubject(rs.getString("subject"));
+				dto.setHitCount(rs.getInt("hitCount"));
+				dto.setReg_date(rs.getString("reg_date"));
+				
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return list;
 	}
 	
 	public List<BoardDTO> listRoutine(int offset, int size) {
