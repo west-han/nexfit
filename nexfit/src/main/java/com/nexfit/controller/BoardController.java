@@ -132,7 +132,6 @@ public class BoardController {
 	@RequestMapping(value = "/board/write", method = RequestMethod.GET)
 	public ModelAndView writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글쓰기 폼
-		// (여기에서는 구현하지 않았지만 등록 취소 누를 때 돌아갈 곳 지정을 위해 [페이지 번호, 검색 컬럼, 검색어] 넘겨받아 이용할 수 있음)
 		ModelAndView mav = new ModelAndView("board/write");
 		mav.addObject("mode", "write");
 		return mav;
