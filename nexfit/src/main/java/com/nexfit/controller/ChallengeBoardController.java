@@ -41,10 +41,26 @@ public class ChallengeBoardController {
 			if(page != null) {
 				current_page = Integer.parseInt(page);
 			}
+			// 검색
+			String schType = req.getParameter("schType");
+			String kwd = req.getParameter("kwd");
+			if (schType == null) {
+				schType = "all";
+				kwd = "";
+			}
+
+			// GET 방식인 경우 디코딩
+			if (req.getMethod().equalsIgnoreCase("GET")) {
+				kwd = URLDecoder.decode(kwd, "utf-8");
+			}
 			
 			// 전체 데이터 개수
-			int dataCount = dao.dataCount();
-			
+			int dataCount;
+			if (kwd.length() == 0) {
+				dataCount = dao.dataCount();
+			} else {
+				dataCount = dao.dataCount(schType, kwd);
+			}
 			// 전체 페이지수
 			int size = 6;
 			int total_page = util.pageCount(dataCount, size);
@@ -52,16 +68,32 @@ public class ChallengeBoardController {
 				current_page = total_page;
 			}
 			
-			// 게시글 가져오기
+			// 게시물 가져오기
 			int offset = (current_page - 1) * size;
 			if(offset < 0) offset = 0;
-			
-			List<ChallengeBoardDTO> list = dao.listChallengeboard(offset, size);
-			
+						
+			List<ChallengeBoardDTO> list = null;
+			if (kwd.length() == 0) {
+					list = dao.listChallengeboard(offset, size);
+			} else {
+					list = dao.listChallengeboard(offset, size, schType, kwd);
+			}
+						
+			String query = "";
+			if (kwd.length() != 0) {
+				query = "schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "utf-8");
+			}
 			// 페이징
+			
+			
 			String cp = req.getContextPath();
 			String listUrl = cp + "/chboard/list";
 			String articleUrl = cp + "/chboard/article?page=" + current_page;
+			if (query.length() != 0) {
+				listUrl += "?" + query;
+				articleUrl += "&" + query;
+			}
+			
 			String paging = util.paging(current_page, total_page, listUrl);
 			
 			// 포워딩할 list에 전달할 속성
