@@ -24,7 +24,7 @@
 							SPORTS
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="#">프로그래밍</a></li>
+							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/routine/list">ROUTINE</a></li>
 							<li><a class="dropdown-item" href="#">데이터베이스</a></li>
 							<li><a class="dropdown-item" href="#">웹프로그래밍</a></li>
 							<li><hr class="dropdown-divider"></li>
