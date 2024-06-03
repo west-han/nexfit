@@ -1,5 +1,7 @@
 package com.nexfit.domain;
 
+import java.util.List;
+
 public class MypageDTO {
 	private String nickname;
 	private String bio;
@@ -10,7 +12,14 @@ public class MypageDTO {
 	private String zip;
 	private String addr1;
 	private String addr2;
+	private List<BoardDTO> mypageList;
 	
+	public List<BoardDTO> getMypageList() {
+		return mypageList;
+	}
+	public void setMypageList(List<BoardDTO> mypageList) {
+		this.mypageList = mypageList;
+	}
 	public String getBio() {
 		return bio;
 	}
