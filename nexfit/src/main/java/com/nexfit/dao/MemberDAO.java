@@ -70,7 +70,7 @@ public class MemberDAO {
 			pstmt.close();
 			pstmt = null;
 			
-			sql = "insert into member_detail(userId,nickname,birth, email, tel, zip,addr1, addr2) values(?,?,to_date(?,'YYYY-MM-DD'),?,?,?,?,?)"; 
+			sql = "insert into member_detail(userId,nickname,birth, email, tel, zip,addr1, addr2,bio) values(?,?,to_date(?,'YYYY-MM-DD'),?,?,?,?,?,'한 줄 소개가 없습니다.')"; 
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getUserId());
@@ -110,7 +110,7 @@ public class MemberDAO {
 				
 		try {
 			sb.append("SELECT m.userId, userName, nickname, password,");
-			sb.append("      enabled, reg_date, modify_date,");
+			sb.append("      enabled, reg_date, modify_date,bio,");
 			sb.append("      TO_CHAR(birth, 'YYYY-MM-DD') birth, ");
 			sb.append("      email, tel,");
 			sb.append("      zip, addr1, addr2");
@@ -130,6 +130,7 @@ public class MemberDAO {
 				dto.setUserId(rs.getString("userId"));
 				dto.setUserPwd(rs.getString("password"));
 				dto.setNickname(rs.getString("nickname"));
+				dto.setBio(rs.getString("bio"));
 				dto.setUserName(rs.getString("userName"));
 				dto.setEnabled(rs.getInt("enabled"));
 				dto.setRegister_date(rs.getString("reg_date"));

@@ -112,7 +112,7 @@ public class mypageDAO {
 				pstmt.close();
 				pstmt = null;
 				
-				sql = "update member_detail set birth=?, email=?, tel=?,zip=?,addr1=?,addr2=?,nickname=?";
+				sql = "update member_detail set birth=?, email=?, tel=?,zip=?,addr1=?,addr2=?,nickname=?, bio=?";
 				pstmt = conn.prepareStatement(sql);
 				
 				pstmt.setString(1, dto.getBirth());
@@ -122,19 +122,14 @@ public class mypageDAO {
 				pstmt.setString(5, dto.getAddr1());
 				pstmt.setString(6, dto.getAddr2());
 				pstmt.setString(7, dto.getNickname());
+				pstmt.setString(8, dto.getBio());
 				
 				pstmt.executeUpdate();
 				
 				pstmt.close();
 				pstmt = null;
 				
-				sql = "insert into member_detail(nickname) values (?)";
-				pstmt = conn.prepareStatement(sql);
 				
-				pstmt.setString(1, dto.getNickname());
-				
-				pstmt.executeUpdate();
-				conn.commit();
 				
 				
 			} catch (SQLException e) {

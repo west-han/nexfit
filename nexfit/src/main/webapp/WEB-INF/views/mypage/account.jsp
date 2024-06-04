@@ -178,7 +178,7 @@ window.addEventListener('load', () => {
 					<div class="row mb-3">
 						<label class="col-sm-2 col-form-label" for="nickname">닉네임</label>
 						<div class="col-sm-10">
-				            <input type="text" name="nickname" id="nickname" class="form-control" autocomplete="off" placeholder="닉네임" maxlength="10">
+				            <input type="text" name="nickname" id="nickname" class="form-control" autocomplete="off" placeholder="닉네임" maxlength="10" value="${dto.nickname }">
 				            <small class="form-control-plaintext">닉네임은 5~10자 가능합니다.</small>
 				        </div>
 				    </div>
@@ -186,7 +186,7 @@ window.addEventListener('load', () => {
 				    <div class="row mb-3">
 						<label class="col-sm-2 col-form-label" for="bio">한줄 소개</label>
 						<div class="col-sm-10">
-				            <input type="text" name="bio" id="bio" class="form-control" autocomplete="off" placeholder="한 줄 소개를 입력하세요" maxlength="20">
+				            <input type="text" name="bio" id="bio" class="form-control" autocomplete="off" placeholder="한 줄 소개를 입력하세요" maxlength="20" value="${dto.bio}">
 				            <small class="form-control-plaintext">한줄소개는 20자까지 가능합니다.</small>
 				        </div>
 				    </div>

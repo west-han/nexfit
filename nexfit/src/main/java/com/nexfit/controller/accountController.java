@@ -65,6 +65,23 @@ public class accountController {
 			return new ModelAndView("redirect:/");
 		}
 		
+		@RequestMapping(value = "/mypage/update", method = RequestMethod.GET)
+		public ModelAndView updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+			MemberDAO dao = new MemberDAO();
+			HttpSession session = req.getSession();
+			SessionInfo info = (SessionInfo) session.getAttribute("member");
+			
+			MemberDTO dto = dao.findById(info.getUserId());
+			ModelAndView mav = new ModelAndView("mypage/account"); // 뷰가 있는 위치로 가겠다는거임
+			
+			
+			mav.addObject("dto",dto);
+			
+			
+			return mav;
+					
+		}
+		
 		
 		@RequestMapping(value = "/mypage/update", method = RequestMethod.POST)
 		public ModelAndView updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{

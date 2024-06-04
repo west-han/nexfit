@@ -44,7 +44,7 @@
 				  </li>
 				  <li class="list-group-item d-flex justify-content-between align-items-start">
 				    <div class="ms-2 me-auto">
-				      <div class="fw-bold" ><a href="${pageContext.request.contextPath}/mypage/account">계정관리</a></div>
+				      <div class="fw-bold" ><a href="${pageContext.request.contextPath}/mypage/update">계정관리</a></div>
 				    </div>
 				  </li>
 				  <li class="list-group-item d-flex justify-content-between align-items-start">
