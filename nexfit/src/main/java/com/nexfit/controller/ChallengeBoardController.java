@@ -240,7 +240,7 @@ public class ChallengeBoardController {
 			dto.setStart_date(req.getParameter("start_date"));
 			dto.setEnd_date(req.getParameter("end_date"));
 			dto.setContent(req.getParameter("content"));
-			
+			dto.setBoardNumber(Long.parseLong(req.getParameter("num")));
 			String imageFilename = req.getParameter("imageFilename");
 			dto.setImageFilename(imageFilename);
 			
@@ -251,7 +251,6 @@ public class ChallengeBoardController {
 				String filename = multipart.getSaveFilename();
 				dto.setImageFilename(filename);
 				
-				// 기존 파일 지우기
 				fileManager.doFiledelete(pathname, imageFilename);
 			}
 			

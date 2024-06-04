@@ -278,6 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
 								
 								<c:if test="${mode == 'update'}">
 									<input type="hidden" name="num" value="${dto.boardNumber}">
+									<input type="hidden" name="size" value="${size}">
 									<input type="hidden" name="imageFilename" value="${dto.imageFilename}">
 									<input type="hidden" name="page" value="${page}">
 								</c:if>
