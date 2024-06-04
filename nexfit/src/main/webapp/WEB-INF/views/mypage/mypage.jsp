@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>spring</title>
+<title>NEXFIT : 운동이 재밌는 커뮤니티</title>
 
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
@@ -70,12 +70,12 @@
 								</div>
 								<div style="float: left;">
 								<div class="signedup">
-								<p>NEXFIT 가입 날짜 : ${dto.reg_date}</p>
+								<p>NEXFIT 가입 날짜 : ${sessionScope.member.reg_date}</p>
 								</div> 
 								
 								<div class="wrote">
 								<p>작성수 <i class="bi bi-file-earmark-text"></i>${count}
-								댓글수 <i class="bi bi-chat-right-text"></i>00개</p>
+								댓글수 <i class="bi bi-chat-right-text"></i>${rpl_count}개</p>
 								</div>
 								</div>
 							</div>

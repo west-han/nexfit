@@ -58,7 +58,7 @@ public class MemberDAO {
 		try {
 			conn.setAutoCommit(false);
 			
-			sql="insert into member(userId, userName,password) values(?,?,?)";
+			sql="insert into member(userId, userName,password,reg_date) values(?,?,?,sysdate)";
 			pstmt=conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getUserId());

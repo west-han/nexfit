@@ -27,11 +27,14 @@ public class mypageController {
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		int count = dao.dataCount(info.getUserId());
-		
+		int rpl_count =  dao.replyCount(info.getUserId());
 		mav.addObject("count", count);
+		mav.addObject("rpl_count", rpl_count);
 
 		return mav;
 	}
+	
+	// get으로 멤버정보 받아오는 코드 짜야함
 	
 	@RequestMapping(value = "/mypage/mypage", method = RequestMethod.POST)
 	public ModelAndView nickName(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{

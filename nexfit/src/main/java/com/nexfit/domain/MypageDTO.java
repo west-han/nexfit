@@ -1,6 +1,5 @@
 package com.nexfit.domain;
 
-import java.util.List;
 
 public class MypageDTO {
 	private String nickname;
@@ -8,18 +7,15 @@ public class MypageDTO {
 	private String reg_date;
 	private String birth;
 	private String email;
+	private String email1;
+	private String email2;
 	private String tel;
+	private String tel1;
+	private String tel2;
+	private String tel3;
 	private String zip;
 	private String addr1;
 	private String addr2;
-	private List<BoardDTO> mypageList;
-	
-	public List<BoardDTO> getMypageList() {
-		return mypageList;
-	}
-	public void setMypageList(List<BoardDTO> mypageList) {
-		this.mypageList = mypageList;
-	}
 	public String getBio() {
 		return bio;
 	}
@@ -73,6 +69,36 @@ public class MypageDTO {
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+	public String getEmail1() {
+		return email1;
+	}
+	public void setEmail1(String email1) {
+		this.email1 = email1;
+	}
+	public String getEmail2() {
+		return email2;
+	}
+	public void setEmail2(String email2) {
+		this.email2 = email2;
+	}
+	public String getTel1() {
+		return tel1;
+	}
+	public void setTel1(String tel1) {
+		this.tel1 = tel1;
+	}
+	public String getTel2() {
+		return tel2;
+	}
+	public void setTel2(String tel2) {
+		this.tel2 = tel2;
+	}
+	public String getTel3() {
+		return tel3;
+	}
+	public void setTel3(String tel3) {
+		this.tel3 = tel3;
 	}
 
 	
