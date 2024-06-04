@@ -170,7 +170,7 @@ public class BoardController {
 		// 게시글 보기
 		// 파라미터: 글번호, [페이지 번호, 검색할 컬럼, 검색어]
 		BoardDAO dao = new BoardDAO();
-		MyUtil util = new MyUtilBootstrap();
+		// MyUtil util = new MyUtilBootstrap();
 
 		String page = req.getParameter("page");
 		String query = "page=" + page;
