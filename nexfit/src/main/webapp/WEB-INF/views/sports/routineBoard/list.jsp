@@ -47,7 +47,7 @@ function searchList() {
 					<div class="body-title">
 						<h3>ROUTINE</h3>
 					</div>
-					<form class="row mx-auto" name="searchForm" action="${pageContext.request.contextPath}/routine/list" method="post" >
+					<form class="row mx-auto" name="searchForm" action="${pageContext.request.contextPath}/sports/routine/list" method="post" >
 						<div class="col-auto p-1">
 							<select name="schType" class="form-select">
 								<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
@@ -69,7 +69,7 @@ function searchList() {
 					<div class="body-main">
 				        <div class="row board-list-header">
 				            <div class="col-auto me-auto">${dataCount}개(${page}/${total_page} 페이지)</div>
-				            <div class="col-auto">&nbsp;<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/routine/write';">글쓰기</button></div>
+				            <div class="col-auto">&nbsp;<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/sports/routine/write';">글쓰기</button></div>
 				        </div> 
 				     				
 						<table class="table table-hover board-list">
@@ -86,19 +86,6 @@ function searchList() {
 							</thead>
 							
 							<tbody>
-								<c:forEach var="dto" items="${listNotice}">
-								<tr>
-									
-									<td><span class="badge bg-primary">공지</span></td>
-									<td class="left">
-										<span class="d-inline-block text-truncate align-middle" style="max-width: 390px;"><a href="${articleUrl}&num=${dto.num}" class="text-reset">${dto.subject}</a></span>
-									</td>
-									<td>${dto.userName}</td>
-									<td>${dto.reg_date}</td>
-									<td>${dto.hitCount}</td>
-								</tr>
-							</c:forEach>
-							
 								<c:forEach var="dto" items="${list}" varStatus="status">
 									<tr>
 										<td>${dataCount - (page-1) * size - status.index}</td>
@@ -130,7 +117,7 @@ function searchList() {
 						<br>
 						<div class="row board-list-footer">
 							<div class="col">
-								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/routineBoard/list';" style="float: left;"><i class="bi bi-arrow-clockwise"></i></button>
+								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/sports/routineBoard/list';" style="float: left;"><i class="bi bi-arrow-clockwise"></i></button>
 							</div>
 							
 						</div>

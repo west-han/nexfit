@@ -24,7 +24,7 @@
 		function deleteBoard() {
 		    if(confirm("게시글을 삭제 하시 겠습니까 ? ")) {
 			    let query = "num=${dto.num}&${query}";
-			    let url = "${pageContext.request.contextPath}/routine/delete?" + query;
+			    let url = "${pageContext.request.contextPath}/sports/routine/delete?" + query;
 		    	location.href = url;
 		    }
 		}
@@ -130,7 +130,7 @@
 													<td colspan="2" style="text-align: left">
 														이전글 :
 														<c:if test="${not empty prevDto}">
-															<a href="${pageContext.request.contextPath}/routine/article?${query}&num=${prevDto.num}">${prevDto.subject}</a>
+															<a href="${pageContext.request.contextPath}/sports/routine/article?${query}&num=${prevDto.num}">${prevDto.subject}</a>
 														</c:if>
 													</td>
 												</tr>
@@ -138,7 +138,7 @@
 													<td colspan="2" style="text-align: left">
 														다음글 :
 														<c:if test="${not empty nextDto}">
-															<a href="${pageContext.request.contextPath}/routine/article?${query}&num=${nextDto.num}">${nextDto.subject}</a>
+															<a href="${pageContext.request.contextPath}/sports/routine/article?${query}&num=${nextDto.num}">${nextDto.subject}</a>
 														</c:if>
 													</td>
 												</tr>
@@ -150,7 +150,7 @@
 												<td width="50%" style="text-align: left;">
 													<c:choose>
 														<c:when test="${sessionScope.member.userId==dto.userId}">
-															<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/routine/update?num=${dto.num}&page=${page}';">수정</button>
+															<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/sports/routine/update?num=${dto.num}&page=${page}';">수정</button>
 														</c:when>
 														<c:otherwise>
 															<button type="button" class="btn btn-light" disabled>수정</button>
@@ -167,7 +167,7 @@
 											    	</c:choose>
 												</td>
 												<td class="text-end">
-													<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/routine/list?${query}';">리스트</button>
+													<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/sports/routine/list?${query}';">리스트</button>
 												</td>
 											</tr>
 										</table>
@@ -260,7 +260,7 @@ $(function() {
 			return false;
 		}
 		
-		let url = '${pageContext.request.contextPath}/routine/insertBoardLike';
+		let url = '${pageContext.request.contextPath}/sports/routine/insertBoardLike';
 		let num = '${dto.num}';
 		let query = "num=" + num + "&isNoLike=" + isNoLike;
 		
@@ -289,7 +289,7 @@ $(function() {
 });
 
 function listPage(page) {
-	let url = "${pageContext.request.contextPath}/routine/listReply";
+	let url = "${pageContext.request.contextPath}/sports/routine/listReply";
 	let query = "num=${dto.num}&pageNo=" + page;
 	let selector = "#listReply";
 	
@@ -314,7 +314,7 @@ $(function() {
 		}
 		content = encodeURIComponent(content);
 		
-		let url = "${pageContext.request.contextPath}/routine/insertReply";
+		let url = "${pageContext.request.contextPath}/sports/routine/insertReply";
 		let query = "num=" + num + "&content=" + content + "&answer=0";
 		
 		const fn = function(data) {
@@ -343,7 +343,7 @@ $(function() {
 		let replyNum = $(this).attr("data-replyNum");
 		let page = $(this).attr("data-pageNo");
 		
-		let url = "${pageContext.request.contextPath}/routine/deleteReply";
+		let url = "${pageContext.request.contextPath}/sports/routine/deleteReply";
 		let query = "replyNum=" + replyNum;
 		
 		const fn = function(data) {
@@ -358,7 +358,7 @@ $(function() {
 
 //댓글별 답글 리스트
 function listReplyAnswer(answer) {
-	let url = "${pageContext.request.contextPath}/routine/listReplyAnswer";
+	let url = "${pageContext.request.contextPath}/sports/routine/listReplyAnswer";
 	let query = "answer=" + answer;
 	let selector = "#listReplyAnswer" + answer;
 	
@@ -373,7 +373,7 @@ function listReplyAnswer(answer) {
 
 //댓글별 답글 개수
 function countReplyAnswer(answer) {
-	let url = "${pageContext.request.contextPath}/routine/countReplyAnswer";
+	let url = "${pageContext.request.contextPath}/sports/routine/countReplyAnswer";
 	let query = "answer=" + answer;
 	
 	const fn = function(data) {
@@ -425,7 +425,7 @@ $(function() {
 		}
 		content = encodeURIComponent(content);
 		
-		let url = "${pageContext.request.contextPath}/routine/insertReply";
+		let url = "${pageContext.request.contextPath}/sports/routine/insertReply";
 		let query = "num="+num+"&content="+content+"&answer="+replyNum;
 		
 		const fn = function(data) {
@@ -454,7 +454,7 @@ $(function() {
 		let replyNum = $(this).attr("data-replyNum");
 		let answer = $(this).attr("data-answer");
 		
-		let url = "${pageContext.request.contextPath}/routine/deleteReply";
+		let url = "${pageContext.request.contextPath}/sports/routine/deleteReply";
 		let query = "replyNum=" + replyNum;
 		
 		const fn = function(data) {

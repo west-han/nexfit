@@ -27,13 +27,13 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class RoutineController {
 	
-	@RequestMapping(value = "/routine/list")
+	@RequestMapping(value = "/sports/routine/list", method = RequestMethod.GET)
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 예시
 		//dto.getpostType() == 1 ? "추천" : "질문";
 		
 		// 글 리스트
-		ModelAndView mav = new ModelAndView("routineBoard/list");
+		ModelAndView mav = new ModelAndView("sports/routineBoard/list");
 
 		RoutineDAO dao = new RoutineDAO();
 		MyUtil util = new MyUtilBootstrap();
@@ -52,14 +52,6 @@ public class RoutineController {
 				schType = "all";
 				kwd = "";
 			}
-			
-			/**
-			// 공지글
-			List<BoardDTO> listNotice = null;
-			if(current_page == 1) {
-				listNotice = dao.listNotice();
-			}
-			**/
 
 			// GET 방식인 경우 디코딩
 			if (req.getMethod().equalsIgnoreCase("GET")) {
@@ -99,8 +91,8 @@ public class RoutineController {
 
 			// 페이징 처리
 			String cp = req.getContextPath();
-			String listUrl = cp + "/routine/list";
-			String articleUrl = cp + "/routine/article?page=" + current_page;
+			String listUrl = cp + "/sports/routine/list";
+			String articleUrl = cp + "/sports/routine/article?page=" + current_page;
 			if (query.length() != 0) {
 				listUrl += "?" + query;
 				articleUrl += "&" + query;
@@ -127,15 +119,15 @@ public class RoutineController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/routine/write", method = RequestMethod.GET)
+	@RequestMapping(value = "/sports/routine/write", method = RequestMethod.GET)
 	public ModelAndView writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글쓰기 폼
-		ModelAndView mav = new ModelAndView("routineBoard/write");
+		ModelAndView mav = new ModelAndView("sports/routineBoard/write");
 		mav.addObject("mode", "write");
 		return mav;
 	}
 	
-	@RequestMapping(value = "/routine/write", method = RequestMethod.POST)
+	@RequestMapping(value = "/sports/routine/write", method = RequestMethod.POST)
 	public ModelAndView writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글 저장
 		// 파라미터: 제목, 내용, 카테고리 [세션: 작성자 id]
@@ -165,10 +157,10 @@ public class RoutineController {
 			e.printStackTrace();
 		}
 
-		return new ModelAndView("redirect:/routine/list");
+		return new ModelAndView("redirect:/sports/routine/list");
 	}
 	
-	@RequestMapping(value = "/routine/article", method = RequestMethod.GET)
+	@RequestMapping(value = "/sports/routine/article", method = RequestMethod.GET)
 	public ModelAndView article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 예시: 0~6으로 저장하는 경우
 		// String weekdays[] = {"월", "화", "수", "목", "금", "토", "일"};
@@ -204,7 +196,7 @@ public class RoutineController {
 			// 게시물 가져오기
 			BoardDTO dto = dao.findById(num);
 			if (dto == null) { // 게시물이 없으면 다시 리스트로
-				return new ModelAndView("redirect:/routine/list?" + query);
+				return new ModelAndView("redirect:/sports/routine/list?" + query);
 			}
 			// dto.setContent(util.htmlSymbols(dto.getContent()));
 
@@ -217,7 +209,7 @@ public class RoutineController {
 			SessionInfo info = (SessionInfo)session.getAttribute("member");
 			boolean isUserLike = dao.isUserBoardLike(num, info.getUserId());
 			
-			ModelAndView mav = new ModelAndView("routineBoard/article");
+			ModelAndView mav = new ModelAndView("sports/routineBoard/article");
 			
 			// JSP로 전달할 속성
 			mav.addObject("dto", dto);
@@ -233,10 +225,10 @@ public class RoutineController {
 			e.printStackTrace();
 		}
 
-		return new ModelAndView("redirect:/routine/list?" + query);
+		return new ModelAndView("redirect:/sports/routine/list?" + query);
 	}
 	
-	@RequestMapping(value = "/routine/update", method = RequestMethod.GET)
+	@RequestMapping(value = "/sports/routine/update", method = RequestMethod.GET)
 	public ModelAndView updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시글 수정 폼
 		// 파라미터: 글 번호 [, 페이지 번호, 세션:사용자정보]
@@ -252,15 +244,15 @@ public class RoutineController {
 			BoardDTO dto = dao.findById(num);
 
 			if (dto == null) {
-				return new ModelAndView("redirect:/routine/list?page=" + page);
+				return new ModelAndView("redirect:/sports/routine/list?page=" + page);
 			}
 
 			// 게시물을 올린 사용자가 아니면
 			if (! dto.getUserId().equals(info.getUserId())) {
-				return new ModelAndView("redirect:/routine/list?page=" + page);
+				return new ModelAndView("redirect:/sports/routine/list?page=" + page);
 			}
 
-			ModelAndView mav = new ModelAndView("routineBoard/write");
+			ModelAndView mav = new ModelAndView("sports/routineBoard/write");
 			
 			mav.addObject("dto", dto);
 			mav.addObject("page", page);
@@ -271,10 +263,10 @@ public class RoutineController {
 			e.printStackTrace();
 		}
 
-		return new ModelAndView("redirect:/routine/list?page=" + page);
+		return new ModelAndView("redirect:/sports/routine/list?page=" + page);
 	}
 
-	@RequestMapping(value = "/routine/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/sports/routine/update", method = RequestMethod.POST)
 	public ModelAndView updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시글 수정 완료
 		RoutineDAO dao = new RoutineDAO();
@@ -301,11 +293,11 @@ public class RoutineController {
 			e.printStackTrace();
 		}
 
-		return new ModelAndView("redirect:/routine/list?page=" + page);
+		return new ModelAndView("redirect:/sports/routine/list?page=" + page);
 	}
 	
 	
-	@RequestMapping(value = "/routine/delete", method = RequestMethod.GET)
+	@RequestMapping(value = "/sports/routine/delete", method = RequestMethod.GET)
 	public ModelAndView delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시글 삭제
 		// 파라미터: 글 번호, 페이지 번호 [, 검색할 컬럼, 검색어]
@@ -336,12 +328,12 @@ public class RoutineController {
 			e.printStackTrace();
 		}
 
-		return new ModelAndView("redirect:/routine/list?" + query);
+		return new ModelAndView("redirect:/sports/routine/list?" + query);
 	}
 	
 	
 	@ResponseBody
-	@RequestMapping(value = "/routine/insertBoardLike", method = RequestMethod.POST)
+	@RequestMapping(value = "/sports/routine/insertBoardLike", method = RequestMethod.POST)
 	public Map<String, Object> insertBoardLike(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시글 공감
 		// 넘어온 파라미터 : 글번호, 공감/공감취소여부
@@ -383,7 +375,7 @@ public class RoutineController {
 	
 	// 댓글/답글 저장
 		@ResponseBody
-		@RequestMapping(value = "/routine/insertReply", method = RequestMethod.POST)
+		@RequestMapping(value = "/sports/routine/insertReply", method = RequestMethod.POST)
 		public Map<String, Object> insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			Map<String, Object> model = new HashMap<String, Object>();
 			// 넘어온 파라미터 : 게시글 번호, 댓글 내용, 부모번호(답글인 경우)
@@ -419,7 +411,7 @@ public class RoutineController {
 		
 		
 		// 댓글 리스트
-		@RequestMapping(value = "/routine/listReply", method = RequestMethod.GET)
+		@RequestMapping(value = "/sports/routine/listReply", method = RequestMethod.GET)
 		public ModelAndView listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			// 넘어온 파라미터 : 게시글 번호 [, 페이지 번호]
 			RoutineDAO dao = new RoutineDAO();
@@ -455,7 +447,7 @@ public class RoutineController {
 				
 				String paging = util.pagingMethod(current_page, total_page, "listPage");
 
-				ModelAndView mav = new ModelAndView("routineBoard/listReply");
+				ModelAndView mav = new ModelAndView("sports/routineBoard/listReply");
 				
 				mav.addObject("listReply", listReply);
 				mav.addObject("pageNo", current_page);
@@ -477,7 +469,7 @@ public class RoutineController {
 		
 		// 댓글 삭제
 		@ResponseBody
-		@RequestMapping(value = "/routine/deleteReply", method = RequestMethod.POST)
+		@RequestMapping(value = "/sports/routine/deleteReply", method = RequestMethod.POST)
 		public Map<String, Object> deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			Map<String, Object> model = new HashMap<String, Object>();
 			
@@ -503,7 +495,7 @@ public class RoutineController {
 		}
 		
 		// 댓글의 답글 리스트
-		@RequestMapping(value = "/routine/listReplyAnswer", method = RequestMethod.GET)
+		@RequestMapping(value = "/sports/routine/listReplyAnswer", method = RequestMethod.GET)
 		public ModelAndView listReplyAnswer(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			RoutineDAO dao = new RoutineDAO();
 			
@@ -516,7 +508,7 @@ public class RoutineController {
 					dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 				}
 				
-				ModelAndView mav = new ModelAndView("routineBoard/listReplyAnswer");
+				ModelAndView mav = new ModelAndView("sports/routineBoard/listReplyAnswer");
 				mav.addObject("listReplyAnswer", listReplyAnswer);
 				return mav;
 				
@@ -530,7 +522,7 @@ public class RoutineController {
 		
 		// 댓글별 답글 개수
 		@ResponseBody
-		@RequestMapping(value = "/routine/countReplyAnswer", method = RequestMethod.POST)
+		@RequestMapping(value = "/sports/routine/countReplyAnswer", method = RequestMethod.POST)
 		public Map<String, Object> countReplyAnswer(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			Map<String, Object> model = new HashMap<String, Object>();
 			

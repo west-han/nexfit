@@ -4,6 +4,7 @@ public class SessionInfo {
 	private String userId;
 	private String userName;
 	private String nickname;
+	private String reg_date;
 	private int userRoll;
 	
 	public String getUserId() {
@@ -30,5 +31,12 @@ public class SessionInfo {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+	public String getReg_date() {
+		return reg_date;
+	}
+	public void setReg_date(String reg_date) {
+		this.reg_date = reg_date;
+	}
+	
 	
 }

@@ -49,6 +49,7 @@ public class MemberController {
 			info.setUserId(dto.getUserId());
 			info.setUserName(dto.getUserName());
 			info.setNickname(dto.getNickname());
+			info.setReg_date(dto.getRegister_date());
 
 			// 세션에 member이라는 이름으로 저장
 			session.setAttribute("member", info);
