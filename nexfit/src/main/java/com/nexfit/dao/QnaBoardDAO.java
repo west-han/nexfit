@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.nexfit.domain.BoardDTO;
 import com.nexfit.domain.QnaBoardDTO;
+import com.nexfit.domain.ReplyDTO;
 import com.nexfit.util.DBConn;
 import com.nexfit.util.DBUtil;
 
@@ -466,4 +466,262 @@ public class QnaBoardDAO {
 			}
 		}
 
+		
+		// 게시물의 댓글 및 답글 추가
+		public void insertReply(ReplyDTO dto) throws SQLException {
+			PreparedStatement pstmt = null;
+			String sql;
+			
+			try {
+				sql = "INSERT INTO qnaboard_Reply(replyNum, num, userId, content, answer, reg_date) "
+						+ " VALUES (qnaboard_Reply_seq.NEXTVAL, ?, ?, ?, ?, SYSDATE)";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setLong(1, dto.getNum());
+				pstmt.setString(2, dto.getUserId());
+				pstmt.setString(3, dto.getContent());
+				pstmt.setLong(4, dto.getAnswer());
+				
+				pstmt.executeUpdate();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			} finally {
+				DBUtil.close(pstmt);
+			}
+			
+		}
+		
+		
+		// 게시물의 댓글 개수
+		public int dataCountReply(long num) {
+			int result = 0;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql;
+			
+			try {
+				sql = "SELECT NVL(COUNT(*), 0) "
+						+ " FROM qnaboard_Reply "
+						+ " WHERE num = ? AND answer = 0";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setLong(1, num);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					result = rs.getInt(1);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				DBUtil.close(rs);
+				DBUtil.close(pstmt);
+			}
+			
+			return result;
+		}
+		
+		
+		// 게시물 댓글 리스트
+		public List<ReplyDTO> listReply(long num, int offset, int size) {
+			List<ReplyDTO> list = new ArrayList<>();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			StringBuilder sb = new StringBuilder();
+			
+			try {
+				sb.append(" SELECT r.replyNum, r.userId, nickname, num, content, r.reg_date, ");
+				sb.append("     NVL(answerCount, 0) answerCount ");
+				sb.append(" FROM qnaboard_Reply r ");
+				sb.append(" JOIN member m ON r.userId = m.userId ");
+				sb.append(" JOIN member_detail d ON d.userId = m.userId ");
+				sb.append(" LEFT OUTER  JOIN (");
+				sb.append("	    SELECT answer, COUNT(*) answerCount ");
+				sb.append("     FROM qnaboard_Reply ");
+				sb.append("     WHERE answer != 0 ");
+				sb.append("     GROUP BY answer ");
+				sb.append(" ) a ON r.replyNum = a.answer ");
+				sb.append(" WHERE num = ? AND r.answer=0 ");
+				sb.append(" ORDER BY r.replyNum DESC ");
+				sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
+
+				
+				pstmt = conn.prepareStatement(sb.toString());
+				
+				pstmt.setLong(1, num);
+				pstmt.setInt(2, offset);
+				pstmt.setInt(3, size);
+
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					ReplyDTO dto = new ReplyDTO();
+					
+					dto.setReplyNum(rs.getLong("replyNum"));
+					dto.setNum(rs.getLong("num"));
+					dto.setUserId(rs.getString("userId"));
+					dto.setNickname(rs.getString("nickname")); 
+					dto.setContent(rs.getString("content"));
+					dto.setReg_date(rs.getString("reg_date"));
+					dto.setAnswerCount(rs.getInt("answerCount"));
+					
+					list.add(dto);
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				DBUtil.close(rs);
+				DBUtil.close(pstmt);
+			}
+			
+			return list;
+		}
+
+		public ReplyDTO findByReplyId(long replyNum) {
+			ReplyDTO dto = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql;
+			
+			try {
+				sql = "SELECT replyNum, num, r.userId, nickname, content, r.reg_date "
+						+ " FROM qnaboard_reply r  "
+						+ " JOIN member m ON r.userId = m.userId "
+						+ " JOIN member_detail d ON d.userId = m.userId "
+						+ " WHERE replyNum = ? ";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setLong(1, replyNum);
+
+				rs=pstmt.executeQuery();
+				
+				if(rs.next()) {
+					dto=new ReplyDTO();
+					
+					dto.setReplyNum(rs.getLong("replyNum"));
+					dto.setNum(rs.getLong("num"));
+					dto.setUserId(rs.getString("userId"));
+					dto.setNickname(rs.getString("nickname"));
+					dto.setContent(rs.getString("content"));
+					dto.setReg_date(rs.getString("reg_date"));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				DBUtil.close(rs);
+				DBUtil.close(pstmt);
+			}
+			
+			return dto;
+		}
+		
+		
+		// 게시물의 댓글 삭제
+		public void deleteReply(long replyNum, String userId) throws SQLException {
+				PreparedStatement pstmt = null;
+				String sql;
+				
+				if(! userId.equals("admin")) {
+					ReplyDTO dto = findByReplyId(replyNum);
+					if(dto == null || (! userId.equals(dto.getUserId()))) {
+						return;
+					}
+				}
+				
+				try {
+					sql = "DELETE FROM qnaBoard_Reply "
+							+ " WHERE replyNum IN  "
+							+ " (SELECT replyNum FROM qnaBoard_Reply START WITH replyNum = ?"
+							+ "     CONNECT BY PRIOR replyNum = answer)";
+					pstmt = conn.prepareStatement(sql);
+					
+					pstmt.setLong(1, replyNum);
+					
+					pstmt.executeUpdate();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					throw e;
+				} finally {
+					DBUtil.close(pstmt);
+				}		
+			}
+		
+		
+		// 댓글의 답글 리스트
+		public List<ReplyDTO> listReplyAnswer(long answer) {
+				List<ReplyDTO> list = new ArrayList<>();
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				StringBuilder sb=new StringBuilder();
+				
+				try {
+					sb.append(" SELECT replyNum, num, r.userId, nickname, content, r.reg_date, answer ");
+					sb.append(" FROM qnaboard_Reply r ");
+					sb.append(" JOIN member m ON r.userId = m.userId ");
+					sb.append(" JOIN member_detail d ON d.userId = m.userId ");
+					sb.append(" WHERE answer = ? ");
+					sb.append(" ORDER BY replyNum DESC ");
+					pstmt = conn.prepareStatement(sb.toString());
+					
+					pstmt.setLong(1, answer);
+
+					rs = pstmt.executeQuery();
+					
+					while(rs.next()) {
+						ReplyDTO dto=new ReplyDTO();
+						
+						dto.setReplyNum(rs.getLong("replyNum"));
+						dto.setNum(rs.getLong("num"));
+						dto.setUserId(rs.getString("userId"));
+						dto.setNickname(rs.getString("nickname"));
+						dto.setContent(rs.getString("content"));
+						dto.setReg_date(rs.getString("reg_date"));
+						dto.setAnswer(rs.getLong("answer"));
+						
+						list.add(dto);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					DBUtil.close(rs);
+					DBUtil.close(pstmt);
+				}
+				
+				return list;
+			}
+		
+		
+		// 댓글의 답글 개수
+		public int dataCountReplyAnswer(long answer) {
+				int result = 0; 
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				String sql;
+				
+				try {
+					sql = "SELECT NVL(COUNT(*), 0) "
+							+ " FROM qnaBoard_Reply WHERE answer = ?";
+					pstmt = conn.prepareStatement(sql);
+					
+					pstmt.setLong(1, answer);
+					
+					rs = pstmt.executeQuery();
+					
+					if(rs.next()) {
+						result=rs.getInt(1);
+					}
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					DBUtil.close(rs);
+					DBUtil.close(pstmt);
+				}
+				
+				return result;
+			}
 }

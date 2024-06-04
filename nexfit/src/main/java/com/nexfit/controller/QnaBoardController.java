@@ -3,15 +3,17 @@ package com.nexfit.controller;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.nexfit.annotation.Controller;
 import com.nexfit.annotation.RequestMapping;
 import com.nexfit.annotation.RequestMethod;
-import com.nexfit.dao.BoardDAO;
+import com.nexfit.annotation.ResponseBody;
 import com.nexfit.dao.QnaBoardDAO;
-import com.nexfit.domain.BoardDTO;
 import com.nexfit.domain.QnaBoardDTO;
+import com.nexfit.domain.ReplyDTO;
 import com.nexfit.domain.SessionInfo;
 import com.nexfit.servlet.ModelAndView;
 import com.nexfit.util.MyUtil;
@@ -155,7 +157,7 @@ public class QnaBoardController {
 		// 게시글 보기
 		// 파라미터: 글번호, [페이지 번호, 검색할 컬럼, 검색어]
 		QnaBoardDAO dao = new QnaBoardDAO();
-		MyUtil util = new MyUtilBootstrap();
+		// MyUtil util = new MyUtilBootstrap();
 
 		String page = req.getParameter("page");
 		String query = "page=" + page;
@@ -182,7 +184,7 @@ public class QnaBoardController {
 			if (dto == null) { // 게시물이 없으면 다시 리스트로
 				return new ModelAndView("redirect:/qnaboard/list?" + query);
 			}
-			dto.setContent(util.htmlSymbols(dto.getContent()));
+			// dto.setContent(util.htmlSymbols(dto.getContent()));
 
 			// 이전글 다음글
 			QnaBoardDTO prevDto = dao.findByPrev(dto.getNum(), schType, kwd);
@@ -306,5 +308,176 @@ public class QnaBoardController {
 
 		return new ModelAndView("redirect:/qnaboard/list?" + query);
 	}
+	
+	
+			// 댓글/답글 저장
+			@ResponseBody
+			@RequestMapping(value = "/qnaboard/insertReply", method = RequestMethod.POST)
+			public Map<String, Object> insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+				Map<String, Object> model = new HashMap<String, Object>();
+				// 넘어온 파라미터 : 게시글 번호, 댓글 내용, 부모번호(답글인 경우)
+				HttpSession session = req.getSession();
+				SessionInfo info = (SessionInfo)session.getAttribute("member");
+				
+				QnaBoardDAO dao = new QnaBoardDAO();
+				
+				String state = "false"; // 성공, 실패 여부
+				try {
+					ReplyDTO dto = new ReplyDTO();
+					
+					long num = Long.parseLong(req.getParameter("num"));
+					dto.setNum(num);
+					dto.setUserId(info.getUserId());
+					dto.setContent(req.getParameter("content"));
+					String answer = req.getParameter("answer"); 
+					if (answer != null) {
+						dto.setAnswer(Long.parseLong(answer));
+					}
+					
+					dao.insertReply(dto);
+					
+					state = "true";
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				model.put("state", state);
+				
+				return model;
+			}
+			
+			
+			// 댓글 리스트
+			@RequestMapping(value = "/qnaboard/listReply", method = RequestMethod.GET)
+			public ModelAndView listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+				// 넘어온 파라미터 : 게시글 번호 [, 페이지 번호]
+				QnaBoardDAO dao = new QnaBoardDAO();
+				MyUtil util = new MyUtilBootstrap();
+				
+				
+				try {
+					long num = Long.parseLong(req.getParameter("num"));
+					String pageNo = req.getParameter("pageNo");
+					int current_page = 1;
+					if (pageNo != null) {
+						current_page = Integer.parseInt(pageNo);
+					}
+					
+					int size = 5;
+					int total_page = 0;
+					int replyCount = 0;
+
+					replyCount = dao.dataCountReply(num);
+					total_page = util.pageCount(replyCount, size);
+					if (current_page > total_page) {
+						current_page = total_page;
+					}
+					
+					int offset = (current_page - 1) * size;
+					if (offset < 0) offset = 0;
+					
+					List<ReplyDTO> listReply = dao.listReply(num, offset, size);
+					
+					for (ReplyDTO dto : listReply) {
+						dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+					}
+					
+					String paging = util.pagingMethod(current_page, total_page, "listPage");
+
+					ModelAndView mav = new ModelAndView("qnaboard/listReply");
+					
+					mav.addObject("listReply", listReply);
+					mav.addObject("pageNo", current_page);
+					mav.addObject("replyCount", replyCount);
+					mav.addObject("total_page", total_page);
+					mav.addObject("paging", paging);
+					
+					return mav;
+				} catch (Exception e) {
+					e.printStackTrace();
+					
+					resp.sendError(400);
+					
+					throw e;
+				}
+				
+			}
+			
+			
+			// 댓글 삭제
+			@ResponseBody
+			@RequestMapping(value = "/qnaboard/deleteReply", method = RequestMethod.POST)
+			public Map<String, Object> deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+				Map<String, Object> model = new HashMap<String, Object>();
+				
+				HttpSession session = req.getSession();
+				SessionInfo info = (SessionInfo)session.getAttribute("member");
+				
+				String state = "false";
+				QnaBoardDAO dao = new QnaBoardDAO();
+				try {
+					long replyNum = Long.parseLong(req.getParameter("replyNum"));
+					
+					dao.deleteReply(replyNum, info.getUserId());
+					
+					state = "true";
+					
+				} catch (Exception e) {
+					
+				}
+				
+				model.put("state", state);
+				
+				return model;
+			}
+			
+			
+			// 댓글의 답글 리스트
+			@RequestMapping(value = "/qnaboard/listReplyAnswer", method = RequestMethod.GET)
+			public ModelAndView listReplyAnswer(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+				QnaBoardDAO dao = new QnaBoardDAO();
+				
+				try {
+					long answer = Long.parseLong(req.getParameter("answer"));
+					
+					List<ReplyDTO> listReplyAnswer = dao.listReplyAnswer(answer);
+					
+					for (ReplyDTO dto : listReplyAnswer) {
+						dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+					}
+					
+					ModelAndView mav = new ModelAndView("qnaboard/listReplyAnswer");
+					mav.addObject("listReplyAnswer", listReplyAnswer);
+					return mav;
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+					resp.sendError(400);
+					throw e;
+				}
+			}
+			
+			
+			// 댓글별 답글 개수
+			@ResponseBody
+			@RequestMapping(value = "/qnaboard/countReplyAnswer", method = RequestMethod.POST)
+			public Map<String, Object> countReplyAnswer(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+				Map<String, Object> model = new HashMap<String, Object>();
+				
+				QnaBoardDAO dao = new QnaBoardDAO();
+				int count = 0;
+				
+				try {
+					long answer = Long.parseLong(req.getParameter("answer"));
+					count = dao.dataCountReplyAnswer(answer);
+					
+					model.put("state", "true");
+				} catch (Exception e) {
+					model.put("state", "false");
+				}
+				model.put("count", count);
+				
+				return model;
+			}
 
 }

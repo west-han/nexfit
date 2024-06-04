@@ -107,7 +107,7 @@
 				</div>
 				
 					<div class="row gx-2" style="font-family: 'nexon lv1 light'; font-weight: 600;">
-						<div class="col-sm-2">여기에는 좌측 공간에 들어갈 거 작성</div>
+						<jsp:include page="/WEB-INF/views/board/list_leftbar.jsp"></jsp:include>
 						<div class="col-sm-7 mt-3"> <!-- mt-n : margin-top -->
 						<main>
 							<div class="container">
