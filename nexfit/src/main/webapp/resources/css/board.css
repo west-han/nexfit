@@ -81,7 +81,7 @@
 .reply .deleteReply, .reply .deleteReplyAnswer { cursor: pointer; }
 .reply .notifyReply { cursor: pointer; }
 
-.reply-list .list-header { border: 1px solid #cccccc; background: #f8f8f8; }
+.reply-list .list-header { border: 1px solid black; background: white; } 
 .reply-list tr>td { padding-left: 7px; padding-right: 7px; }
 
 .reply-answer { display: none; }

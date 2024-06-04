@@ -84,9 +84,9 @@
 						
 	<div class="row gx-2">
 		
-	<div class="col-sm-3"></div> 
+	<jsp:include page="/WEB-INF/views/board/list_leftbar.jsp"></jsp:include>
 	
-	<div class="col-sm-6">
+	<div class="col-sm-7"> 
 		<main>
 			<div class="container" style="font-family: 'nexon lv2 medium';">
 				<div class="body-container">	
@@ -143,6 +143,7 @@
 									
 											<a href="${articleUrl}&num=${dto.num}" class="text-reset">
 											<span style="float: left"><span style="color: blue;">Q.</span> ${dto.subject} <span style="color: #23A41A; font-weight: bold;"> 
+											</span>
 											</span>
 											</a>
 										

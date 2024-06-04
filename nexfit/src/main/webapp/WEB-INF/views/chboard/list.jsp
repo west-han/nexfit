@@ -17,7 +17,7 @@
 
 .background-image {
     position: absolute;
-    top: 60px;
+    top: 30px;
     left: 0;
     width: 100%; 
     height: 45%; 
@@ -114,30 +114,30 @@
 					<h2 style="font-family: 'nexon lv2 medium';" class="text-with-border"> 진행중인 챌린지 </h2>
 			</div>
 			<div class="body-main" style="font-family: 'nexon lv1 medium';">	
-			<form class="row mx-auto d-flex justify-content-center" name="searchForm" action="${pageContext.request.contextPath}/chboard/list" method="post">
-    				<div class="col text-start">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chboard/list';"><i class="bi bi-arrow-clockwise"></i></button>
-					</div>
-    		<div class="col-auto p-1" style="font-family: 'nexon lv1 light';">
-        		<select name="schType" class="form-select">
-           		 <option value="all" ${schType=="all"?"selected":""}>전체검색</option>
-            	 <option value="ch_subject" ${schType=="ch_subject"?"selected":""}>챌린지제목</option>
-             	 <option value="reg_date" ${schType=="ch_content"?"selected":""}>챌린지내용</option>
-            	 <option value="subject" ${schType=="subject"?"selected":""}>제목</option>
-            	 <option value="content" ${schType=="content"||schType=="ch_content"?"selected":""}>내용</option>
-        	    </select>
-    		</div>
-    		
-    		
-    <div class="col-auto p-1">
-        <input type="text" name="kwd" value="${kwd}" class="form-control" style="width: 400px;">
+			<form class="row mx-auto d-flex justify-content-center" name="searchForm" action="${pageContext.request.contextPath}/chboard/list" method="post" style="display: inline-block; text-align: center;">
+  <div class="row align-items-center">
+    <div class="col-auto">
+        <button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chboard/list';"><i class="bi bi-arrow-clockwise"></i></button>
     </div>
-    <div class="col-auto p-1">
+    <div class="col-auto">
+        <select name="schType" class="form-select">
+            <option value="all" ${schType=="all"?"selected":""}>전체검색</option>
+            <option value="ch_subject" ${schType=="ch_subject"?"selected":""}>챌린지제목</option>
+            <option value="reg_date" ${schType=="ch_content"?"selected":""}>챌린지내용</option>
+            <option value="subject" ${schType=="subject"?"selected":""}>제목</option>
+            <option value="content" ${schType=="content"||schType=="ch_content"?"selected":""}>내용</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <input type="text" name="kwd" value="${kwd}" class="form-control" style="width: 250px;">
+    </div>
+    <div class="col-auto">
         <button type="button" class="btn btn-light" onclick="searchList()"> <i class="bi bi-search"></i> </button>
     </div>
-    <div class="col-auto p-1">
+    <div class="col-auto">
         <button type="button" style="font-family: 'nexon lv1 light';" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chboard/write';">글올리기</button>
     </div>
+</div>	
     <input type="hidden" name="page" value="${page}">
   </form>	
 		
