@@ -75,7 +75,7 @@
 								
 								<div class="wrote">
 								<p>작성수 <i class="bi bi-file-earmark-text"></i>${count}
-								댓글수 <i class="bi bi-chat-right-text"></i>${rpl_count}개</p>
+								댓글수 <i class="bi bi-chat-right-text"></i>${rpl_count}</p>
 								</div>
 								</div>
 							</div>

@@ -112,7 +112,7 @@ public class mypageDAO {
 				pstmt.close();
 				pstmt = null;
 				
-				sql = "update member_detail set birth=?, email=?, tel=?,zip=?,addr1=?,addr2=?,nickname=?, bio=?";
+				sql = "update member_detail set birth=?, email=?, tel=?,zip=?,addr1=?,addr2=?,nickname=?, bio=? where userId=?";
 				pstmt = conn.prepareStatement(sql);
 				
 				pstmt.setString(1, dto.getBirth());
@@ -123,6 +123,7 @@ public class mypageDAO {
 				pstmt.setString(6, dto.getAddr2());
 				pstmt.setString(7, dto.getNickname());
 				pstmt.setString(8, dto.getBio());
+				pstmt.setString(9, dto.getUserId());
 				
 				pstmt.executeUpdate();
 				
