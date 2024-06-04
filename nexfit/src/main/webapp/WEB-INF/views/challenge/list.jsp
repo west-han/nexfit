@@ -52,12 +52,12 @@
 					return;
 				}
 				
-				if(confirm('게시글을 삭제하시 겠습니까 ? ')) {
+				if(confirm('게시글을 삭제하시 겠습니까 ? \n(진행중인 챌린지가 있는경우 삭제되지 않습니다.)')) {
 					const f = document.listForm;
 					f.action = '${pageContext.request.contextPath}/challenge/deletelist';
 					f.submit();
 				}
-				
+				   
 			});
 		});
 	</script>

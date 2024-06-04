@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>spring</title>
+<title>NEXFIT : 운동이 재밌는 커뮤니티</title>
 
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
@@ -72,7 +72,6 @@
     animation: heart 1s ease-in-out forwards;
 }
 
-.table-article img {max-width: 100%;}
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board2.css" type="text/css">
 <!-- 클라이언트에 자바스크립트 소스를 보이지 않도록 하기 위한 장치 -->
@@ -81,7 +80,7 @@
 		function deleteBoard() {
 		    if(confirm("게시글을 삭제 하시 겠습니까 ? ")) {
 			    let query = "num=${dto.num}&${query}";
-			    let url = "${pageContext.request.contextPath}/board/delete?" + query;
+			    let url = "${pageContext.request.contextPath}/qnaboard/delete?" + query;
 		    	location.href = url;
 		    }
 		}
@@ -100,9 +99,9 @@
 			<div class="container-xxl text-center">
 				<div class="row py-5 mt-5">
 					<div class="col image-container">
-					<img src="/nexfit/resources/images/exercisebg.PNG" class="background-image" style="width:1300px; height:200px; opacity: 0.3;">
-					<img src="/nexfit/resources/images/freelounge.png" class="overlay-image" style="width:550px; height:110px;"><br>
-					<img src="/nexfit/resources/images/sci.png" class="overlay-image2" style="width:330px; height:25px;">
+					<img src="/nexfit/resources/images/qnapeople.png" class="background-image" style="width:1300px; height:200px; opacity: 0.3;">
+					<img src="/nexfit/resources/images/qnalounge.png" class="overlay-image" style="width:550px; height:110px;"><br>
+					<img src="/nexfit/resources/images/aae.png" class="overlay-image2" style="width:300px; height:20px;"> 
 				</div>
 				</div>
 				
@@ -113,16 +112,18 @@
 							<div class="container">
 								<div class="body-container">	
 									<div class="body-title">
-										<h3 style="font-family: 'nexon lv2 medium';"> 자유 게시판 </h3>
+										<h3 style="font-family: 'nexon lv2 medium';"> 질의 게시판 </h3>
 									</div>
 									
 									<div class="body-main">
 										
 										<table class="table table-style">
 											<thead>
+												
+												
 												<tr>
-													<td colspan="2" align="center">
-														${dto.subject}
+													<td colspan="2" align="center" style="background: #1266FF; color: white; font-family: 'nexon lv2 medium';"> 
+														<h5>Q. ${dto.subject}</h5>
 													</td>
 												</tr>
 											</thead>
@@ -144,16 +145,10 @@
 												</tr>
 												
 												<tr>
-													<td colspan="2" class="text-center p-3" style="position: relative;">
-														<button type="button" class="btn btn-outline-secondary btnSendBoardLike" title="좋아요" style="color: ${isUserLike?'#FF73B8':'black'}"><i class="far">🖤&nbsp;&nbsp;<span id="boardLikeCount">${dto.boardLikeCount}</span></i></button>
-													</td>
-												</tr>
-												
-												<tr>
 													<td colspan="2" style="text-align: left">
 														이전글 :
 														<c:if test="${not empty prevDto}">
-															<a href="${pageContext.request.contextPath}/board/article?${query}&num=${prevDto.num}">${prevDto.subject}</a>
+															<a href="${pageContext.request.contextPath}/qnaboard/article?${query}&num=${prevDto.num}">${prevDto.subject}</a>
 														</c:if>
 													</td>
 												</tr>
@@ -161,7 +156,7 @@
 													<td colspan="2" style="text-align: left">
 														다음글 :
 														<c:if test="${not empty nextDto}">
-															<a href="${pageContext.request.contextPath}/board/article?${query}&num=${nextDto.num}">${nextDto.subject}</a>
+															<a href="${pageContext.request.contextPath}/qnaboard/article?${query}&num=${nextDto.num}">${nextDto.subject}</a>
 														</c:if>
 													</td>
 												</tr>
@@ -169,7 +164,7 @@
 													<td width="50%" style="text-align: left;">
 														<c:choose>
 															<c:when test="${sessionScope.member.userId==dto.userId}">
-																<button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/board/update?num=${dto.num}&page=${page}';">수정</button>
+																<button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/qnaboard/update?num=${dto.num}&page=${page}';">수정</button>
 															</c:when>
 															<c:otherwise>
 																<button type="button" class="btn btn-outline-dark" disabled>수정</button>
@@ -186,7 +181,7 @@
 												    	</c:choose>
 													</td>
 													<td class="text-end">
-														<button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/board/list?${query}';">리스트</button>
+														<button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/qnaboard/list?${query}';">리스트</button>
 													</td>
 												</tr>
 											</tbody>
@@ -199,7 +194,7 @@
 												<table class="table table-borderless table-style reply-form">
 													<tr>
 														<td>
-															<textarea class='form-control' name="content" placeholder="댓글 이쁘게 써라."></textarea>
+															<textarea class='form-control' name="content" placeholder="답변 이쁘게 해라."></textarea>
 														</td>
 													</tr>
 													<tr>
@@ -267,49 +262,7 @@ function ajaxFun(url, method, formData, dataType, fn, file = false) {
 	$.ajax(url, settings);
 }
 
-// 게시글 공감 여부
-$(function() {
-	$('.btnSendBoardLike').hover(function() {
-        const floatHeart = $('<i class="far float-heart" style="margin-left: -51px;">🖤</i>');
-       
-        $(this).parent().append(floatHeart);
-        
-        setTimeout(function() {
-            floatHeart.remove();
-        }, 1000);
-    });
-	
-	$('.btnSendBoardLike').click(function(){
-		const $i = $(this).find("i");
-		let isNoLike = $i.css("color") === "rgb(0, 0, 0)";
-		let msg = isNoLike ? '게시글에 공감하시겠습니까 ?' : '게시글 공감을 취소하시겠습니까 ?';
-		
-		if (! confirm(msg)) {
-			return false;
-		}
-		
-		let url = '${pageContext.request.contextPath}/board/insertBoardLike';
-		let num = '${dto.num}';
-		let query = "num=" + num + "&isNoLike=" + isNoLike;
-		
-		const fn = function(data) {
-			let state = data.state;
-			if (state === 'true') {
-				let color = 'black';
-				if (isNoLike) {
-					color = '#FF73B8';
-				}
-				$i.css("color", color);
-				
-				let count = data.boardLikeCount;
-				$('#boardLikeCount').text(count);
-			}
-		};
-		
-		ajaxFun(url, "post", query, "json", fn);
-		
-	});
-});
+
 
 // 리스트
 $(function() {
@@ -317,7 +270,7 @@ $(function() {
 });
 
 function listPage(page) {
-	let url = "${pageContext.request.contextPath}/board/listReply";
+	let url = "${pageContext.request.contextPath}/qnaboard/listReply";
 	let query = "num=${dto.num}&pageNo=" + page;
 	let selector = "#listReply";
 	
@@ -342,7 +295,7 @@ $(function() {
 		}
 		content = encodeURIComponent(content);
 		
-		let url = "${pageContext.request.contextPath}/board/insertReply";
+		let url = "${pageContext.request.contextPath}/qnaboard/insertReply";
 		let query = "num=" + num + "&content=" + content + "&answer=0";
 		
 		const fn = function(data) {
@@ -371,7 +324,7 @@ $(function() {
 		let replyNum = $(this).attr("data-replyNum");
 		let page = $(this).attr("data-pageNo");
 		
-		let url = "${pageContext.request.contextPath}/board/deleteReply";
+		let url = "${pageContext.request.contextPath}/qnaboard/deleteReply";
 		let query = "replyNum=" + replyNum;
 		
 		const fn = function(data) {
@@ -386,7 +339,7 @@ $(function() {
 
 //댓글별 답글 리스트
 function listReplyAnswer(answer) {
-	let url = "${pageContext.request.contextPath}/board/listReplyAnswer";
+	let url = "${pageContext.request.contextPath}/qnaboard/listReplyAnswer";
 	let query = "answer=" + answer;
 	let selector = "#listReplyAnswer" + answer;
 	
@@ -401,7 +354,7 @@ function listReplyAnswer(answer) {
 
 //댓글별 답글 개수
 function countReplyAnswer(answer) {
-	let url = "${pageContext.request.contextPath}/board/countReplyAnswer";
+	let url = "${pageContext.request.contextPath}/qnaboard/countReplyAnswer";
 	let query = "answer=" + answer;
 	
 	const fn = function(data) {
@@ -453,7 +406,7 @@ $(function() {
 		}
 		content = encodeURIComponent(content);
 		
-		let url = "${pageContext.request.contextPath}/board/insertReply";
+		let url = "${pageContext.request.contextPath}/qnaboard/insertReply";
 		let query = "num="+num+"&content="+content+"&answer="+replyNum;
 		
 		const fn = function(data) {
@@ -482,7 +435,7 @@ $(function() {
 		let replyNum = $(this).attr("data-replyNum");
 		let answer = $(this).attr("data-answer");
 		
-		let url = "${pageContext.request.contextPath}/board/deleteReply";
+		let url = "${pageContext.request.contextPath}/qnaboard/deleteReply";
 		let query = "replyNum=" + replyNum;
 		
 		const fn = function(data) {

@@ -28,28 +28,27 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board2.css" type="text/css">
 
 <script type="text/javascript">
-function sendOk() {
+function check() {
     const f = document.boardForm;
-	let str;
-	
+    let str;
+
     str = f.subject.value.trim();
     if(!str) {
         alert("제목을 입력하세요. ");
         f.subject.focus();
-        return;
+        return false;
     }
 
     str = f.content.value.trim();
-    if(!str) {
+    if(! str || str === "<p><br></p>") {
         alert("내용을 입력하세요. ");
         f.content.focus();
-        return;
+        return false;
     }
 
     f.action = "${pageContext.request.contextPath}/board/${mode}";
-    f.submit();
+    return true;
 }
-
 
 
 function filterCategory(category) {
@@ -130,7 +129,7 @@ function filterCategory(category) {
 											<tr>
 												<td class="bg-light col-sm-2" scope="row">내 용</td>
 												<td>
-													<textarea name="content" id="content" class="form-control">${dto.content}</textarea>
+													<textarea name="content" id="ir1" class="form-control">${dto.content}</textarea>
 												</td>
 											</tr>
 										</table>
@@ -138,7 +137,7 @@ function filterCategory(category) {
 										<table class="table table-borderless table-style">
 						 					<tr>
 												<td class="text-center">
-													<button type="button" class="btn btn-dark" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
+													<button type="button" class="btn btn-dark" onclick="submitContents(this.form);">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
 													<button type="reset" class="btn btn-light">다시입력</button>
 													<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/board/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
 													<c:if test="${mode=='update'}">
@@ -160,6 +159,34 @@ function filterCategory(category) {
 				</c:forEach>
 			</div>
 		</main>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/se2/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+			<script type="text/javascript">
+			var oEditors = [];
+			nhn.husky.EZCreator.createInIFrame({
+			    oAppRef: oEditors,
+			    elPlaceHolder: "ir1",
+			    sSkinURI: "${pageContext.request.contextPath}/resources/se2/SmartEditor2Skin.html",
+			    fCreator: "createSEditor2"
+			});
+			
+			function submitContents(elClickedObj) {
+			     oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+			     try {
+			        if(! check()) {
+			            return;
+			        }
+			
+			        elClickedObj.submit();
+			    } catch(e) {
+			    }
+			}
+			
+			function setDefaultFont() {
+			    var sDefaultFont = '돋움';
+			    var nFontSize = 12;
+			    oEditors.getById["ir1"].setDefaultFont(sDefaultFont, nFontSize);
+			}
+			</script>
 	</div>
 	<div class="row py-5">
 										

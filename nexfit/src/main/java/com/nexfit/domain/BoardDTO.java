@@ -192,4 +192,6 @@ public class BoardDTO {
 		this.week = week;
 	}
 	
+	
+	
 }

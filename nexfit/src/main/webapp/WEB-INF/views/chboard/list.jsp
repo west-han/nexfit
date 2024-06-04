@@ -108,19 +108,21 @@
 					<h2 style="font-family: 'nexon lv2 medium';" class="text-with-border"> 진행중인 챌린지 </h2>
 			</div>
 			<div class="body-main" style="font-family: 'nexon lv1 medium';">	
-			<form class="row mx-auto d-flex justify-content-center" name="searchForm" action="${pageContext.request.contextPath}/board/list" method="post">
+			<form class="row mx-auto d-flex justify-content-center" name="searchForm" action="${pageContext.request.contextPath}/chboard/list" method="post">
     				<div class="col text-start">
 						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chboard/list';"><i class="bi bi-arrow-clockwise"></i></button>
 					</div>
     		<div class="col-auto p-1" style="font-family: 'nexon lv1 light';">
         		<select name="schType" class="form-select">
-           		 <option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
-            	 <option value="ch_subject" ${schType=="ch_subject"?"selected":""}>작성자</option>
-             	 <option value="reg_date" ${schType=="reg_date"?"selected":""}>등록일</option>
+           		 <option value="all" ${schType=="all"?"selected":""}>전체검색</option>
+            	 <option value="ch_subject" ${schType=="ch_subject"?"selected":""}>챌린지제목</option>
+             	 <option value="reg_date" ${schType=="ch_content"?"selected":""}>챌린지내용</option>
             	 <option value="subject" ${schType=="subject"?"selected":""}>제목</option>
-            	 <option value="content" ${schType=="content"?"selected":""}>내용</option>
+            	 <option value="content" ${schType=="content"||schType=="ch_content"?"selected":""}>내용</option>
         	    </select>
     		</div>
+    		
+    		
     <div class="col-auto p-1">
         <input type="text" name="kwd" value="${kwd}" class="form-control" style="width: 400px;">
     </div>
@@ -130,7 +132,8 @@
     <div class="col-auto p-1">
         <button type="button" style="font-family: 'nexon lv1 light';" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chboard/write';">글올리기</button>
     </div>
-  
+    <input type="hidden" name="page" value="${page}">
+  </form>	
 		
 		
 			
@@ -140,8 +143,8 @@
 		            
 		        </div>	
 				<p>&nbsp;</p>
-				<input type="hidden" name="page" value="${page}">
-			</form>	
+				
+			
 		
 			<div class="row">
     <c:forEach var="dto" items="${list}" varStatus="status">
