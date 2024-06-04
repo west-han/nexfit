@@ -63,6 +63,10 @@
 </style>
 
 <script type="text/javascript">
+function searchList() {
+	const f = document.searchForm;
+	f.submit();
+}
 
 
 </script>
@@ -118,7 +122,7 @@
 								</select>
 							</div>
 							<div class="col-auto p-1">
-								<input type="text" name="kwd" value="${kwd}" class="form-control" style="width: 350px;">
+								<input type="text" name="kwd" value="${kwd}" class="form-control" style="width: 450px;">
 							</div>
 							<div class="col-auto p-1">
 								<button type="button" class="btn btn-light" onclick="searchList()" style=""> <i class="bi bi-search"></i> </button>

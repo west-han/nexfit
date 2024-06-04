@@ -80,7 +80,7 @@ public class QnaBoardDAO {
 						+ " FROM qnaBoard q "
 						+ " JOIN member_detail m ON q.userId = m.userId ";
 				if (schType.equals("all")) {
-					sql += "  WHERE INSTR(subject, ?) >= 1 OR INSTR(content, ?)";
+					sql += "  WHERE INSTR(subject, ?) >= 1 OR INSTR(content, ?) >= 1";
 				} else if (schType.equals("reg_date")) {
 					kwd = kwd.replaceAll("(\\-|\\/|\\.)", "");
 					sql += "  WHERE TO_CHAR(reg_date, 'YYYYMMDD') = ? ";
@@ -177,22 +177,22 @@ public class QnaBoardDAO {
 		        } else {
 		            sb.append("WHERE INSTR(" + schType + ", ?) >= 1 ");
 		        }
-		        sb.append("ORDER BY f.num DESC ");
+		        sb.append("ORDER BY q.num DESC ");
 		        sb.append("OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 
 		        pstmt = conn.prepareStatement(sb.toString());
 		        
+		        int paramIndex = 1;
 		        if (schType.equals("all")) {
-		            pstmt.setString(1, kwd);
-		            pstmt.setString(2, kwd);
-		            pstmt.setString(3, kwd);
-		            pstmt.setInt(4, offset);
-		            pstmt.setInt(5, size);
+		            pstmt.setString(paramIndex++, kwd);
+		            pstmt.setString(paramIndex++, kwd);
 		        } else {
-		            pstmt.setString(1, kwd);
-		            pstmt.setInt(2, offset);
-		            pstmt.setInt(3, size);
+		            pstmt.setString(paramIndex++, kwd);
 		        }
+		        pstmt.setInt(paramIndex++, offset);
+		        pstmt.setInt(paramIndex, size);
+
+		        
 
 		        rs = pstmt.executeQuery();
 		        
