@@ -9,7 +9,7 @@
 <title>spring</title>
 
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
-
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/button.css">
 <style type="text/css">
 .body-container {
 	max-width: 800px;
@@ -59,6 +59,12 @@
 				
 			});
 		});
+		
+		function goToArticle(url, num) {
+			  const link = `${url}&num=${num}`;
+			  window.location.href = link;
+			}
+		
 	</script>
 </c:if>
 
@@ -155,7 +161,7 @@
                     <h5 class="card-title" style="font-family: 'nexon lv2 medium';">${dto.subject}</h5>
                     <p class="card-text" style="font-family: 'nexon lv1 light';">${dto.ch_subject}</p>
                      <p class="card-text" style="font-family: 'nexon lv1 light';">${dto.start_date} ~ ${dto.end_date}</p>
-                    <a href="${articleUrl}&num=${dto.boardNumber}" class="btn btn-danger">Go Challenge</a>
+                     <button class="custom-btn btn-7" style="font-family: nexon lv2 medium" onclick="location.href='${articleUrl}&num=${dto.boardNumber}';"><span>Go Challenge</span></button>
                 </div>
             </div>
         </div>
@@ -176,9 +182,10 @@
 					</div>
 					
 				</div>
-
+					
 			</div>
-						</div>
+						
+		</div>
 						<div class="col-sm-2"><%-- 우측공간 --%>
 						
 						</div>

@@ -64,14 +64,14 @@ function sendOk() {
     str = f.start_date.value.trim();
     if(!str) {
         alert("시작일을 선택하세요 ");
-        f.content.focus();
+        f.start_date.focus();
         return;
     }
     
     str = f.end_date.value.trim();
     if(!str) {
         alert("기간을 선택하세요 ");
-        f.content.focus();
+        f.end_date.focus();
         return;
     }
     
@@ -197,9 +197,9 @@ document.addEventListener('DOMContentLoaded', function() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">기간 선택</td>
 							<td>
-								<button type="button" class="btn btn-secondary" data-days="14">14일</button>
-								<button type="button" class="btn btn-secondary" data-days="30">30일</button>
-								<button type="button" class="btn btn-secondary" data-days="90">90일</button>
+								<button type="button" class="btn btn-secondary" data-days="14" >14일</button>
+								<button type="button" class="btn btn-secondary" data-days="30" >30일</button>
+								<button type="button" class="btn btn-secondary" data-days="90" >90일</button>
 							</td>
 						</tr>
 						<tr>

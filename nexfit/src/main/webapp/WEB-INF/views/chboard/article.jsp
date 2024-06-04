@@ -10,6 +10,7 @@
 
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/button.css">
 <style type="text/css">
 .body-container {
 	max-width: 800px;
@@ -105,6 +106,8 @@
         1px 1px 0 black; 
 }
 
+
+
 </style>
 
 <c:if test="${sessionScope.member.userId=='admin'}">
@@ -166,6 +169,9 @@
 								<p>챌린지 소개 : ${dto.ch_content}</p>
 								<p>내용 : ${dto.content}</p>
 								<p>참가비 : ${dto.fee}</p>
+								<p></p>
+								
+								<button class="custom-btn btn-12" style="font-family: nexon lv1 light"><span>Click!</span><span>신청하기</span></button>
 								
 								
 							
