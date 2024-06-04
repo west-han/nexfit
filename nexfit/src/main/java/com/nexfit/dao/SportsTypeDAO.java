@@ -289,4 +289,21 @@ public class SportsTypeDAO {
 			DBUtil.close(pstmt);
 		}
 	}
+	
+	public void increaseHitCount(long num) {
+		String sql;
+		PreparedStatement pstmt = null;
+		
+		try {
+			sql = "UPDATE sportsTypeBoard set hitCount = hitCount+1 WHERE num = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, num);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
 }
