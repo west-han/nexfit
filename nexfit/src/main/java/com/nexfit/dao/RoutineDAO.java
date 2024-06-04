@@ -297,7 +297,7 @@ public class RoutineDAO {
 					+ " saveFilename, originalFilename, "
 					+ "    NVL(boardLikeCount, 0) boardLikeCount "
 					+ " FROM routineBoard r "
-					+ " JOIN routineBoard_File f ON r.num = f.num "
+					+ " LEFT OUTER JOIN routineBoard_File f ON r.num = f.num "
 					+ " JOIN member_detail m ON r.userId = m.userId "
 					+ " LEFT OUTER JOIN ("
 					+ "      SELECT num, COUNT(*) boardLikeCount FROM routineBoard_Like"
