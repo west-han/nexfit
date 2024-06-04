@@ -9,7 +9,8 @@
 <title>spring</title>
 
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
-
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/button.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/button2.css">
 <style type="text/css">
 .body-container {
 	max-width: 800px;
@@ -197,9 +198,9 @@ document.addEventListener('DOMContentLoaded', function() {
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">기간 선택</td>
 							<td>
-								<button type="button" class="btn btn-secondary" data-days="14" >14일</button>
-								<button type="button" class="btn btn-secondary" data-days="30" >30일</button>
-								<button type="button" class="btn btn-secondary" data-days="90" >90일</button>
+								<button type="button" class="custom-btn btn-5" data-days="14" style="width: 80px;">14일</button>
+								<button type="button" class="custom-btn btn-5" data-days="30" style="width: 80px;">30일</button>
+								<button type="button" class="custom-btn btn-5" data-days="90" style="width: 80px;">90일</button>
 							</td>
 						</tr>
 						<tr>
@@ -257,10 +258,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	    }
 
         function clearSelection() {
-            $('.btn.btn-secondary').removeClass('selected');
+            $('.custom-btn').removeClass('selected');
         }
 
-        $('.btn.btn-secondary').on('click', function() {
+        $('.custom-btn').on('click', function() {
             clearSelection();
             $(this).addClass('selected');
             var days = parseInt($(this).data('days'));
@@ -272,9 +273,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					<table class="table table-borderless">
 	 					<tr>
 							<td class="text-center">
-								<button type="button" class="btn btn-dark" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
-								<button type="reset" class="btn btn-light">다시입력</button>
-								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/chboard/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
+								<button type="button" class="button button--nuka" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
+								<button type="reset" class="button button--nuka">다시입력</button>
+								<button type="button" class="button button--nuka" onclick="location.href='${pageContext.request.contextPath}/chboard/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
 								
 								<c:if test="${mode == 'update'}">
 									<input type="hidden" name="num" value="${dto.boardNumber}">
