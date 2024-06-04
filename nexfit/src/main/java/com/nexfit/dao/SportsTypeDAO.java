@@ -70,7 +70,7 @@ public class SportsTypeDAO {
 		try {
 			sb.append(" SELECT b.num, name, bodyPart, description, hitCount, id, filename ");
 			sb.append(" FROM sportsTypeBoard b ");
-			sb.append(" JOIN sportsType_File f ON b.num = f.num ");
+			sb.append(" LEFT OUTER JOIN sportsType_File f ON b.num = f.num ");
 			
 			sb.append(generateWhereClause(bodyPart, keyword));
 			
@@ -109,6 +109,7 @@ public class SportsTypeDAO {
 		return list;
 	}
 	
+	// TODO: 이렇게 때려박으면 보안 상 취약 -> pstmt setter 메소드 호출하는 코드로 수정하기
 	private String generateWhereClause(String bodyPart, String keyword) {
 		StringBuilder sb = new StringBuilder();
 		boolean b = false;
@@ -211,5 +212,81 @@ public class SportsTypeDAO {
 		}
 		
 		return dto;
+	}
+	
+	public void delete(long num) throws SQLException {
+		String sql;
+		PreparedStatement pstmt = null;
+		
+		try {
+			sql = "DELETE FROM sportsTypeBoard WHERE num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, num);
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
+
+	public void update(SportTypeDTO dto) throws SQLException {
+		String sql;
+		PreparedStatement pstmt = null;
+		
+		try {
+			if (dto.getFilename() != null) {
+				sql = "UPDATE sportsType_File SET filename = ? WHERE num = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, dto.getFilename());
+				pstmt.setLong(2, dto.getNum());
+			} else {
+				sql = "INSERT INTO sportsType_File(num, id, filename) VALUES(?, sportsTypeBoard_seq.NEXTVAL, ?)";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setLong(1, dto.getNum());
+				pstmt.setString(2, dto.getFilename());
+			}
+			
+			pstmt.executeUpdate();
+			
+			DBUtil.close(pstmt);
+			
+			sql = "UPDATE sportsTypeBoard SET name=?, description=?, bodyPart=? WHERE num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getName());
+			pstmt.setString(2, dto.getDescription());
+			pstmt.setString(3, dto.getBodyPart());
+			pstmt.setLong(4, dto.getNum());
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
+	public void deleteFile(long num) {
+		String sql;
+		PreparedStatement pstmt = null;
+		
+		try {
+			sql = "DELETE FROM sportsType_File WHERE num = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, num);
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt);
+		}
 	}
 }

@@ -165,7 +165,7 @@ public class SportsController {
 		FileManager fileManager = new FileManager();
 		SportsTypeDAO dao = new SportsTypeDAO();
 		String pathname = req.getServletContext().getRealPath("/") + "uploads" + File.separator + "sports" + File.separator + "types";
-
+		
 		try {
 			SportTypeDTO dto = new SportTypeDTO();
 			
@@ -175,11 +175,10 @@ public class SportsController {
 			dto.setBodyPart(req.getParameter("bodyPart"));
 
 			Part part = req.getPart("selectFile");
-			if (part != null) {
-				MyMultipartFile mmf = fileManager.doFileUpload(part, pathname);
+			MyMultipartFile mmf = fileManager.doFileUpload(part, pathname);
+			if (mmf != null) {
 				dto.setFilename(mmf.getSaveFilename());
 			}
-			
 			dao.insert(dto);
 			
 		} catch (Exception e) {
@@ -189,6 +188,7 @@ public class SportsController {
 		return new ModelAndView("redirect:/sports/types/list");
 	}
 	
+	@RequestMapping(value = "/sports/types/update", method = RequestMethod.GET)
 	public ModelAndView updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 파라미터: 글번호
 		ModelAndView mav = new ModelAndView("/sports/types/write");
@@ -203,13 +203,90 @@ public class SportsController {
 			
 			long num = Long.parseLong(req.getParameter("num"));
 			SportTypeDTO dto = dao.findById(num);
+			Map<String, String> map = dao.listBodyPart();
 			mav.addObject("dto", dto);
+			mav.addObject("map", map);
+			mav.addObject("mode", "update");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		mav.addObject("mode", "update");
 		return mav;
+	}
+	
+	@RequestMapping(value = "/sports/types/update", method = RequestMethod.POST)
+	public ModelAndView updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		SportsTypeDAO dao = new SportsTypeDAO();
+		String pathname = req.getServletContext().getRealPath("/") + "uploads" + File.separator + "sports" + File.separator + "types";
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		FileManager fileManager = new FileManager();
+		
+		try {
+			long num = Long.parseLong(req.getParameter("num"));
+
+			SportTypeDTO dto = dao.findById(num);
+			
+			dto.setUserId(info.getUserId());
+			dto.setName(req.getParameter("name"));
+			dto.setDescription(req.getParameter("description"));
+			dto.setBodyPart(req.getParameter("bodyPart"));
+
+			Part part = req.getPart("selectFile");
+			MyMultipartFile mmf = fileManager.doFileUpload(part, pathname);
+			if (mmf != null) {
+				if (dto.getFilename() != null) {
+					fileManager.doFiledelete(pathname, dto.getFilename());
+				}
+				dto.setFilename(mmf.getSaveFilename());
+			}
+			
+			dao.update(dto);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ModelAndView("redirect:/sports/types/list");
+	}
+	
+	// 끝
+	@RequestMapping(value = "/sports/types/deleteFile", method = RequestMethod.GET)
+	public ModelAndView deleteFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		SportsTypeDAO dao = new SportsTypeDAO();
+		FileManager fileManager = new FileManager();
+		String pathname = req.getServletContext().getRealPath("/") + "uploads" + File.separator + "sports" + File.separator + "types";
+		
+		try {
+			long num = Long.parseLong(req.getParameter("num"));
+			String filename = req.getParameter("filename");
+			
+			fileManager.doFiledelete(pathname, filename);
+			dao.deleteFile(num);
+			
+			return new ModelAndView("redirect:/sports/types/update?num=" + num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return new ModelAndView("redirect:/sports/types/list");
+	}
+	
+	@RequestMapping(value = "/sports/types/delete", method = RequestMethod.GET)
+	public ModelAndView delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		SportsTypeDAO dao = new SportsTypeDAO();
+		
+		try {
+			long num = Long.parseLong(req.getParameter("num"));
+			dao.deleteFile(num);
+			dao.delete(num);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ModelAndView("redirect:/sports/types/list");
 	}
 }

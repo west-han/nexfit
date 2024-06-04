@@ -24,36 +24,48 @@ function sendOk() {
     str = f.name.value.trim();
     if(!str) {
         alert("제목을 입력하세요. ");
-        f.subject.focus();
+        f.name.focus();
         return;
     }
 
     str = f.bodyPart.value.trim();
     if(!str) {
-        alert("내용을 입력하세요. ");
-        f.content.focus();
+        alert("운동 부위를 선택하세요. ");
+        f.bodyPart.focus();
         return;
     }
     str = f.description.value.trim();
     if(!str) {
         alert("내용을 입력하세요. ");
-        f.content.focus();
+        f.description.focus();
         return;
     }
 
     var mode = "${mode}";
-    if( (mode === "write") && (!f.selectFile.value) ) {
+    console.log($('form-control-plaintext > span').html);
+    if( mode == 'write' && !f.selectFile.value ) {
         alert("이미지 파일을 추가 하세요. ");
         f.selectFile.focus();
         return;
     }
     
-    f.action = "${pageContext.request.contextPath}/sports/types/write";
-    f.submit();
+    f.action = "${pageContext.request.contextPath}/sports/types/" + mode;
+	f.submit();
 }
 
 </script>
-
+<c:if test="${mode == 'update'}">
+<script type="text/javascript">
+function deleteFile(num) {
+	if (! confirm('파일을 삭제하시겠습니까 ? ')) {
+		return;
+	}
+	
+	let q = 'num=' + num;
+	location.href = '${pageContext.request.contextPath}/sports/types/deleteFile?' + q;
+}
+</script>
+</c:if>
 </head>
 
 <body>
@@ -75,7 +87,7 @@ function sendOk() {
 								<tr>
 									<td class="bg-light col-sm-2" scope="row">운동 이름</td>
 									<td>
-										<input type="text" name="name" class="form-control" value="${dto.subject}">
+										<input type="text" name="name" class="form-control" value="${dto.name}">
 									</td>
 								</tr>
 								
@@ -93,16 +105,28 @@ function sendOk() {
 								<tr>
 									<td class="bg-light col-sm-2" scope="row">설명</td>
 									<td>
-										<textarea name="description" id="content" class="form-control">${dto.content}</textarea>
+										<textarea name="description" id="description" class="form-control">${dto.description}</textarea>
 									</td>
 								</tr>
 								
 								<tr>
-									<td class="bg-light col-sm-2" scope="row">이미지</td>
-									<td>
-										<input type="file" name="selectFile" accept="image/*" multiple="multiple" class="form-control">
+									<td class="bg-light col-sm-2">이미지</td>
+									<td> 
+										<input type="file" name="selectFile" multiple class="form-control">
 									</td>
 								</tr>
+								
+								<c:if test="${mode=='update'}">
+									<tr>
+										<td class="bg-light col-sm-2" scope="row">등록이미지</td>
+										<td>
+											<p class="form-control-plaintext">
+												<a href="javascript:deleteFile(${dto.num})"><i class="bi bi-trash"></i></a>
+												<span>${dto.filename}</span>
+											</p>
+										</td>
+									</tr>
+								</c:if>
 							</table>
 							
 							<table class="table table-borderless">
@@ -113,7 +137,6 @@ function sendOk() {
 										<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/sports/types/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
 										<c:if test="${mode=='update'}">
 											<input type="hidden" name="num" value="${dto.num}">
-											<input type="hidden" name="page" value="${page}">
 										</c:if>
 									</td>
 								</tr>

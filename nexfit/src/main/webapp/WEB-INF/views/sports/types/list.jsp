@@ -38,14 +38,8 @@
 							action="${pageContext.request.contextPath}/sports/type/list"
 							method="post">
 							<div class="col-auto p-0 pb">
-								<input type="text" name="keyword" value="${keyword}"
+								<input type="text" id="keyword" name="keyword"
 									class="form-control" style="width: 500px;">
-							</div>
-							<div class="col-auto p-0">
-								<button type="button" class="btn btn-light"
-									onclick="searchList()" style="">
-									<i class="bi bi-search"></i>
-								</button>
 							</div>
 							<c:if test="${sessionScope.member.userId == 'admin'}">
 								<div class="row text-end">
@@ -95,21 +89,19 @@
 
 						<div class="modal-body">
 							<div class="container-fluid">
-								<div class="modal-image">
+								<div class="modal-image container-fluid pb-4">
 									<img alt="" src="">
 								</div>
 
-								<div class="modal-content"></div>
+								<div class="modal-content" style="border: none;"></div>
 							</div>
 						</div>
 
 						<!-- 관리자면 푸터 표시, 수정/삭제 -->
-						<c:if test="">
+						<c:if test="${sessionScope.member.userId == 'admin'}">
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary"
-									data-bs-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-primary">Save
-									changes</button>
+								<button type="button" class="btn btn-primary">수정</button>
+								<button type="button" class="btn btn-primary">삭제</button>
 							</div>
 						</c:if>
 					</div>
@@ -166,24 +158,42 @@ $(function() {
 		location.href = url;
 	});
 
-	$(".list-content").on("mouseover", ".card-body", () => $(this).find(".card-img-overlay").show());
-	$(".list-content").on("mouseout", ".card-body", () => $(this).find(".card-img-overlay").hide());
+	$(".list-content").on("mouseover", ".card", function() { $(this).find(".card-img-overlay").show(); });
+	$(".list-content").on("mouseout", ".card", function() { $(this).find(".card-img-overlay").hide(); });
 	
-	$(".list-content").on("click", ".card-body", event => { event.target.closest('.card').querySelector(".btnModal").click(); });
+	$(".list-content").on("click", ".card-body", event => event.target.closest('.card').querySelector(".btnModal").click() );
 	
 	$("#sportsDetailModal").on("shown.bs.modal", event => {
 		const btnClicked = $(event.relatedTarget)[0];
 		const num = btnClicked.getAttribute("data-num");
 		
-		let url = "${pageContext.request.contextPath}/sports/types/detail"
+		let url = "${pageContext.request.contextPath}/sports/types/detail";
 		let query = 'num=' + num;
 		
 		const fn = data => {
 			const pathname = '${pageContext.request.contextPath}/uploads/sports/types/' + data.filename;
 			const name = data.name;
 			const content = data.description;
+			const num = data.num;
 			
-			$("#sportsDetailModal").find('.modal-body').html('<div> <h1>' + name + '</h1> <p>' + content + '</p>');
+			$("#sportsDetailModal").find(".modal-header > .modal-title").html(name);
+			
+			$("#sportsDetailModal").find('.modal-body .modal-image').html('<img src="' + pathname + '" class="w-100">');
+			
+			$("#sportsDetailModal").find(".modal-body .modal-content").html(content);
+			
+			$("#sportsDetailModal").find(".modal-footer").children().eq(0).click(event => {
+				location.href = '${pageContext.request.contextPath}/sports/types/update?num=' + num;
+			});
+			
+			$("#sportsDetailModal").find(".modal-footer").children().eq(1).click(event => {
+				if (! confirm('삭제하시겠습니까?')) {
+					return;
+				}
+				
+				location.href = '${pageContext.request.contextPath}/sports/types/delete?num=' + num;
+			});
+			
 		};
 		
 		ajaxFun(url, 'get', query, 'json', fn);
@@ -216,7 +226,7 @@ function addNewContent(data) {
 		listNode.innerHTML = "";
 		return;
 	}
-	
+
 	let htmlText;
 	
 	for (let item of data.list) {
@@ -229,9 +239,9 @@ function addNewContent(data) {
 		const filenum = item.filenum;
 
 		htmlText = '<div class="col-xl-3 col-lg-4 col-sm-6 col-xs-12 pb-3 d-flex justify-content-center">';
-		htmlText += '	<div class="card w-100 p-2">';
-		htmlText += '		<div class="card-body">';
-		htmlText += '			<img src="${pageContext.request.contextPath}/uploads/sports/types/' + filename + '" class="card-img-top" alt="' + name + '...">';
+		htmlText += '	<div class="card w-100 p-0 mb-2" style="min-height: 250px; max-height: 300px;" data-name="' + name + '">';
+		htmlText += '		<div class="card-body p-0 h-100 w-100">';
+		htmlText += '			<img src="${pageContext.request.contextPath}/uploads/sports/types/' + filename + '" class="card-img-top w-100 h-100" alt="' + name + '...">';
 		htmlText += '			<div class="card-img-overlay" style="display: none;">';
 		htmlText += '				<h5 class="card-title">' + name + '</h5>';
 		htmlText += '			</div>';
@@ -244,7 +254,7 @@ function addNewContent(data) {
 
 		listNode.insertAdjacentHTML("beforeend", htmlText);
 	}
-	
+
 	if (pageNo < totalPage) {
 		sentinelNode.setAttribute("data-loading", "false");
 		sentinelNode.style.display = "block";
@@ -255,14 +265,12 @@ function addNewContent(data) {
 
 const ioCallback = (entries, io) => {
 	entries.forEach((entry) => {
-		if(entry.isIntersecting) { // 관찰자가 화면에 보이면
-			// 현재 페이지가 로딩중이면 빠져 나감
+		if(entry.isIntersecting) {
 			let loading = sentinelNode.getAttribute('data-loading');
 			if(loading !== 'false') {
 				return;
 			}
 			
-			// 기존 관찰하던 요소는 더이상 관찰하지 않음
 			io.unobserve(entry.target);
 			
 			let pageNo = parseInt(listNode.getAttribute('data-pageNo'));
@@ -279,6 +287,23 @@ const ioCallback = (entries, io) => {
 
 const io = new IntersectionObserver(ioCallback);
 io.observe(sentinelNode);
+
+$(function() {
+	$("#keyword").keyup(function(event) {
+        let keyword = $(this).val();
+        $(".card").hide();
+		console.log(keyword);
+		
+        if (! keyword.trim()) {
+	        $(".card").show();
+	        return;
+        }
+        
+        let found = $(".card h5.card-title:contains(" + keyword + ")")
+
+        $(found).closest(".card").show();
+	});
+});
 
 </script>
 
