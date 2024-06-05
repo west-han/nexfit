@@ -55,7 +55,7 @@ function sendOk() {
     }
     
     var count =f.count.value.trim();
-    if(parseInt(count) > 1) {
+    if(parseInt(count) > 0) {
         alert("이미 신청한 챌린지 입니다.");
         f.action = "${pageContext.request.contextPath}/chboard/list";
         return;
