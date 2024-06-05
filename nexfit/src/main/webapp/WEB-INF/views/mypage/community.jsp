@@ -15,7 +15,17 @@
 	max-width: 800px;
 }
 </style>
+<script type="text/javascript">
+function location() {
+	const selectElement = document.getElementById('board_name');
+	
+	if(board_name == 'freeboard'){
+		
+	}
+		
+}
 
+</script>
 </head>
 
 <body>
@@ -56,24 +66,75 @@
 			</ol>
 						
 						</div>
+						
 						<div class="col-sm-6" style="margin-left:50px;">
-							<div style=" border: 1px solid #dedede; width: 800px; height: 300px; border-radius: 20px; padding: 30px;">
+							<div style=" border: 1px solid #dedede; width: 800px; height: 500px; border-radius: 20px; padding: 30px;">
+								<div style="display: flex;">
 								<div style="border: 1px solid red; width: 100px; height: 100px ;border-radius: 50px; float: left"></div>
 								<ul style="list-style: none; float: left;">
-									<li>닉네임</li>
-									<li>한 줄 소개를 입력하세요</li>
+									<li>${sessionScope.member.nickname}</li>
+									<li>작성수 <i class="bi bi-file-earmark-text"></i>${count}
+								댓글수 <i class="bi bi-chat-right-text"></i>${rpl_count}</li>
 								</ul>
-								 
+								</div>
+								
+								<div>
+							<div><a href="${pageContext.request.contextPath}/mypage/writelist">내가 쓴 게시글</a>
+							<div><a href="${pageContext.request.contextPath}/mypage/reply_community.jsp">내가 쓴 댓글</a></div>
+							  <div class="row board-list-header">
+				            <div class="col-auto me-auto">${dataCount}개(${page}/${total_page} 페이지)</div>
+				            
+				        </div>
+						<form action="writeForm" method="post">
+							<table class="table table-hover board-list">
+								<thead class="table-light">
+								
+							<tr>
+								<th class="board_name"style="width: 100px;">게시판</th> 
+								<th class="subject" style="width: 400px;">제목</th>
+								<th class="date">작성일</th>
+								<th class="hit">조회</th>
+							</tr>
+							
+							</thead>
+					
+					<tbody>
+						<c:forEach var="dto" items="${list}" varStatus="status">
+							<tr>
+								<td id="board_name">${dto.board_name}</td>
+								<td class="left">
+									<a href="${pageContext.request.contextPath}/board/article?num=${dto.num}&page=${page}" class="text-reset">${dto.subject}</a>
+								</td>
+								<td>${dto.reg_date}</td>
+								<td>${dto.hitCount}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+										<div>
+										</div>
+									</form>
+									
+						
+								
+								
+								
+							</div>
+							</div>
 							</div>
 							
 							</div>
-							
+						
+							</div>
 						</div>
 						<div class="col-sm-3"></div>
-					</div>
+					
 			</main>
 			</div>
-		
+		<div class="page-navigation">
+							${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+						</div> 
+	<div style="width: 100%; height: 200px;"></div>
 	
 	<footer>
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
