@@ -157,7 +157,7 @@ function searchList() {
 										
 										</td>
 										<td>
-										<span style="color: #23A41A; font-weight: bold;">&nbsp;&nbsp;${dto.replyCount}개</span>
+										<span style="color: #23A41A; font-weight: bold;">🗨 ${dto.replyCount}</span>
 										</td>
 										<td>${dto.nickname}</td>
 										<td>${dto.reg_date}</td>

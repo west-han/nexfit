@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>spring</title>
+<title>NEXFIT : 운동이 재밌는 커뮤니티</title>
 
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
@@ -81,7 +81,7 @@
 		function deleteBoard() {
 		    if(confirm("게시글을 삭제 하시 겠습니까 ? ")) {
 			    let query = "num=${dto.num}&${query}";
-			    let url = "${pageContext.request.contextPath}/board/delete?" + query;
+			    let url = "${pageContext.request.contextPath}/withme/delete?" + query;
 		    	location.href = url;
 		    }
 		}
@@ -100,26 +100,28 @@
 			<div class="container-xxl text-center">
 				<div class="row py-5 mt-5">
 					<div class="col image-container">
-					<img src="/nexfit/resources/images/exercisebg.PNG" class="background-image" style="width:1300px; height:200px; opacity: 0.3;">
-					<img src="/nexfit/resources/images/freelounge.png" class="overlay-image" style="width:550px; height:110px;"><br>
-					<img src="/nexfit/resources/images/sci.png" class="overlay-image2" style="width:330px; height:25px;">
+					<img src="/nexfit/resources/images/withmeback.png" class="background-image" style="width:1300px; height:200px; opacity: 0.3;">
+					<img src="/nexfit/resources/images/withme.png" class="overlay-image" style="width:550px; height:110px;"><br>
+					<img src="/nexfit/resources/images/ppp.png" class="overlay-image2" style="width:300px; height:20px;"> 
 				</div>
 				</div>
 				
 					<div class="row gx-2" style="font-family: 'nexon lv1 light'; font-weight: 600;">
-						<jsp:include page="/WEB-INF/views/board/list_leftbar.jsp"></jsp:include>
+						<jsp:include page="/WEB-INF/views/withme/list_leftbar.jsp"></jsp:include>
 						<div class="col-sm-7 mt-3"> <!-- mt-n : margin-top -->
 						<main>
 							<div class="container">
 								<div class="body-container">	
 									<div class="body-title">
-										<h3 style="font-family: 'nexon lv2 medium';"> 자유 게시판 </h3>
+										<h3 style="font-family: 'nexon lv2 medium';"> WITH ME! </h3>
 									</div>
 									
 									<div class="body-main">
 										
 										<table class="table table-style">
 											<thead>
+												
+												
 												<tr>
 													<td colspan="2" align="center" style="background: black; color: white; font-family: 'nexon lv2 medium';"> 
 														<h6>${dto.subject}</h6>
@@ -144,16 +146,10 @@
 												</tr>
 												
 												<tr>
-													<td colspan="2" class="text-center p-3" style="position: relative;">
-														<button type="button" class="btn btn-outline-secondary btnSendBoardLike" title="좋아요" style="color: ${isUserLike?'#FF73B8':'black'}"><i class="far">🖤&nbsp;&nbsp;<span id="boardLikeCount">${dto.boardLikeCount}</span></i></button>
-													</td>
-												</tr>
-												
-												<tr>
 													<td colspan="2" style="text-align: left">
 														이전글 :
 														<c:if test="${not empty prevDto}">
-															<a href="${pageContext.request.contextPath}/board/article?${query}&num=${prevDto.num}">${prevDto.subject}</a>
+															<a href="${pageContext.request.contextPath}/withme/article?${query}&num=${prevDto.num}">${prevDto.subject}</a>
 														</c:if>
 													</td>
 												</tr>
@@ -161,7 +157,7 @@
 													<td colspan="2" style="text-align: left">
 														다음글 :
 														<c:if test="${not empty nextDto}">
-															<a href="${pageContext.request.contextPath}/board/article?${query}&num=${nextDto.num}">${nextDto.subject}</a>
+															<a href="${pageContext.request.contextPath}/withme/article?${query}&num=${nextDto.num}">${nextDto.subject}</a>
 														</c:if>
 													</td>
 												</tr>
@@ -169,7 +165,7 @@
 													<td width="50%" style="text-align: left;">
 														<c:choose>
 															<c:when test="${sessionScope.member.userId==dto.userId}">
-																<button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/board/update?num=${dto.num}&page=${page}';">수정</button>
+																<button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/withme/update?num=${dto.num}&page=${page}';">수정</button>
 															</c:when>
 															<c:otherwise>
 																<button type="button" class="btn btn-outline-dark" disabled>수정</button>
@@ -186,7 +182,7 @@
 												    	</c:choose>
 													</td>
 													<td class="text-end">
-														<button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/board/list?${query}';">리스트</button>
+														<button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/withme/list?${query}';">리스트</button>
 													</td>
 												</tr>
 											</tbody>
@@ -199,7 +195,7 @@
 												<table class="table table-borderless table-style reply-form">
 													<tr>
 														<td>
-															<textarea class='form-control' name="content" placeholder="댓글 이쁘게 써라."></textarea>
+															<textarea class='form-control' name="content" placeholder="같이 하자고 댓글 달아라."></textarea>
 														</td>
 													</tr>
 													<tr>
@@ -267,49 +263,7 @@ function ajaxFun(url, method, formData, dataType, fn, file = false) {
 	$.ajax(url, settings);
 }
 
-// 게시글 공감 여부
-$(function() {
-	$('.btnSendBoardLike').hover(function() {
-        const floatHeart = $('<i class="far float-heart" style="margin-left: -51px;">🖤</i>');
-       
-        $(this).parent().append(floatHeart);
-        
-        setTimeout(function() {
-            floatHeart.remove();
-        }, 1000);
-    });
-	
-	$('.btnSendBoardLike').click(function(){
-		const $i = $(this).find("i");
-		let isNoLike = $i.css("color") === "rgb(0, 0, 0)";
-		let msg = isNoLike ? '게시글에 공감하시겠습니까 ?' : '게시글 공감을 취소하시겠습니까 ?';
-		
-		if (! confirm(msg)) {
-			return false;
-		}
-		
-		let url = '${pageContext.request.contextPath}/board/insertBoardLike';
-		let num = '${dto.num}';
-		let query = "num=" + num + "&isNoLike=" + isNoLike;
-		
-		const fn = function(data) {
-			let state = data.state;
-			if (state === 'true') {
-				let color = 'black';
-				if (isNoLike) {
-					color = '#FF73B8';
-				}
-				$i.css("color", color);
-				
-				let count = data.boardLikeCount;
-				$('#boardLikeCount').text(count);
-			}
-		};
-		
-		ajaxFun(url, "post", query, "json", fn);
-		
-	});
-});
+
 
 // 리스트
 $(function() {
@@ -317,7 +271,7 @@ $(function() {
 });
 
 function listPage(page) {
-	let url = "${pageContext.request.contextPath}/board/listReply";
+	let url = "${pageContext.request.contextPath}/withme/listReply";
 	let query = "num=${dto.num}&pageNo=" + page;
 	let selector = "#listReply";
 	
@@ -342,7 +296,7 @@ $(function() {
 		}
 		content = encodeURIComponent(content);
 		
-		let url = "${pageContext.request.contextPath}/board/insertReply";
+		let url = "${pageContext.request.contextPath}/withme/insertReply";
 		let query = "num=" + num + "&content=" + content + "&answer=0";
 		
 		const fn = function(data) {
@@ -371,7 +325,7 @@ $(function() {
 		let replyNum = $(this).attr("data-replyNum");
 		let page = $(this).attr("data-pageNo");
 		
-		let url = "${pageContext.request.contextPath}/board/deleteReply";
+		let url = "${pageContext.request.contextPath}/withme/deleteReply";
 		let query = "replyNum=" + replyNum;
 		
 		const fn = function(data) {
@@ -386,7 +340,7 @@ $(function() {
 
 //댓글별 답글 리스트
 function listReplyAnswer(answer) {
-	let url = "${pageContext.request.contextPath}/board/listReplyAnswer";
+	let url = "${pageContext.request.contextPath}/withme/listReplyAnswer";
 	let query = "answer=" + answer;
 	let selector = "#listReplyAnswer" + answer;
 	
@@ -401,7 +355,7 @@ function listReplyAnswer(answer) {
 
 //댓글별 답글 개수
 function countReplyAnswer(answer) {
-	let url = "${pageContext.request.contextPath}/board/countReplyAnswer";
+	let url = "${pageContext.request.contextPath}/withme/countReplyAnswer";
 	let query = "answer=" + answer;
 	
 	const fn = function(data) {
@@ -453,7 +407,7 @@ $(function() {
 		}
 		content = encodeURIComponent(content);
 		
-		let url = "${pageContext.request.contextPath}/board/insertReply";
+		let url = "${pageContext.request.contextPath}/withme/insertReply";
 		let query = "num="+num+"&content="+content+"&answer="+replyNum;
 		
 		const fn = function(data) {
@@ -482,7 +436,7 @@ $(function() {
 		let replyNum = $(this).attr("data-replyNum");
 		let answer = $(this).attr("data-answer");
 		
-		let url = "${pageContext.request.contextPath}/board/deleteReply";
+		let url = "${pageContext.request.contextPath}/withme/deleteReply";
 		let query = "replyNum=" + replyNum;
 		
 		const fn = function(data) {
