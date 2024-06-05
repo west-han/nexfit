@@ -11,6 +11,7 @@ import com.nexfit.annotation.RequestMapping;
 import com.nexfit.annotation.RequestMethod;
 import com.nexfit.dao.ChallengeBoardDAO;
 import com.nexfit.dao.ChallengeDAO;
+import com.nexfit.domain.Ch_applFormDTO;
 import com.nexfit.domain.ChallengeBoardDTO;
 import com.nexfit.domain.ChallengeDTO;
 import com.nexfit.domain.SessionInfo;
@@ -291,6 +292,7 @@ public class ChallengeBoardController {
 			}
 			
 			ChallengeBoardDTO dto = dao.findById(num);
+			List<Ch_applFormDTO> app = dao.findApplFormByNum(num);
 			
 			if(dto == null) {
 				return new ModelAndView("redirect:/chboard/list?page=" + query);
@@ -299,7 +301,9 @@ public class ChallengeBoardController {
 			
 			ModelAndView mav = new ModelAndView("chboard/article");
 			
+		
 			mav.addObject("dto", dto);
+			mav.addObject("app", app);
 			mav.addObject("page", page);
 			mav.addObject("query", query);
 			mav.addObject("size", size);
@@ -355,16 +359,49 @@ public class ChallengeBoardController {
 	public ModelAndView applform(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ChallengeBoardDAO dao = new ChallengeBoardDAO();
 		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		int count = 0;
 		String page = req.getParameter("page");
 		long num = Long.parseLong(req.getParameter("num"));
 		
 		ChallengeBoardDTO dto = dao.findById(num);
+		try {
+			count = dao.CountApplForm(Long.parseLong(req.getParameter("num")), info.getUserId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		ModelAndView mav = new ModelAndView("chboard/applform");
 		
 		mav.addObject("dto", dto);
 		mav.addObject("page", page);
+		mav.addObject("count", count);
 		
 		return mav;
+	}
+	
+	@RequestMapping(value = "/chboard/applform", method = RequestMethod.POST )
+	public ModelAndView applformSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ChallengeBoardDAO dao = new ChallengeBoardDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		try {
+			Ch_applFormDTO dto = new Ch_applFormDTO();
+			
+			dto.setSubject(req.getParameter("subject"));
+			dto.setBoardNumber(Long.parseLong(req.getParameter("num")));
+			dto.setComent(req.getParameter("coment"));
+			dto.setUserId(info.getUserId());
+			
+		   dao.insertApplForm(dto);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ModelAndView("redirect:/chboard/list");
 	}
 }

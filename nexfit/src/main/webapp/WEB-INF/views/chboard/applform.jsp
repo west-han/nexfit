@@ -46,55 +46,32 @@ function sendOk() {
     const f = document.photoForm;
 	let str;
 	
-    str = f.subject.value.trim();
-    if(!str) {
-        alert("제목을 입력하세요. ");
-        f.subject.focus();
-        return;
-    }
     
-    var selectElement = document.getElementById('challengeSelect');
-    var selectedValue = selectElement.value.trim();
-    
-    if (selectedValue === "none") {
-        alert("챌린지를 선택하세요!");
-        selectElement.focus();
-        return;
-    }
-    
-    str = f.start_date.value.trim();
-    if(!str) {
-        alert("시작일을 선택하세요 ");
-        f.start_date.focus();
-        return;
-    }
-    
-    str = f.end_date.value.trim();
-    if(!str) {
-        alert("기간을 선택하세요 ");
-        f.end_date.focus();
-        return;
-    }
-    
-    
-    str = f.content.value.trim();
+    str = f.coment.value.trim();
     if(!str) {
         alert("내용을 입력하세요. ");
-        f.content.focus();
+        f.coment.focus();
         return;
     }
     
-
+    var count =f.count.value.trim();
+    if(parseInt(count) > 1) {
+        alert("이미 신청한 챌린지 입니다.");
+        f.action = "${pageContext.request.contextPath}/chboard/list";
+        return;
     }
+    
+    
+    
     
     f.action = "${pageContext.request.contextPath}/chboard/applform";
     f.submit();
-}
+}	
+
+
 
 </script>
-
-
-
+   
 </head>
 
 <body>
@@ -105,26 +82,26 @@ function sendOk() {
 		<div class="container">
 		</div>
 		<main>
-		<div class="container">
-		<div class="body-container m-auto" >	
-			<div class="body-title">
+		<div class="container py-5">
+		<div class="body-container m-auto " >	
+			<div class="body-title py-5">
 				<h3><i class="bi bi-clipboard"></i> 챌린지 신청서 </h3>
 			</div>
 			
-			<div class="body-main">
+			<div class="body-main" style="font-family: nexon lv1 light">
 				<form name="photoForm" method="post" enctype="multipart/form-data">
 					<table class="table write-form mt-5">
+						
 						<tr>
-							<td class="bg-light col-sm-2" scope="row">제 목</td>
-							<td>
-								<input type="text" name="subject" class="form-control">
+							<td class="bg-light col-sm-2" scope="row">게시물 제목</td>
+	 						<td>
+								<input class="form-control w-30" value="${dto.subject}" readonly>
 							</td>
 						</tr>
-	        
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">챌린지명</td>
 	 						<td>
-								<input value="${dto.ch_subject}">
+								<input class="form-control w-30" value="${dto.ch_subject}" readonly>
 							</td>
 						</tr>
 						<tr>
@@ -134,9 +111,14 @@ function sendOk() {
 								<input type="date" name="start_date" id="start_date" class="form-control date-input" placeholder="시작날짜" value="${dto.start_date}">
 								종료일 :
                 				<input type="date" name="end_date" id="end_date" class="form-control date-input" placeholder="종료날짜" value="${dto.end_date}" readonly>
+                				
+						</tr>
+						<tr>
+							<td class="bg-light col-sm-2" scope="row">한줄각오</td>
+							<td>
+								<input type="text" name="coment" class="form-control">
 							</td>
 						</tr>
-						
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">참가비</td>
 							<td>
@@ -145,9 +127,8 @@ function sendOk() {
 						</tr>
 						
 	
-						
 					</table>
-					
+					<input type="hidden" name="boardnum" value="${dto.boardNumber}">
 	 
 					
 					<table class="table table-borderless">
@@ -159,6 +140,7 @@ function sendOk() {
 								
 								
 									<input type="hidden" name="num" value="${dto.boardNumber}">
+									<input type="hidden" name="count" value="${count}">
 						
 			
 							</td>

@@ -179,7 +179,6 @@ public class ChallengeBoardDAO {
 				sb.append("SELECT boardnumber, subject, ch_subject, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, ");
 				sb.append("TO_CHAR(mod_date, 'YYYY-MM-DD') mod_date, ");
 				sb.append("TO_CHAR(start_date, 'YYYY-MM-DD') start_date, ");
-				sb.append("TO_CHAR(start_date, 'YYYY-MM-DD') start_date, ");
 				sb.append("TO_CHAR(end_date, 'YYYY-MM-DD') end_date, ");
 				sb.append("content, b.challengeId, imageFilename,ch_content ");
 				sb.append("FROM challengeboard b ");
@@ -338,17 +337,19 @@ public class ChallengeBoardDAO {
 		}
 	}
 	
-	public void insertAppForm(Ch_applFormDTO dto) throws SQLException {
+	public void insertApplForm(Ch_applFormDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
 		
 		try {
+			
+			
 			sql = "INSERT INTO ch_applform(APPLNUMBER, APPL_DATE, APPL_STATE, COMENT, BOARDNUMBER, USERID,APPL_SCORE)"
 					+" VALUES (ch_applform_seq.NEXTVAL, SYSDATE, '진행중', ?, ?, ? ,0)";
 			
 			pstmt =conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getContent());
+			pstmt.setString(1, dto.getComent());
 			pstmt.setLong(2, dto.getBoardNumber());
 			pstmt.setString(3, dto.getUserId());;
 			
@@ -360,5 +361,99 @@ public class ChallengeBoardDAO {
 		}finally {
 			DBUtil.close(pstmt);
 		}
+	}
+	
+	//신청중복 막기위해 신청한횟수 카운트
+	public int CountApplForm(long num, String userid) throws SQLException {
+		int count=0;
+		PreparedStatement pstmt = null;
+		String sql;
+		ResultSet rs = null;
+		try {
+			sql = "SELECT COUNT(*) FROM ("
+					+" SELECT c.userid,coment,appl_state,applnumber, TO_CHAR(compl_date, 'YYYY-MM-DD') compl_date,"
+					+" appl_score, TO_CHAR(appl_date, 'YYYY-MM-DD') appl_date,ch_subject,ch.fee,subject,nickname"
+					+" FROM ch_applform c"
+					+" JOIN challengeboard b ON c.boardnumber=b.boardnumber"
+					+" JOIN challenge ch ON b.challengeid =ch.challengeid"
+					+" JOIN member m ON c.userid = m.userid"
+					+" JOIN member_detail t ON m.userid = t.userid"
+					+" where c.boardnumber= ? AND c.userid = ? "
+					+" ORDER BY applnumber DESC )";
+					
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, num);
+			pstmt.setString(2, userid);
+			
+			rs=pstmt.executeQuery();
+			
+			 if (rs.next()) {
+		            count = rs.getInt(1); // 첫 번째 컬럼의 값을 가져옵니다. (COUNT(*)의 결과)
+		        }
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			DBUtil.close(pstmt);
+			DBUtil.close(rs);
+		}
+		
+		return count;
+	}
+	
+	public List<Ch_applFormDTO> findApplFormByNum(long num) throws SQLException {
+		List<Ch_applFormDTO> list = new ArrayList<Ch_applFormDTO>();
+		
+		PreparedStatement pstmt = null;
+		String sql;
+		ResultSet rs = null;
+		try {
+			sql = 
+					"SELECT *FROM ( "
+					+"SELECT c.userid,coment,appl_state,applnumber, TO_CHAR(compl_date, 'YYYY-MM-DD') compl_date,"
+					+" appl_score, TO_CHAR(appl_date, 'YYYY-MM-DD') appl_date,ch_subject,ch.fee,subject,nickname"
+					+" FROM ch_applform c"
+					+" JOIN challengeboard b ON c.boardnumber=b.boardnumber"
+					+" JOIN challenge ch ON b.challengeid =ch.challengeid"
+					+" JOIN member m ON c.userid = m.userid"
+					+" JOIN member_detail t ON m.userid = t.userid"
+					+" where c.boardnumber= ?"
+					+" ORDER BY applnumber DESC)"
+					+" WHERE ROWNUM <= 20";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, num);
+			
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				Ch_applFormDTO dto = new Ch_applFormDTO();
+				
+				dto.setUserId(rs.getString("userid"));
+				dto.setNickname(rs.getString("nickname"));
+				dto.setComent(rs.getString("coment"));
+				dto.setCompl_Date(rs.getString("compl_date"));
+				dto.setAppl_Score(rs.getInt("appl_score"));
+				dto.setAppl_date(rs.getString("appl_date"));
+				dto.setCh_subject(rs.getString("ch_subject"));
+				dto.setFee("fee");
+				dto.setSubject("subject");
+				
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			DBUtil.close(pstmt);
+			DBUtil.close(rs);
+		}
+		
+		return list;
 	}
 }

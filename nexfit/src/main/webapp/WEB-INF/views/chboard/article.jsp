@@ -201,6 +201,27 @@
 						</td>
 					</tr>
 				</table>
+ <div class="table-style">
+    <table class="table table-hover board-list">
+      <thead>
+        <tr>
+          <th width="100px">닉네임</th>
+          <th>한줄각오</th>
+          <th width="200px">신청날짜</th>
+        </tr>
+      </thead>
+      <tbody>
+      <c:forEach var="app" items="${app}" varStatus="status">	
+      	<tr>
+      		<td>${app.nickname}</td>
+      		<td>${app.coment}</td>
+      		<td>${app.appl_date}</td>
+      	</tr>
+      	</c:forEach>
+      </tbody>
+    </table>
+  </div>
+						
 				
 			</div>
 
