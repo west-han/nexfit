@@ -15,7 +15,7 @@ import com.nexfit.util.DBUtil;
 public class QnaBoardDAO {
 	private Connection conn = DBConn.getConnection();
 	
-	// 데이터 추가
+		// 데이터 추가
 		public void insertBoard(QnaBoardDTO dto) throws SQLException {
 			PreparedStatement pstmt = null;
 			String sql;

@@ -22,7 +22,7 @@
 				  </li>
 				  <li class="list-group-item d-flex justify-content-between align-items-start">
 				    <div class="ms-2 me-auto">
-				      <div class="fw-bold">WITH ME</div>
+				      <div class="fw-bold"><a href="${pageContext.request.contextPath}/withme/list">WITH ME</a></div>
 				    </div>
 				  </li>
 			</ol>

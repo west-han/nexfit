@@ -83,9 +83,9 @@ function searchList() {
 		<div class="container-xxl text-center">
 			<div class="row py-5 mt-5">
 				<div class="col image-container">
-					<img src="/nexfit/resources/images/qnapeople.png" class="background-image" style="width:1300px; height:200px; opacity: 0.3;">
-					<img src="/nexfit/resources/images/qnalounge.png" class="overlay-image" style="width:550px; height:110px;"><br>
-					<img src="/nexfit/resources/images/aae.png" class="overlay-image2" style="width:300px; height:20px;"> 
+					<img src="/nexfit/resources/images/withmeback.png" class="background-image" style="width:1300px; height:200px; opacity: 0.3;">
+					<img src="/nexfit/resources/images/withme.png" class="overlay-image" style="width:550px; height:110px;"><br>
+					<img src="/nexfit/resources/images/ppp.png" class="overlay-image2" style="width:300px; height:20px;"> 
 				</div>
 				
 				
@@ -93,14 +93,14 @@ function searchList() {
 						
 	<div class="row gx-2">
 		
-	<jsp:include page="/WEB-INF/views/board/list_leftbar.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/withme/list_leftbar.jsp"></jsp:include>
 	
 	<div class="col-sm-7"> 
 		<main>
 			<div class="container" style="font-family: 'nexon lv2 medium';">
 				<div class="body-container">	
 					<div class="body-title">
-						<h3 style="font-family: 'nexon lv2 medium';">질의 게시판</h3>
+						<h3 style="font-family: 'nexon lv2 medium';">WITH ME!</h3>
 					</div>
 					
 				
@@ -111,7 +111,7 @@ function searchList() {
 				            
 				        </div>
 				        
-				        <form class="row mx-auto" name="searchForm" action="${pageContext.request.contextPath}/qnaboard/list" method="post" > 
+				        <form class="row mx-auto" name="searchForm" action="${pageContext.request.contextPath}/withme/list" method="post" > 
 							<div class="col-auto p-1">
 								<select name="schType" class="form-select">
 									<option value="all" ${schType=="all"?"selected":""}>제목+내용</option>
@@ -129,7 +129,7 @@ function searchList() {
 							</div>
 						</form>
 						 
-						<div class="col-auto">&nbsp;<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/qnaboard/write';" style="float: right;">질문하기</button></div>
+						<div class="col-auto">&nbsp;<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/withme/write';" style="float: right;">글쓰기</button></div>
 				     	
 				     	<div class="table-style">		
 						<table class="table table-hover board-list">
@@ -151,14 +151,13 @@ function searchList() {
 										<td class="left">
 									
 											<a href="${articleUrl}&num=${dto.num}" class="text-reset">
-											<span style="float: left"><span style="color: blue;">Q.</span> ${dto.subject} <span style="color: #23A41A; font-weight: bold;"> 
-											</span>
+											<span style="float: left"></span> ${dto.subject} <span style="color: #23A41A; font-weight: bold;"> 
 											</span>
 											</a>
 										
 										</td>
 										<td>
-										<span style="color: #23A41A; font-weight: bold;">&nbsp;&nbsp; <span style="color: red; text-align: right;">A.</span> ${dto.replyCount}개</span>
+										<span style="color: #23A41A; font-weight: bold;">&nbsp;&nbsp;${dto.replyCount}개</span>
 										</td>
 										<td>${dto.nickname}</td>
 										<td>${dto.reg_date}</td>
