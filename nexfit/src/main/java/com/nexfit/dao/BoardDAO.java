@@ -926,7 +926,52 @@ public class BoardDAO {
 			
 			return result;
 		}
-	
+			//게시물 가져오기(리스트)
+			public List<BoardDTO> listboardByUser(int offset, int size, String userid){
+				List<BoardDTO> list = new ArrayList<BoardDTO>();
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				StringBuilder sb = new StringBuilder();
+				
+				try {
+					sb.append(" SELECT f.num, userid, subject, hitCount, ");
+					sb.append("      TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, ");
+					sb.append("      NVL(replyCount, 0) replyCount ");
+					sb.append(" FROM freeboard f ");
+					sb.append(" JOIN member m ON f.userId = m.userId ");
+					sb.append(" where userId=?");
+					sb.append(" ORDER BY num DESC ");
+					sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
+					
+					
+					pstmt = conn.prepareStatement(sb.toString());
+					
+					pstmt.setString(1, userid);
+					pstmt.setInt(2, offset);
+					pstmt.setInt(3, size);
+					
+					rs = pstmt.executeQuery();
+					
+					while (rs.next()) {
+						BoardDTO dto = new BoardDTO();
+
+						dto.setNum(rs.getLong("num"));
+						dto.setSubject(rs.getString("subject"));
+						dto.setHitCount(rs.getInt("hitCount"));
+						dto.setReg_date(rs.getString("reg_date"));
+
+						dto.setReplyCount(rs.getInt("replyCount"));
+						
+						list.add(dto);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}finally {
+					DBUtil.close(rs);
+					DBUtil.close(pstmt);
+				}
+				return list;
+			}
 	
 	
 }
