@@ -49,7 +49,7 @@
 				  </li>
 				  <li class="list-group-item d-flex justify-content-between align-items-start" style="background: aqua;">
 				    <div class="ms-2 me-auto">
-				      <div class="fw-bold" style="color: white;">커뮤니티 활동</div>
+				      <div class="fw-bold"><a href="${pageContext.request.contextPath}/mypage/community"  style="color: white;">커뮤니티 활동</a></div>
 				    </div>
 				  </li>
 				  
@@ -58,7 +58,7 @@
 						</div>
 						
 						<div class="col-sm-6" style="margin-left:50px;">
-							<div style=" border: 1px solid #dedede; width: 800px; height: 500px; border-radius: 20px; padding: 30px;">
+							<div style=" border: 1px solid #dedede; width: 800px; height: 700px; border-radius: 20px; padding: 30px;">
 								<div style="display: flex;">
 								<div style="border: 1px solid red; width: 100px; height: 100px ;border-radius: 50px; float: left"></div>
 								<ul style="list-style: none; float: left;">
@@ -69,25 +69,32 @@
 								</div>
 								
 								<div>
-							<div><a href="${pageContext.request.contextPath}/mypage/write">내가 쓴 게시글</a>
-							<div><a href="${pageContext.request.contextPath}/mypage/reply">내가 쓴 댓글</a></div>
-						<form action="replyForm" method="post">
+							<div><a href="${pageContext.request.contextPath}/mypage/community">내가 쓴 게시글</a>
+							<div><a href="${pageContext.request.contextPath}/mypage/replylist">내가 쓴 댓글</a></div>
+							  <div class="row board-list-header">
+				            <div class="col-auto me-auto">${dataCount}개(${page}/${total_page} 페이지)</div>
+				            
+				        </div>
+						<form action="writeForm" method="post">
 							<table class="table table-hover board-list">
 								<thead class="table-light">
+								
 							<tr>
-								<th class="subject" style="width: 400px;">댓글 내용</th>
+								<th class="board_name"style="width: 100px;">게시판</th> 
+								<th class="content" style="width: 400px;">댓글</th>
+								<th class="date">작성일</th>
 							</tr>
+							
 							</thead>
 					
 					<tbody>
 						<c:forEach var="dto" items="${list}" varStatus="status">
 							<tr>
-								<td>${dataCount - (page-1) * size - status.index}</td>
+								<td id="board_name">${dto.board_name}</td>
 								<td class="left">
-									<a href="${articleUrl}&num=${dto.num}" class="text-reset">${dto.subject}</a>
+									<a href="${pageContext.request.contextPath}/board/article?num=${dto.num}&page=${page}" class="text-reset">${dto.content}</a>
 								</td>
 								<td>${dto.reg_date}</td>
-								 <td>원본게시물</td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -95,6 +102,8 @@
 										<div>
 										</div>
 									</form>
+									
+						
 								
 								
 								
@@ -105,13 +114,18 @@
 							</div>
 						
 							</div>
+							<div class="page-navigation">
+							${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+						</div> 
 						</div>
 						<div class="col-sm-3"></div>
 					
 			</main>
+			
 			</div>
 		
 	<div style="width: 100%; height: 200px;"></div>
+	
 	<footer>
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 	</footer>

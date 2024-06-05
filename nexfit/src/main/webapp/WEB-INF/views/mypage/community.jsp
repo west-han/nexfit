@@ -15,17 +15,7 @@
 	max-width: 800px;
 }
 </style>
-<script type="text/javascript">
-function location() {
-	const selectElement = document.getElementById('board_name');
-	
-	if(board_name == 'freeboard'){
-		
-	}
-		
-}
 
-</script>
 </head>
 
 <body>
@@ -68,7 +58,7 @@ function location() {
 						</div>
 						
 						<div class="col-sm-6" style="margin-left:50px;">
-							<div style=" border: 1px solid #dedede; width: 800px; height: 500px; border-radius: 20px; padding: 30px;">
+							<div style=" border: 1px solid #dedede; width: 800px; height: 700px; border-radius: 20px; padding: 30px;">
 								<div style="display: flex;">
 								<div style="border: 1px solid red; width: 100px; height: 100px ;border-radius: 50px; float: left"></div>
 								<ul style="list-style: none; float: left;">
@@ -79,8 +69,8 @@ function location() {
 								</div>
 								
 								<div>
-							<div><a href="${pageContext.request.contextPath}/mypage/writelist">내가 쓴 게시글</a>
-							<div><a href="${pageContext.request.contextPath}/mypage/reply_community.jsp">내가 쓴 댓글</a></div>
+							<div><a href="${pageContext.request.contextPath}/mypage/community">내가 쓴 게시글</a>
+							<div><a href="${pageContext.request.contextPath}/mypage/replylist">내가 쓴 댓글</a></div>
 							  <div class="row board-list-header">
 				            <div class="col-auto me-auto">${dataCount}개(${page}/${total_page} 페이지)</div>
 				            
@@ -126,14 +116,16 @@ function location() {
 							</div>
 						
 							</div>
+							<div class="page-navigation">
+							${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+						</div> 
 						</div>
 						<div class="col-sm-3"></div>
 					
 			</main>
+			
 			</div>
-		<div class="page-navigation">
-							${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
-						</div> 
+		
 	<div style="width: 100%; height: 200px;"></div>
 	
 	<footer>

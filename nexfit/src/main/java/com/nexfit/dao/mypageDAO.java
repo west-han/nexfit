@@ -152,6 +152,7 @@ public class mypageDAO {
 			StringBuilder sb = new StringBuilder();
 			
 			try {
+				//자유게시판 인기글) 자유게시판 데이터를 10개만 뽑아낸다.(조회수기준) where절 필요없을듯
 				sb.append(" select board_name,subject, reg_date, num, hitcount");
 				sb.append( " from freeboard ");
 				sb.append( " where userid=?");
@@ -201,8 +202,58 @@ public class mypageDAO {
 			return list;
 		}
 
-		
-		
+		//댓글 리스트 가져오기
+		public List<BoardDTO> replyList(int offset, int size,MemberDTO dto){
+			List<BoardDTO> list = new  ArrayList<BoardDTO>();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			StringBuilder sb = new StringBuilder();
+			
+			try {
+				sb.append(" select fr.num, subject, fr.content , fr.reg_date ,fb.board_name from freeboard_reply fr");
+				sb.append(" JOIN freeboard fb ON fr.num = fb.num where fr.userId = ? " );
+				sb.append(" UNION ");
+				sb.append(" select qr.num, subject, qr.content , qr.reg_date ,qb.board_name from qnaBoard_reply qr ");
+				sb.append(" JOIN qnaboard qb ON qr.num = qb.num where qr.userId = ?");
+				sb.append(" UNION ");
+				sb.append(" select hr.num, subject, hr.content , hr.reg_date ,hb.board_name from withboard_reply hr ");
+				sb.append(" JOIN withboard hb ON hr.num = hb.num where hr.userId = ? ");
+				sb.append(" union " );
+				sb.append(" select rr.num, subject, rr.content , rr.reg_date ,rb.board_name from routineboard_reply rr ");
+				sb.append(" JOIN routineboard rb ON rr.num = rb.num where rr.userId = ? ");
+				sb.append( " order by reg_date desc");
+				sb.append( " offset ? rows fetch first ? rows only");
+				
+				pstmt = conn.prepareStatement(sb.toString());
+				pstmt.setString(1,dto.getUserId() );
+				pstmt.setString(2, dto.getUserId());
+				pstmt.setString(3, dto.getUserId());
+				pstmt.setString(4, dto.getUserId());
+				pstmt.setInt(5, offset);
+				pstmt.setInt(6, size);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					BoardDTO dto1 = new BoardDTO();
+					dto1.setNum(rs.getInt("num"));
+					dto1.setSubject(rs.getString("subject"));
+					dto1.setReg_date(rs.getString("reg_date"));
+					dto1.setContent(rs.getString("content"));
+					dto1.setBoard_name(rs.getString("board_name"));
+					list.add(dto1);
+				}
+				
+				
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally {
+				DBUtil.close(rs);
+				DBUtil.close(pstmt);
+			}
+			return list;
+		}
 		
 		
 		
