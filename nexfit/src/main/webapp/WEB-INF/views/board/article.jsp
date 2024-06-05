@@ -144,6 +144,17 @@
 												</tr>
 												
 												<tr>
+													<td colspan="2">
+														<c:forEach var="vo" items="${listFile}" varStatus="status">
+															<p class="border text-secondary mb-1 p-2">
+																<i class="bi bi-folder2-open"></i>
+																<a href="${pageContext.request.contextPath}/board/download?fileNum=${vo.fileNum}">${vo.originalFilename}</a>
+															</p>
+														</c:forEach>
+													</td>
+												</tr>				
+												
+												<tr>
 													<td colspan="2" class="text-center p-3" style="position: relative;">
 														<button type="button" class="btn btn-outline-secondary btnSendBoardLike" title="좋아요" style="color: ${isUserLike?'#FF73B8':'black'}"><i class="far">🖤&nbsp;&nbsp;<span id="boardLikeCount">${dto.boardLikeCount}</span></i></button>
 													</td>

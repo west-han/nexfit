@@ -1,12 +1,16 @@
 package com.nexfit.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.nexfit.util.FileManager;
+import com.nexfit.util.MyMultipartFile;
 import com.nexfit.annotation.Controller;
 import com.nexfit.annotation.RequestMapping;
 import com.nexfit.annotation.RequestMethod;
@@ -141,10 +145,15 @@ public class BoardController {
 	public ModelAndView writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시글 저장
 		// 파라미터: 제목, 내용, 카테고리 [세션: 작성자 id]
-		BoardDAO dao = new BoardDAO();
 
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		String path = session.getServletContext().getRealPath("/");
+		String pathname = path + "uploads" + File.separator + "board";
+		
+		BoardDAO dao = new BoardDAO();
+		FileManager fileManager = new FileManager();
 
 		try {
 			BoardDTO dto = new BoardDTO();
@@ -156,6 +165,10 @@ public class BoardController {
 			dto.setSubject(req.getParameter("subject"));
 			dto.setContent(req.getParameter("content"));
 			dto.setCategoryId(Integer.parseInt(req.getParameter("categoryId"))); 
+			
+			List<MyMultipartFile> listFile = 
+					fileManager.doFileUpload(req.getParts(), pathname);
+			dto.setListFile(listFile);
 
 			dao.insertBoard(dto);
 		} catch (Exception e) {
@@ -228,6 +241,39 @@ public class BoardController {
 	}
 	
 	
+	@RequestMapping(value = "/board/download", method = RequestMethod.GET)
+	public void download(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 파일 다운로드
+		// 넘어온 파라미터 : 파일번호
+		BoardDAO dao = new BoardDAO();
+		
+		HttpSession session = req.getSession();
+		FileManager fileManager = new FileManager();
+		
+		// 파일 저장경로
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "board";
+		
+		boolean b = false;
+		try {
+			long fileNum = Long.parseLong(req.getParameter("fileNum"));
+			
+			BoardDTO dto = dao.findByFileId(fileNum);
+			if(dto != null) {
+				b = fileManager.doFiledownload(dto.getSaveFilename(),
+						dto.getOriginalFilename(), pathname, resp);
+			}
+		} catch (Exception e) {
+		}
+		
+		if(! b) {
+			resp.setContentType("text/html; charset=utf-8");
+			PrintWriter out = resp.getWriter();
+			out.print("<script>alert('파일 다운로드가 실패했습니다.');history.back();</script>");
+		}
+	}
+	
+	
 	@RequestMapping(value = "/board/update", method = RequestMethod.GET)
 	public ModelAndView updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시글 수정 폼
@@ -251,10 +297,13 @@ public class BoardController {
 			if (! dto.getUserId().equals(info.getUserId())) {
 				return new ModelAndView("redirect:/board/list?page=" + page);
 			}
+			
+			List<BoardDTO> listFile = dao.listfreeBoardFile(num);
 
 			ModelAndView mav = new ModelAndView("board/write");
 			
 			mav.addObject("dto", dto);
+			mav.addObject("listFile", listFile);
 			mav.addObject("page", page);
 			mav.addObject("mode", "update");
 
@@ -270,11 +319,17 @@ public class BoardController {
 	public ModelAndView updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시글 수정 완료
 		BoardDAO dao = new BoardDAO();
+		FileManager fileManager = new FileManager();
 
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "board";
+		
 		String page = req.getParameter("page");
+		
+		
 		try {
 			BoardDTO dto = new BoardDTO();
 			
@@ -284,6 +339,10 @@ public class BoardController {
 			dto.setCategoryId(Integer.parseInt(req.getParameter("categoryId")));
 
 			dto.setUserId(info.getUserId());
+			
+			List<MyMultipartFile> listFile = 
+					fileManager.doFileUpload(req.getParts(), pathname);
+			dto.setListFile(listFile);
 
 			dao.updateBoard(dto);
 		} catch (Exception e) {
@@ -294,14 +353,61 @@ public class BoardController {
 	}
 	
 	
+	@RequestMapping(value = "/board/deleteFile", method = RequestMethod.GET)
+	public ModelAndView deleteFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 수정에서 파일 삭제
+		// 넘어온 파라미터 : 글번호, 파일번호, page, size
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		if(! info.getUserId().equals("admin")) {
+			return new ModelAndView("redirect:/board/list");
+		}
+		
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "board";
+		
+		String page = req.getParameter("page");
+		
+		BoardDAO dao = new BoardDAO();
+		FileManager fileManager = new FileManager();
+		
+		try {
+			long num = Long.parseLong(req.getParameter("num"));
+			long fileNum = Long.parseLong(req.getParameter("fileNum"));
+			
+			BoardDTO dto = dao.findByFileId(fileNum);
+			if(dto != null) {
+				// 파일 지우기
+				fileManager.doFiledelete(pathname, dto.getSaveFilename());
+				
+				// 테이블의 파일 정보 지우기
+				dao.deletefreeBoardFile("one", fileNum);
+			}
+			
+			// 다시 수정화면으로
+			return new ModelAndView("redirect:/board/update?num="+num+"&page="+page);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ModelAndView("redirect:/board/list");
+	}
+	
+	
 	@RequestMapping(value = "/board/delete", method = RequestMethod.GET)
 	public ModelAndView delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시글 삭제
 		// 파라미터: 글 번호, 페이지 번호 [, 검색할 컬럼, 검색어]
 		BoardDAO dao = new BoardDAO();
+		FileManager fileManager = new FileManager();
 
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root + "uploads" + File.separator + "board";
 		
 		String page = req.getParameter("page");
 		String query = "page=" + page;
@@ -319,8 +425,18 @@ public class BoardController {
 			if (kwd.length() != 0) {
 				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "UTF-8");
 			}
+			
+			// 업로드된 파일 삭제
+			List<BoardDTO> listFile = dao.listfreeBoardFile(num);
+			for(BoardDTO vo : listFile) {
+				fileManager.doFiledelete(pathname, vo.getSaveFilename());
+			}
+						
+			// 테이블의 파일 정보 지우기
+			dao.deletefreeBoardFile("all", num);
 
 			dao.deleteBoard(num, info.getUserId());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -64,6 +64,19 @@ function filterCategory(category) {
 
 </script>
 
+<c:if test="${mode=='update'}">
+	<script type="text/javascript">
+		function deleteFile(fileNum) {
+			if(! confirm('파일을 삭제하시겠습니까 ? ')) {
+				return;
+			}
+			
+			let q = 'num=${dto.num}&page=${page}&size=${size}&fileNum=' + fileNum;
+			location.href = '${pageContext.request.contextPath}/notice/deleteFile?' + q;
+		}	
+	</script>
+</c:if>
+
 </head>
 
 <body>
@@ -90,7 +103,7 @@ function filterCategory(category) {
 								</div>
 								
 								<div class="body-main">
-									<form name="boardForm" method="post">
+									<form name="boardForm" method="post" enctype="multipart/form-data">
 										<table class="table write-form mt-5 table-style">
 											<tr>
 												<td class="bg-light col-sm-2" scope="row">카테고리
@@ -132,6 +145,27 @@ function filterCategory(category) {
 													<textarea name="content" id="ir1" class="form-control">${dto.content}</textarea>
 												</td>
 											</tr>
+											
+											<tr>
+												<td class="bg-light col-sm-2">첨&nbsp;&nbsp;&nbsp;&nbsp;부</td>
+												<td> 
+													<input type="file" name="selectFile" multiple class="form-control">
+												</td>
+											</tr>
+											
+											<c:if test="${mode=='update'}">
+												<c:forEach var="vo" items="${listFile}">
+													<tr>
+														<td class="bg-light col-sm-2">첨부된파일</td>
+														<td>
+															<p class="form-control-plaintext">
+																<a href="javascript:deleteFile(${vo.fileNum})"><i class="bi bi-trash"></i></a>
+																${vo.originalFilename}
+															</p>
+														</td>
+													</tr>
+												</c:forEach>
+											</c:if>
 										</table>
 										 
 										<table class="table table-borderless table-style">
