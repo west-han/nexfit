@@ -71,7 +71,7 @@
 							OH! ROCK!
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/oh-rock/spti/main">SPTI</a></li>
+							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/sports/spti/main">SPTI</a></li>
 							<li><a class="dropdown-item" href="#">WORLD CUP</a></li>
 							<li><a class="dropdown-item color-text" href="#">SPORTS ROULETTE</a></li>
 						</ul>
