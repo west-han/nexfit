@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				<h3><i class="bi bi-clipboard"></i> NEW 챌린지게시글 등록 </h3>
 			</div>
 			
-			<div class="body-main">
+			<div class="body-main" style="font-family: 'nexon lv2 medium';">
 				<form name="photoForm" method="post" enctype="multipart/form-data">
 					<table class="table write-form mt-5">
 						<tr>
@@ -271,11 +271,11 @@ document.addEventListener('DOMContentLoaded', function() {
     </script>
 					
 					<table class="table table-borderless">
-	 					<tr>
-							<td class="text-center">
-								<button type="button" class="button button--nuka" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
-								<button type="reset" class="button button--nuka">다시입력</button>
-								<button type="button" class="button button--nuka" onclick="location.href='${pageContext.request.contextPath}/chboard/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
+	 		 				<tr>
+							<td class="bg-info-subtle text-center">
+								<button type="button" class="button button--wapasha button--round-l button--text-thick button--inverted" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
+								<button type="reset" class="button button--wapasha button--round-l button--text-thick button--inverted">다시입력</button>
+								<button type="button" class="button button--wapasha button--round-l button--text-thick button--inverted" onclick="location.href='${pageContext.request.contextPath}/chboard/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
 								
 								<c:if test="${mode == 'update'}">
 									<input type="hidden" name="num" value="${dto.boardNumber}">

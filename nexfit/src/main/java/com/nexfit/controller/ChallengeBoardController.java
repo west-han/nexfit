@@ -350,4 +350,21 @@ public class ChallengeBoardController {
 
 		return new ModelAndView("redirect:/chboard/list?page="+page);
 	}
+	
+	@RequestMapping(value = "/chboard/applform", method = RequestMethod.GET )
+	public ModelAndView applform(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ChallengeBoardDAO dao = new ChallengeBoardDAO();
+		
+		String page = req.getParameter("page");
+		long num = Long.parseLong(req.getParameter("num"));
+		
+		ChallengeBoardDTO dto = dao.findById(num);
+		
+		ModelAndView mav = new ModelAndView("chboard/applform");
+		
+		mav.addObject("dto", dto);
+		mav.addObject("page", page);
+		
+		return mav;
+	}
 }

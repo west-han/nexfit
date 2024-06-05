@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import com.nexfit.domain.Ch_applFormDTO;
 import com.nexfit.domain.ChallengeBoardDTO;
 import com.nexfit.util.DBConn;
 import com.nexfit.util.DBUtil;
@@ -334,6 +334,30 @@ public class ChallengeBoardDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
+	public void insertAppForm(Ch_applFormDTO dto) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "INSERT INTO ch_applform(APPLNUMBER, APPL_DATE, APPL_STATE, COMENT, BOARDNUMBER, USERID,APPL_SCORE)"
+					+" VALUES (ch_applform_seq.NEXTVAL, SYSDATE, '진행중', ?, ?, ? ,0)";
+			
+			pstmt =conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getContent());
+			pstmt.setLong(2, dto.getBoardNumber());
+			pstmt.setString(3, dto.getUserId());;
+			
+			
+			pstmt.executeQuery();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
 			DBUtil.close(pstmt);
 		}
 	}
