@@ -80,7 +80,7 @@
 						<p>당신의 운동 타입은 ? </p>
 						<img src="resources/images/spti.png">
 						<div class="sptibtn">
-							<button class="btn" style="font-family: nexon lv2 medium;">테스트 하러 가기 !</button>
+							<button class="btn" style="font-family: nexon lv2 medium;" onclick="location.href='${pageContext.request.contextPath}/sports/spti/main'">테스트 하러 가기 !</button>
 						</div>
 					</div>
 				</div>
