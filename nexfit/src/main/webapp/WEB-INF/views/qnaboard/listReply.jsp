@@ -11,7 +11,7 @@
 			<span style="font-size: 16px;">[목록, ${pageNo}/${total_page} 페이지]</span>
 		</div>
 		
-		<table class='table table-borderless reply-list'>
+		<table class='table table-borderless reply-list' style="box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);">
 			<c:forEach var="dto" items="${listReply}">
 				<tr>
 					<td colspan="2" align="center" style="background: #FF4848; color: white; font-family: 'nexon lv2 medium';"> 
@@ -59,8 +59,10 @@
 					</td>
 			    </tr>
 			  </c:forEach>
+			 </table>
+			  
 		
-		</table>
+		
 	</div>
 </div>
 </div>

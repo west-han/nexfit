@@ -119,6 +119,7 @@ public class SportsController {
 		
 		try {
 			long num = Long.parseLong(req.getParameter("num"));
+			dao.increaseHitCount(num);
 			SportTypeDTO dto = dao.findById(num);
 			
 			dto.setDescription(dto.getDescription().replaceAll("\\[", "<h3>"));

@@ -71,6 +71,11 @@
         }
         window.location.href = window.location.pathname + '?' + urlParams.toString();
     }
+	
+	function searchList() {
+		const f = document.searchForm;
+		f.submit();
+	}
 
 
 	</script>
@@ -129,7 +134,7 @@
 								</select>
 							</div>
 							<div class="col-auto p-1">
-								<input type="text" name="kwd" value="${kwd}" class="form-control" style="width: 350px;">
+								<input type="text" name="kwd" value="${kwd}" class="form-control" style="width: 450px;">
 							</div>
 							<div class="col-auto p-1">
 								<button type="button" class="btn btn-light" onclick="searchList()" style=""> <i class="bi bi-search"></i> </button>
@@ -176,9 +181,6 @@
 							${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
 						</div> 
 						<div class="row board-list-footer">
-							<div class="col">
-								<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/board/list';" style="float: left;"><i class="bi bi-arrow-clockwise"></i></button>
-							</div>
 							
 						</div>
 		

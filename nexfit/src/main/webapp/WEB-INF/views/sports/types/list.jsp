@@ -14,6 +14,17 @@
 .body-container {
 	max-width: 800px;
 }
+
+.card-img-overlay {
+	background-color: rgba( 255, 255, 255, 0.5 );
+	display: none;
+}
+
+h5.card-title {
+	font-family: nexon lv2 medium;
+	font-size: 2rem;
+	width: 100%;
+}
 </style>
 
 </head>
@@ -44,7 +55,7 @@
 							<c:if test="${sessionScope.member.userId == 'admin'}">
 								<div class="row text-end">
 									<div class="col">
-										<a class="btn btn-primary"
+										<a class="btn btn-dark"
 											href="${pageContext.request.contextPath}/sports/types/write"
 											role="button">추가</a>
 									</div>
@@ -59,13 +70,13 @@
 						<input type="radio" class="btn-check" name="btnBodyPart" id="all"
 							value="all" autocomplete="off"
 							${bodyPart == 'all' ? 'checked' : ''}> <label
-							class="btn btn-outline-primary" for="all">전체</label>
+							class="btn btn-outline-dark" for="all">전체</label>
 
 						<c:forEach var="entry" items="${map}" varStatus="status">
 							<input type="radio" class="btn-check" name="btnBodyPart"
 								id="${entry.key}" value="${entry.key}" autocomplete="off"
 								${bodyPart == entry.key ? 'checked' : ''}>
-							<label class="btn btn-outline-primary" for="${entry.key}">${entry.value}</label>
+							<label class="btn btn-outline-dark" for="${entry.key}">${entry.value}</label>
 						</c:forEach>
 					</div>
 				</div>
@@ -83,7 +94,7 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title">Modal title</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
+							<button type="button" class="btn-close btn-dark" data-bs-dismiss="modal"
 								aria-label="Close"></button>
 						</div>
 
@@ -100,8 +111,8 @@
 						<!-- 관리자면 푸터 표시, 수정/삭제 -->
 						<c:if test="${sessionScope.member.userId == 'admin'}">
 							<div class="modal-footer">
-								<button type="button" class="btn btn-primary">수정</button>
-								<button type="button" class="btn btn-primary">삭제</button>
+								<button type="button" class="btn btn-dark">수정</button>
+								<button type="button" class="btn btn-dark">삭제</button>
 							</div>
 						</c:if>
 					</div>
@@ -242,8 +253,8 @@ function addNewContent(data) {
 		htmlText += '	<div class="card w-100 p-0 mb-2" style="min-height: 250px; max-height: 300px;" data-name="' + name + '">';
 		htmlText += '		<div class="card-body p-0 h-100 w-100">';
 		htmlText += '			<img src="${pageContext.request.contextPath}/uploads/sports/types/' + filename + '" class="card-img-top w-100 h-100" alt="' + name + '...">';
-		htmlText += '			<div class="card-img-overlay" style="display: none;">';
-		htmlText += '				<h5 class="card-title">' + name + '</h5>';
+		htmlText += '			<div class="card-img-overlay">';
+		htmlText += '				<div class="w-100 h-100 position-relative"><h5 class="card-title position-absolute top-50 start-50 translate-middle">' + name + '</h5></div>';
 		htmlText += '			</div>';
 		htmlText += '		</div>';
 		htmlText += '		<input type="button" class="btnModal" style="display: none;"';

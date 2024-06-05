@@ -67,48 +67,53 @@ public class BoardDAO {
 		return result;
 	}
 
-	// 검색에서의 데이터 개수
 	public int dataCount(String schType, String kwd) {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql;
+	    int result = 0;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String sql;
 
-		try {
-			sql = "SELECT NVL(COUNT(*), 0) "
-					+ " FROM freeboard f "
-					+ " JOIN member_detail m ON f.userId = m.userId ";
-			if (schType.equals("all")) {
-				sql += "  WHERE INSTR(subject, ?) >= 1 OR INSTR(content, ?) >= 1 OR INSTR(categoryId, ?)";
-			} else if (schType.equals("reg_date")) {
-				kwd = kwd.replaceAll("(\\-|\\/|\\.)", "");
-				sql += "  WHERE TO_CHAR(reg_date, 'YYYYMMDD') = ? ";
-			} else {
-				sql += "  WHERE INSTR(" + schType + ", ?) >= 1 ";
-			}
+	    try {
+	        sql = "SELECT NVL(COUNT(*), 0) "
+	                + " FROM freeboard f "
+	                + " JOIN member_detail m ON f.userId = m.userId ";
+	        
+	        if (schType.equals("all")) {
+	            sql += " WHERE INSTR(subject, ?) > 0 OR INSTR(content, ?) > 0 OR INSTR(categoryId, ?) > 0";
+	        } else if (schType.equals("reg_date")) {
+	            kwd = kwd.replaceAll("(\\-|\\/|\\.)", "");
+	            sql += " WHERE TO_CHAR(reg_date, 'YYYYMMDD') = ? ";
+	        } else {
+	            sql += " WHERE INSTR(" + schType + ", ?) > 0 ";
+	        }
 
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, kwd);
-			if (schType.equals("all")) {
-				pstmt.setString(2, kwd);
-			}
+	        pstmt = conn.prepareStatement(sql);
+	        
+	        if (schType.equals("all")) {
+	            pstmt.setString(1, kwd);
+	            pstmt.setString(2, kwd);
+	            pstmt.setString(3, kwd);
+	        } else {
+	            pstmt.setString(1, kwd);
+	        }
 
-			rs = pstmt.executeQuery();
-			
-			if (rs.next()) {
-				result = rs.getInt(1);
-			}
+	        rs = pstmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            result = rs.getInt(1);
+	        }
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			DBUtil.close(rs);
-			DBUtil.close(pstmt);
-		}
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        DBUtil.close(rs);
+	        DBUtil.close(pstmt);
+	    }
 
-		return result;
+	    return result;
 	}
+
+
 
 	// 검색 없는 경우 게시물 리스트
 	public List<BoardDTO> listBoard(int offset, int size) {
@@ -165,14 +170,14 @@ public class BoardDAO {
 	    StringBuilder sb = new StringBuilder();
 
 	    try {
-	        sb.append("SELECT f.num, nickname, categoryId, categoryName, subject, content, hitCount, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, ");
+	        sb.append("SELECT f.num, nickname, f.categoryId, categoryName, subject, content, hitCount, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, ");
 	        sb.append("(SELECT COUNT(*) FROM freeBoard_reply r WHERE r.num = f.num) AS replyCount, ");
 	        sb.append("(SELECT COUNT(*) FROM freeBoard_Like l WHERE l.num = f.num) AS boardLikeCount ");
 	        sb.append("FROM freeBoard f ");
 	        sb.append("JOIN member_detail m ON m.userId = f.userId ");
 	        sb.append("JOIN freeboard_category c ON f.categoryId = c.categoryId ");
 	        if (schType.equals("all")) {
-	            sb.append("WHERE INSTR(subject, ?) >= 1 OR INSTR(content, ?) >= 1 OR INSTR(categoryId, ?) ");
+	            sb.append("WHERE INSTR(subject, ?) >= 1 OR INSTR(content, ?) >= 1 OR INSTR(f.categoryId, ?) >= 1 ");
 	        } else if (schType.equals("reg_date")) {
 	            kwd = kwd.replaceAll("(\\-|\\/|\\.)", "");
 	            sb.append("WHERE TO_CHAR(reg_date, 'YYYYMMDD') = ?");
