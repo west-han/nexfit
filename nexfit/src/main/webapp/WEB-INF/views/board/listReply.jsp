@@ -12,7 +12,7 @@
 		</div>
 		
 		<table class='table table-borderless reply-list'>
-			<c:forEach var="dto" items="${listReply}">
+			<c:forEach var="dto" items="${listReply}"> 
 				<tr class='list-header'>
 					<td width='50%'>
 						<span class='bold' style="float: left;">${dto.nickname}</span> 

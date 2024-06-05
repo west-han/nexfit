@@ -49,9 +49,9 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6 offset-md-3">
-						<div class="border mt-5 p-4">
+						<div class="border mt-5 p-4" style="font-family: nexon lv1 light;">
 							<form name="loginForm" action="" method="post" class="row g-3">
-								<h3 class="text-center">
+								<h3 class="text-center" style="font-family: nexon lv2 medium;">
 									<i class="bi bi-lock"></i> 회원 로그인
 								</h3>
 								<div class="col-12">
@@ -71,7 +71,7 @@
 									</div>
 								</div>
 								<div class="col-12">
-									<button type="button" class="btn btn-primary float-end"
+									<button type="button" class="btn btn-dark float-end"
 										onclick="sendLogin();">
 										&nbsp;Login&nbsp;<i class="bi bi-check2"></i>
 									</button>
@@ -79,11 +79,8 @@
 							</form>
 							<hr class="mt-4">
 							<div class="col-12">
-								<p class="text-center mb-0">
-									<a href="#" class="text-decoration-none me-2">아이디 찾기</a> <a
-										href="#" class="text-decoration-none me-2">패스워드 찾기</a> <a
-										href="${pageContext.request.contextPath}/"
-										class="text-decoration-none">회원가입</a>
+								<p class="text-center mb-0"> 
+									<a href="${pageContext.request.contextPath}/member/member" class="text-decoration-none">가입해주세요..</a>
 								</p>
 							</div>
 						</div>
