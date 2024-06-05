@@ -114,7 +114,6 @@
 									<button type="button" class="btn btn-light" id="btnDeleteList" title="삭제" style="float: left;"><i class="bi bi-trash"></i></button>
 									
 						<button type="button" class="btn btn-light" style="float: right;" onclick="location.href='${pageContext.request.contextPath}/challenge/write';">글올리기</button>
-						<div class="body-container"> </div>
 								</c:if>			
 				<table class="table table-hover board-list" >
 					<thead class="table-light">

@@ -96,8 +96,11 @@ public class ChallengeBoardController {
 			}
 			
 			String paging = util.paging(current_page, total_page, listUrl);
-			
+			int procount =dao.inprogressCountlist();
+			int endcount = dao.endprogressCountlist();
 			// 포워딩할 list에 전달할 속성
+			mav.addObject("end", endcount);
+			mav.addObject("procount", procount);
 			mav.addObject("list", list);
 			mav.addObject("dataCount", dataCount);
 			mav.addObject("articleUrl", articleUrl);
@@ -293,15 +296,16 @@ public class ChallengeBoardController {
 			
 			ChallengeBoardDTO dto = dao.findById(num);
 			List<Ch_applFormDTO> app = dao.findApplFormByNum(num);
-			
+			int procount = dao.inprogressCountlist();
+			int endcount =dao.endprogressCountlist();
 			if(dto == null) {
 				return new ModelAndView("redirect:/chboard/list?page=" + query);
 			}
 			
 			
 			ModelAndView mav = new ModelAndView("chboard/article");
-			
-		
+			mav.addObject("end", endcount);
+			mav.addObject("procount", procount);
 			mav.addObject("dto", dto);
 			mav.addObject("app", app);
 			mav.addObject("page", page);
