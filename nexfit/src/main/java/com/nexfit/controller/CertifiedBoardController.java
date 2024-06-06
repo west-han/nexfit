@@ -104,8 +104,8 @@ public class CertifiedBoardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		String redirectMessage = URLEncoder.encode("참가한 챌린지가 없습니다.", StandardCharsets.UTF_8.toString());
-		 String redirectUrl = "/certiboard/list?message="+redirectMessage;
+		String message = URLEncoder.encode("참가한 챌린지가 없습니다.", StandardCharsets.UTF_8.toString());
+		 String redirectUrl = "/certiboard/list?message="+message;
 		 
 		 return new ModelAndView("redirect:" + redirectUrl);
 		
