@@ -68,7 +68,7 @@ public class SportsController {
 			}
 			
 			MyUtil util = new MyUtilBootstrap();
-				
+			
 			String page = req.getParameter("pageNo");
 			int currentPage = 1;
 			if (page != null) {

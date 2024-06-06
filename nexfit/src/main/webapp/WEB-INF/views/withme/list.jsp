@@ -95,7 +95,7 @@ function searchList() {
 		
 	<jsp:include page="/WEB-INF/views/withme/list_leftbar.jsp"></jsp:include>
 	
-	<div class="col-sm-7"> 
+	<div class="col-sm-8"> 
 		<main>
 			<div class="container" style="font-family: 'nexon lv2 medium';">
 				<div class="body-container">	
@@ -103,12 +103,9 @@ function searchList() {
 						<h3 style="font-family: 'nexon lv2 medium';">WITH ME!</h3>
 					</div>
 					
-				
-					
 					<div class="body-main">
 				        <div class="row board-list-header">
 				            <div class="col-auto me-auto">${dataCount}개(${page}/${total_page} 페이지)</div>
-				            
 				        </div>
 				        
 				        <form class="row mx-auto" name="searchForm" action="${pageContext.request.contextPath}/withme/list" method="post" > 
@@ -180,8 +177,7 @@ function searchList() {
 			</div>
 		</main>				
 		</div>
-		<div class="col-sm-3"></div>
-				
+		<div class="col-sm-2"></div>
 		</div>
 	
 			</div>

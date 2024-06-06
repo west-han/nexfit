@@ -95,7 +95,7 @@ function searchList() {
 		
 	<jsp:include page="/WEB-INF/views/board/list_leftbar.jsp"></jsp:include>
 	
-	<div class="col-sm-7"> 
+	<div class="col-sm-8"> 
 		<main>
 			<div class="container" style="font-family: 'nexon lv2 medium';">
 				<div class="body-container">	
@@ -181,7 +181,7 @@ function searchList() {
 			</div>
 		</main>				
 		</div>
-		<div class="col-sm-3"></div>
+		<div class="col-sm-2"></div>
 				
 		</div>
 	

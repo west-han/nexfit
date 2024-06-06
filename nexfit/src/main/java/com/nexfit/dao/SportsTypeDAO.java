@@ -66,21 +66,40 @@ public class SportsTypeDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<SportTypeDTO> list = new ArrayList<SportTypeDTO>();
+		int count = 1;
 		
 		try {
 			sb.append(" SELECT b.num, name, bodyPart, description, hitCount, id, filename ");
 			sb.append(" FROM sportsTypeBoard b ");
 			sb.append(" LEFT OUTER JOIN sportsType_File f ON b.num = f.num ");
 			
-			sb.append(generateWhereClause(bodyPart, keyword));
+			boolean b = false;
+			
+			if (b = !bodyPart.equals("all")) {
+				sb.append("WHERE bodyPart = ? ");
+			}
+			
+			if (keyword.length() != 0) {
+				sb.append(b ? " AND " : " WHERE " + "INSTR(name, ?) != 0 OR WHERE INSTR(description, ?) != 0 ");
+			}
 			
 			sb.append(" ORDER BY hitCount DESC, name ASC ");
 			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			
-			pstmt.setInt(1, offset);
-			pstmt.setInt(2, size);
+			if (b) {
+				pstmt.setString(count, bodyPart);
+				count++;
+			}
+			if (keyword.length() != 0) {
+				pstmt.setString(count, keyword);
+				pstmt.setString(count+1, keyword);
+				count += 2;
+			}
+			
+			pstmt.setInt(count, offset);
+			pstmt.setInt(count + 1, size);
 			
 			rs = pstmt.executeQuery();
 			
@@ -109,37 +128,34 @@ public class SportsTypeDAO {
 		return list;
 	}
 	
-	// TODO: 이렇게 때려박으면 보안 상 취약 -> pstmt setter 메소드 호출하는 코드로 수정하기
-	private String generateWhereClause(String bodyPart, String keyword) {
-		StringBuilder sb = new StringBuilder();
-		boolean b = false;
-		
-		if (b = !bodyPart.equals("all")) {
-			sb.append("WHERE bodyPart = '" + bodyPart + "' ");
-		}
-		
-		if (keyword.length() != 0) {
-			sb.append(b ? " AND " : " WHERE " + "INSTR(name, '" + keyword + "') != 0 OR WHERE INSTR(description, '" + keyword + "') != 0 ");
-		}
-
-		return sb.toString();
-	}
-	
 	public int dataCount(String bodyPart, String keyword) {
-		int count = 0;
-		String sql;
+		int count = 1;
+		StringBuilder sb = new StringBuilder();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
-			sql = "SELECT NVL(COUNT(*), 0) FROM sportsTypeBoard " + generateWhereClause(bodyPart, keyword);
+			sb.append("SELECT NVL(COUNT(*), 0) FROM sportsTypeBoard ");
 			
-			pstmt = conn.prepareStatement(sql);
+			boolean b = false;
 			
-			rs = pstmt.executeQuery();
+			if (b = !bodyPart.equals("all")) {
+				sb.append("WHERE bodyPart = ? ");
+			}
 			
-			if (rs.next()) {
-				count = rs.getInt(1);
+			if (keyword.length() != 0) {
+				sb.append(b ? " AND " : " WHERE " + "INSTR(name, ?) != 0 OR WHERE INSTR(description, ?) != 0 ");
+			}
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			
+			if (b) {
+				pstmt.setString(count, bodyPart);
+				count++;
+			}
+			if (keyword.length() != 0) {
+				pstmt.setString(count, keyword);
+				pstmt.setString(count+1, keyword);
 			}
 			
 		} catch (Exception e) {

@@ -156,8 +156,6 @@ public class MemberDAO {
 				dto.setZip(rs.getString("zip"));
 				dto.setAddr1(rs.getString("addr1"));
 				dto.setAddr2(rs.getString("addr2"));
-				
-				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

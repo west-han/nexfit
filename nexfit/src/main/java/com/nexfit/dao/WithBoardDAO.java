@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.nexfit.domain.QnaBoardDTO;
 import com.nexfit.domain.WithBoardDTO;
 import com.nexfit.util.DBConn;
 import com.nexfit.util.DBUtil;
@@ -24,14 +23,13 @@ public class WithBoardDAO {
 				sql = "INSERT INTO withBoard(num, userId, subject, content, x, y, hitCount, reg_date) "
 							+ " VALUES (withBoard_seq.NEXTVAL, ?, ?, ?, ?, ?, 0, SYSDATE)";
 				pstmt = conn.prepareStatement(sql);
-					
+
 				pstmt.setString(1, dto.getUserId());
 				pstmt.setString(2, dto.getSubject());
 				pstmt.setString(3, dto.getContent());
 				pstmt.setDouble(4, dto.getX());
 				pstmt.setDouble(5, dto.getY());
 				
-
 				pstmt.executeUpdate();
 
 			} catch (SQLException e) {

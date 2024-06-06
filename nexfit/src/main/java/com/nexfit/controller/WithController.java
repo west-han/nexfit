@@ -4,13 +4,14 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Properties;
 
 import com.nexfit.annotation.Controller;
 import com.nexfit.annotation.RequestMapping;
 import com.nexfit.annotation.RequestMethod;
-import com.nexfit.dao.QnaBoardDAO;
+import com.nexfit.dao.MemberDAO;
 import com.nexfit.dao.WithBoardDAO;
-import com.nexfit.domain.QnaBoardDTO;
+import com.nexfit.domain.MemberDTO;
 import com.nexfit.domain.SessionInfo;
 import com.nexfit.domain.WithBoardDTO;
 import com.nexfit.servlet.ModelAndView;
@@ -45,7 +46,6 @@ public class WithController {
 	            schType = "all";
 	            kwd = "";
 	        }
-
 
 	        // GET 방식인 경우 디코딩
 	        if (req.getMethod().equalsIgnoreCase("GET")) {
@@ -117,10 +117,26 @@ public class WithController {
 	public ModelAndView writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글쓰기 폼
 		ModelAndView mav = new ModelAndView("withme/write");
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		MemberDAO dao = new MemberDAO();
+		
+		try {
+			Properties prop = new Properties();
+			prop.load(req.getServletContext().getResourceAsStream("/WEB-INF/kakao-API-KEY.properties"));
+			mav.addObject("apiKey", prop.get("kakao-javaScript-key"));
+			
+			MemberDTO memberDTO = dao.findById(info.getUserId());
+			String address = memberDTO.getAddr1();
+			mav.addObject("address", address);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		mav.addObject("mode", "write");
 		return mav;
 	}
-	
 	
 	@RequestMapping(value = "/withme/write", method = RequestMethod.POST)
 	public ModelAndView writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -139,9 +155,8 @@ public class WithController {
 			// 파라미터
 			dto.setSubject(req.getParameter("subject"));
 			dto.setContent(req.getParameter("content"));
-			// dto.setX(Double.parseDouble(req.getParameter("x")));
-			// dto.setY(Double.parseDouble(req.getParameter("y")));
-			
+			dto.setX(Double.parseDouble(req.getParameter("coordinate-x")));
+			dto.setY(Double.parseDouble(req.getParameter("coordinate-y")));
 
 			dao.insertBoard(dto);
 		} catch (Exception e) {
@@ -156,6 +171,10 @@ public class WithController {
 	public ModelAndView article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시글 보기
 		// 파라미터: 글번호, [페이지 번호, 검색할 컬럼, 검색어]
+		
+		Properties prop = new Properties();
+		prop.load(req.getServletContext().getResourceAsStream("/WEB-INF/kakao-API-KEY.properties"));
+		
 		WithBoardDAO dao = new WithBoardDAO();
 		// MyUtil util = new MyUtilBootstrap();
 
@@ -190,7 +209,6 @@ public class WithController {
 			WithBoardDTO prevDto = dao.findByPrev(dto.getNum(), schType, kwd);
 			WithBoardDTO nextDto = dao.findByNext(dto.getNum(), schType, kwd);
 
-
 			ModelAndView mav = new ModelAndView("withme/article");
 			
 			// JSP로 전달할 속성
@@ -199,6 +217,7 @@ public class WithController {
 			mav.addObject("query", query);
 			mav.addObject("prevDto", prevDto);
 			mav.addObject("nextDto", nextDto);
+			mav.addObject("apiKey", prop.get("kakao-javaScript-key"));
 			
 			// 포워딩
 			return mav;

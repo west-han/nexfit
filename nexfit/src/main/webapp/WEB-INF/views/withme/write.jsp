@@ -45,8 +45,21 @@ function check() {
         f.content.focus();
         return false;
     }
+    
 
+    let pos = marker.getPosition();
     f.action = "${pageContext.request.contextPath}/withme/${mode}";
+
+    $('#coordinate-x').val(pos.La);
+    $('#coordinate-y').val(pos.Ma);
+    
+    console.log($('#coordinate-x').val());
+    console.log($('#coordinate-y').val());
+
+    if (! confirm('nonono')) {
+    	return false;
+    }
+    
     return true;
 }
 
@@ -96,6 +109,14 @@ function check() {
 													<textarea name="content" id="ir1" class="form-control">${dto.content}</textarea>
 												</td>
 											</tr>
+											<tr>
+												<td class="bg-light col-sm-2" scope="row">위 치</td>
+												<td colspan="2" valign="top" height="300" style="border-bottom: none;" align="center">
+													<div id="map" class="w-100 h-100"></div>
+													<input id="coordinate-x" type="hidden" name="coordinate-x">
+													<input id="coordinate-y" type="hidden" name="coordinate-y">
+												</td>
+											</tr>
 										</table>
 										 
 										<table class="table table-borderless table-style">
@@ -103,7 +124,7 @@ function check() {
 												<td class="text-center">
 													<button type="button" class="btn btn-dark" onclick="submitContents(this.form);">${mode=='update'?'수정완료':'등록하기'}&nbsp;<i class="bi bi-check2"></i></button>
 													<button type="reset" class="btn btn-light">다시입력</button>
-													<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/qnaboard/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
+													<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/withme/list';">${mode=='update'?'수정취소':'등록취소'}&nbsp;<i class="bi bi-x"></i></button>
 													<c:if test="${mode=='update'}">
 														<input type="hidden" name="num" value="${dto.num}">
 														<input type="hidden" name="page" value="${page}">
@@ -139,7 +160,7 @@ function check() {
 			        if(! check()) {
 			            return;
 			        }
-			
+
 			        elClickedObj.submit();
 			    } catch(e) {
 			    }
@@ -152,12 +173,62 @@ function check() {
 			}
 			</script>
 	</div>
-	<div class="row py-5">
-										
-	</div>
+	<div class="row py-5"></div>
 	<footer>
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 	</footer>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&libraries=services"></script>
+<script type="text/javascript">
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+mapOption = {
+    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+    level: 3 // 지도의 확대 레벨
+};
+
+var imgSrc = '${pageContext.request.contextPath}/resources/images/map_marker.png',
+	imgSize = new kakao.maps.Size(64, 64),
+	imgOption = {offset: new kakao.maps.Point(27, 69)};
+
+var markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize, imgOption);
+
+//지도를 생성합니다    
+var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+//주소-좌표 변환 객체를 생성합니다
+var geocoder = new kakao.maps.services.Geocoder();
+
+var marker;
+
+//주소로 좌표를 검색합니다
+geocoder.addressSearch('${address}', function(result, status) {
+// 정상적으로 검색이 완료됐으면 
+if (status === kakao.maps.services.Status.OK) {
+
+    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+    // 결과값으로 받은 위치를 마커로 표시합니다
+    marker = new kakao.maps.Marker({
+        map: map,
+        position: coords,
+        draggable: true,
+        image: markerImage
+    });
+
+    // 인포윈도우로 장소에 대한 설명을 표시합니다
+    var infowindow = new kakao.maps.InfoWindow({
+        content: '<div style="width:150px;text-align:center;padding:6px 0;">만날 장소</div>'
+    });
+
+    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+    map.setCenter(coords);
+    
+    // 마커 지도에 표시
+    marker.setMap(map); 
+  }
+  
+  console.log(marker.getPosition());
+});
+</script>
 </body>
 
 <jsp:include page="/WEB-INF/views/layout/staticFooter.jsp"/>
