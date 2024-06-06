@@ -9,6 +9,7 @@ import java.util.List;
 import com.nexfit.annotation.Controller;
 import com.nexfit.annotation.RequestMapping;
 import com.nexfit.annotation.RequestMethod;
+import com.nexfit.dao.Ch_applFormDAO;
 import com.nexfit.dao.ChallengeBoardDAO;
 import com.nexfit.dao.ChallengeDAO;
 import com.nexfit.domain.Ch_applFormDTO;
@@ -34,6 +35,7 @@ public class ChallengeBoardController {
 		ModelAndView mav = new ModelAndView("chboard/list");
 		
 		ChallengeBoardDAO dao= new ChallengeBoardDAO();
+		Ch_applFormDAO dao1 = new Ch_applFormDAO();
 		MyUtil util = new MyUtilBootstrap();
 		
 		try {
@@ -96,8 +98,8 @@ public class ChallengeBoardController {
 			}
 			
 			String paging = util.paging(current_page, total_page, listUrl);
-			int procount =dao.inprogressCountlist();
-			int endcount = dao.endprogressCountlist();
+			int procount =dao1.inprogressCountlist();
+			int endcount = dao1.endprogressCountlist();
 			// 포워딩할 list에 전달할 속성
 			mav.addObject("end", endcount);
 			mav.addObject("procount", procount);
@@ -272,6 +274,7 @@ public class ChallengeBoardController {
 	public ModelAndView article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		ChallengeBoardDAO dao = new ChallengeBoardDAO();
+		Ch_applFormDAO dao1 = new Ch_applFormDAO();
 		String page = req.getParameter("page");
 		String size = req.getParameter("size");
 		String query = "page=" + page + "&size=" + size;
@@ -295,9 +298,9 @@ public class ChallengeBoardController {
 			}
 			
 			ChallengeBoardDTO dto = dao.findById(num);
-			List<Ch_applFormDTO> app = dao.findApplFormByNum(num);
-			int procount = dao.inprogressCountlist();
-			int endcount =dao.endprogressCountlist();
+			List<Ch_applFormDTO> app = dao1.findApplFormByNum(num);
+			int procount = dao1.inprogressCountlist();
+			int endcount =dao1.endprogressCountlist();
 			if(dto == null) {
 				return new ModelAndView("redirect:/chboard/list?page=" + query);
 			}
@@ -361,7 +364,8 @@ public class ChallengeBoardController {
 	
 	@RequestMapping(value = "/chboard/applform", method = RequestMethod.GET )
 	public ModelAndView applform(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ChallengeBoardDAO dao = new ChallengeBoardDAO();
+		Ch_applFormDAO dao = new Ch_applFormDAO();
+		ChallengeBoardDAO dao1= new ChallengeBoardDAO();
 		
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
@@ -369,7 +373,7 @@ public class ChallengeBoardController {
 		String page = req.getParameter("page");
 		long num = Long.parseLong(req.getParameter("num"));
 		
-		ChallengeBoardDTO dto = dao.findById(num);
+		ChallengeBoardDTO dto = dao1.findById(num);
 		try {
 			count = dao.CountApplForm(Long.parseLong(req.getParameter("num")), info.getUserId());
 		} catch (Exception e) {
@@ -387,7 +391,7 @@ public class ChallengeBoardController {
 	
 	@RequestMapping(value = "/chboard/applform", method = RequestMethod.POST )
 	public ModelAndView applformSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ChallengeBoardDAO dao = new ChallengeBoardDAO();
+		Ch_applFormDAO dao = new Ch_applFormDAO();
 		
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");

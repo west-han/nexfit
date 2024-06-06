@@ -10,7 +10,7 @@ import com.nexfit.annotation.Controller;
 import com.nexfit.annotation.RequestMapping;
 import com.nexfit.annotation.RequestMethod;
 import com.nexfit.dao.CertifiedBoardDAO;
-import com.nexfit.dao.ChallengeBoardDAO;
+import com.nexfit.dao.Ch_applFormDAO;
 import com.nexfit.domain.CertifiedBoardDTO;
 import com.nexfit.domain.Ch_applFormDTO;
 import com.nexfit.domain.SessionInfo;
@@ -88,7 +88,7 @@ public class CertifiedBoardController {
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
-		ChallengeBoardDAO dao=new ChallengeBoardDAO();
+		Ch_applFormDAO dao=new Ch_applFormDAO();
 		
 		
 		try {

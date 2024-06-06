@@ -52,6 +52,15 @@ function sendOk() {
         f.subject.focus();
         return;
     }
+    
+    var selectElement = document.getElementById('challengeSelect');
+    var selectedValue = selectElement.value.trim();
+    
+    if (selectedValue === "none") {
+        alert("참가한 챌린지를 선택하세요!");
+        selectElement.focus();
+        return;
+    }
 
     str = f.content.value.trim();
     if(!str) {
@@ -146,7 +155,17 @@ $(function() {
 								<p class="form-control-plaintext">${sessionScope.member.nickname}</p>
 							</td>
 						</tr>
-	
+						<tr>
+							<td class="bg-light col-sm-2" scope="row">참가한 챌린지 선택</td>
+	 						<td>
+								<select name="applnum" id="challengeSelect" class="form-select" aria-label="Default select example">
+								  <option selected value="none">챌린지를 선택하세요!</option>
+								  <c:forEach var="dto" items="${list}" varStatus="status">
+								  	<option ${mode=='update'?'selected':'' } value="${dto.boardNumber}" data-ch_content="${dto.ch_content}" data-content="${dto.content}">${dto.subject}</option>
+								  </c:forEach>
+								</select>
+							</td>
+						</tr>
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">내 용</td>
 							<td>
@@ -163,7 +182,18 @@ $(function() {
 						</tr>
 						
 					</table>
-					
+	<script>
+	 		function updateContent() {
+	 	    var selectedOption = $('#challengeSelect option:selected');
+	 	    var content = selectedOption.data('content');
+	 	    var fee = selectedOption.data('fee');
+	 	    var applnum = selectedOption.data('applnum');
+	 	    $('#ch_content').val(content);
+	 	    $('#fee').val(fee);
+	 	    $('#applnum').val(applnum);
+	 	}
+	         $('#challengeSelect').on('change', updateContent);
+	</script>
 					<table class="table table-borderless">
 	 					<tr>
 							<td class="text-center">
