@@ -12,7 +12,17 @@
 
 <style type="text/css">
 .body-container {
-	max-width: 800px;
+	max-width: 800px;	
+}
+
+.board-main-container {
+    margin: 0 auto;
+    max-width: 800px;
+    text-align: center;
+}
+
+.board-main-content {
+    display: inline-block; /* 또는 display: flex; 메인 콘텐츠에 대해 가운데 정렬 */
 }
 
 .background-image {
@@ -96,12 +106,12 @@
 					</div>
 				</div>
 
-				<div class="row gx-2">
+				<div class="row sm-2">
 
 					<jsp:include page="/WEB-INF/views/challenge/ch_leftbar.jsp"></jsp:include>
 					<%-- 왼쪽사이드바 --%>
 
-					<div class="col-sm-7">
+					<div class="col-sm-7 board-main-content">
 						<%-- 메인공간 --%>
 						<div class="body-title">
 							<h2 style="font-family: 'nexon lv2 medium';"
@@ -177,10 +187,10 @@
 
 						</div>
 					</div>
-					<div class="col-sm-3">
+				
 						<%-- 우측공간 --%>
-
-					</div>
+					<jsp:include page="/WEB-INF/views/challenge/ch_rightbar.jsp"></jsp:include>
+					
 				</div>
 
 			</div>

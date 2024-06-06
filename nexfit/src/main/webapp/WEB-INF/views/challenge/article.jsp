@@ -125,7 +125,7 @@
 						<div class="body-title">
 							<h3>등록된 챌린지</h3>
 						</div>
-						<div class="body-main" style="font-family: nexon lv2;">
+						<div class="body-main">
 							<div class="body-main">
 
 								<div class="box">
@@ -168,10 +168,7 @@
 
 						</div>
 					</div>
-					<div class="col-sm-2">
-						<%-- 우측공간 --%>
-
-					</div>
+					<jsp:include page="/WEB-INF/views/challenge/ch_rightbar.jsp"></jsp:include>
 				</div>
 
 			</div>

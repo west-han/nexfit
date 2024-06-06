@@ -151,20 +151,20 @@
 							<h2 style="font-family: 'nexon lv2 medium';"
 								class="text-with-border">챌린지 인증</h2>
 						</div>
-						<div class="body-main" style="font-family: nexon lv2;">
-							<div class="body-main">
+						<div class="body-main">
+							<div class="body-main" style="font-family: nexon lv1 light">
 
 								<table class="table">
 									<thead>
 										<tr>
-											<td colspan="2" align="center">${dto.subject}</td>
+											<td colspan="2" align="center"><h4>${dto.subject}</h4></td>
 										</tr>
 									</thead>
 
 									<tbody>
 										<tr>
-											<td width="50%">이름 : ${dto.nickname}</td>
-											<td align="right">${dto.reg_date}</td>
+											<td align="left" style="padding-left: 20px;">이름 : ${dto.nickname}</td>
+											<td align="right" width="210px">${dto.reg_date}</td>
 										</tr>
 
 										<tr>
@@ -185,7 +185,7 @@
 										<td width="50%"><c:choose>
 												<c:when test="${sessionScope.member.userId==dto.userId}">
 													<button type="button" class="btn btn-light"
-														onclick="location.href='${pageContext.request.contextPath}/certiboard/update?num=${dto.num}&page=${page}';">수정</button>
+														onclick="location.href='${pageContext.request.contextPath}/certiboard/update?num=${dto.certifiedNum}&page=${page}';">수정</button>
 												</c:when>
 												<c:otherwise>
 													<button type="button" class="btn btn-light" disabled>수정</button>
@@ -211,10 +211,7 @@
 
 						</div>
 					</div>
-					<div class="col-sm-2">
-						<%-- 우측공간 --%>
-
-					</div>
+					<jsp:include page="/WEB-INF/views/challenge/ch_rightbar.jsp"></jsp:include>
 				</div>
 
 			</div>

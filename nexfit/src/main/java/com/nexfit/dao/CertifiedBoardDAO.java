@@ -126,8 +126,8 @@ public class CertifiedBoardDAO {
 					+ " TO_CHAR(c.reg_date, 'YYYY-MM-DD') reg_date, m.userid,nickname "
 					+ " FROM certifiedboard c "
 					+ " JOIN ch_applform f ON f.applnumber = c.applnumber "
-					+ " JOIN member m ON f.userid = m.userid"
-					+ " JOIN member_detail d ON m.userid = d.userid"
+					+ " JOIN member m ON f.userid = m.userid "
+					+ " JOIN member_detail d ON m.userid = d.userid "
 					+ " WHERE certifiednum  = ? ";
 
 			pstmt = conn.prepareStatement(sql);
@@ -142,7 +142,7 @@ public class CertifiedBoardDAO {
 				dto.setCertifiedNum(rs.getLong("certifiednum"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setContent(rs.getString("content"));
-				dto.setImageFilename(rs.getString("imagefilename"));
+				dto.setImageFilename(rs.getString("imgfilename"));
 				dto.setAcceptance(rs.getInt("acceptance"));
 				dto.setApplNumber(rs.getLong("applnumber"));
 				dto.setReg_date(rs.getString("reg_date"));

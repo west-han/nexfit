@@ -249,10 +249,10 @@
 						</div>
 
 					</div>
-					<div class="col-sm-2">
+					
 						<%-- 우측공간 --%>
 
-					</div>
+					<jsp:include page="/WEB-INF/views/challenge/ch_rightbar.jsp"></jsp:include>
 				</div>
 
 			</div>

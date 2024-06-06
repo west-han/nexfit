@@ -168,8 +168,6 @@ public class CertifiedBoardController {
 				return new ModelAndView("redirect:/certiboard/list?page=" + page);
 			}
 			
-			dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
-			
 			ModelAndView mav = new ModelAndView("certifiedboard/article");
 			
 			mav.addObject("dto", dto);
