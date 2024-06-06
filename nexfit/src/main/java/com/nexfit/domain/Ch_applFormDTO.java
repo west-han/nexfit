@@ -14,7 +14,23 @@ public class Ch_applFormDTO {
 	private String fee;
 	private String subject;
 	private String nickname;
+	private String ch_content;
+	private String content;
 	
+	
+	
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public String getCh_content() {
+		return ch_content;
+	}
+	public void setCh_content(String ch_content) {
+		this.ch_content = ch_content;
+	}
 	public String getNickname() {
 		return nickname;
 	}

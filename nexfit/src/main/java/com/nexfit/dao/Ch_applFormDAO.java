@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.nexfit.domain.Ch_applFormDTO;
-import com.nexfit.domain.ChallengeBoardDTO;
 import com.nexfit.util.DBConn;
 import com.nexfit.util.DBUtil;
 
@@ -135,6 +134,7 @@ public class Ch_applFormDAO {
 		return list;
 	}
 	
+	
 	public List<Ch_applFormDTO> findApplFormByuserId(String userid) throws SQLException {
 	    List<Ch_applFormDTO> list = new ArrayList<Ch_applFormDTO>();
 	    
@@ -143,7 +143,7 @@ public class Ch_applFormDAO {
 	    ResultSet rs = null;
 	    try {
 	        sql =    " SELECT c.userid,coment,appl_state,applnumber, TO_CHAR(compl_date, 'YYYY-MM-DD') compl_date, "
-	                +" appl_score, TO_CHAR(appl_date, 'YYYY-MM-DD') appl_date,ch_subject,ch.fee,subject,nickname"
+	                +" appl_score, TO_CHAR(appl_date, 'YYYY-MM-DD') appl_date,ch_subject,ch.fee,b.subject,nickname,ch.ch_content,b.content"
 	                +" FROM ch_applform c"
 	                +" JOIN challengeboard b ON c.boardnumber=b.boardnumber"
 	                +" JOIN challenge ch ON b.challengeid =ch.challengeid"
@@ -167,8 +167,10 @@ public class Ch_applFormDAO {
 	            dto.setAppl_Score(rs.getInt("appl_score"));
 	            dto.setAppl_date(rs.getString("appl_date"));
 	            dto.setCh_subject(rs.getString("ch_subject"));
-	            dto.setFee("fee");
-	            dto.setSubject("subject");
+	            dto.setFee(rs.getString("fee"));
+	            dto.setSubject(rs.getString("subject"));
+	            dto.setCh_content(rs.getString("ch_content"));
+	            dto.setContent(rs.getString("content"));
 	            
 	            list.add(dto);
 	        }
@@ -240,8 +242,4 @@ public class Ch_applFormDAO {
 		return count;
 	}
 
-	public ChallengeBoardDTO findById(long num) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
