@@ -18,7 +18,7 @@ function setResult() {
 	
 	var resultImg = document.createElement('img');
 	const imgDiv = document.querySelector('#resultImg');
-	var imgURL = 'img/image-' + point + '.png';
+	var imgURL = '/nexfit/resources/img/image-' + point + '.png';
 	resultImg.src = imgURL;
 	resultImg.alt = point;
 	resultImg.classList.add('img-fluid');
@@ -27,8 +27,6 @@ function setResult() {
 	const resultDesc = document.querySelector('.resultDesc');
 	resultDesc.innerHTML = infoList[point].desc;
 	
-	let uri = '/nexfit/sports/spti/result';
-	location.href= uri;
 }
 function goResult() {
 	qna.style.WebkitAnimation = "fadeOut 1s";

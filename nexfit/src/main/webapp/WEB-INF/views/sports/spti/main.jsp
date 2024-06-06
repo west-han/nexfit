@@ -47,8 +47,8 @@
 		
 		<section id="result" class="mx-auto my-5 py-5 px-3">
 			<h3 class="pt-5">당신의 결과는?!</h3>
-			<div name="sptiResult" class="resultname">
-				${sptiResult}
+			<div class="resultname">
+				
 			</div>
 			
 			<div id="resultImg" class="my-3 col-lg-6 col-md-8 col-sm-10 mx-auto" >
