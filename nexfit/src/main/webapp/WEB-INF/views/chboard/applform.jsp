@@ -120,7 +120,7 @@ function sendOk() {
 							</td>
 						</tr>
 						<tr>
-							<td class="bg-light col-sm-2" scope="row">참가비</td>
+							<td class="bg-light col-sm-2" scope="row">리워드</td>
 							<td>
 								<input name="fee" id="fee" class="form-control w-25" readonly value="${dto.fee}">
 							</td>

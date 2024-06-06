@@ -22,7 +22,7 @@
 				  </li>
 				  <li class="list-group-item d-flex justify-content-between align-items-start">
 				    <div class="ms-2 me-auto">
-				      <div class="fw-bold">인증 게시판</div>
+				      <div class="fw-bold"><a href="${pageContext.request.contextPath}/certiboard/list">인증 게시판</a></div>
 				    </div>
 				  </li>
 				  <c:if test="${sessionScope.member.userName=='admin'}">

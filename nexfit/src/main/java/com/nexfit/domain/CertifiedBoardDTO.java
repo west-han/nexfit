@@ -1,6 +1,5 @@
 package com.nexfit.domain;
 
-import java.util.List;
 
 public class CertifiedBoardDTO {
 	private long certifiedNum;
@@ -11,7 +10,21 @@ public class CertifiedBoardDTO {
 	private long boardNumber;
 	private long applNumber;
 	private String imageFilename;
-	
+	private String userId;
+	private String nickname;
+
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 	public String getImageFilename() {
 		return imageFilename;
 	}

@@ -37,7 +37,7 @@ function sendOk() {
     
     str = f.fee.value.trim();
     if(!str) {
-        alert("참가비를 입력하세요. ");
+        alert("리워드를 입력하세요. ");
         f.content.focus();
         return;
     }
@@ -88,7 +88,7 @@ function sendOk() {
 						</tr>
 						
 						<tr>
-							<td class="bg-light col-sm-2">참&nbsp;가&nbsp;비</td>
+							<td class="bg-light col-sm-2">리&nbsp;워&nbsp;드</td>
 							<td>
 								<input type="text" name="fee" class="form-control" value="${dto.fee}" style="width: 200px;">
 							</td>

@@ -168,7 +168,7 @@
 								<p> </p>
 								<p>챌린지 소개 : ${dto.ch_content}</p>
 								<p>내용 : ${dto.content}</p>
-								<p>참가비 : ${dto.fee}</p>
+								<p>달성 리워드 : ${dto.fee}</p>
 								<p></p>
 								
 								<button class="custom-btn btn-12" style="font-family: nexon lv1 light" onclick="location.href='${pageContext.request.contextPath}/chboard/applform?num=${dto.boardNumber}&page=${page}';"	><span>Click!</span><span>신청하기</span></button>

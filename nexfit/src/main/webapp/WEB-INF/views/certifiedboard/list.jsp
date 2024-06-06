@@ -37,37 +37,6 @@
 
 </style>
 
- <c:if test="${sessionScope.member.userId == 'admin'}">
-	<script type="text/javascript">
-		$(function(){
-			$('#chkAll').click(function(){
-				$('input[name=nums]').prop('checked', $(this).is(':checked'));
-			});
-			
-			$('#btnDeleteList').click(function(){
-				let cnt = $('input[name=nums]:checked').length;
-				if(cnt === 0) {
-					alert('삭제할 게시물을 선택하세요');
-					return;
-				}
-				
-				if(confirm('게시글을 삭제하시 겠습니까 ? ')) {
-					const f = document.listForm;
-					f.action = '${pageContext.request.contextPath}/challenge/deletelist';
-					f.submit();
-				}
-				
-			});
-		});
-		
-		function goToArticle(url, num) {
-			  const link = `${url}&num=${num}`;
-			  window.location.href = link;
-			}
-		
-	</script>
-</c:if>
-
  <script type="text/javascript">
         // 마우스 클릭을 막음
         function disableImageClick(event) {
@@ -82,7 +51,16 @@
     		const f = document.searchForm;
     		f.submit();
     	}
+     
     </script>
+   <script>
+    var urlParams = new URLSearchParams(window.location.search);
+    var message = urlParams.get('message');
+    
+    if (message) {
+        alert(message);
+    }
+</script>
 
 </head>
 
@@ -111,7 +89,7 @@
 				
 			<div class="col-sm-7"> <%-- 메인공간 --%>
 				<div class="body-title">
-					<h2 style="font-family: 'nexon lv2 medium';" class="text-with-border"> 진행중인 챌린지 </h2>
+					<h2 style="font-family: 'nexon lv2 medium';" class="text-with-border"> 인증게시판 </h2>
 			</div>
 			<div class="body-main">
 		        <div class="row mb-2 list-header">
@@ -121,7 +99,7 @@
 		            	</p>
 		            </div>
 		            <div class="col-auto">
-						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/photo/write';">사진올리기</button>
+						<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/certiboard/write';">사진올리기</button>
 					</div>
 		        </div>				
 				
@@ -129,9 +107,10 @@
 				 	<c:forEach var="dto" items="${list}" varStatus="status">
 				 		<div>
 				 			<div class="col border rounded p-1 item"
-				 				onclick="location.href='${articleUrl}&num=${dto.num}';">
+				 				onclick="location.href='${articleUrl}&num=${dto.certifiedNum}';">
 				 				<img src="${pageContext.request.contextPath}/uploads/photo/${dto.imageFilename}">
 				 				<p class="item-title">${dto.subject}</p>
+				 				<p>${dto.nickname}</p>
 				 			</div>
 				 		</div>
 				 	</c:forEach>

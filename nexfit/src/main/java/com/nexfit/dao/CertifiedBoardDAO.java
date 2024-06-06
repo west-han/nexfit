@@ -23,14 +23,14 @@ public class CertifiedBoardDAO {
 		String sql;
 		
 		try {
-			sql = "INSERT INTO certifiedboard(certifiednum, applnumber, subject, reg_date, content, acceptance) "
-					+ " VALUES(certifiedboard.NEXTVAL, ?, ?, SYSDATE, ?, ?)";
+			sql = "INSERT INTO certifiedboard(certifiednum, applnumber, subject, reg_date, content, acceptance ,imgfilename) "
+					+ " VALUES(certifiedboard_seq.NEXTVAL, ?, ?, SYSDATE, ?, 0 ,?)";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setLong(1, dto.getApplNumber());
 			pstmt.setString(2, dto.getSubject());
 			pstmt.setString(3, dto.getContent());
-			pstmt.setInt(4, dto.getAcceptance());
+			pstmt.setString(4, dto.getImageFilename());
 			
 			pstmt.executeUpdate();
 			
@@ -75,11 +75,12 @@ public class CertifiedBoardDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT certifiednum, subject, content,imagefilename,acceptance,applnumber "
-					+ " TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date "
+			sql = "SELECT certifiednum, c.subject, c.content,imgfilename,acceptance,f.applnumber, "
+					+ " TO_CHAR(c.reg_date, 'YYYY-MM-DD') reg_date ,m.userid, nickname "
 					+ " FROM certifiedboard c "
 					+ " JOIN ch_applform f ON f.applnumber = c.applnumber "
 					+ " JOIN member m ON f.userid = m.userid"
+					+ " JOIN member_detail d ON m.userid = d.userid"
 					+ " ORDER BY certifiednum DESC " 
 					+ " OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ";
 			pstmt = conn.prepareStatement(sql);
@@ -95,11 +96,12 @@ public class CertifiedBoardDAO {
 				dto.setCertifiedNum(rs.getLong("certifiednum"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setContent(rs.getString("content"));
-				dto.setImageFilename(rs.getString("imagefilename"));
+				dto.setImageFilename(rs.getString("imgfilename"));
 				dto.setAcceptance(rs.getInt("acceptance"));
 				dto.setApplNumber(rs.getLong("applnumber"));
 				dto.setReg_date(rs.getString("reg_date"));
-				
+				dto.setUserId(rs.getString("userid"));
+				dto.setNickname(rs.getString("nickname"));
 				list.add(dto);
 			}
 			
@@ -112,4 +114,91 @@ public class CertifiedBoardDAO {
 		
 		return list;
 	}
+	
+	public CertifiedBoardDTO findById(long num) {
+		CertifiedBoardDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT certifiednum, c.subject, c.content,imgfilename,acceptance,f.applnumber, "
+					+ " TO_CHAR(c.reg_date, 'YYYY-MM-DD') reg_date, m.userid,nickname "
+					+ " FROM certifiedboard c "
+					+ " JOIN ch_applform f ON f.applnumber = c.applnumber "
+					+ " JOIN member m ON f.userid = m.userid"
+					+ " JOIN member_detail d ON m.userid = d.userid"
+					+ " WHERE certifiednum  = ? ";
+
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, num);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new CertifiedBoardDTO();
+				
+				dto.setCertifiedNum(rs.getLong("certifiednum"));
+				dto.setSubject(rs.getString("subject"));
+				dto.setContent(rs.getString("content"));
+				dto.setImageFilename(rs.getString("imagefilename"));
+				dto.setAcceptance(rs.getInt("acceptance"));
+				dto.setApplNumber(rs.getLong("applnumber"));
+				dto.setReg_date(rs.getString("reg_date"));
+				dto.setUserId(rs.getString("userid"));
+				dto.setNickname(rs.getString("nickname"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return dto;
+	}
+	
+	public void updatePhoto(CertifiedBoardDTO dto) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE certifiedboard SET subject=?, content=?, imgFilename= ? "
+					+ " WHERE certifiednum = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getSubject());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setString(3, dto.getImageFilename());
+			pstmt.setLong(4, dto.getCertifiedNum());
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
+	public void deletePhoto(long num) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "DELETE FROM certifiedboard WHERE certifiednum = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, num);
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}	
 }

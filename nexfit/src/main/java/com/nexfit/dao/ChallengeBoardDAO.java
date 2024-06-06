@@ -289,6 +289,7 @@ public class ChallengeBoardDAO {
 		return dto;
 	}
 	
+	
 	public void updateChboard(ChallengeBoardDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
@@ -455,6 +456,59 @@ public class ChallengeBoardDAO {
 		}
 		
 		return list;
+	}
+	
+	public List<Ch_applFormDTO> findApplFormByuserId(String userid) throws SQLException {
+	    List<Ch_applFormDTO> list = new ArrayList<Ch_applFormDTO>();
+	    
+	    PreparedStatement pstmt = null;
+	    String sql;
+	    ResultSet rs = null;
+	    try {
+	        sql =    " SELECT c.userid,coment,appl_state,applnumber, TO_CHAR(compl_date, 'YYYY-MM-DD') compl_date, "
+	                +" appl_score, TO_CHAR(appl_date, 'YYYY-MM-DD') appl_date,ch_subject,ch.fee,subject,nickname"
+	                +" FROM ch_applform c"
+	                +" JOIN challengeboard b ON c.boardnumber=b.boardnumber"
+	                +" JOIN challenge ch ON b.challengeid =ch.challengeid"
+	                +" JOIN member m ON c.userid = m.userid"
+	                +" JOIN member_detail t ON m.userid = t.userid"
+	                +" where m.userid= ?";
+	        
+	        pstmt = conn.prepareStatement(sql);
+	        
+	        pstmt.setString(1, userid);
+	        
+	        rs=pstmt.executeQuery();
+	        
+	        while(rs.next()) {
+	            Ch_applFormDTO dto = new Ch_applFormDTO();
+	            
+	            dto.setUserId(rs.getString("userid"));
+	            dto.setNickname(rs.getString("nickname"));
+	            dto.setComent(rs.getString("coment"));
+	            dto.setCompl_Date(rs.getString("compl_date"));
+	            dto.setAppl_Score(rs.getInt("appl_score"));
+	            dto.setAppl_date(rs.getString("appl_date"));
+	            dto.setCh_subject(rs.getString("ch_subject"));
+	            dto.setFee("fee");
+	            dto.setSubject("subject");
+	            
+	            list.add(dto);
+	        }
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw e;
+	    }finally {
+	        DBUtil.close(pstmt);
+	        DBUtil.close(rs);
+	    }
+	    
+	    if (list.isEmpty()) {
+	        return null;
+	    }
+	    
+	    return list;
 	}
 	
 	public int inprogressCountlist() throws SQLException{

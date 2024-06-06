@@ -59,6 +59,7 @@
 				}
 				   
 			});
+			
 		});
 	</script>
 </c:if>
@@ -125,7 +126,7 @@
 								</c:if>
 							<th class="challengeId" width="100px">번호</th>
 							<th class="ch_subject">제목</th>
-							<th class="fee" width="200px">참가비</th>
+							<th class="fee" width="200px">리워드</th>
 						</tr>
 					</thead>
 					

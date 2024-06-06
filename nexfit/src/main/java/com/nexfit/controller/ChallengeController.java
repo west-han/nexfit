@@ -1,4 +1,4 @@
- 	package com.nexfit.controller;
+package com.nexfit.controller;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -376,5 +376,3 @@ public class ChallengeController {
 	}
 	
 }
-	
-
