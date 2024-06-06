@@ -62,7 +62,7 @@
 								<div style="border: 1px solid red; width: 100px; height: 100px ;border-radius: 50px; float: left"></div>
 								<ul style="list-style: none; float: left;">
 									<li>${sessionScope.member.nickname}</li>
-									<li>한 줄 소개를 입력하세요</li>
+									<li>${a.bio}</li> 
 								</ul>
 								</div>
 								<div class="pointAbount" style="border: 1px solid blue; width: 250px; height:100px; margin-top: 10px; ">

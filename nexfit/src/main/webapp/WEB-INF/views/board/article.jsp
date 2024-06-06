@@ -72,6 +72,44 @@
     animation: heart 1s ease-in-out forwards;
 }
 
+
+.heart {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10em;
+            color: red;
+            opacity: 0;
+            pointer-events: none;
+            animation: none;
+        }
+        
+.heart2 {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10em;
+            color: gray;
+            opacity: 0;
+            pointer-events: none;
+            animation: none;
+        }
+
+@keyframes blink {
+      0% {opacity: 0; transform: rotateY(0deg);}
+      50% {opacity: 0.8; transform: rotateY(400deg) translateY(-25px);} 
+      100% {opacity: 0; transform: rotateY(800deg);}
+   }
+   
+@keyframes blink2 {
+      0% {opacity: 0;}
+      50% {opacity: 0.8;}
+      100% {opacity: 0;}
+   }
+
+
 .table-article img {max-width: 100%;}
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board2.css" type="text/css">
@@ -85,6 +123,16 @@
 		    	location.href = url;
 		    }
 		}
+		
+		 function showHeart() {
+	            const heart = document.getElementById('heart');
+	            heart.style.animation = 'blink 1.5s forwards';
+
+	            setTimeout(() => {
+	                heart.style.animation = 'none';
+	            }, 1000);
+	        }
+		 
 	</script>
 </c:if>
 
@@ -144,8 +192,20 @@
 												</tr>
 												
 												<tr>
+													<td colspan="2">
+														<c:forEach var="vo" items="${listFile}" varStatus="status">
+															<p class="border text-secondary mb-1 p-2">
+																<i class="bi bi-folder2-open"></i>
+																<a href="${pageContext.request.contextPath}/board/download?fileNum=${vo.fileNum}">${vo.originalFilename}</a>
+															</p>
+														</c:forEach>
+													</td>
+												</tr>				
+												
+												<tr>
 													<td colspan="2" class="text-center p-3" style="position: relative;">
-														<button type="button" class="btn btn-outline-secondary btnSendBoardLike" title="좋아요" style="color: ${isUserLike?'#FF73B8':'black'}"><i class="far">🖤&nbsp;&nbsp;<span id="boardLikeCount">${dto.boardLikeCount}</span></i></button>
+														<button type="button" class="btn btn-outline-secondary btnSendBoardLike" title="좋아요" style="color: ${isUserLike?'#FF73B8':'black'}" onclick="showHeart()"><i class="far">🖤&nbsp;&nbsp;<span id="boardLikeCount">${dto.boardLikeCount}</span></i></button>
+														<div class="heart" id="heart">❤️</div>
 													</td>
 												</tr>
 												

@@ -19,7 +19,16 @@ public class BoardDTO {
 	private int sports;
 	private int career;
 	private int week;
-	
+	private String board_name;
+	private int boardType;
+
+	public String getBoard_name() {
+		return board_name;
+	}
+
+	public void setBoard_name(String board_name) {
+		this.board_name = board_name;
+	}
 
 	private int replyCount;
 	private int boardLikeCount;
@@ -31,6 +40,14 @@ public class BoardDTO {
 	private List<MyMultipartFile> listFile;
 
 	
+	public int getBoardType() {
+		return boardType;
+	}
+
+	public void setBoardType(int boardType) {
+		this.boardType = boardType;
+	}
+
 	public long getNum() {
 		return num;
 	}

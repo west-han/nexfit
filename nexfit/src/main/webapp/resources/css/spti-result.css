@@ -1,0 +1,22 @@
+@charset "UTF-8";
+#result{
+	display : none;
+	background-color: whitesmoke;
+	width: 80%;
+	text-align: center;
+	border-radius: 20px;
+	font-family: nexon lv1 light;
+}
+
+.resultDesc{
+	font-size: 26px;
+}
+
+.resultname{
+	font-size: 20px;
+}
+
+.kakao{
+	color: white;
+	background-color: #FEE500;
+}

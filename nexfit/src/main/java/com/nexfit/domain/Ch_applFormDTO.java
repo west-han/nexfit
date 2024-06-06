@@ -7,10 +7,38 @@ public class Ch_applFormDTO {
 	private String appl_State;
 	private int appl_Score;
 	private String compl_Date;
-	private String content;
+	private String coment;
 	private long boardNumber;
 	private String userId;
+	private String ch_subject;
+	private String fee;
+	private String subject;
+	private String nickname;
 	
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	public String getCh_subject() {
+		return ch_subject;
+	}
+	public void setCh_subject(String ch_subject) {
+		this.ch_subject = ch_subject;
+	}
+	public String getFee() {
+		return fee;
+	}
+	public void setFee(String fee) {
+		this.fee = fee;
+	}
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
 	public long getApplNumber() {
 		return applNumber;
 	}
@@ -41,11 +69,12 @@ public class Ch_applFormDTO {
 	public void setCompl_Date(String compl_Date) {
 		this.compl_Date = compl_Date;
 	}
-	public String getContent() {
-		return content;
+	
+	public String getComent() {
+		return coment;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setComent(String coment) {
+		this.coment = coment;
 	}
 	public long getBoardNumber() {
 		return boardNumber;

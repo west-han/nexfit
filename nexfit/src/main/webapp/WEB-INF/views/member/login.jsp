@@ -14,6 +14,25 @@
 .body-container {
 	max-width: 800px;
 }
+
+
+.flip-text {
+       display: inline-block;
+       animation: flip 2s infinite;
+       color: #333;
+   }
+   
+@keyframes flip {
+            0% {
+                transform: rotateY(0deg);
+            }
+            50% {
+                transform: rotateY(180deg);
+            }
+            100% {
+                transform: rotateY(360deg);
+            }
+        }
 </style>
 
 <script type="text/javascript">
@@ -51,8 +70,8 @@
 					<div class="col-md-6 offset-md-3">
 						<div class="border mt-5 p-4" style="font-family: nexon lv1 light;">
 							<form name="loginForm" action="" method="post" class="row g-3">
-								<h3 class="text-center" style="font-family: nexon lv2 medium;">
-									<i class="bi bi-lock"></i> 회원 로그인
+								<h3 class="text-center" style="font-family: nexon lv1 light; font-weight: bold;">
+									<i class="bi bi-lock flip-text"></i> 회원 로그인
 								</h3>
 								<div class="col-12">
 									<label class="mb-1">아이디</label> <input type="text"
@@ -80,7 +99,7 @@
 							<hr class="mt-4">
 							<div class="col-12">
 								<p class="text-center mb-0"> 
-									<a href="${pageContext.request.contextPath}/member/member" class="text-decoration-none">가입해주세요..</a>
+									<a href="${pageContext.request.contextPath}/member/member" class="text-decoration-none">가입해주세요...😢</a>
 								</p>
 							</div>
 						</div>

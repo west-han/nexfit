@@ -11,6 +11,7 @@ import com.nexfit.annotation.RequestMapping;
 import com.nexfit.annotation.RequestMethod;
 import com.nexfit.dao.ChallengeBoardDAO;
 import com.nexfit.dao.ChallengeDAO;
+import com.nexfit.domain.Ch_applFormDTO;
 import com.nexfit.domain.ChallengeBoardDTO;
 import com.nexfit.domain.ChallengeDTO;
 import com.nexfit.domain.SessionInfo;
@@ -95,8 +96,11 @@ public class ChallengeBoardController {
 			}
 			
 			String paging = util.paging(current_page, total_page, listUrl);
-			
+			int procount =dao.inprogressCountlist();
+			int endcount = dao.endprogressCountlist();
 			// 포워딩할 list에 전달할 속성
+			mav.addObject("end", endcount);
+			mav.addObject("procount", procount);
 			mav.addObject("list", list);
 			mav.addObject("dataCount", dataCount);
 			mav.addObject("articleUrl", articleUrl);
@@ -291,15 +295,19 @@ public class ChallengeBoardController {
 			}
 			
 			ChallengeBoardDTO dto = dao.findById(num);
-			
+			List<Ch_applFormDTO> app = dao.findApplFormByNum(num);
+			int procount = dao.inprogressCountlist();
+			int endcount =dao.endprogressCountlist();
 			if(dto == null) {
 				return new ModelAndView("redirect:/chboard/list?page=" + query);
 			}
 			
 			
 			ModelAndView mav = new ModelAndView("chboard/article");
-			
+			mav.addObject("end", endcount);
+			mav.addObject("procount", procount);
 			mav.addObject("dto", dto);
+			mav.addObject("app", app);
 			mav.addObject("page", page);
 			mav.addObject("query", query);
 			mav.addObject("size", size);
@@ -349,5 +357,55 @@ public class ChallengeBoardController {
 		}
 
 		return new ModelAndView("redirect:/chboard/list?page="+page);
+	}
+	
+	@RequestMapping(value = "/chboard/applform", method = RequestMethod.GET )
+	public ModelAndView applform(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ChallengeBoardDAO dao = new ChallengeBoardDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		int count = 0;
+		String page = req.getParameter("page");
+		long num = Long.parseLong(req.getParameter("num"));
+		
+		ChallengeBoardDTO dto = dao.findById(num);
+		try {
+			count = dao.CountApplForm(Long.parseLong(req.getParameter("num")), info.getUserId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		ModelAndView mav = new ModelAndView("chboard/applform");
+		
+		mav.addObject("dto", dto);
+		mav.addObject("page", page);
+		mav.addObject("count", count);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value = "/chboard/applform", method = RequestMethod.POST )
+	public ModelAndView applformSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ChallengeBoardDAO dao = new ChallengeBoardDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		try {
+			Ch_applFormDTO dto = new Ch_applFormDTO();
+			
+			dto.setSubject(req.getParameter("subject"));
+			dto.setBoardNumber(Long.parseLong(req.getParameter("num")));
+			dto.setComent(req.getParameter("coment"));
+			dto.setUserId(info.getUserId());
+			
+		   dao.insertApplForm(dto);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ModelAndView("redirect:/chboard/list");
 	}
 }

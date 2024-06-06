@@ -49,7 +49,7 @@
 				  </li>
 				  <li class="list-group-item d-flex justify-content-between align-items-start" style="background: aqua;">
 				    <div class="ms-2 me-auto">
-				      <div class="fw-bold" style="color: white;">커뮤니티 활동</div>
+				      <div class="fw-bold"><a href="${pageContext.request.contextPath}/mypage/community"  style="color: white;">커뮤니티 활동</a></div>
 				    </div>
 				  </li>
 				  
@@ -81,9 +81,8 @@
 								
 							<tr>
 								<th class="board_name"style="width: 100px;">게시판</th> 
-								<th class="subject" style="width: 400px;">제목</th>
+								<th class="content" style="width: 400px;">댓글</th>
 								<th class="date">작성일</th>
-								<th class="hit">조회</th>
 							</tr>
 							
 							</thead>
@@ -93,10 +92,9 @@
 							<tr>
 								<td id="board_name">${dto.board_name}</td>
 								<td class="left">
-									<a href="${pageContext.request.contextPath}/board/article?num=${dto.num}&page=${page}" class="text-reset">${dto.subject}</a>
+									<a href="${pageContext.request.contextPath}/board/article?num=${dto.num}&page=${page}" class="text-reset">${dto.content}</a>
 								</td>
 								<td>${dto.reg_date}</td>
-								<td>${dto.hitCount}</td>
 							</tr>
 						</c:forEach>
 					</tbody>

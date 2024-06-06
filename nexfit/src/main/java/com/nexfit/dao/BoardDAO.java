@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.nexfit.util.MyMultipartFile;
 import com.nexfit.domain.BoardDTO;
 import com.nexfit.domain.ReplyDTO;
 import com.nexfit.util.DBConn;
@@ -31,6 +32,19 @@ public class BoardDAO {
 			pstmt.setString(4, dto.getContent());
 
 			pstmt.executeUpdate();
+			
+			DBUtil.close(pstmt);
+			pstmt = null;
+			
+			sql = "INSERT INTO freeBoard_File(fileNum, num, saveFilename, originalFilename) "
+					+ " VALUES (freeBoard_File_seq.NEXTVAL, freeBoard_seq.CURRVAL, ?, ?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			for(MyMultipartFile mf : dto.getListFile()) {
+				pstmt.setString(1, mf.getSaveFilename());
+				pstmt.setString(2, mf.getOriginalFilename());
+				pstmt.executeUpdate();
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -512,6 +526,71 @@ public class BoardDAO {
 
 		return dto;
 	}
+	
+	
+	public List<BoardDTO> listfreeBoardFile(long num) {
+		List<BoardDTO> list = new ArrayList<BoardDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT fileNum, saveFilename, originalFileName "
+					+ " FROM freeBoard_File "
+					+ " WHERE num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, num);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				BoardDTO dto = new BoardDTO();
+				dto.setFileNum(rs.getLong("fileNum"));
+				dto.setSaveFilename(rs.getString("saveFilename"));
+				dto.setOriginalFilename(rs.getString("originalFileName"));
+				
+				list.add(dto);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	public BoardDTO findByFileId(long fileNum) {
+		BoardDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT num, fileNum, saveFilename, originalFileName "
+					+ " FROM freeBoard_File "
+					+ " WHERE fileNum = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, fileNum);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new BoardDTO();
+				dto.setNum(rs.getLong("num"));
+				dto.setFileNum(rs.getLong("fileNum"));
+				dto.setSaveFilename(rs.getString("saveFilename"));
+				dto.setOriginalFilename(rs.getString("originalFileName"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return dto;
+	}
+	
 
 	// 게시물 수정
 	public void updateBoard(BoardDTO dto) throws SQLException {
@@ -529,6 +608,20 @@ public class BoardDAO {
 			pstmt.setString(5, dto.getUserId());
 			
 			pstmt.executeUpdate();
+			pstmt.close();
+			pstmt = null;
+			
+			sql = "INSERT INTO freeBoard_File(fileNum, num, saveFilename, originalFilename) "
+					+ " VALUES (freeBoard_File_seq.NEXTVAL, ?, ?, ?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			for(MyMultipartFile mf : dto.getListFile()) {
+				pstmt.setLong(1, dto.getNum());
+				pstmt.setString(2, mf.getSaveFilename());
+				pstmt.setString(3, mf.getOriginalFilename());
+				pstmt.executeUpdate();
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -927,6 +1020,76 @@ public class BoardDAO {
 			return result;
 		}
 	
+	
+	public void deletefreeBoardFile(String mode, long num) throws SQLException {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			if(mode.equals("all")) {
+				sql = "DELETE FROM freeBoard_File WHERE num = ?";
+			} else {
+				sql = "DELETE FROM freeBoard_File WHERE fileNum = ?";
+			}
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, num);
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
+	
+			//게시물 가져오기(리스트)
+			public List<BoardDTO> listboardByUser(int offset, int size, String userid){
+				List<BoardDTO> list = new ArrayList<BoardDTO>();
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				StringBuilder sb = new StringBuilder();
+				
+				try {
+					sb.append(" SELECT f.num, userid, subject, hitCount, ");
+					sb.append("      TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, ");
+					sb.append("      NVL(replyCount, 0) replyCount ");
+					sb.append(" FROM freeboard f ");
+					sb.append(" JOIN member m ON f.userId = m.userId ");
+					sb.append(" where userId=?");
+					sb.append(" ORDER BY num DESC ");
+					sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
+					
+					
+					pstmt = conn.prepareStatement(sb.toString());
+					
+					pstmt.setString(1, userid);
+					pstmt.setInt(2, offset);
+					pstmt.setInt(3, size);
+					
+					rs = pstmt.executeQuery();
+					
+					while (rs.next()) {
+						BoardDTO dto = new BoardDTO();
+
+						dto.setNum(rs.getLong("num"));
+						dto.setSubject(rs.getString("subject"));
+						dto.setHitCount(rs.getInt("hitCount"));
+						dto.setReg_date(rs.getString("reg_date"));
+
+						dto.setReplyCount(rs.getInt("replyCount"));
+						
+						list.add(dto);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}finally {
+					DBUtil.close(rs);
+					DBUtil.close(pstmt);
+				}
+				return list;
+			}
 	
 	
 }

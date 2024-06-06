@@ -2,6 +2,20 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 
+<style>
+@keyframes color {
+	0% {color: red; transform: translateX(-2px);}
+	25% {color: yellow; transform: translateX(2px);}
+	50% {color: green; transform: translateX(-2px);}
+	75% {color: blue; transform: translateX(2px);}
+	100% {color: purple; transform: translateX(-2px);}
+}
+
+.color-text {
+	animation: color 3s infinite;
+}
+
+</style>
 
 	<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background: #272727; font-family: 'nexon lv2 medium';" >
 		<div class="container">
@@ -57,9 +71,9 @@
 							OH! ROCK!
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/oh-rock/spti/main">SPTI</a></li>
+							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/sports/spti/main">SPTI</a></li>
 							<li><a class="dropdown-item" href="#">WORLD CUP</a></li>
-							<li><a class="dropdown-item" href="#">SPORTS ROULETTE</a></li>
+							<li><a class="dropdown-item color-text" href="#">SPORTS ROULETTE</a></li>
 						</ul>
 					</li>
 					

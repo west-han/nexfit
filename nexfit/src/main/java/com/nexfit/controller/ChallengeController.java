@@ -8,6 +8,7 @@ import java.util.List;
 import com.nexfit.annotation.Controller;
 import com.nexfit.annotation.RequestMapping;
 import com.nexfit.annotation.RequestMethod;
+import com.nexfit.dao.ChallengeBoardDAO;
 import com.nexfit.dao.ChallengeDAO;
 import com.nexfit.domain.ChallengeDTO;
 import com.nexfit.domain.SessionInfo;
@@ -27,7 +28,7 @@ public class ChallengeController {
 	public ModelAndView challengelist(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시물 리스트
 				ModelAndView mav = new ModelAndView("challenge/list");
-
+				ChallengeBoardDAO dao1= new ChallengeBoardDAO();
 				ChallengeDAO dao = new ChallengeDAO();
 				MyUtil util = new MyUtilBootstrap();
 				
@@ -92,8 +93,11 @@ public class ChallengeController {
 						articleUrl += "&" + query;
 					}
 					String paging = util.paging(current_page, total_page, listUrl);
-
+					int procount =dao1.inprogressCountlist();
+					int endcount= dao1.endprogressCountlist();
 					// 포워딩할 JSP에 전달할 속성
+					mav.addObject("end", endcount);
+					mav.addObject("procount", procount);
 					mav.addObject("list", list);
 					mav.addObject("page", current_page);
 					mav.addObject("total_page", total_page);
@@ -162,7 +166,8 @@ public class ChallengeController {
 	//챌린지 자세히보기
 		@RequestMapping(value ="/challenge/article", method = RequestMethod.GET)
 		public ModelAndView article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+			
+			ChallengeBoardDAO dao1= new ChallengeBoardDAO();
 			ChallengeDAO dao = new ChallengeDAO();
 			MyUtil util = new MyUtilBootstrap();
 			
@@ -194,10 +199,13 @@ public class ChallengeController {
 				}
 				
 				dto.setCh_content(util.htmlSymbols(dto.getCh_content()));
-
 				
+				int endcount= dao1.endprogressCountlist();
+				
+				int procount =dao1.inprogressCountlist();
 				ModelAndView mav = new ModelAndView("challenge/article");
-				
+				mav.addObject("end", endcount);
+				mav.addObject("procount", procount);
 				mav.addObject("dto", dto);
 				mav.addObject("page", page);
 				mav.addObject("query", query);

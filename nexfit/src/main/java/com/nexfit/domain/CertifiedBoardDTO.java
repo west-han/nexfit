@@ -4,47 +4,35 @@ import java.util.List;
 
 public class CertifiedBoardDTO {
 	private long certifiedNum;
-	private String certiSubject;
+	private String subject;
 	private String reg_date;
 	private String content;
 	private int acceptance;
 	private long boardNumber;
+	private long applNumber;
+	private String imageFilename;
 	
-	private long certimgId;
-	private String filename;
-	private List<String> imageFiles;
+	public String getImageFilename() {
+		return imageFilename;
+	}
+	public void setImageFilename(String imageFilename) {
+		this.imageFilename = imageFilename;
+	}
+	public long getApplNumber() {
+		return applNumber;
+	}
+	public void setApplNumber(long applNumber) {
+		this.applNumber = applNumber;
+	}
 	
-	
-	public long getCertimgId() {
-		return certimgId;
-	}
-	public void setCertimgId(long certimgId) {
-		this.certimgId = certimgId;
-	}
-	public String getFilename() {
-		return filename;
-	}
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
-	public List<String> getImageFiles() {
-		return imageFiles;
-	}
-	public void setImageFiles(List<String> imageFiles) {
-		this.imageFiles = imageFiles;
-	}
+
 	public long getCertifiedNum() {
 		return certifiedNum;
 	}
 	public void setCertifiedNum(long certifiedNum) {
 		this.certifiedNum = certifiedNum;
 	}
-	public String getCertiSubject() {
-		return certiSubject;
-	}
-	public void setCertiSubject(String certiSubject) {
-		this.certiSubject = certiSubject;
-	}
+	
 	public String getReg_date() {
 		return reg_date;
 	}
@@ -68,6 +56,12 @@ public class CertifiedBoardDTO {
 	}
 	public void setBoardNumber(long boardNumber) {
 		this.boardNumber = boardNumber;
+	}
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 	
 	

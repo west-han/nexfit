@@ -171,7 +171,7 @@
 								<p>참가비 : ${dto.fee}</p>
 								<p></p>
 								
-								<button class="custom-btn btn-12" style="font-family: nexon lv1 light"><span>Click!</span><span>신청하기</span></button>
+								<button class="custom-btn btn-12" style="font-family: nexon lv1 light" onclick="location.href='${pageContext.request.contextPath}/chboard/applform?num=${dto.boardNumber}&page=${page}';"	><span>Click!</span><span>신청하기</span></button>
 								
 								
 							
@@ -201,6 +201,28 @@
 						</td>
 					</tr>
 				</table>
+ <div class="table-style">
+ 	<h3 style="font-family: nexon lv1 light">챌린지 참여자 각오</h3>
+    <table class="table table-hover board-list">
+      <thead>
+        <tr>
+          <th width="100px">닉네임</th>
+          <th>한줄각오</th>
+          <th width="200px">신청날짜</th>
+        </tr>
+      </thead>
+      <tbody>
+      <c:forEach var="app" items="${app}" varStatus="status">	
+      	<tr>
+      		<td>${app.nickname}</td>
+      		<td>${app.coment}</td>
+      		<td>${app.appl_date}</td>
+      	</tr>
+      	</c:forEach>
+      </tbody>
+    </table>
+  </div>
+						
 				
 			</div>
 

@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+#main{
+	background-color: whitesmoke;
+	width: 80%;
+	text-align: center;
+	border-radius: 20px;
+	font-family: nexon lv1 light;
+}
+
+#main h3.pt-5 {
+	font-family: nexon lv2 medium;
+}
+
+p{
+	font-size: 20px;
+}
