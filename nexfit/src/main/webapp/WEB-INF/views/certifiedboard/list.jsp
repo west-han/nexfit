@@ -32,6 +32,20 @@
 	text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px
 		1px 0 black;
 }
+
+.item {cursor: pointer; }
+.item img { display: block; width: 100%; height: 180px; border-radius: 5px; }
+.item img:hover { scale: 101.7%; }
+.item .item-title {
+	font-size: 16px;
+	font-weight: 500;
+	padding: 10px 2px 0;
+	
+	width: auto;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 </style>
 
 <script type="text/javascript">
@@ -49,7 +63,7 @@
     		f.submit();
     	}
      
-    </script>
+</script>
 <script>
     var urlParams = new URLSearchParams(window.location.search);
     var message = urlParams.get('message');
@@ -94,7 +108,7 @@
 							<h2 style="font-family: 'nexon lv2 medium';"
 								class="text-with-border">인증게시판</h2>
 						</div>
-						<div class="body-main">
+						<div class="body-main" style="font-family: nexon lv1 light">
 							<div class="row mb-2 list-header">
 								<div class="col-auto me-auto">
 									<p class="form-control-plaintext">
@@ -113,8 +127,14 @@
 											onclick="location.href='${articleUrl}&num=${dto.certifiedNum}';">
 											<img
 												src="${pageContext.request.contextPath}/uploads/photo/${dto.imageFilename}">
-											<p class="item-title">${dto.subject}</p>
-											<p>${dto.nickname}</p>
+											<p class="item-title" style="margin: 1px;">${dto.subject}</p>
+											<p style="margin: 1px;">${dto.nickname}</p>
+											<c:if test="${dto.acceptance ==0}">
+											<p style="font-weight: bold;margin: 1px; ">미승인</p>
+											</c:if>
+											<c:if test="${dto.acceptance ==1}">
+											<p style="font-weight: bold;margin: 1px; ">승인 완료</p>
+											</c:if>
 										</div>
 									</div>
 								</c:forEach>

@@ -81,6 +81,41 @@
 		f.submit();
 	}
 </script>
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+		var today = new Date();
+		today.setHours(0, 0, 0, 0);
+
+		var dateData = [];
+		<c:forEach var="dto" items="${list}" varStatus="status">
+			dateData.push({
+				startDate: "${dto.start_date}",
+				endDate: "${dto.end_date}",
+				elementId: "date-message-${status.index}"
+			});
+		</c:forEach>
+
+		dateData.forEach(function(item) {
+			var dbStartDateStr = item.startDate;
+			var dbStartDate = new Date(dbStartDateStr);
+			dbStartDate.setHours(0, 0, 0, 0); 
+
+			var dbEndDateStr = item.endDate;
+			var dbEndDate = new Date(dbEndDateStr);
+			dbEndDate.setHours(0, 0, 0, 0); 
+
+			var dateMessageElement = document.getElementById(item.elementId);
+
+			if (dbEndDate < today) {
+				dateMessageElement.textContent = '종료됨';
+			} else if (dbStartDate > today) {
+				dateMessageElement.textContent = '준비중';
+			} else {
+				dateMessageElement.textContent = '진행중';
+			}
+		});
+	});
+</script>
 
 </head>
 
@@ -176,7 +211,7 @@
 							<div class="row">
 								<c:forEach var="dto" items="${list}" varStatus="status">
 									<div class="col-md-6 mb-4">
-										<div class="card">
+										<div class="card" style="background-color: #fff">
 											<img
 												src="${pageContext.request.contextPath}/uploads/photo/${dto.imageFilename}"
 												class="card-img-top img-fluid" style="height: 250px;">
@@ -184,13 +219,15 @@
 												<h5 class="card-title"
 													style="font-family: 'nexon lv2 medium';">${dto.subject}</h5>
 												<p class="card-text" style="font-family: 'nexon lv1 light';">${dto.ch_subject}</p>
-												<p class="card-text" style="font-family: 'nexon lv1 light';">${dto.start_date}
+												<p class="card-text" style="font-family: 'nexon lv1 light'; margin: 0">${dto.start_date}
 													~ ${dto.end_date}</p>
 												<button class="custom-btn btn-7"
 													style="font-family: nexon lv2 medium"
 													onclick="location.href='${articleUrl}&num=${dto.boardNumber}';">
-													<span>Go Challenge</span>
+													<span style="font-family: 'nexon lv2 medium';">Go Challenge</span>
+													<p style="font-family: 'nexon lv2 medium';" id="date-message-${status.index}"></p>
 												</button>
+												<p></p>
 											</div>
 										</div>
 									</div>

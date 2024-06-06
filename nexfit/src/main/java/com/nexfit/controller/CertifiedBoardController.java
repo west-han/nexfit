@@ -11,6 +11,7 @@ import com.nexfit.annotation.RequestMapping;
 import com.nexfit.annotation.RequestMethod;
 import com.nexfit.dao.CertifiedBoardDAO;
 import com.nexfit.dao.Ch_applFormDAO;
+import com.nexfit.dao.ChallengeBoardDAO;
 import com.nexfit.domain.CertifiedBoardDTO;
 import com.nexfit.domain.Ch_applFormDTO;
 import com.nexfit.domain.SessionInfo;
@@ -35,6 +36,7 @@ public class CertifiedBoardController {
 		ModelAndView mav = new ModelAndView("certifiedboard/list");
 		
 		CertifiedBoardDAO dao = new CertifiedBoardDAO();
+		ChallengeBoardDAO dao1 = new ChallengeBoardDAO();
 		MyUtil util = new MyUtilBootstrap();
 		
 		try {
@@ -65,8 +67,11 @@ public class CertifiedBoardController {
 			String listUrl = cp + "/certiboard/list";
 			String articleUrl = cp + "/certiboard/article?page=" + current_page;
 			String paging = util.paging(current_page, total_page, listUrl);
-			
+			int procount =dao1.inprogressCountlist();
+			int endcount = dao1.endprogressCountlist();
 			// 포워딩할 list에 전달할 속성
+			mav.addObject("end", endcount);
+			mav.addObject("procount", procount);
 			mav.addObject("list", list);
 			mav.addObject("dataCount", dataCount);
 			mav.addObject("articleUrl", articleUrl);

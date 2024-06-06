@@ -113,7 +113,25 @@
 		}
 	</script>
 </c:if>
+<script>
+    function handleButtonClick(url, startDate, endDate) {
+        var today = new Date();
+        today.setHours(0, 0, 0, 0); 
+        var dbStartDate = new Date(startDate);
+        dbStartDate.setHours(0, 0, 0, 0);
 
+        var dbEndDate = new Date(endDate);
+        dbEndDate.setHours(0, 0, 0, 0);
+
+        if (dbStartDate > today) {
+            alert('아직 시작되지 않은 챌린지입니다.');
+        } else if (dbEndDate < today) {
+            alert('이미 종료된 챌린지입니다.');
+        } else {
+            location.href = url;
+        }
+    }
+</script>
 
 
 
@@ -173,7 +191,7 @@
 
 										<button class="custom-btn btn-12"
 											style="font-family: nexon lv1 light"
-											onclick="location.href='${pageContext.request.contextPath}/chboard/applform?num=${dto.boardNumber}&page=${page}';">
+											onclick="handleButtonClick('${pageContext.request.contextPath}/chboard/applform?num=${dto.boardNumber}&page=${page}', '${dto.start_date}', '${dto.end_date}');">
 											<span>Click!</span><span>신청하기</span>
 										</button>
 

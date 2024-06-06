@@ -128,7 +128,7 @@ public class ChallengeBoardDAO {
 				    + "content, b.challengeId, imageFilename,ch_content "
 				    + "FROM challengeboard b "
 				    + "JOIN challenge c ON b.challengeId = c.challengeId "
-				    + "ORDER BY boardnumber DESC "
+				    + "ORDER BY start_date DESC "
 				    + "OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
 
 			pstmt = conn.prepareStatement(sql);
@@ -190,7 +190,7 @@ public class ChallengeBoardDAO {
 				} else {
 					sb.append(" WHERE INSTR(" + schType + ", ?) >= 1 ");
 				}
-				sb.append("ORDER BY boardnumber DESC ");
+				sb.append("ORDER BY start_date DESC ");
 				sb.append("OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");	
 
 				pstmt = conn.prepareStatement(sb.toString());
@@ -335,5 +335,57 @@ public class ChallengeBoardDAO {
 		} finally {
 			DBUtil.close(pstmt);
 		}
+	}
+	
+	public int inprogressCountlist() throws SQLException{
+		int count =0;
+		PreparedStatement pstmt = null;
+		String sql;
+		ResultSet rs = null;
+		
+		try {
+			sql= "SELECT COUNT(*) FROM challengeboard where start_date<SYSDATE AND end_date>SYSDATE ";
+			pstmt =conn.prepareStatement(sql);
+			
+			
+			rs=pstmt.executeQuery();
+			 if (rs.next()) {
+		            count = rs.getInt(1); 
+		        }
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+				
+		return count;
+	}
+	
+	public int endprogressCountlist() throws SQLException{
+		int count =0;
+		PreparedStatement pstmt = null;
+		String sql;
+		ResultSet rs = null;
+		
+		try {
+			sql= "SELECT COUNT(*) FROM challengeboard where end_date<SYSDATE ";
+			pstmt =conn.prepareStatement(sql);
+			
+			
+			rs=pstmt.executeQuery();
+			 if (rs.next()) {
+		            count = rs.getInt(1); 
+		        }
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+				
+		return count;
 	}
 }

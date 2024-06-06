@@ -76,10 +76,10 @@
 			return;
 		}
 
-		str = f.content.value.trim();
+		str = f.cercontent.value.trim();
 		if (!str) {
 			alert("내용을 입력하세요. ");
-			f.content.focus();
+			f.cercontent.focus();
 			return;
 		}
 
@@ -186,9 +186,9 @@
 											<option selected value="none">챌린지를 선택하세요!</option>
 											<c:forEach var="app" items="${list}" varStatus="status">
 												<option ${mode=='update'?'selected':'' }
-													value="${app.boardNumber}"
+													value="${app.applNumber}"
 													data-ch_content="${app.ch_content}"
-													data-content="${app.content}">${app.subject}</option>
+													data-content="${app.content}" data-applnum="${app.applNumber}">${app.subject}</option>
 											</c:forEach>
 									</select></td>
 								</tr>
@@ -229,7 +229,7 @@
 								</tr>
 								<tr>
 									<td class="bg-light col-sm-2" scope="row">내 용</td>
-									<td><textarea name="content" id="content"
+									<td><textarea name="cercontent" id="cercontent"
 											class="form-control">${dto.content}</textarea></td>
 								</tr>
 

@@ -8,7 +8,7 @@ import java.util.List;
 import com.nexfit.annotation.Controller;
 import com.nexfit.annotation.RequestMapping;
 import com.nexfit.annotation.RequestMethod;
-import com.nexfit.dao.Ch_applFormDAO;
+import com.nexfit.dao.ChallengeBoardDAO;
 import com.nexfit.dao.ChallengeDAO;
 import com.nexfit.domain.ChallengeDTO;
 import com.nexfit.domain.SessionInfo;
@@ -28,7 +28,7 @@ public class ChallengeController {
 	public ModelAndView challengelist(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시물 리스트
 				ModelAndView mav = new ModelAndView("challenge/list");
-				Ch_applFormDAO dao1 = new Ch_applFormDAO();
+				ChallengeBoardDAO dao1=new ChallengeBoardDAO();
 				ChallengeDAO dao = new ChallengeDAO();
 				MyUtil util = new MyUtilBootstrap();
 				
@@ -167,7 +167,7 @@ public class ChallengeController {
 		@RequestMapping(value ="/challenge/article", method = RequestMethod.GET)
 		public ModelAndView article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			
-			Ch_applFormDAO dao1= new Ch_applFormDAO();
+			ChallengeBoardDAO dao1= new ChallengeBoardDAO();
 			ChallengeDAO dao = new ChallengeDAO();
 			MyUtil util = new MyUtilBootstrap();
 			

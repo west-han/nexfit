@@ -142,7 +142,7 @@ public class Ch_applFormDAO {
 	    String sql;
 	    ResultSet rs = null;
 	    try {
-	        sql =    " SELECT c.userid,coment,appl_state,applnumber, TO_CHAR(compl_date, 'YYYY-MM-DD') compl_date, "
+	        sql =    " SELECT c.userid,coment,appl_state,applnumber, TO_CHAR(compl_date, 'YYYY-MM-DD') compl_date, applnumber"
 	                +" appl_score, TO_CHAR(appl_date, 'YYYY-MM-DD') appl_date,ch_subject,ch.fee,b.subject,nickname,ch.ch_content,b.content"
 	                +" FROM ch_applform c"
 	                +" JOIN challengeboard b ON c.boardnumber=b.boardnumber"
@@ -160,6 +160,7 @@ public class Ch_applFormDAO {
 	        while(rs.next()) {
 	            Ch_applFormDTO dto = new Ch_applFormDTO();
 	            
+	            
 	            dto.setUserId(rs.getString("userid"));
 	            dto.setNickname(rs.getString("nickname"));
 	            dto.setComent(rs.getString("coment"));
@@ -171,7 +172,7 @@ public class Ch_applFormDAO {
 	            dto.setSubject(rs.getString("subject"));
 	            dto.setCh_content(rs.getString("ch_content"));
 	            dto.setContent(rs.getString("content"));
-	            
+	            dto.setApplNumber(rs.getLong("applnumber"));
 	            list.add(dto);
 	        }
 	        
@@ -190,56 +191,6 @@ public class Ch_applFormDAO {
 	    return list;
 	}
 	
-	public int inprogressCountlist() throws SQLException{
-		int count =0;
-		PreparedStatement pstmt = null;
-		String sql;
-		ResultSet rs = null;
-		
-		try {
-			sql= "SELECT COUNT(*) FROM challengeboard where start_date<SYSDATE AND end_date>SYSDATE ";
-			pstmt =conn.prepareStatement(sql);
-			
-			
-			rs=pstmt.executeQuery();
-			 if (rs.next()) {
-		            count = rs.getInt(1); 
-		        }
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}finally {
-			DBUtil.close(rs);
-			DBUtil.close(pstmt);
-		}
-				
-		return count;
-	}
 	
-	public int endprogressCountlist() throws SQLException{
-		int count =0;
-		PreparedStatement pstmt = null;
-		String sql;
-		ResultSet rs = null;
-		
-		try {
-			sql= "SELECT COUNT(*) FROM challengeboard where end_date<SYSDATE ";
-			pstmt =conn.prepareStatement(sql);
-			
-			
-			rs=pstmt.executeQuery();
-			 if (rs.next()) {
-		            count = rs.getInt(1); 
-		        }
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}finally {
-			DBUtil.close(rs);
-			DBUtil.close(pstmt);
-		}
-				
-		return count;
-	}
 
 }
