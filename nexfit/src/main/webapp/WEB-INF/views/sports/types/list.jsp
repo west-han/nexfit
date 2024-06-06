@@ -263,13 +263,12 @@ function addNewContent(data) {
 		htmlText += '	</div>';
 		htmlText += '</div>';
 
-		listNode.insertAdjacentHTML("beforeend", htmlText);
+		sentinelNode.insertAdjacentHTML("beforebegin", htmlText);
 	}
 
-	if (pageNo < totalPage) {
+	if (pageNo <= totalPage) {
 		sentinelNode.setAttribute("data-loading", "false");
 		sentinelNode.style.display = "block";
-		
 		io.observe(sentinelNode);
 	}
 }

@@ -121,15 +121,16 @@ public class SportsTypeDAO {
 			
 			throw e;
 		} finally {
-			DBUtil.close(pstmt);
 			DBUtil.close(rs);
+			DBUtil.close(pstmt);
 		}
 		
 		return list;
 	}
 	
 	public int dataCount(String bodyPart, String keyword) {
-		int count = 1;
+		int index = 1;
+		int count = 0;
 		StringBuilder sb = new StringBuilder();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -150,16 +151,24 @@ public class SportsTypeDAO {
 			pstmt = conn.prepareStatement(sb.toString());
 			
 			if (b) {
-				pstmt.setString(count, bodyPart);
-				count++;
+				pstmt.setString(index, bodyPart);
+				index++;
 			}
 			if (keyword.length() != 0) {
-				pstmt.setString(count, keyword);
-				pstmt.setString(count+1, keyword);
+				pstmt.setString(index, keyword);
+				pstmt.setString(index+1, keyword);
+			}
+			
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				count = rs.getInt(1);
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
 		}
 		
 		return count;
@@ -306,7 +315,7 @@ public class SportsTypeDAO {
 		}
 	}
 	
-	public void increaseHitCount(long num) {
+	public void increaseHitCount(long num) throws SQLException {
 		String sql;
 		PreparedStatement pstmt = null;
 		
@@ -317,7 +326,8 @@ public class SportsTypeDAO {
 			pstmt.setLong(1, num);
 			pstmt.executeUpdate();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			throw e;
 		} finally {
 			DBUtil.close(pstmt);
 		}
