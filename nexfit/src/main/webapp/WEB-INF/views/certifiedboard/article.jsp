@@ -179,7 +179,7 @@
 										<c:if test="${sessionScope.member.userId=='admin'}">
 										<tr>
 											<td colspan="2" class="text-center p-3" style="border-bottom: none;">
-												<button type="button" class="btn btn-outline-secondary btncertified" title="인증수락"><i class="bi bi-github" style="color: ${isAcceptance==0?'blue':'black'}"></i>&nbsp;&nbsp;<span id="boardacceptance">${dto.acceptance==0?'인증대기':'인증확인'}</span></button>
+												<button type="button" class="btn btn-outline-secondary btncertified" title="인증수락"><i class="bi bi-github" style="color: ${isAcceptance==1?'blue':'black'}"></i>&nbsp;&nbsp;<span id="boardacceptance">${dto.acceptance==0?'인증대기':'인증확인'}</span></button>
 											</td>
 										</tr>
 										</c:if>
