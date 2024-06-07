@@ -219,4 +219,22 @@ public class Ch_applFormDAO {
 		return count;
 		
 	}
+	
+	public void updateState(long num) throws SQLException{
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql= "UPDATE ch_applform SET appl_state ='성공' WHERE applnumber=? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, num);
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
 }

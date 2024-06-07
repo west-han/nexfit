@@ -52,12 +52,13 @@ public class MyChallengeDAO {
 					+ " TO_CHAR(appl_date, 'YYYY-MM-DD') appl_date,"
 					+ " TO_CHAR(compl_date, 'YYYY-MM-DD') compl_date, "
 					+ " TO_CHAR(start_date, 'YYYY-MM-DD') start_date,"
-					+ " TO_CHAR(end_date, 'YYYY-MM-DD') end_date "
+					+ " TO_CHAR(end_date, 'YYYY-MM-DD') end_date, "
+					+ " ROUND((end_date-start_date)*0.85,0) ac "
 					+ " FROM ch_applform a"
 					+ " JOIN challengeboard b ON a.boardnumber = b.boardnumber"
 					+ " JOIN challenge c ON b.challengeid = c.challengeid"
 					+ " WHERE userid = ?"
-					+ " ORDER BY applnumber DESC "
+					+ " ORDER BY end_date DESC "
 				    + " OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";;
 			pstmt = conn.prepareStatement(sql);
 			
@@ -80,6 +81,7 @@ public class MyChallengeDAO {
 				dto.setEnd_date(rs.getString("end_date"));
 				dto.setCh_subject(rs.getString("ch_subject"));
 				dto.setApplnumber(rs.getLong("applnumber"));
+				dto.setRequiredAc(rs.getInt("ac"));
 				
 				list.add(dto);
 			}
