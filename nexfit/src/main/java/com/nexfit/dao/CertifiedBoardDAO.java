@@ -123,9 +123,11 @@ public class CertifiedBoardDAO {
 		
 		try {
 			sql = "SELECT certifiednum, c.subject, c.content,imgfilename,acceptance,f.applnumber, "
-					+ " TO_CHAR(c.reg_date, 'YYYY-MM-DD') reg_date, m.userid,nickname "
+					+ " TO_CHAR(c.reg_date, 'YYYY-MM-DD') reg_date, m.userid,nickname,ch_subject,b.subject AS board_subejct"
 					+ " FROM certifiedboard c "
 					+ " JOIN ch_applform f ON f.applnumber = c.applnumber "
+					+ " JOIN challengeboard b ON f.boardnumber = b.boardnumber"
+					+ " JOIN challenge ch ON b.challengeid = ch.challengeid"
 					+ " JOIN member m ON f.userid = m.userid "
 					+ " JOIN member_detail d ON m.userid = d.userid "
 					+ " WHERE certifiednum  = ? ";
@@ -148,6 +150,8 @@ public class CertifiedBoardDAO {
 				dto.setReg_date(rs.getString("reg_date"));
 				dto.setUserId(rs.getString("userid"));
 				dto.setNickname(rs.getString("nickname"));
+				dto.setCh_subject(rs.getString("ch_subject"));
+				dto.setBoard_subject(rs.getString("board_subejct"));
 			}
 			
 		} catch (Exception e) {
@@ -200,5 +204,75 @@ public class CertifiedBoardDAO {
 		} finally {
 			DBUtil.close(pstmt);
 		}
-	}	
+	}
+	
+	//인증수락
+	public void updateAcceptance (long num) throws SQLException{
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE certifiedboard SET acceptance=1 WHERE certifiednum=?";
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, num);
+			
+			pstmt.executeQuery();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
+	public void deleteAcceptance(long num) throws SQLException{
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE certifiedboard SET acceptance=0 WHERE certifiednum=?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, num);
+			
+			pstmt.executeQuery();
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
+	public int isAcceptance (long num) throws SQLException{
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT acceptance"
+					+ " FROM certifiedboard  "
+					+" WHERE certifiednum=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, num);
+			
+			rs =pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return result;
+	}
 }

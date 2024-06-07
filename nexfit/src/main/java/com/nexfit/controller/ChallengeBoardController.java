@@ -300,12 +300,14 @@ public class ChallengeBoardController {
 			List<Ch_applFormDTO> app = dao1.findApplFormByNum(num);
 			int procount = dao.inprogressCountlist();
 			int endcount =dao.endprogressCountlist();
+			int countappl = dao1.countappl(num);
 			if(dto == null) {
 				return new ModelAndView("redirect:/chboard/list?page=" + query);
 			}
 			
 			
 			ModelAndView mav = new ModelAndView("chboard/article");
+			mav.addObject("countappl", countappl);
 			mav.addObject("end", endcount);
 			mav.addObject("procount", procount);
 			mav.addObject("dto", dto);

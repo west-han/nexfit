@@ -85,29 +85,20 @@
             animation: none;
         }
         
-.heart2 {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 10em;
-            color: gray;
-            opacity: 0;
-            pointer-events: none;
-            animation: none;
-        }
+
 
 @keyframes blink {
-      0% {opacity: 0; transform: rotateY(0deg);}
-      50% {opacity: 0.8; transform: rotateY(400deg) translateY(-25px);} 
-      100% {opacity: 0; transform: rotateY(800deg);}
+      0% {opacity: 0; transform: scale(1) rotateY(0deg);}
+      50% {opacity: 0.8; transform: scale(1) rotateY(400deg) translateY(-25px);} 
+      100% {opacity: 0; transform: scale(0) rotateY(800deg);}
    }
    
-@keyframes blink2 {
-      0% {opacity: 0;}
-      50% {opacity: 0.8;}
-      100% {opacity: 0;}
-   }
+@keyframes break {
+            0% {opacity: 0; transform: scale(1);}
+            50% {opacity: 0.8; transform: scale(1) translateY(50px) rotate(-20deg);}
+            100% {opacity: 0; transform: scale(0);}
+        }
+  
 
 
 .table-article img {max-width: 100%;}
@@ -123,18 +114,32 @@
 		    	location.href = url;
 		    }
 		}
-		
-		 function showHeart() {
-	            const heart = document.getElementById('heart');
-	            heart.style.animation = 'blink 1.5s forwards';
-
-	            setTimeout(() => {
-	                heart.style.animation = 'none';
-	            }, 1000);
-	        }
-		 
 	</script>
 </c:if>
+
+	
+<script>
+		
+		 let isLiked = false;
+
+	     function toggleLike() {
+	         isLiked = !isLiked;
+	         showHeart(isLiked);
+	         const likeButton = document.getElementById('likeButton');
+	         likeButton.style.color = isLiked ? '#FF73B8' : 'black';
+	         // Update the like count here if necessary
+	     }
+
+	     function showHeart(isLike) {
+	         const heart = document.getElementById(isLike ? 'heart' : 'brokenHeart');
+	         heart.style.animation = isLike ? 'blink 1.5s forwards' : 'break 1.5s forwards';
+
+	         setTimeout(() => {
+	             heart.style.animation = 'none';
+	         }, 1500);
+	     }
+		 
+</script>
 
 </head>
 
@@ -204,8 +209,9 @@
 												
 												<tr>
 													<td colspan="2" class="text-center p-3" style="position: relative;">
-														<button type="button" class="btn btn-outline-secondary btnSendBoardLike" title="좋아요" style="color: ${isUserLike?'#FF73B8':'black'}" onclick="showHeart()"><i class="far">🖤&nbsp;&nbsp;<span id="boardLikeCount">${dto.boardLikeCount}</span></i></button>
-														<div class="heart" id="heart">❤️</div>
+														<button type="button" class="btn btn-outline-secondary btnSendBoardLike" title="좋아요" style="color: ${isUserLike?'#FF73B8':'black'}" onclick="toggleLike()"><i class="far">🖤&nbsp;&nbsp;<span id="boardLikeCount">${dto.boardLikeCount}</span></i></button>
+														<div class="heart" id="heart" style="margin-left: -100px; margin-top: -100px;">❤️</div>
+														<div class="heart" id="brokenHeart" style="margin-left: -100px; margin-top: -100px;">💔</div>
 													</td>
 												</tr>
 												

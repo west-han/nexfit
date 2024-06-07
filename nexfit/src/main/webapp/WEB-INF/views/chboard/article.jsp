@@ -222,7 +222,7 @@
 									</tr>
 								</table>
 								<div class="table-style">
-									<h3 style="font-family: nexon lv1 light">챌린지 참여자 각오</h3>
+									<h3 style="font-family: nexon lv1 light">챌린지 참여자 각오 (참여자 수 : ${countappl})</h3>
 									<table class="table table-hover board-list">
 										<thead>
 											<tr>

@@ -93,6 +93,14 @@ public class BoardController {
 	        } else {
 	            list = dao.listBoard(offset, size, schType, kwd);
 	        }
+	        
+	        
+	        // 좋아요 많은 상위 5개 게시물 가져오기
+	        List<BoardDTO> topLikedPosts = dao.listTopLikedBoard(5);
+	        
+	        // 댓글 많은 상위 5개 게시물 가져오기
+	        List<BoardDTO> topCommentedPosts = dao.listTopCommentedBoard(5);
+	        
 
 	        String query = "";
 	        if (kwd.length() != 0) {
@@ -124,6 +132,8 @@ public class BoardController {
 	        mav.addObject("schType", schType);
 	        mav.addObject("kwd", kwd);
 	        mav.addObject("category", category);
+	        mav.addObject("topLikedPosts", topLikedPosts);
+	        mav.addObject("topCommentedPosts", topCommentedPosts);
 
 	    } catch (Exception e) {
 	        e.printStackTrace();

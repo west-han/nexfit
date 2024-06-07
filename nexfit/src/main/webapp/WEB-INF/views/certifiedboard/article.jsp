@@ -164,9 +164,12 @@
 									<tbody>
 										<tr>
 											<td align="left" style="padding-left: 20px;">이름 : ${dto.nickname}</td>
-											<td align="right" width="210px">${dto.reg_date}</td>
+											<td align="right" width="350px">${dto.reg_date}</td>
 										</tr>
-
+										<tr>
+											<td align="left" style="padding-left: 20px;">참여 챌린지 : ${dto.board_subject}</td>
+											<td align="right" style="padding-left: 20px;">챌린지 분류 : ${dto.ch_subject}</td>
+										</tr>
 										<tr>
 											<td colspan="2" style="border-bottom: none;"><img
 												src="${pageContext.request.contextPath}/uploads/photo/${dto.imageFilename}"
@@ -176,7 +179,13 @@
 										<tr>
 											<td colspan="2">${dto.content}</td>
 										</tr>
-
+										<c:if test="${sessionScope.member.userId=='admin'}">
+										<tr>
+											<td colspan="2" class="text-center p-3" style="border-bottom: none;">
+												<button type="button" class="btn btn-outline-secondary btncertified" title="인증수락"><i class="bi bi-github" style="color: ${isAcceptance==1?'blue':'black'}"></i>&nbsp;&nbsp;<span id="boardacceptance">${dto.acceptance==0?'인증대기':'인증확인'}</span></button>
+											</td>
+										</tr>
+										</c:if>
 									</tbody>
 								</table>
 
@@ -217,6 +226,72 @@
 			</div>
 
 		</main>
+		
+		<script type="text/javascript">
+		
+		function ajaxFun(url, method, formData, dataType, fn) {
+			const settings = {
+					type: method, 
+					data: formData,
+					dataType:dataType,
+					success:function(data) {
+						fn(data);
+					},
+					beforeSend: function(jqXHR) {
+						jqXHR.setRequestHeader('AJAX', true);
+					},
+					complete: function () {
+					},
+					error: function(jqXHR) {
+						if(jqXHR.status === 403) {
+							login();
+							return false;
+						} else if(jqXHR.status === 400) {
+							alert('요청 처리가 실패 했습니다.');
+							return false;
+				    	}
+				    	
+						console.log(jqXHR.responseText);
+					}
+			};
+			
+			
+			$.ajax(url, settings);
+		}
+		$(function(){
+			$(".btncertified").click(function(){
+				const $i = $(this).find("i");
+				let isNoAcceptance = $i.css("color") == "rgb(0, 0, 0)";
+				let msg = isNoAcceptance ? "인증을 수락하시겠습니까 ? " : "수락을 취소하시겠습니까 ? ";
+				
+				if(! confirm( msg )) {
+					return false;
+				}
+				
+				let url = "${pageContext.request.contextPath}/certiboard/insertacceptance";
+				let num = "${dto.certifiedNum}";
+				// var query = {num:num, isNoLike:isNoLike};
+				let query = "num=" + num + "&isNoAcceptance=" + isNoAcceptance;
+
+				const fn = function(data) {
+					let state = data.state;
+					if(state === "true") {
+						let color = "black";
+						if( isNoAcceptance ) {
+							color = "blue";
+						}
+						$i.css("color", color);
+						
+						let acceptance = data.acceptance;
+						$("#boardacceptance").text(acceptance==0?'인증대기':'인증확인');
+					} else if(state === "liked") {
+					}
+				};
+				
+				ajaxFun(url, "post", query, "json",fn);
+			});
+		});
+		</script>
 	</div>
 	<div class="container"></div>
 	<footer>
