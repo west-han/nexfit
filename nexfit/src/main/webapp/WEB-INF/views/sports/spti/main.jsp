@@ -20,7 +20,7 @@
 		<section id="main" class="mx-auto my-5 py-5 px-3">
 			<h3 class="pt-5">운동 MBTI 테스트</h3>
 			<div class="col-lg-6 col-md-8 col-sm-10 mx-auto" >
-				<img src="/nexfit/resources/images/ROUTINE.png" alt="mainImage" class="img-fluid">			
+				<img src="/nexfit/resources/images/sporti.png" alt="mainImage" class="img-fluid">			
 			</div>
 				<p>
 				내 운동 유형은? <br>
@@ -45,7 +45,7 @@
 		</section>
 		
 		<section id="result" class="mx-auto my-5 py-5 px-3">
-			<h3 class="pt-5">당신의 결과는?!</h3>
+			<h3 class="pt-5">당신의 운동은?!</h3>
 			<div class="resultname">
 				
 			</div>
