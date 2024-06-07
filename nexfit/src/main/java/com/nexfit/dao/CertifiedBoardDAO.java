@@ -200,5 +200,75 @@ public class CertifiedBoardDAO {
 		} finally {
 			DBUtil.close(pstmt);
 		}
-	}	
+	}
+	
+	//인증수락
+	public void updateAcceptance (long num) throws SQLException{
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE certifiedboard SET acceptance=1 WHERE certifiednum=?";
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, num);
+			
+			pstmt.executeQuery();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
+	public void deleteAcceptance(long num) throws SQLException{
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE certifiedboard SET acceptance=0 WHERE certifiednum=?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, num);
+			
+			pstmt.executeQuery();
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
+	public int isAcceptance (long num) throws SQLException{
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT acceptance"
+					+ " FROM certifiedboard  "
+					+" WHERE certifiednum=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, num);
+			
+			rs =pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return result;
+	}
 }

@@ -4,11 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.nexfit.annotation.Controller;
 import com.nexfit.annotation.RequestMapping;
 import com.nexfit.annotation.RequestMethod;
+import com.nexfit.annotation.ResponseBody;
 import com.nexfit.dao.CertifiedBoardDAO;
 import com.nexfit.dao.Ch_applFormDAO;
 import com.nexfit.dao.ChallengeBoardDAO;
@@ -167,9 +170,11 @@ public class CertifiedBoardController {
 			if(dto == null) {
 				return new ModelAndView("redirect:/certiboard/list?page=" + page);
 			}
-			
+			int isAcceptance = dao.isAcceptance(num);
 			ModelAndView mav = new ModelAndView("certifiedboard/article");
 			
+			
+			mav.addObject("isAcceptance", isAcceptance);
 			mav.addObject("dto", dto);
 			mav.addObject("page", page);
 			
@@ -291,5 +296,39 @@ public class CertifiedBoardController {
 		}
 
 		return new ModelAndView("redirect:/certiboard/list?page=" + page);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/certiboard/insertacceptance", method = RequestMethod.POST)
+	public Map<String, Object> insertLectureLike(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		CertifiedBoardDAO dao = new CertifiedBoardDAO();
+		
+		
+		String state = "false";
+		int acceptance = 0;
+
+		try {
+			long num = Long.parseLong(req.getParameter("num"));
+			String isNoAcceptance = req.getParameter("isNoAcceptance");
+			
+			if(isNoAcceptance.equals("true")) {
+				dao.updateAcceptance(num); 
+			} else {
+				dao.deleteAcceptance(num); 
+			}
+			
+			acceptance= dao.isAcceptance(num);
+
+			state = "true";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		model.put("state", state);
+		model.put("acceptance", acceptance);
+
+		return model;
 	}
 }
