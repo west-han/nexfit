@@ -226,7 +226,7 @@
 		
 		<script type="text/javascript">
 		
-		function ajaxFun(url, method, formData, dataType, fn, file = false) {
+		function ajaxFun(url, method, formData, dataType, fn) {
 			const settings = {
 					type: method, 
 					data: formData,
@@ -252,10 +252,6 @@
 					}
 			};
 			
-			if(file) {
-				settings.processData = false;  // file 전송시 필수. 서버로전송할 데이터를 쿼리문자열로 변환여부
-				settings.contentType = false;  // file 전송시 필수. 서버에전송할 데이터의 Content-Type. 기본:application/x-www-urlencoded
-			}
 			
 			$.ajax(url, settings);
 		}
