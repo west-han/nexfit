@@ -187,6 +187,7 @@
 										<p>챌린지 소개 : ${dto.ch_content}</p>
 										<p>내용 : ${dto.content}</p>
 										<p>달성 리워드 : ${dto.fee}</p>
+										<p>필요 인증 횟수 : ${dto.requiredAc}</p>
 										<p></p>
 
 										<button class="custom-btn btn-12"

@@ -13,7 +13,14 @@ public class ChallengeBoardDTO {
 	private String ch_content;
 	private String imageFilename;
 	private long fee;
+	private int requiredAc;
 	
+	public int getRequiredAc() {
+		return requiredAc;
+	}
+	public void setRequiredAc(int requiredAc) {
+		this.requiredAc = requiredAc;
+	}
 	public long getFee() {
 		return fee;
 	}
