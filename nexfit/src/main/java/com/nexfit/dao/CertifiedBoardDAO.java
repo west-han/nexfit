@@ -123,7 +123,7 @@ public class CertifiedBoardDAO {
 		
 		try {
 			sql = "SELECT certifiednum, c.subject, c.content,imgfilename,acceptance,f.applnumber, "
-					+ " TO_CHAR(c.reg_date, 'YYYY-MM-DD') reg_date, m.userid,nickname,ch_subject,b.subject AS board_subejct"
+					+ " TO_CHAR(c.reg_date, 'YYYY-MM-DD') reg_date, m.userid,nickname,ch_subject,b.subject AS board_subejct, b.content AS board_content, ch_content "
 					+ " FROM certifiedboard c "
 					+ " JOIN ch_applform f ON f.applnumber = c.applnumber "
 					+ " JOIN challengeboard b ON f.boardnumber = b.boardnumber"
@@ -152,6 +152,8 @@ public class CertifiedBoardDAO {
 				dto.setNickname(rs.getString("nickname"));
 				dto.setCh_subject(rs.getString("ch_subject"));
 				dto.setBoard_subject(rs.getString("board_subejct"));
+				dto.setCh_content(rs.getString("ch_content"));
+				dto.setBoard_content(rs.getString("board_content"));
 			}
 			
 		} catch (Exception e) {

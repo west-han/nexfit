@@ -48,15 +48,15 @@ public class MyChallengeDAO {
 		String sql;
 		
 		try {
-			sql="SELECT b.subject AS board_subject, appl_score, appl_state, ch_subeject,applnumber "
+			sql="SELECT b.subject AS board_subject, appl_score, appl_state, ch_subject,applnumber, "
 					+ " TO_CHAR(appl_date, 'YYYY-MM-DD') appl_date,"
 					+ " TO_CHAR(compl_date, 'YYYY-MM-DD') compl_date, "
 					+ " TO_CHAR(start_date, 'YYYY-MM-DD') start_date,"
-					+ " TO_CHAR(start_date, 'YYYY-MM-DD') end_date,"
+					+ " TO_CHAR(end_date, 'YYYY-MM-DD') end_date "
 					+ " FROM ch_applform a"
 					+ " JOIN challengeboard b ON a.boardnumber = b.boardnumber"
 					+ " JOIN challenge c ON b.challengeid = c.challengeid"
-					+ " WHERE userid = ??"
+					+ " WHERE userid = ?"
 					+ " ORDER BY applnumber DESC "
 				    + " OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";;
 			pstmt = conn.prepareStatement(sql);

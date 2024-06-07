@@ -270,8 +270,9 @@
 				
 				let url = "${pageContext.request.contextPath}/certiboard/insertacceptance";
 				let num = "${dto.certifiedNum}";
+				let applnum = "${dto.applNumber}";
 				// var query = {num:num, isNoLike:isNoLike};
-				let query = "num=" + num + "&isNoAcceptance=" + isNoAcceptance;
+				let query = "num=" + num + "&isNoAcceptance=" + isNoAcceptance +"&applnum="+applnum;
 
 				const fn = function(data) {
 					let state = data.state;

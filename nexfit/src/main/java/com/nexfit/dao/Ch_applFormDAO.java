@@ -142,9 +142,9 @@ public class Ch_applFormDAO {
 	    String sql;
 	    ResultSet rs = null;
 	    try {
-	        sql =    " SELECT c.userid,coment,appl_state,applnumber, TO_CHAR(compl_date, 'YYYY-MM-DD') compl_date, applnumber"
-	                +" appl_score, TO_CHAR(appl_date, 'YYYY-MM-DD') appl_date,ch_subject,ch.fee,b.subject,nickname,ch.ch_content,b.content"
-	                +" ROUND((end_date-start_date)*0.9,0) ac"
+	        sql =    " SELECT c.userid,coment,appl_state,applnumber, TO_CHAR(compl_date, 'YYYY-MM-DD') compl_date,"
+	                +" appl_score, TO_CHAR(appl_date, 'YYYY-MM-DD') appl_date,ch_subject,ch.fee,b.subject,nickname,ch.ch_content,b.content,"
+	                +" ROUND((end_date-start_date)*0.85,0) ac"
 	                +" FROM ch_applform c"
 	                +" JOIN challengeboard b ON c.boardnumber=b.boardnumber"
 	                +" JOIN challenge ch ON b.challengeid =ch.challengeid"

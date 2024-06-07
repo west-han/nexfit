@@ -64,14 +64,6 @@
     	}
      
 </script>
-<script>
-    var urlParams = new URLSearchParams(window.location.search);
-    var message = urlParams.get('message');
-    
-    if (message) {
-        alert(message);
-    }
-</script>
 
 </head>
 
@@ -106,7 +98,7 @@
 						<%-- 메인공간 --%>
 						<div class="body-title">
 							<h2 style="font-family: 'nexon lv2 medium';"
-								class="text-with-border">인증게시판</h2>
+								class="text-with-border">내가 참여한 챌린지</h2>
 						</div>
 						<div class="body-main" style="font-family: nexon lv1 light">
 							<div class="row mb-2 list-header">
@@ -119,7 +111,13 @@
 										onclick="location.href='${pageContext.request.contextPath}/chboard/list';">챌린지 참가하기!</button>
 								</div>
 							</div>
-							<!-- 참가한 챌린지 목록 표시할곳 -->
+							<c:forEach var="dto" items="${list}" varStatus="status">
+								<p>${dto.board_subject},${dto.ch_subject}</p>
+								<p>참여점수 : ${dto.appl_score}</p>
+								<p>${dto.start_date}~${dto.end_date}</p>
+								<p>${dto.compl_date }</p>
+								<p></p>
+							</c:forEach>
 
 							<div class="page-navigation">${dataCount == 0 ? "참여한 챌린지가 없습니다." : paging }
 							</div>

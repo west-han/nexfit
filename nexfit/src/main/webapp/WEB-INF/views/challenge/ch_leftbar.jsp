@@ -32,6 +32,11 @@
 				      <div class="fw-bold"><a href="${pageContext.request.contextPath}/certiboard/list">인증 게시판</a></div>
 				    </div>
 				  </li>
+				  <li class="list-group-item d-flex justify-content-between align-items-start">
+				    <div class="ms-2 me-auto">
+				      <div class="fw-bold"><a href="${pageContext.request.contextPath}/mychallenge/list">참여한 챌린지</a></div>
+				    </div>
+				  </li>
 				  <c:if test="${sessionScope.member.userName=='admin'}">
 				  	 <li class="list-group-item d-flex justify-content-between align-items-start">
 				    <div class="ms-2 me-auto">
