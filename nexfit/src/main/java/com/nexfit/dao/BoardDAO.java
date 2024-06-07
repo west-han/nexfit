@@ -306,7 +306,102 @@ public class BoardDAO {
 	    }
 	    return list;
 	}
+	
+	
+	// 좋아요 수 많은 순서로 게시글 출력
+	public List<BoardDTO> listTopLikedBoard(int limit) {
+	    List<BoardDTO> list = new ArrayList<BoardDTO>();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    StringBuilder sb = new StringBuilder();
 
+	    try {
+	        sb.append("SELECT f.num, nickname, categoryName, subject, hitCount, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, ");
+	        sb.append("(SELECT COUNT(*) FROM freeBoard_Reply r WHERE r.num = f.num) AS replyCount, ");
+	        sb.append("(SELECT COUNT(*) FROM freeBoard_Like l WHERE l.num = f.num) AS boardLikeCount ");
+	        sb.append("FROM freeBoard f ");
+	        sb.append("JOIN member_detail m ON m.userId = f.userId ");
+	        sb.append("JOIN freeboard_category c ON f.categoryId = c.categoryId ");
+	        sb.append("ORDER BY boardLikeCount DESC ");
+	        sb.append("FETCH FIRST ? ROWS ONLY ");
+
+	        pstmt = conn.prepareStatement(sb.toString());
+	        pstmt.setInt(1, limit);
+
+	        rs = pstmt.executeQuery();
+	        while (rs.next()) {
+	            BoardDTO dto = new BoardDTO();
+
+	            dto.setNum(rs.getLong("num"));
+	            dto.setCategoryName(rs.getString("categoryName"));
+	            dto.setNickname(rs.getString("nickname"));
+	            dto.setSubject(rs.getString("subject"));
+	            dto.setHitCount(rs.getInt("hitCount"));
+	            dto.setReg_date(rs.getString("reg_date"));
+	            dto.setReplyCount(rs.getInt("replyCount"));
+	            dto.setBoardLikeCount(rs.getInt("boardLikeCount"));
+
+	            list.add(dto);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        DBUtil.close(rs);
+	        DBUtil.close(pstmt);
+	    }
+
+	    return list;
+	}
+	
+	
+	// 댓글 수 많은 순서로 게시글 출력
+	public List<BoardDTO> listTopCommentedBoard(int limit) {
+	    List<BoardDTO> list = new ArrayList<BoardDTO>();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    StringBuilder sb = new StringBuilder();
+
+	    try {
+	        sb.append("SELECT f.num, nickname, categoryName, subject, hitCount, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, ");
+	        sb.append("(SELECT COUNT(*) FROM freeBoard_Reply r WHERE r.num = f.num) AS replyCount, ");
+	        sb.append("(SELECT COUNT(*) FROM freeBoard_Like l WHERE l.num = f.num) AS boardLikeCount ");
+	        sb.append("FROM freeBoard f ");
+	        sb.append("JOIN member_detail m ON m.userId = f.userId ");
+	        sb.append("JOIN freeboard_category c ON f.categoryId = c.categoryId ");
+	        sb.append("ORDER BY replyCount DESC ");
+	        sb.append("FETCH FIRST ? ROWS ONLY ");
+
+	        pstmt = conn.prepareStatement(sb.toString());
+	        pstmt.setInt(1, limit);
+
+	        rs = pstmt.executeQuery();
+	        while (rs.next()) {
+	            BoardDTO dto = new BoardDTO();
+
+	            dto.setNum(rs.getLong("num"));
+	            dto.setCategoryName(rs.getString("categoryName"));
+	            dto.setNickname(rs.getString("nickname"));
+	            dto.setSubject(rs.getString("subject"));
+	            dto.setHitCount(rs.getInt("hitCount"));
+	            dto.setReg_date(rs.getString("reg_date"));
+	            dto.setReplyCount(rs.getInt("replyCount"));
+	            dto.setBoardLikeCount(rs.getInt("boardLikeCount"));
+
+	            list.add(dto);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        DBUtil.close(rs);
+	        DBUtil.close(pstmt);
+	    }
+
+	    return list;
+	}
+
+	
 	// 특정 카테고리의 데이터 개수
 	public int dataCountByCategory(String category) {
 	    int result = 0;
