@@ -16,9 +16,17 @@ public class Ch_applFormDTO {
 	private String nickname;
 	private String ch_content;
 	private String content;
+	private int requiredAc;
 	
 	
 	
+	
+	public int getRequiredAc() {
+		return requiredAc;
+	}
+	public void setRequiredAc(int requiredAc) {
+		this.requiredAc = requiredAc;
+	}
 	public String getContent() {
 		return content;
 	}

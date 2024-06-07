@@ -249,7 +249,8 @@ public class ChallengeBoardDAO {
 					+" TO_CHAR(mod_date, 'YYYY-MM-DD') mod_date, "
 					+" TO_CHAR(start_date, 'YYYY-MM-DD') start_date, "
 					+" TO_CHAR(end_date, 'YYYY-MM-DD') end_date, "
-					+" content, b.challengeId, imageFilename,fee, ch_content "
+					+" content, b.challengeId, imageFilename,fee, ch_content, "
+					+" ROUND((end_date-start_date)*0.85,0) ac "
 					+" FROM challengeboard b"
 					+" JOIN challenge c ON b.challengeId = c.challengeId "
 					+" WHERE boardnumber  = ? ";
@@ -275,6 +276,7 @@ public class ChallengeBoardDAO {
 				dto.setChallengeId(rs.getLong("challengeId"));
 				dto.setImageFilename(rs.getString("imageFilename"));
 				dto.setFee(rs.getLong("fee"));
+				dto.setRequiredAc(rs.getInt("ac"));
 				
 			}
 			

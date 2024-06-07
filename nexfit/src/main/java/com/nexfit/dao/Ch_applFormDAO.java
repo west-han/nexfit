@@ -144,6 +144,7 @@ public class Ch_applFormDAO {
 	    try {
 	        sql =    " SELECT c.userid,coment,appl_state,applnumber, TO_CHAR(compl_date, 'YYYY-MM-DD') compl_date, applnumber"
 	                +" appl_score, TO_CHAR(appl_date, 'YYYY-MM-DD') appl_date,ch_subject,ch.fee,b.subject,nickname,ch.ch_content,b.content"
+	                +" ROUND((end_date-start_date)*0.9,0) ac"
 	                +" FROM ch_applform c"
 	                +" JOIN challengeboard b ON c.boardnumber=b.boardnumber"
 	                +" JOIN challenge ch ON b.challengeid =ch.challengeid"
@@ -173,6 +174,7 @@ public class Ch_applFormDAO {
 	            dto.setCh_content(rs.getString("ch_content"));
 	            dto.setContent(rs.getString("content"));
 	            dto.setApplNumber(rs.getLong("applnumber"));
+	            dto.setRequiredAc(rs.getInt("ac"));
 	            list.add(dto);
 	        }
 	        

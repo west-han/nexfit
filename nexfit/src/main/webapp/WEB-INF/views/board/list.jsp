@@ -10,7 +10,7 @@
 
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
-<style type="text/css">
+<style type="text/css"> 
 .body-container {
 	max-width: 800px;
 }
@@ -66,34 +66,120 @@
 
         }
         
-        .background-container::before {
-            content: "";
-            position: absolute;
-            top: 0;
+.background-container::before {
+     content: "";
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     background-image: url('/nexfit/resources/images/firefire.gif');
+     background-size: cover;
+     background-position: center;
+     background-repeat: no-repeat;
+     border-radius: 10px;
+     opacity: 0.2;
+     z-index: -1;
+}
+
+.background-container h3 {
+     font-weight: bold;
+     color: tomato;
+}
+
+.toggle-buttons {
+     margin-top: 10px;
+}
+
+.top-liked-posts, .top-commented-posts {
+     margin-top: 20px;
+}
+
+
+		.modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url('/nexfit/resources/images/firefire.gif');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            border-radius: 10px;
-            opacity: 0.2;
-            z-index: -1;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
         }
 
-        .background-container h3 {
+        .modal-content {
+            background-color: black;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            animation: modalopen 0.5s;
+            transform: scale(1.3) scaleY(1.2);
+        }
+        
+        
+        @keyframes modalopen {
+            from {
+                transform: scale(0.7) scale(1);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1.3) scaleY(1.2);
+                opacity: 1;
+            }
+        }
+        
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
             font-weight: bold;
-            color: tomato;
         }
 
-        .toggle-buttons {
-            margin-top: 10px;
+        .close:hover,
+        .close:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+
+		.text-overlay {
+			cursor: pointer;
+            transition: opacity 0.5s ease;
+		}
+		
+		
+		.user-text-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            transition: opacity 0.5s ease;
+        }
+		
+		
+		@keyframes fadeUp {
+            0% { transform: translate(-50%, -50%) translateY(0) scale(1.2) scale(1.2); opacity: 1; color: white; }
+            25% { transform: translate(-50%, -50%) translateY(-35px) scale(1.1); opacity: 1; color: yellow; }
+            50% { transform: translate(-50%, -50%) translateY(-70px) scale(0.9); opacity: 1; color: #FFA873; } 
+            100% { transform: translate(-50%, -50%) translateY(-140px) scale(0.8); opacity: 0.5; color: red; }
         }
 
-        .top-liked-posts, .top-commented-posts {
-            margin-top: 20px;
+        .fade-up {
+            animation: fadeUp 3.5s forwards;
         }
+        
+        
+        
+       
 
 </style>
 	<script type="text/javascript">
@@ -123,6 +209,58 @@
         document.getElementById('topLikedPosts').style.display = 'none';
         document.getElementById('topCommentedPosts').style.display = 'block';
     }
+    
+    
+    const messages = [
+        "오늘도 수고했어요! &nbsp; (클릭)",
+        "초가 자신을 희생해가며 촛불을 빛내듯, &nbsp; (클릭)",
+        "자신을 믿고 나아가며 빛내는 당신! &nbsp; (클릭)",
+        "그 자체로 이미 충분히 아름답습니다. &nbsp; (클릭)",
+        "NEXFIT 일동."
+    ];
+    let currentIndex = 0;
+
+    function showNextMessage() {
+        currentIndex = (currentIndex + 1) % messages.length;
+        const textOverlay = document.getElementById('textOverlay');
+        textOverlay.style.opacity = 0; 
+        setTimeout(() => {
+            textOverlay.innerHTML = messages[currentIndex];
+            textOverlay.style.opacity = 1; 
+        }, 500); 
+    }
+    
+    
+    function showUserText() {
+        const userInput = document.getElementById('userInput').value;
+        const userTextOverlay = document.getElementById('userTextOverlay');
+        userTextOverlay.innerHTML = userInput;
+        userTextOverlay.classList.add('fade-up'); // 애니메이션 클래스 추가
+        setTimeout(() => {
+            userTextOverlay.classList.remove('fade-up'); // 애니메이션 클래스 제거
+            userTextOverlay.innerHTML = ''; // 텍스트 제거
+        }, 2000); // 2초 후 애니메이션 제거 및 텍스트 숨기기
+    }
+
+      
+    document.addEventListener('DOMContentLoaded', function() {
+	    document.getElementById('marqueeText').onclick = function() {
+	        document.getElementById('myModal').style.display = "block";
+	    }
+	
+	    document.getElementsByClassName('close')[0].onclick = function() {
+	        document.getElementById('myModal').style.display = "none";
+	    }
+	
+	    window.onclick = function(event) {
+	        if (event.target == document.getElementById('myModal')) {
+	            document.getElementById('myModal').style.display = "none";
+	        }
+	    }
+	    
+	    document.getElementById('textOverlay').addEventListener('click', showNextMessage);
+	    window.showUserText = showUserText;
+    });
 
 	</script>
  
@@ -307,6 +445,7 @@
 				<br><br><hr>
 				
 				<div class="background-container">
+					<br>
 		            <h3 style="font-weight: bold; color: tomato;">🔥 H O T 🔥</h3>
 		            <div class="toggle-buttons">
 			            <button type="button" class="btn btn-outline-dark" onclick="showTopLikedPosts()">좋아요수</button>
@@ -338,6 +477,21 @@
 		                    </c:forEach>
 		                </ul>
 		            </div>
+		            <br>
+		            <marquee><span id="marqueeText" style="cursor: pointer;">잠깐! 잠시 <span style="color: #E0844F;">불멍</span>을 때리며 오늘 하루는 알찼는지 돌아볼래...?</span></marquee>
+		            
+		            <div id="myModal" class="modal">
+				        <div class="modal-content">
+				            <span class="close">&times;</span>
+				            <img src="/nexfit/resources/images/firefire.gif" style="width: 100%;">
+				            <div class="text-overlay" id="textOverlay" style="color: white;">오늘도 수고했어요! &nbsp; (클릭)</div>
+				            <div class="user-text-overlay" id="userTextOverlay"></div>
+				            <div class="input-container">
+				                <input type="text" id="userInput" placeholder="원하는 텍스트를 띄워보세요!" style="width: 250px; background: black; color: white; border: 2px solid white;">
+				                <button class="btn btn-outline-danger" onclick="showUserText()" style=" transform: scale(0.8) scaleY(0.8);">띄우기</button>
+				            </div>
+				        </div>
+				    </div>
 	            </div>
 				
 		</div>
