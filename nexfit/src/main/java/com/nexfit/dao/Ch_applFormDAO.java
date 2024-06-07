@@ -192,5 +192,29 @@ public class Ch_applFormDAO {
 	}
 	
 	
-
+	public int countappl(long num) throws SQLException {
+		int count=0;
+		PreparedStatement pstmt = null;
+		String sql;
+		ResultSet rs = null;
+		
+		try {
+			sql = "SELECT COUNT(*) FROM ch_applform WHERE boardnumber=?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, num);
+			
+			rs=pstmt.executeQuery();
+			
+			 if (rs.next()) {
+		            count = rs.getInt(1); 
+		        }
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return count;
+		
+	}
 }

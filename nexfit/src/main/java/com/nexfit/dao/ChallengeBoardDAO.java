@@ -388,4 +388,5 @@ public class ChallengeBoardDAO {
 				
 		return count;
 	}
+	
 }
