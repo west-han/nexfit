@@ -77,6 +77,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            border-radius: 10px;
             opacity: 0.2;
             z-index: -1;
         }
