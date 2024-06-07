@@ -166,7 +166,10 @@
 											<td align="left" style="padding-left: 20px;">이름 : ${dto.nickname}</td>
 											<td align="right" width="210px">${dto.reg_date}</td>
 										</tr>
-
+										<tr>
+											<td align="left" style="padding-left: 20px;">참여 챌린지 : ${dto.board_subject}</td>
+											<td align="left" style="padding-left: 20px;">챌린지 분류 : ${dto.ch_subject}</td>
+										</tr>
 										<tr>
 											<td colspan="2" style="border-bottom: none;"><img
 												src="${pageContext.request.contextPath}/uploads/photo/${dto.imageFilename}"

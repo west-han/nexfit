@@ -12,7 +12,22 @@ public class CertifiedBoardDTO {
 	private String imageFilename;
 	private String userId;
 	private String nickname;
+	private String board_subject;
+	private String ch_subject;
 
+	
+	public String getCh_subject() {
+		return ch_subject;
+	}
+	public void setCh_subject(String ch_subject) {
+		this.ch_subject = ch_subject;
+	}
+	public String getBoard_subject() {
+		return board_subject;
+	}
+	public void setBoard_subject(String board_subject) {
+		this.board_subject = board_subject;
+	}
 	public String getNickname() {
 		return nickname;
 	}
