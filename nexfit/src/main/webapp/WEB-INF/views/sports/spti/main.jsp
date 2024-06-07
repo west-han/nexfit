@@ -14,7 +14,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/spti-animation.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/spti-result.css" type="text/css">
 
-
 </head>
 <body>
 	<div class="container">
@@ -57,13 +56,14 @@
 			<div class="resultDesc">
 				
 			</div>
-			<button type="button" class="kakao mt-3">공유하기</button>
+			<button type="button" class="gohome mt-3 py-2 px-3" onclick="refreshPage()">다시하기</button>
 		</section>
-		<script src="/nexfit/resources/js/data.js" type="text/javascript">
-		
-		</script>
-		<script src="/nexfit/resources/js/start.js" type="text/javascript">
-		
+		<script src="/nexfit/resources/js/data.js" type="text/javascript"></script>
+		<script src="/nexfit/resources/js/start.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			function refreshPage() {
+				location.reload();
+			}
 		</script>
 	</div>
 	
