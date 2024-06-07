@@ -252,7 +252,6 @@ public class SportsController {
 		return new ModelAndView("redirect:/sports/types/list");
 	}
 	
-	// 끝
 	@RequestMapping(value = "/sports/types/deleteFile", method = RequestMethod.GET)
 	public ModelAndView deleteFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		SportsTypeDAO dao = new SportsTypeDAO();

@@ -103,12 +103,12 @@
 					<img src="/nexfit/resources/images/withmeback.png" class="background-image" style="width:1300px; height:200px; opacity: 0.3;">
 					<img src="/nexfit/resources/images/withme.png" class="overlay-image" style="width:550px; height:110px;"><br>
 					<img src="/nexfit/resources/images/ppp.png" class="overlay-image2" style="width:300px; height:20px;"> 
-				</div>
+					</div>
 				</div>
 				
-					<div class="row gx-2" style="font-family: 'nexon lv1 light'; font-weight: 600;">
-						<jsp:include page="/WEB-INF/views/withme/list_leftbar.jsp"></jsp:include>
-						<div class="col-sm-7 mt-3"> <!-- mt-n : margin-top -->
+				<div class="row gx-2" style="font-family: 'nexon lv1 light'; font-weight: 600;">
+					<jsp:include page="/WEB-INF/views/withme/list_leftbar.jsp"></jsp:include>
+					<div class="col-sm-7 mt-3"> <!-- mt-n : margin-top -->
 						<main>
 							<div class="container">
 								<div class="body-container">	
@@ -120,8 +120,6 @@
 										
 										<table class="table table-style">
 											<thead>
-												
-												
 												<tr>
 													<td colspan="2" align="center" style="background: black; color: white; font-family: 'nexon lv2 medium';"> 
 														<h6>${dto.subject}</h6>
@@ -194,10 +192,8 @@
 											</tbody>
 										</table>
 										
-										
 										<div class="reply">
 											<form name="replyForm" method="post">
-												
 												<table class="table table-borderless table-style reply-form">
 													<tr>
 														<td>
@@ -214,16 +210,12 @@
 											
 											<div id="listReply"></div>
 										</div>
-										
 									</div>
 								</div>
 							</div>
 						</main>
-						
-						</div>
-						
 					</div>
-
+				</div>
 			</div>
 		</main>
 	</div>
@@ -454,45 +446,44 @@ $(function() {
 	})
 })
 
-
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-mapOption = { 
-	// TODO
-    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-    level: 3 // 지도의 확대 레벨
-};
-
-var map = new kakao.maps.Map(mapContainer, mapOption);
-
-//마커가 표시될 위치입니다
-// TODO
-var markerPosition  = new kakao.maps.LatLng(33.450701, 126.570667); 
-
-//마커를 생성합니다
-var marker = new kakao.maps.Marker({
-position: markerPosition
-});
-
-//마커가 지도 위에 표시되도록 설정합니다
-marker.setMap(map);
-
-// TODO
-var iwContent = '<div style="padding:5px;">Hello World! <br><a href="https://map.kakao.com/link/map/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-iwPosition = new kakao.maps.LatLng(33.450701, 126.570667); //인포윈도우 표시 위치입니다
-
-
-//인포윈도우를 생성합니다
-// TODO
-var infowindow = new kakao.maps.InfoWindow({
-position : iwPosition, 
-content : iwContent 
-});
-
-//마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-infowindow.open(map, marker); 
-
-</script>
+$(function() {
+	let lat = ${empty dto.y || dto.y == 0 ? 37.56825 : dto.y};
+	let lng = ${empty dto.x || dto.x == 0 ? 126.8973 : dto.x};
 	
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+	
+	mapOption = { 
+	    center: new kakao.maps.LatLng(lat, lng), // 지도의 중심좌표
+	    level: 3 // 지도의 확대 레벨
+	};
+	
+	var map = new kakao.maps.Map(mapContainer, mapOption);
+	
+	//마커가 표시될 위치입니다
+	var markerPosition  = new kakao.maps.LatLng(lat, lng); 
+	
+	//마커를 생성합니다
+	var marker = new kakao.maps.Marker({
+	position: markerPosition
+	});
+	
+	//마커가 지도 위에 표시되도록 설정합니다
+	marker.setMap(map);
+	
+	var iwContent = '<div style="padding:5px;">접선 포인트<br><a href="https://map.kakao.com/link/map/abc' + lat + ',' + lng + '" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+	iwPosition = new kakao.maps.LatLng(lat, lng); //인포윈도우 표시 위치입니다
+	
+	//인포윈도우를 생성합니다
+	var infowindow = new kakao.maps.InfoWindow({
+	position : iwPosition, 
+	content : iwContent 
+	});
+	
+	//마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+	infowindow.open(map, marker);
+});
+</script>
+
 	<footer>
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 	</footer>

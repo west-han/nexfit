@@ -3,15 +3,21 @@ package com.nexfit.controller;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import com.nexfit.annotation.Controller;
 import com.nexfit.annotation.RequestMapping;
 import com.nexfit.annotation.RequestMethod;
+import com.nexfit.annotation.ResponseBody;
 import com.nexfit.dao.MemberDAO;
+import com.nexfit.dao.PointDAO;
 import com.nexfit.dao.WithBoardDAO;
 import com.nexfit.domain.MemberDTO;
+import com.nexfit.domain.Point;
+import com.nexfit.domain.ReplyDTO;
 import com.nexfit.domain.SessionInfo;
 import com.nexfit.domain.WithBoardDTO;
 import com.nexfit.servlet.ModelAndView;
@@ -159,6 +165,10 @@ public class WithController {
 			dto.setY(Double.parseDouble(req.getParameter("coordinate-y")));
 
 			dao.insertBoard(dto);
+			
+			PointDAO pointDao = new PointDAO();
+			pointDao.updatePoint(info.getUserId(), Point.WRITE_POST);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -203,7 +213,6 @@ public class WithController {
 			if (dto == null) { // 게시물이 없으면 다시 리스트로
 				return new ModelAndView("redirect:/withme/list?" + query);
 			}
-			// dto.setContent(util.htmlSymbols(dto.getContent()));
 
 			// 이전글 다음글
 			WithBoardDTO prevDto = dao.findByPrev(dto.getNum(), schType, kwd);
@@ -241,6 +250,9 @@ public class WithController {
 		String page = req.getParameter("page");
 
 		try {
+			Properties prop = new Properties();
+			prop.load(req.getServletContext().getResourceAsStream("/WEB-INF/kakao-API-KEY.properties"));
+			
 			long num = Long.parseLong(req.getParameter("num"));
 			WithBoardDTO dto = dao.findById(num);
 
@@ -255,6 +267,7 @@ public class WithController {
 
 			ModelAndView mav = new ModelAndView("withme/write");
 			
+			mav.addObject("apiKey", prop.get("kakao-javaScript-key"));
 			mav.addObject("dto", dto);
 			mav.addObject("page", page);
 			mav.addObject("mode", "update");
@@ -266,7 +279,6 @@ public class WithController {
 
 		return new ModelAndView("redirect:/withme/list?page=" + page);
 	}
-	
 	
 	@RequestMapping(value = "/withme/update", method = RequestMethod.POST)
 	public ModelAndView updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -283,8 +295,8 @@ public class WithController {
 			dto.setNum(Long.parseLong(req.getParameter("num")));
 			dto.setSubject(req.getParameter("subject"));
 			dto.setContent(req.getParameter("content"));
-			// dto.setX(Double.parseDouble(req.getParameter("x")));
-			// dto.setY(Double.parseDouble(req.getParameter("y")));
+			dto.setX(Double.parseDouble(req.getParameter("coordinate-x")));
+			dto.setY(Double.parseDouble(req.getParameter("coordinate-y")));
 
 			dto.setUserId(info.getUserId());
 
@@ -295,7 +307,6 @@ public class WithController {
 
 		return new ModelAndView("redirect:/withme/list?page=" + page);
 	}
-	
 	
 	@RequestMapping(value = "/withme/delete", method = RequestMethod.GET)
 	public ModelAndView delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -323,7 +334,17 @@ public class WithController {
 				query += "&schType=" + schType + "&kwd=" + URLEncoder.encode(kwd, "UTF-8");
 			}
 
-			dao.deleteBoard(num, info.getUserId());
+			String userId = info.getUserId();
+			if (userId.equals("admin")) {
+				WithBoardDTO dto = dao.findById(num);
+				userId = dto.getUserId();
+			}
+
+			dao.deleteBoard(num, userId);
+			
+			PointDAO pointDao = new PointDAO();
+			pointDao.updatePoint(userId, Point.DELETE_POST);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -331,6 +352,44 @@ public class WithController {
 		return new ModelAndView("redirect:/withme/list?" + query);
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/withme/insertReply", method = RequestMethod.POST)
+	public Map<String, Object> insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 넘어올 파라미터: 게시글 번호, 댓글 내용 [, 상위 댓글 번호]
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		WithBoardDAO dao = new WithBoardDAO();
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member"); 
+		String userId = info.getUserId();
+		
+		String state = "false";
+		
+		try {
+			ReplyDTO dto = new ReplyDTO();
+			
+			dto.setNum(Long.parseLong(req.getParameter("num")));
+			dto.setUserId(userId);
+			dto.setContent(req.getParameter("content"));
+			
+			String answer = req.getParameter("answer");
+			if (answer != null) {
+				dto.setAnswer(Long.parseLong(answer));
+			}
+			
+			dao.insertReply(dto);
+			state = "true";
+			PointDAO pointDAO = new PointDAO();
+			pointDAO.updatePoint(userId, Point.WRITE_COMMENT);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.put("state", state);
+		
+		return model;
+	}
 	
 	
 }

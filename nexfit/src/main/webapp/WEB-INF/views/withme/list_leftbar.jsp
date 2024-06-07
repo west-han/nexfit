@@ -22,7 +22,7 @@
 				class="list-group-item d-flex justify-content-between align-items-start">
 				<div class="ms-2 me-auto">
 					<div class="fw-bold">
-						<a href="${pageContext.request.contextPath}/qnaboard/list">Q&A
+						<a href="${pageContext.request.contextPath}/qnaboard/list">Q&amp;A
 							LOUNGE</a>
 					</div>
 				</div> <span class="badge text-bg-dark rounded-pill">⠀⠀⠀</span>
