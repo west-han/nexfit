@@ -179,7 +179,67 @@
         
         
         
-       
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.game-container::before {
+     content: "";
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     background-image: url('/nexfit/resources/images/soil.PNG'); 
+     background-size: cover;
+     background-position: center;
+     background-repeat: no-repeat;
+     border-radius: 10px;
+     opacity: 0.8;
+     z-index: -1;
+}
+
+.score {
+	color: white;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 60px);
+    grid-gap: 10px;
+    justify-content: center;
+    align-content: center;
+}
+
+.hole {
+    width: 40px;
+    height: 40px;
+    background-color: #662500;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+}
+
+.mole {
+    width: 100%;
+    height: 100%;
+    background-image: url('/nexfit/resources/images/digda.PNG');
+    background-color: orange;
+    border-radius: 50%;
+    position: absolute;
+    top: 100%;
+    transition: top 0.3s;
+}
+
+.show {
+    top: 0;
+}
+
 
 </style>
 	<script type="text/javascript">
@@ -262,6 +322,78 @@
 	    window.showUserText = showUserText;
     });
 
+    
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const holes = document.querySelectorAll('.hole');
+        const scoreBoard = document.getElementById('score');
+        const startButton = document.getElementById('startButton');
+        const result = document.getElementById('result');
+        let score = 0;
+        let lastHole;
+        let timeUp = false;
+
+        function randomTime(min, max) {
+            return Math.round(Math.random() * (max - min) + min);
+        }
+
+        function randomHole(holes) {
+            const idx = Math.floor(Math.random() * holes.length);
+            const hole = holes[idx];
+            if (hole === lastHole) {
+                return randomHole(holes);
+            }
+            lastHole = hole;
+            return hole;
+        }
+
+        function showMole() {
+            const time = randomTime(100, 700);
+            const hole = randomHole(holes);
+            const mole = document.createElement('div');
+            mole.classList.add('mole');
+            hole.appendChild(mole);
+            setTimeout(() => {
+                mole.classList.add('show');
+            }, 50);
+            mole.addEventListener('click', bonk);
+            setTimeout(() => {
+                mole.classList.remove('show');
+                setTimeout(() => {
+                    hole.removeChild(mole);
+                    if (!timeUp) showMole();
+                }, 300);
+            }, time);
+        }
+
+        function startGame() {
+            scoreBoard.textContent = 0;
+            score = 0;
+            timeUp = false;
+            result.textContent = ''; // 게임 시작 시 결과 초기화
+            showMole();
+            setTimeout(() => {
+                timeUp = true;
+                result.textContent = `아쉬워요! 한 번 더 하실래요?`;
+            }, 20000); // 게임 시간 20초
+        }
+
+        function bonk(e) {
+            if (!e.isTrusted) return; // 치트 방지
+            score++;
+            this.classList.remove('show');
+            scoreBoard.textContent = score;
+        }
+
+        holes.forEach(hole => hole.addEventListener('click', function(e) {
+            if (e.target.classList.contains('mole')) {
+                bonk.call(e.target, e);
+            }
+        }));
+
+        startButton.addEventListener('click', startGame);
+    });
+    
 	</script>
  
 
@@ -493,6 +625,27 @@
 				        </div>
 				    </div>
 	            </div>
+	            <hr>
+	            
+	            <div class="game-container">
+			        <div id="scoreBoard" style="color: white;">디그다 좀 잡고 가실래요?</div>
+			        <div class="score">Score: <span id="score">0</span></div>
+			        <div class="grid">
+			            <div class="hole" id="hole1"></div> 
+			            <div class="hole" id="hole2"></div>
+			            <div class="hole" id="hole3"></div>
+			            <div class="hole" id="hole4"></div>
+			            <div class="hole" id="hole5"></div>
+			            <div class="hole" id="hole6"></div>
+			            <div class="hole" id="hole7"></div>
+			            <div class="hole" id="hole8"></div>
+			            <div class="hole" id="hole9"></div>
+			        </div>
+			        <br>
+			        <div id="result" class="result" style="color: white;"></div>
+			        <button class="btn btn-secondary" id="startButton">Start!</button>
+			        <div id="result" class="result"></div>
+    			</div>
 				
 		</div>
 		</div>
