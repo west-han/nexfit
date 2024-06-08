@@ -465,7 +465,7 @@ public class WithBoardDAO {
 		}
 	}
 
-	public void insertReply(ReplyDTO dto) {
+	public void insertReply(ReplyDTO dto)  throws SQLException {
 		String sql;
 		PreparedStatement pstmt = null;
 		
@@ -484,9 +484,235 @@ public class WithBoardDAO {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw e;
 		} finally {
 			DBUtil.close(pstmt);
 		}
+	}
+	
+	public void deleteAllReplies(long num)  throws SQLException {
+		String sql = "DELETE FROM withBoard_reply WHERE num = ?";
+		PreparedStatement pstmt = null;
 		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, num);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
+	public int dataCountReply(long num) {
+		int count = 0;
+		String sql;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			sql = "SELECT NVL(COUNT(*), 0) FROM withBoard_reply WHERE num = ? AND answer = 0";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, num);
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				count = rs.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return count;
+	}
+	
+	public ReplyDTO readReply(long replyNum) {
+		ReplyDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT replyNum, num, r.userId, userName, content, r.reg_date "
+					+ "  FROM withBoard_Reply r "
+					+ "  JOIN member m ON r.userId = m.userId  "
+					+ "  WHERE replyNum = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, replyNum);
+
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new ReplyDTO();
+				
+				dto.setReplyNum(rs.getLong("replyNum"));
+				dto.setNum(rs.getLong("num"));
+				dto.setUserId(rs.getString("userId"));
+				dto.setContent(rs.getString("content"));
+				dto.setReg_date(rs.getString("reg_date"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return dto;
+	}
+	
+	public void deleteReply(long replyNum, String userId) throws SQLException {
+		String sql;
+		PreparedStatement pstmt = null;
+		
+		if(! userId.equals("admin")) {
+			ReplyDTO dto = readReply(replyNum);
+			if(dto == null || (! userId.equals(dto.getUserId()))) {
+				return;
+			}
+		}
+		
+		try {
+			sql = "DELETE FROM withBoard_Replyss WHERE replyNum IN "
+					+ "(SELECT replyNum FROM lectureReply START WITH replyNum = ? "
+					+ "CONNECT BY PRIOR replyNum = ansewr)";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, replyNum);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
+	public List<ReplyDTO> listReply(long num, int offset, int size) {
+		List<ReplyDTO> list = new ArrayList<ReplyDTO>();
+		String sql;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			// 화면에 댓글을 출력할 때 필요한 정보: reply 테이블의 컬럼, 닉네임, 답글 개수
+			sql = "SELECT replyNum, r.userId, nickname, content, num, r.reg_date, NVL(answerCount, 0) answerCount "
+					+ "FROM withBoard_reply r "
+					+ "JOIN member_detail d ON r.userId = d.userId "
+					+ "LEFT OUTER JOIN ( "
+					+ "SELECT answer, COUNT(*) answerCount "
+					+ "FROM withBoard_reply "
+					+ "WHERE answer != 0 GROUP BY answer) rr "
+					+ "ON r.replyNum = rr.answer "
+					+ "WHERE num = ? "
+					+ "ORDER BY r.replyNum ASC "
+					+ "OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, num);
+			pstmt.setInt(2, offset);
+			pstmt.setInt(3, size);
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				ReplyDTO dto = new ReplyDTO();
+				
+				dto.setReplyNum(rs.getLong("replyNum"));
+				dto.setUserId(rs.getString("userId"));
+				dto.setNickname(rs.getString("nickname"));
+				dto.setContent(rs.getString("content"));
+				dto.setNum(rs.getShort("num"));
+				dto.setReg_date(rs.getString("reg_date"));
+				dto.setAnswerCount(rs.getInt("answerCount"));
+				
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	public List<ReplyDTO> listReplyAnswer(long answer) {
+		List<ReplyDTO> list = new ArrayList<ReplyDTO>();
+		String sql;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			sql = "SELECT replyNum, userId, nickname, content, num, reg_date, answer "
+					+ "FROM withBoard_reply r "
+					+ "JOIN member_detail d ON r.userId = d.userId "
+					+ "WHERE answer = ? "
+					+ "ORDER BY replyNum DESC";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, answer);
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				ReplyDTO dto = new ReplyDTO();
+				
+				dto.setNum(rs.getLong("replyNum"));
+				dto.setUserId(rs.getString("userId"));
+				dto.setNickname(rs.getString("nickname"));
+				dto.setContent(rs.getString("content"));
+				dto.setReg_date(rs.getString("reg_date"));
+				dto.setAnswer(rs.getLong("answer"));
+				dto.setNum(rs.getLong("num"));
+				
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	public int dataCountReplyAnswer(long answer) {
+		String sql = "SELECT COUNT(*) FROM withBoard_Reply WHERE answer = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int count = 0;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, answer);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				count = rs.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(pstmt);
+		}
+		
+		return count;
 	}
 }

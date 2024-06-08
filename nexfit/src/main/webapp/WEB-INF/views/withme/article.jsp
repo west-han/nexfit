@@ -108,7 +108,7 @@
 				
 				<div class="row gx-2" style="font-family: 'nexon lv1 light'; font-weight: 600;">
 					<jsp:include page="/WEB-INF/views/withme/list_leftbar.jsp"></jsp:include>
-					<div class="col-sm-7 mt-3"> <!-- mt-n : margin-top -->
+					<div class="col-sm-8 mt-3"> <!-- mt-n : margin-top -->
 						<main>
 							<div class="container">
 								<div class="body-container">	
@@ -348,7 +348,6 @@ function listReplyAnswer(answer) {
 	ajaxFun(url, "get", query, "text", fn);
 	
 }
-
 
 //댓글별 답글 개수
 function countReplyAnswer(answer) {

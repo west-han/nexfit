@@ -340,6 +340,7 @@ public class WithController {
 				userId = dto.getUserId();
 			}
 
+			dao.deleteAllReplies(num);
 			dao.deleteBoard(num, userId);
 			
 			PointDAO pointDao = new PointDAO();
@@ -351,7 +352,7 @@ public class WithController {
 
 		return new ModelAndView("redirect:/withme/list?" + query);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/withme/insertReply", method = RequestMethod.POST)
 	public Map<String, Object> insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -391,5 +392,136 @@ public class WithController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/withme/listReply", method = RequestMethod.GET)
+	public ModelAndView listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		WithBoardDAO dao = new WithBoardDAO();
+		MyUtil util = new MyUtilBootstrap();
+		
+		try {
+			long num = Long.parseLong(req.getParameter("num"));
+			String page = req.getParameter("page");
+			int currentPage = 1;
+			if (page != null) {
+				currentPage = Integer.parseInt(page);
+			}
+			int size = 10;
+			int totalPage = 0;
+			int dataCount = 0;
+			
+			dataCount = dao.dataCountReply(num);
+			totalPage = util.pageCount(dataCount, size);
+			if (totalPage < currentPage) {
+				currentPage = totalPage;
+			}
+			
+			int offset = (currentPage - 1) * size;
+			offset = offset < 0 ? 0 : offset;
+			
+			List<ReplyDTO> list = dao.listReply(num, offset, size);
+			
+			for (ReplyDTO dto : list) {
+				dto.setContent(dto.getContent().replaceAll(" ", "&nbsp;"));
+				dto.setContent(dto.getContent().replaceAll("\n", "<br>;"));
+			}
+			
+			String paging = util.pagingMethod(currentPage, offset, "listPage");
+			
+			ModelAndView mav = new ModelAndView("withme/listReply");
+			
+			mav.addObject("list", list);
+			mav.addObject("pageNo", currentPage);
+			mav.addObject("replyCount", dataCount);
+			mav.addObject("totalPage", totalPage);
+			mav.addObject("paging", paging);
+			
+			return mav;
+		} catch (Exception e) {
+			e.printStackTrace();
+			resp.sendError(400);
+			
+			throw e;
+		}
+	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/withme/deleteReply", method = RequestMethod.GET)
+	public Map<String, Object> deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		WithBoardDAO dao = new WithBoardDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		String state = "false";
+		String userId;
+		
+		try {
+			long replyNum = Long.parseLong(req.getParameter("replyNum"));
+			
+			userId = info.getUserId();
+			
+			if (userId.equals("admin")) {
+				ReplyDTO dto = dao.readReply(replyNum);
+				userId = dto.getUserId();
+			}
+			
+			PointDAO pointDAO = new PointDAO();
+			pointDAO.updatePoint(userId, Point.DELETE_COMMENT);
+			dao.deleteReply(replyNum, state);
+			
+			state = "true";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.put("state", state);
+		
+		return model;
+	}
+	
+	// 리플의 답글 리스트 - AJAX:TEXT
+	@RequestMapping(value = "/lecture/listReplyAnswer", method = RequestMethod.GET)
+	public ModelAndView listReplyAnswer(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		WithBoardDAO dao = new WithBoardDAO();
+
+		try {
+			long answer = Long.parseLong(req.getParameter("answer"));
+
+			List<ReplyDTO> listReplyAnswer = dao.listReplyAnswer(answer);
+
+			// 엔터를 <br>(스타일 => style="white-space:pre;")
+			for (ReplyDTO dto : listReplyAnswer) {
+				dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+			}
+
+			ModelAndView mav = new ModelAndView("withme/listReplyAnswer");
+			mav.addObject("listReplyAnswer", listReplyAnswer);
+
+			return mav;
+		} catch (Exception e) {
+			e.printStackTrace();
+			resp.sendError(400);
+			throw e;
+		}
+	}
+
+	// 리플의 답글 개수 - AJAX:JSON
+	@ResponseBody
+	@RequestMapping(value = "/withme/countReplyAnswer", method = RequestMethod.POST)
+	public Map<String, Object> countReplyAnswer(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		WithBoardDAO dao = new WithBoardDAO();
+		int count = 0;
+
+		try {
+			long answer = Long.parseLong(req.getParameter("answer"));
+			count = dao.dataCountReplyAnswer(answer);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("count", count);
+
+		return model;
+	}
 }

@@ -9,7 +9,7 @@ public class ReplyDTO {
 	private long answer;
 	private String reg_date;
 	private int replyLike;
-	
+	private int gap;
 	private int answerCount;
 	
 	public long getReplyNum() {
@@ -66,7 +66,10 @@ public class ReplyDTO {
 	public void setAnswerCount(int answerCount) {
 		this.answerCount = answerCount;
 	}
-	
-	
-	
+	public int getGap() {
+		return gap;
+	}
+	public void setGap(int gap) {
+		this.gap = gap;
+	}
 }

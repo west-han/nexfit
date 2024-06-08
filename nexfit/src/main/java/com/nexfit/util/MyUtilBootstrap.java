@@ -29,7 +29,7 @@ public class MyUtilBootstrap extends MyUtil {
 			currentPageSetup = currentPageSetup - numPerBlock;
 		}
 
-		sb.append("<ul class='pagination justify-content-center'>");
+		sb.append("<ul class='pagination justify-content-center nexfit-pagination'>");
 		// 처음페이지
 		if (current_page > 1) {
 			sb.append("<li class='page-item'><a class='page-link' href='" + list_url

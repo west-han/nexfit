@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+.nexfit-pagination > li.page-item > a.page-link {
+	color: #212529;
+}
+
+.nexfit-pagination > .active > a, 
+.nexfit-pagination > .active > span, 
+.nexfit-pagination > .active > a:hover, 
+.nexfit-pagination > .active > span:hover, 
+.nexfit-pagination > .active > a:focus, 
+.nexfit-pagination > .active > span:focus {
+  background: #212529;
+  border-color: #212529;
+}
