@@ -207,14 +207,14 @@
 										<div class="collapse" id="collapseExample">
 											<div class="card card-body">
 												<textarea class="textarea-no-border" id="ch_content"
-													placeholder="선택된 챌린지가 없습니다"></textarea>
+													placeholder="선택된 챌린지가 없습니다" >${dto.ch_content}</textarea>
 											</div>
 										</div>
 
 										<div class="collapse" id="collapseExample2">
 											<div class="card card-body">
 												<textarea class="textarea-no-border" id="content"
-													placeholder="선택된 챌린지가 없습니다"></textarea>
+													placeholder="선택된 챌린지가 없습니다">${dto.board_content}</textarea>
 											</div>
 										</div> <script>
 											function toggleCollapse(collapseId,

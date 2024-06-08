@@ -10,7 +10,14 @@ public class MyChallengeDTO {
 	private String end_date;
 	private String ch_subject;
 	private long applnumber;
+	private int requiredAc;
 	
+	public int getRequiredAc() {
+		return requiredAc;
+	}
+	public void setRequiredAc(int requiredAc) {
+		this.requiredAc = requiredAc;
+	}
 	public long getApplnumber() {
 		return applnumber;
 	}

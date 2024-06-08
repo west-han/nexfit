@@ -60,6 +60,29 @@
     transform: translate(-50%, -50%);
 }
 
+
+.background-container2 {
+	border-radius: 5px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
+}
+
+
+@keyframes rotateEmoji {
+    0% {
+        transform: rotateY(0deg);
+    }
+    50% {
+        transform: rotateY(90deg);
+    }
+    100% {
+        transform: rotateY(180deg);
+    }
+}
+
+.emoji-rotate {
+    animation: rotateEmoji 2s forwards;
+} 
+
 </style>
 
 <script type="text/javascript">
@@ -67,6 +90,34 @@ function searchList() {
 	const f = document.searchForm;
 	f.submit();
 }
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const emoji = document.getElementById('emoji');
+    const emojiText = document.getElementById('emoji-text');
+    const emojiStates = ['🤔', '🤗', '🧐', '🤬']; // 이모지 상태 배열
+    const emojiMessages = ['효과적인 운동 방법을 찾고 계신가요?', '다양한 운동 경험을 나눠보세요!', '운동 관련 질문과 답변을 자유롭게 할 수 있는 게시판입니다.', '질문자 및 답변자에 대한 비난 및 비방은 삼가해주시길 바랍니다.']; // 이모지에 대응하는 메시지 배열
+    let currentIndex = 0;
+
+    function rotateEmoji() {
+        emoji.classList.add('emoji-rotate');
+
+        setTimeout(() => {
+            currentIndex = (currentIndex + 1) % emojiStates.length;
+            emoji.innerHTML = emojiStates[currentIndex];
+            emojiText.innerHTML = emojiMessages[currentIndex];
+        }, 1000);
+
+        setTimeout(() => {
+            emoji.classList.remove('emoji-rotate');
+        }, 2000);
+    }
+
+    emoji.addEventListener('click', rotateEmoji);
+
+    // 5초마다 자동으로 이모지를 변경
+    setInterval(rotateEmoji, 5000);
+});
 
 
 </script>
@@ -95,7 +146,7 @@ function searchList() {
 		
 	<jsp:include page="/WEB-INF/views/board/list_leftbar.jsp"></jsp:include>
 	
-	<div class="col-sm-8"> 
+	<div class="col-sm-7"> 
 		<main>
 			<div class="container" style="font-family: 'nexon lv2 medium';">
 				<div class="body-container">	
@@ -181,8 +232,16 @@ function searchList() {
 			</div>
 		</main>				
 		</div>
-		<div class="col-sm-2"></div>
-				
+		<div class="col-sm-2 mt-5">
+			<div class="background-container2">
+				<br>
+				<div id="emoji" style="font-size: 40px;">🤔</div>
+				<br>
+				<div id="emoji-text" style="color: #C1B438; font-family: 'nexon lv2 medium'; font-size: 16px;">효과적인 운동 방법을 찾고 계신가요?</div>
+				<br>
+			</div>
+		</div>
+			
 		</div>
 	
 			</div>

@@ -15,6 +15,7 @@ import com.nexfit.annotation.ResponseBody;
 import com.nexfit.dao.CertifiedBoardDAO;
 import com.nexfit.dao.Ch_applFormDAO;
 import com.nexfit.dao.ChallengeBoardDAO;
+import com.nexfit.dao.MyChallengeDAO;
 import com.nexfit.domain.CertifiedBoardDTO;
 import com.nexfit.domain.Ch_applFormDTO;
 import com.nexfit.domain.SessionInfo;
@@ -191,7 +192,7 @@ public class CertifiedBoardController {
 	public ModelAndView updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		CertifiedBoardDAO dao = new CertifiedBoardDAO();
 		String page = req.getParameter("page");
-		
+		Ch_applFormDAO dao1=new Ch_applFormDAO();
 		try {
 			HttpSession session = req.getSession();
 			SessionInfo info = (SessionInfo)session.getAttribute("member");
@@ -199,13 +200,14 @@ public class CertifiedBoardController {
 			long num = Long.parseLong(req.getParameter("num"));
 			
 			CertifiedBoardDTO dto = dao.findById(num);
-			
+			List<Ch_applFormDTO> list = dao1.findApplFormByuserId(info.getUserId());
 			if(dto == null || ! dto.getUserId().equals(info.getUserId())) {
-				return new ModelAndView("redirect:/photo/list?page=" + page);
+				return new ModelAndView("redirect:/certified/list?page=" + page);
 			}
 			
-			ModelAndView mav = new ModelAndView("certified/write");
+			ModelAndView mav = new ModelAndView("certifiedboard/write");
 			
+			mav.addObject("list", list);
 			mav.addObject("dto", dto);
 			mav.addObject("page", page);
 			mav.addObject("mode", "update");
@@ -304,13 +306,14 @@ public class CertifiedBoardController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		
 		CertifiedBoardDAO dao = new CertifiedBoardDAO();
-		
+		MyChallengeDAO dao1 = new MyChallengeDAO();
 		
 		String state = "false";
 		int acceptance = 0;
 
 		try {
 			long num = Long.parseLong(req.getParameter("num"));
+			long applnum= Long.parseLong(req.getParameter("applnum"));
 			String isNoAcceptance = req.getParameter("isNoAcceptance");
 			
 			if(isNoAcceptance.equals("true")) {
@@ -320,7 +323,8 @@ public class CertifiedBoardController {
 			}
 			
 			acceptance= dao.isAcceptance(num);
-
+			int count =dao1.countAcceptance(applnum);
+			dao1.updateApplscore(count, applnum);
 			state = "true";
 		} catch (Exception e) {
 			e.printStackTrace();

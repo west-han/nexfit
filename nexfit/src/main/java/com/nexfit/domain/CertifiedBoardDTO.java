@@ -14,8 +14,22 @@ public class CertifiedBoardDTO {
 	private String nickname;
 	private String board_subject;
 	private String ch_subject;
-
+	private String ch_content;
+	private String board_content;
 	
+	
+	public String getCh_content() {
+		return ch_content;
+	}
+	public void setCh_content(String ch_content) {
+		this.ch_content = ch_content;
+	}
+	public String getBoard_content() {
+		return board_content;
+	}
+	public void setBoard_content(String board_content) {
+		this.board_content = board_content;
+	}
 	public String getCh_subject() {
 		return ch_subject;
 	}

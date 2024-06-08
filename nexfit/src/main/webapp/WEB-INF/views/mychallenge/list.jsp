@@ -64,14 +64,6 @@
     	}
      
 </script>
-<script>
-    var urlParams = new URLSearchParams(window.location.search);
-    var message = urlParams.get('message');
-    
-    if (message) {
-        alert(message);
-    }
-</script>
 
 </head>
 
@@ -106,7 +98,7 @@
 						<%-- 메인공간 --%>
 						<div class="body-title">
 							<h2 style="font-family: 'nexon lv2 medium';"
-								class="text-with-border">인증게시판</h2>
+								class="text-with-border">내가 참여한 챌린지</h2>
 						</div>
 						<div class="body-main" style="font-family: nexon lv1 light">
 							<div class="row mb-2 list-header">
@@ -119,7 +111,44 @@
 										onclick="location.href='${pageContext.request.contextPath}/chboard/list';">챌린지 참가하기!</button>
 								</div>
 							</div>
-							<!-- 참가한 챌린지 목록 표시할곳 -->
+							<c:forEach var="dto" items="${list}" varStatus="status">
+							
+							<div class="accordion" id="accordionExample">
+  									<div class="accordion-item">
+    								<h2 class="accordion-header">
+    									<button class="accordion-button" type="button" data-bs-toggle="collapse" 
+  									 data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="font-size: 14px; width: 100%;">
+       								 	<table style="width: 100%;">
+            							<tr>
+                							<td style="text-align: left;">참여 챌린지 : ${dto.board_subject}</td>
+                							<td style="text-align: right;">${dto.start_date} ~ ${dto.end_date}</td>
+                							<td style="text-align: right;">${dto.appl_state}</td>
+            							</tr>
+        								</table>
+    									</button>
+									</h2>
+    									<div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+      										<div class="accordion-body">
+      											<p>챌린지 종류 :${dto.ch_subject}</p>
+												<p>참여점수 : ${dto.appl_score}</p>
+												<p>${dto.compl_date }</p>
+												<p>진행도 : </p>
+												<c:set var="progressWidth" value="${(dto.appl_score / dto.requiredAc) * 100}" />
+												<fmt:formatNumber value="${progressWidth}" type="number" maxFractionDigits="1" var="formattedProgressWidth" />
+												<div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="${dto.appl_score}" aria-valuemin="0" aria-valuemax="${dto.requiredAc}">
+    											<div class="progress-bar" style="width: ${formattedProgressWidth}%">${formattedProgressWidth}%</div>
+												</div>
+												<button class="custom-btn btn-8 btnsuccess" type="button" title="포인트받기"
+													style="font-family: nexon lv2 medium">
+													<i></i><span style="font-family: 'nexon lv2 medium';" id="success">${dto.appl_state=='성공'?'포인트받기':'진행중'}</span>
+												</button>
+      										</div>
+   							 			</div>
+  									</div>
+  							</div>
+								
+								<p></p>
+							</c:forEach>
 
 							<div class="page-navigation">${dataCount == 0 ? "참여한 챌린지가 없습니다." : paging }
 							</div>
@@ -133,6 +162,65 @@
 			</div>
 
 		</main>
+		<script type="text/javascript">
+		
+		function ajaxFun(url, method, formData, dataType) {
+			const settings = {
+					type: method, 
+					data: formData,
+					dataType:dataType,
+					success:function(data) {
+						fn(data);
+					},
+					beforeSend: function(jqXHR) {
+						jqXHR.setRequestHeader('AJAX', true);
+					},
+					complete: function () {
+					},
+					error: function(jqXHR) {
+						if(jqXHR.status === 403) {
+							login();
+							return false;
+						} else if(jqXHR.status === 400) {
+							alert('요청 처리가 실패 했습니다.');
+							return false;
+				    	}
+				    	
+						console.log(jqXHR.responseText);
+					}
+			};
+			
+			
+			$.ajax(url, settings);
+		}
+		$(function(){
+			$(".btnsuccess").click(function(){
+				
+				let url = "${pageContext.request.contextPath}/mychallenge/success";
+				let num = "${dto.certifiedNum}";
+				let applnum = "${dto.applNumber}";
+				let appls = "${dto.appl_state}";
+				// var query = {num:num, isNoLike:isNoLike};
+				let query = "num=" + num  +"&applnum="+applnum +"&appls="+appls;
+
+				const fn = function(data) {
+					let state = data.state;
+					if(state === "true") {
+						let color = "black";
+						if( isNoAcceptance ) {
+							color = "blue";
+						}
+						$i.css("color", color);
+						
+						let acceptance = data.acceptance;
+						$("#success").text(state=='성공'?'달성완료':'진행중');
+					} else if(state === "liked") {
+					}
+				};
+				ajaxFun(url, "post", query, "json");
+			});
+		});
+		</script>
 	</div>
 	<div class="container"></div>
 	<footer>
