@@ -109,111 +109,107 @@
 				<div class="row gx-2" style="font-family: 'nexon lv1 light'; font-weight: 600;">
 					<jsp:include page="/WEB-INF/views/withme/list_leftbar.jsp"></jsp:include>
 					<div class="col-sm-8 mt-3"> <!-- mt-n : margin-top -->
-						<main>
 							<div class="container">
 								<div class="body-container">	
 									<div class="body-title">
 										<h3 style="font-family: 'nexon lv2 medium';"> WITH ME! </h3>
 									</div>
+								<div class="body-main">
+									<table class="table table-style">
+										<thead>
+											<tr>
+												<td colspan="2" align="center" style="background: black; color: white; font-family: 'nexon lv2 medium';"> 
+													<h6>${dto.subject}</h6>
+												</td>
+											</tr>
+										</thead>
+										
+										<tbody>
+											<tr>
+												<td width="50%" style="text-align: left">
+													이름 : ${dto.nickname}
+												</td>
+												<td align="right">
+													${dto.reg_date} | 조회 ${dto.hitCount}
+												</td>
+											</tr>
+											
+											<tr>
+												<td colspan="2" valign="top" height="200" style="border-bottom: none;" align="left">
+													${dto.content}
+												</td>
+											</tr>
+											
+											<tr>
+												<td colspan="2" valign="top" height="300" style="border-bottom: none;" align="center">
+													<div id="map" class="w-75 h-100"></div>
+												</td>
+											</tr>
+											
+											<tr>
+												<td colspan="2" style="text-align: left">
+													이전글 :
+													<c:if test="${not empty prevDto}">
+														<a href="${pageContext.request.contextPath}/withme/article?${query}&num=${prevDto.num}">${prevDto.subject}</a>
+													</c:if>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2" style="text-align: left">
+													다음글 :
+													<c:if test="${not empty nextDto}">
+														<a href="${pageContext.request.contextPath}/withme/article?${query}&num=${nextDto.num}">${nextDto.subject}</a>
+													</c:if>
+												</td>
+											</tr>
+											<tr>
+												<td width="50%" style="text-align: left;">
+													<c:choose>
+														<c:when test="${sessionScope.member.userId==dto.userId}">
+															<button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/withme/update?num=${dto.num}&page=${page}';">수정</button>
+														</c:when>
+														<c:otherwise>
+															<button type="button" class="btn btn-outline-dark" disabled>수정</button>
+														</c:otherwise>
+													</c:choose>
+											    	
+													<c:choose>
+											    		<c:when test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
+											    			<button type="button" class="btn btn-outline-dark" onclick="deleteBoard();">삭제</button>
+											    		</c:when>
+											    		<c:otherwise>
+											    			<button type="button" class="btn btn-outline-dark" disabled>삭제</button>
+											    		</c:otherwise>
+											    	</c:choose>
+												</td>
+												<td class="text-end">
+													<button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/withme/list?${query}';">리스트</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
 									
-									<div class="body-main">
+									<div class="reply">
+										<form name="replyForm" method="post">
+											<table class="table table-borderless table-style reply-form">
+												<tr>
+													<td>
+														<textarea class='form-control' name="content" placeholder="같이 하자고 댓글 달아라."></textarea>
+													</td>
+												</tr>
+												<tr>
+												   <td align='right'>
+												        <button type='button' class='btn btn-outline-dark btnSendReply'>댓글 등록</button>
+												    </td>
+												 </tr>
+											</table>
+										</form>
 										
-										<table class="table table-style">
-											<thead>
-												<tr>
-													<td colspan="2" align="center" style="background: black; color: white; font-family: 'nexon lv2 medium';"> 
-														<h6>${dto.subject}</h6>
-													</td>
-												</tr>
-											</thead>
-											
-											<tbody>
-												<tr>
-													<td width="50%" style="text-align: left">
-														이름 : ${dto.nickname}
-													</td>
-													<td align="right">
-														${dto.reg_date} | 조회 ${dto.hitCount}
-													</td>
-												</tr>
-												
-												<tr>
-													<td colspan="2" valign="top" height="200" style="border-bottom: none;" align="left">
-														${dto.content}
-													</td>
-												</tr>
-												
-												<tr>
-													<td colspan="2" valign="top" height="300" style="border-bottom: none;" align="center">
-														<div id="map" class="w-75 h-100"></div>
-													</td>
-												</tr>
-												
-												<tr>
-													<td colspan="2" style="text-align: left">
-														이전글 :
-														<c:if test="${not empty prevDto}">
-															<a href="${pageContext.request.contextPath}/withme/article?${query}&num=${prevDto.num}">${prevDto.subject}</a>
-														</c:if>
-													</td>
-												</tr>
-												<tr>
-													<td colspan="2" style="text-align: left">
-														다음글 :
-														<c:if test="${not empty nextDto}">
-															<a href="${pageContext.request.contextPath}/withme/article?${query}&num=${nextDto.num}">${nextDto.subject}</a>
-														</c:if>
-													</td>
-												</tr>
-												<tr>
-													<td width="50%" style="text-align: left;">
-														<c:choose>
-															<c:when test="${sessionScope.member.userId==dto.userId}">
-																<button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/withme/update?num=${dto.num}&page=${page}';">수정</button>
-															</c:when>
-															<c:otherwise>
-																<button type="button" class="btn btn-outline-dark" disabled>수정</button>
-															</c:otherwise>
-														</c:choose>
-												    	
-														<c:choose>
-												    		<c:when test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
-												    			<button type="button" class="btn btn-outline-dark" onclick="deleteBoard();">삭제</button>
-												    		</c:when>
-												    		<c:otherwise>
-												    			<button type="button" class="btn btn-outline-dark" disabled>삭제</button>
-												    		</c:otherwise>
-												    	</c:choose>
-													</td>
-													<td class="text-end">
-														<button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/withme/list?${query}';">리스트</button>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-										
-										<div class="reply">
-											<form name="replyForm" method="post">
-												<table class="table table-borderless table-style reply-form">
-													<tr>
-														<td>
-															<textarea class='form-control' name="content" placeholder="같이 하자고 댓글 달아라."></textarea>
-														</td>
-													</tr>
-													<tr>
-													   <td align='right'>
-													        <button type='button' class='btn btn-outline-dark btnSendReply'>댓글 등록</button>
-													    </td>
-													 </tr>
-												</table>
-											</form>
-											
-											<div id="listReply"></div>
-										</div>
+										<div id="listReply"></div>
 									</div>
 								</div>
 							</div>
-						</main>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -374,9 +370,9 @@ $(function() {
 		let replyNum = $(this).attr("data-replyNum");
 		
 		if (isVisible) {
-			$trReplyAnswer.hide();
+			$trReplyAnswer.css('display', 'none');
 		} else {
-			$trReplyAnswer.show();
+			$trReplyAnswer.css('display', 'table-row');
 			
 			// 답글 리스트
 			listReplyAnswer(replyNum);
