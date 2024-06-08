@@ -66,7 +66,7 @@
 								</ul>
 								</div>
 								<div class="pointAbount" style="border: 1px solid blue; width: 250px; height:100px; margin-top: 10px; ">
-								
+									<p> 현재 포인트 : ${currentPoint} </p>
 								</div>
 								<div style="float: left;">
 								<div class="signedup">

@@ -109,4 +109,5 @@ public class PointDAO {
 		
 		return list;
 	}
+
 }
