@@ -15,9 +15,6 @@
 	max-width: 800px;
 }
 
-.body-container {
-	max-width: 800px;
-}
 
 .table-style {
 	border: 1px solid #ddd;

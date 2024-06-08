@@ -14,6 +14,81 @@
 .body-container {
 	max-width: 800px;
 }
+
+.table-style {
+	border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 16px;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
+    background-color: #fff;
+}
+
+.btn-light:hover {
+	background: black; 
+	color: white;
+}
+
+
+.emoji {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5em;
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes floatAndDisappear {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(-50%, -80%) scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -100%) scale(0);
+        opacity: 0;
+    }
+}
+
+.float-and-disappear {
+    animation: floatAndDisappear 2s forwards;
+}
+
+
+.emoji2 {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5em;
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes floatAndDisappear2 {
+    0% {
+        transform: translate(-50%, -50%) scale(1) rotate(15deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(-50%, -80%) scale(1.2) rotate(-15deg); 
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -100%) scale(0) rotate(15deg); 
+        opacity: 0;
+    }
+}
+
+.float-and-disappear2 {
+    animation: floatAndDisappear2 2s forwards;
+}
+
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board2.css" type="text/css">
 
@@ -39,7 +114,28 @@ function check() {
     f.action = "${pageContext.request.contextPath}/sports/routine/${mode}";
     return true;
 }
+
+
+function showEmoji() {
+    const emoji = document.getElementById('emoji');
+    emoji.classList.add('float-and-disappear');
+
+    setTimeout(() => {
+        emoji.classList.remove('float-and-disappear');
+    }, 2000);
+}
+
+
+function showEmoji2() {
+    const emoji2 = document.getElementById('emoji2');
+    emoji2.classList.add('float-and-disappear2');
+
+    setTimeout(() => {
+        emoji2.classList.remove('float-and-disappear2');
+    }, 2000);
+}
 </script>
+
 </head>
 <body>
 	<div class="container">
@@ -47,15 +143,18 @@ function check() {
 			<jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 		</header>
 		
+		<div class="row gx-2">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-7">
 		<main>
-		<div class="body-container">	
+		<div class="body-container" style="font-family: 'nexon lv2 medium';">	
 			<div class="body-title">
-				<h3><i class="bi bi-app"></i> ROUTINE </h3>
+				<h3 style="font-family: 'nexon lv2 medium';"> ROUTINE </h3>
 			</div>
 			
 			<div class="body-main">
 				<form name="boardForm" method="post">
-					<table class="table write-form mt-5">
+					<table class="table write-form mt-5 table-style">
 						<tr>
 							<td class="bg-light col-sm-2" scope="row">제 목</td>
 							<td>
@@ -104,7 +203,7 @@ function check() {
 								<label class="btn btn-secondary" for="option6">3년~7년</label>
 							
 								<input type="radio" class="btn-check" name="career" id="option7" value="5" autocomplete="off">
-								<label class="btn btn-secondary" for="option7">7년~</label>
+								<label class="btn btn-secondary" for="option7" onclick="showEmoji2()">7년~</label>
 							</td>
 						</tr>
 						
@@ -130,7 +229,7 @@ function check() {
 								<label class="btn btn-secondary" for="option13">주6회</label>
 								
 								<input type="radio" class="btn-check" name="week" id="option14" value="7" autocomplete="off">
-								<label class="btn btn-secondary" for="option14">주7회</label>
+								<label class="btn btn-secondary" for="option14" onclick="showEmoji()">주7회</label>
 							</td>
 						</tr>
 						
@@ -171,6 +270,9 @@ function check() {
 						</tr>
 					</table>
 					
+					<div id="emoji" class="emoji">😲</div>
+					<div id="emoji2" class="emoji2">😎</div>
+					
 					<table class="table table-borderless">
 	 					<tr>
 							<td class="text-center">
@@ -188,6 +290,9 @@ function check() {
 			</div>
 		</div>
 		</main>
+		</div>
+		</div>
+		</div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/se2/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
 var oEditors = [];
