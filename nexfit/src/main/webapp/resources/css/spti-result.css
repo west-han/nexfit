@@ -13,18 +13,18 @@
 }
 
 .resultname{
-	font-size: 20px;
+	font-size: 23px;
 }
 
 .gohome{
-	color: white;
-	background-color: #FEE500;
+	color: whitesmoke;
+	background-color: #1B1B1B;
 	font-size: 20px;
 	border: 0px;
 	border-radius: 20px;
 }
 
 .gohome:hover, .gohome:focus{
-	background-color: black;
-	color: #FEE500;
+	background-color: #1B1B1B;
+	color: whitesmoke;
 }

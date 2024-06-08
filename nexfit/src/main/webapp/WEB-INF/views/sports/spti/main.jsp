@@ -22,9 +22,8 @@
 			<div class="col-lg-6 col-md-8 col-sm-10 mx-auto" >
 				<img src="/nexfit/resources/images/sporti.png" alt="mainImage" class="img-fluid">			
 			</div>
-				<p>
+				<p style="padding-top: 10px;">
 				내 운동 유형은? <br>
-				아래 시작하기 버튼을 눌러 시작해 주십시오
 				</p>
 			<button type="button" class="btn btn-outline-danger mt-3" onclick="js:begin()">시작하기</button>
 		</section>
@@ -45,7 +44,7 @@
 		</section>
 		
 		<section id="result" class="mx-auto my-5 py-5 px-3">
-			<h3 class="pt-5">당신의 운동은?!</h3>
+			<h5 class="pt-5">당신의 운동은?!</h5>
 			<div class="resultname">
 				
 			</div>

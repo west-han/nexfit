@@ -10,32 +10,35 @@
 	border-radius : 20px;
 	font-size: 24px;
 	width: 80%;
+	font-family: nexon lv2 medium;
 }
 
 .answerList{
-	background-color: #93B7BE;
+	background-color: #1B1B1B;
 	border-radius: 20px;
 	display: block;
 	width: 80%;
 	border: 0px;
 	font-size: 20px;
+	font-family: nexon lv1 light;
+	color: whitesmoke;
 }
 
 .answerList:hover, .answerList:focus{
-	background-color: #F1FFFA;
-	color: #93B7BE;
+	background-color: whitesmoke;
+	color: #1B1B1B;
 }
 
 .status{
 	height: 20px;
 	width: 80%;
-	background-color: F1FFFA;
+	background-color: whitesmoke;
 	border-radius: 20px;
 }
 
 .statusBar{
 	height: 100%;
 	border-radius: 20px;
-	background: linear-gradient(to bottom,  #f2f9fe 0%,#d6f0fd 100%); 
+	background: linear-gradient(to bottom, rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%);
 
 }
