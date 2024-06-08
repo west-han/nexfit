@@ -174,7 +174,7 @@ public class BoardController {
 			// 파라미터
 			dto.setSubject(req.getParameter("subject"));
 			dto.setContent(req.getParameter("content"));
-			dto.setCategoryId(Integer.parseInt(req.getParameter("categoryId"))); 
+			dto.setCategoryId(Integer.parseInt(req.getParameter("categoryId")));
 			
 			List<MyMultipartFile> listFile = 
 					fileManager.doFileUpload(req.getParts(), pathname);
@@ -225,6 +225,8 @@ public class BoardController {
 			// 이전글 다음글
 			BoardDTO prevDto = dao.findByPrev(dto.getNum(), schType, kwd);
 			BoardDTO nextDto = dao.findByNext(dto.getNum(), schType, kwd);
+			
+			List<BoardDTO> listFile = dao.listfreeBoardFile(num);
 
 			// 로그인 유저의 게시글 공감 여부
 			HttpSession session = req.getSession();
@@ -237,6 +239,7 @@ public class BoardController {
 			mav.addObject("dto", dto);
 			mav.addObject("page", page);
 			mav.addObject("query", query);
+			mav.addObject("listFile", listFile);
 			mav.addObject("prevDto", prevDto);
 			mav.addObject("nextDto", nextDto);
 			mav.addObject("isUserLike", isUserLike);
