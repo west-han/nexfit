@@ -295,11 +295,11 @@
         const userInput = document.getElementById('userInput').value;
         const userTextOverlay = document.getElementById('userTextOverlay');
         userTextOverlay.innerHTML = userInput;
-        userTextOverlay.classList.add('fade-up'); // 애니메이션 클래스 추가
+        userTextOverlay.classList.add('fade-up');
         setTimeout(() => {
-            userTextOverlay.classList.remove('fade-up'); // 애니메이션 클래스 제거
-            userTextOverlay.innerHTML = ''; // 텍스트 제거
-        }, 2000); // 2초 후 애니메이션 제거 및 텍스트 숨기기
+            userTextOverlay.classList.remove('fade-up');
+            userTextOverlay.innerHTML = '';
+        }, 2000);
     }
 
       
@@ -370,16 +370,16 @@
             scoreBoard.textContent = 0;
             score = 0;
             timeUp = false;
-            result.textContent = ''; // 게임 시작 시 결과 초기화
+            result.textContent = '';
             showMole();
             setTimeout(() => {
                 timeUp = true;
                 result.textContent = `아쉬워요! 한 번 더 하실래요?`;
-            }, 20000); // 게임 시간 20초
+            }, 20000);
         }
 
         function bonk(e) {
-            if (!e.isTrusted) return; // 치트 방지
+            if (!e.isTrusted) return;
             score++;
             this.classList.remove('show');
             scoreBoard.textContent = score;
