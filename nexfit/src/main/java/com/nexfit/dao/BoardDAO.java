@@ -461,10 +461,11 @@ public class BoardDAO {
 		String sql;
 
 		try {
-			sql = "SELECT f.num, f.userId, nickname, subject, content, reg_date, hitCount, "
+			sql = "SELECT f.num, f.userId, nickname, f.categoryId, c.categoryName, subject, content, reg_date, hitCount, "
 					+ "    NVL(boardLikeCount, 0) boardLikeCount "
 					+ " FROM freeboard f "
 					+ " JOIN member_detail m ON f.userId = m.userId "
+					+ " JOIN freeboard_category c ON f.categoryId = c.categoryId "
 					+ " LEFT OUTER JOIN ("
 					+ "      SELECT num, COUNT(*) boardLikeCount FROM freeboard_Like"
 					+ "      GROUP BY num"
@@ -482,6 +483,8 @@ public class BoardDAO {
 				dto.setNum(rs.getLong("num"));
 				dto.setUserId(rs.getString("userId"));
 				dto.setNickname(rs.getString("nickname"));
+				dto.setCategoryId(rs.getInt("categoryId"));
+				dto.setCategoryName(rs.getString("categoryName"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setContent(rs.getString("content"));
 				dto.setHitCount(rs.getInt("hitCount"));

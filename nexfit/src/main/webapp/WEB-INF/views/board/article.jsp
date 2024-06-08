@@ -96,7 +96,7 @@
 @keyframes break {
             0% {opacity: 0; transform: scale(1);}
             50% {opacity: 0.8; transform: scale(1) translateY(50px) rotate(-20deg);}
-            100% {opacity: 0; transform: scale(0);}
+            100% {opacity: 0; transform: scale(1) translateY(50px) rotate(-20deg);}
         }
   
 
@@ -175,7 +175,7 @@
 											<thead>
 												<tr>
 													<td colspan="2" align="center" style="background: black; color: white; font-family: 'nexon lv2 medium';"> 
-														<h6>${dto.subject}</h6>
+														<h6><span style="color: orange;">[${dto.categoryName}]&nbsp; </span> ${dto.subject}</h6> 
 													</td>
 												</tr>
 											</thead>

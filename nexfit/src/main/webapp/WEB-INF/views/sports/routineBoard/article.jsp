@@ -15,7 +15,58 @@
 	max-width: 800px;
 }
 
+.table-style {
+	border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
+    background-color: #fff;
+}
+
+
 .table-article img { max-width: 100%; }
+
+
+@keyframes heart {
+	0% {transform: translateY(0px) scale(1); opacity: 1;}
+	100% {transform: translateY(-25px) scale(1.4); opacity: 0;}
+}
+
+.float-heart {
+    position: absolute;
+    font-size: 1.5em;
+    color: #FF73B8;
+    animation: heart 1s ease-in-out forwards;
+}
+
+
+.heart {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10em;
+            color: red;
+            opacity: 0;
+            pointer-events: none;
+            animation: none;
+        }
+        
+
+
+@keyframes blink {
+      0% {opacity: 0; transform: scale(1) rotateY(0deg);}
+      50% {opacity: 0.8; transform: scale(1) rotateY(400deg) translateY(-25px);} 
+      100% {opacity: 0; transform: scale(0) rotateY(800deg);}
+   }
+   
+@keyframes break {
+            0% {opacity: 0; transform: scale(1);}
+            50% {opacity: 0.8; transform: scale(1) translateY(50px) rotate(-20deg);}
+            100% {opacity: 0; transform: scale(1) translateY(50px) rotate(-20deg);}
+        }
+
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board2.css" type="text/css">
 <!-- 클라이언트에 자바스크립트 소스를 보이지 않도록 하기 위한 장치 -->
@@ -28,8 +79,32 @@
 		    	location.href = url;
 		    }
 		}
+	
 	</script>
 </c:if>
+
+<script>
+		
+		 let isLiked = false;
+
+	     function toggleLike() {
+	         isLiked = !isLiked;
+	         showHeart(isLiked);
+	         const likeButton = document.getElementById('likeButton');
+	         likeButton.style.color = isLiked ? '#FF73B8' : 'black';
+	     }
+
+	     function showHeart(isLike) {
+	         const heart = document.getElementById(isLike ? 'heart' : 'brokenHeart');
+	         heart.style.animation = isLike ? 'blink 1.5s forwards' : 'break 1.5s forwards';
+
+	         setTimeout(() => {
+	             heart.style.animation = 'none';
+	         }, 1500);
+	     }
+		 
+</script>
+
 
 </head>
 
@@ -41,37 +116,47 @@
 
 		<main>
 			<div class="container-xxl text-center">
-				<div class="row py-5 mt-5">
+				<div class="row py-5">
 					<div class="col">
-						<img src="/nexfit/resources/images/ROUTINE.png" style="width:450px; height:90px;">
+						<img src="/nexfit/resources/images/ROUTINE.png" style="width:550px; height:110px; margin-top: 76px;"><br>
+						<img src="/nexfit/resources/images/thc.png" class="overlay-image2" style="width:330px; height:25px;">
 					</div>
 				</div>
 				
-					<div class="row gx-2">
+					<div class="row gx-2" style="font-family: 'nexon lv1 light'; font-weight: 600;">
 						<div class="col-sm-2">여기에는 좌측 공간에 들어갈 거 작성</div>
 						<div class="col-sm-7 mt-3"> <!-- mt-n : margin-top -->
 						<main>
 							<div class="container">
 								<div class="body-container">	
 									<div class="body-title">
-										<h3><i class="bi bi-app"></i> ROUTINE </h3>
+										<h3 style="font-family: 'nexon lv2 medium';">ROUTINE </h3>
 									</div>
 									
 									<div class="body-main">
 										
-										<table class="table table-article">
+										<table class="table table-article table-style">
 											<thead>
 												<tr>
+													<td colspan="2" align="center" style="font-family: 'nexon lv2 medium'; background: black; color: white;">
+														<h6>${dto.subject}</h6>
+													</td>
+												</tr>
+												
+												<tr>
 													<td colspan="2" align="left">
-														${dto.postType == 1? "추천" : "질문"} |  
-														<c:choose>
-															<c:when test="${dto.sports == 1}">헬스</c:when>
-															<c:when test="${dto.sports == 2}">수영</c:when>
-															<c:when test="${dto.sports == 3}">클라이밍</c:when>
-															<c:when test="${dto.sports == 4}">배구</c:when>
-															<c:when test="${dto.sports == 5}">킥복싱</c:when>
-															<c:when test="${dto.sports == 6}">기타</c:when>
-														</c:choose> |
+														<span style="color: ${dto.postType == 1? 'green' : 'blue'}">${dto.postType == 1? "[추천]" : "[질문]"}</span> |
+														<span style="color: orange"> 
+															<c:choose> 
+																<c:when test="${dto.sports == 1}">헬스</c:when>
+																<c:when test="${dto.sports == 2}">수영</c:when>
+																<c:when test="${dto.sports == 3}">클라이밍</c:when>
+																<c:when test="${dto.sports == 4}">배구</c:when>
+																<c:when test="${dto.sports == 5}">킥복싱</c:when>
+																<c:when test="${dto.sports == 6}">기타</c:when>
+															</c:choose>
+														</span> |
+														
 														<c:choose>
 															<c:when test="${dto.career == 1}">~6개월</c:when>
 															<c:when test="${dto.career == 2}">6개월~1년</c:when>
@@ -80,12 +165,6 @@
 															<c:when test="${dto.career == 5}">7년~</c:when>
 														</c:choose>
 														
-													</td>
-												</tr>
-												
-												<tr>
-													<td colspan="2" align="center">
-														${dto.subject}
 													</td>
 												</tr>
 											</thead>
@@ -102,15 +181,17 @@
 												
 												<tr>
 													<td colspan="2" align="left">
-														<c:choose>
-															<c:when test="${dto.week == 1}">주1회</c:when>
-															<c:when test="${dto.week == 2}">주2회</c:when>
-															<c:when test="${dto.week == 3}">주3회</c:when>
-															<c:when test="${dto.week == 4}">주4회</c:when>
-															<c:when test="${dto.week == 5}">주5회</c:when>
-															<c:when test="${dto.week == 6}">주6회</c:when>
-															<c:when test="${dto.week == 7}">주7회</c:when>
-														</c:choose>
+														<span style="color: #D9418C;">
+															<c:choose>
+																<c:when test="${dto.week == 1}">주1회</c:when>
+																<c:when test="${dto.week == 2}">주2회</c:when>
+																<c:when test="${dto.week == 3}">주3회</c:when>
+																<c:when test="${dto.week == 4}">주4회</c:when>
+																<c:when test="${dto.week == 5}">주5회</c:when>
+																<c:when test="${dto.week == 6}">주6회</c:when>
+																<c:when test="${dto.week == 7}">주7회</c:when>
+															</c:choose>
+														</span>
 													</td>
 												</tr>
 												
@@ -122,7 +203,9 @@
 												
 												<tr>
 													<td colspan="2" class="text-center p-3">
-														<button type="button" class="btn btn-outline-secondary btnSendBoardLike" title="좋아요"><i class="far fa-hand-point-up" style="color: ${isUserLike?'blue':'black'}"></i>&nbsp;&nbsp;<span id="boardLikeCount">${dto.boardLikeCount}</span></button>
+														<button type="button" class="btn btn-outline-secondary btnSendBoardLike" title="좋아요" style="color: ${isUserLike?'#FF73B8':'black'}" onclick="toggleLike()"><i class="far">🖤&nbsp;&nbsp;<span id="boardLikeCount">${dto.boardLikeCount}</span></i></button>
+														<div class="heart" id="heart" style="margin-left: -100px; margin-top: -100px;">❤️</div>
+														<div class="heart" id="brokenHeart" style="margin-left: -100px; margin-top: -100px;">💔</div>
 													</td>
 												</tr>
 												
@@ -251,6 +334,18 @@ function ajaxFun(url, method, formData, dataType, fn, file = false) {
 
 // 게시글 공감 여부
 $(function() {
+	$('.btnSendBoardLike').hover(function() {
+        const floatHeart = $('<i class="far float-heart" style="margin-left: -51px;">🖤</i>');
+       
+        $(this).parent().append(floatHeart);
+        
+        setTimeout(function() {
+            floatHeart.remove();
+        }, 1000);
+    });
+	
+	
+	
 	$('.btnSendBoardLike').click(function(){
 		const $i = $(this).find("i");
 		let isNoLike = $i.css("color") === "rgb(0, 0, 0)";
@@ -269,7 +364,7 @@ $(function() {
 			if (state === 'true') {
 				let color = 'black';
 				if (isNoLike) {
-					color = 'blue';
+					color = '#FF73B8';
 				}
 				$i.css("color", color);
 				

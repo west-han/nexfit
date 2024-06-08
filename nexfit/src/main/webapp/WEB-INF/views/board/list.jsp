@@ -346,7 +346,7 @@
 										<td class="left">
 									
 											<a href="${articleUrl}&num=${dto.num}" class="text-reset">
-											<span style="float: left"><span style="color: orange;">[${dto.categoryName}]</span><span class="text-overflow"> ${dto.subject} </span><span style="color: #23A41A; font-weight: bold;">&nbsp; 🗨 ${dto.replyCount}</span>
+											<span style="float: left"><span style="color: orange;">[${dto.categoryName}]&nbsp; </span><span class="text-overflow"> ${dto.subject} </span><span style="color: #23A41A; font-weight: bold;">&nbsp; 🗨 ${dto.replyCount}</span>
 											<span style="color: #FF73B8; font-weight: bold;">♥ ${dto.boardLikeCount}</span> 
 											</span>
 											</a>
