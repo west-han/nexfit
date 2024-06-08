@@ -1,4 +1,6 @@
-﻿<%@ page contentType="text/html; charset=UTF-8" %>
+﻿<%@page import="java.util.List"%>
+<%@page import="com.nexfit.domain.BoardDTO"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <!DOCTYPE html>
@@ -84,30 +86,59 @@
 				</div>
 		</div>
 				<div class="boardcontent">
-				<div class="main-contents1">
 					<div class="con1">
-						<span>
-							<img src="resources/images/fire.png" style="width: 20px; height: 20px;">
-							실시간 인기글
-						</span>
+					    <p class="content-title">
+					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
+					        HOT NOW
+					        <a href="${pageContext.request.contextPath}/board/list" class="more-link">MORE</a>
+					    </p>
+					    <div class="hot-now-content">
+					        <c:forEach var="post" items="${topLikedPosts}">
+					            <p><a href="${pageContext.request.contextPath}/board/article?num=${post.num}">${post.subject}</a></p>
+					        </c:forEach>
+					    </div>
 					</div>
-					<div>
+
+					<div class="con1">
+					    <p class="content-title">
+					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
+					      	ROUTINE
+					        <a href="#" class="more-link">MORE</a>
+					    </p>
 					</div>
-					<div>
+					<div class="con1">
+					    <p class="content-title">
+					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
+					        FREE LOUNGE
+					        <a href="#" class="more-link">MORE</a>
+					    </p>
 					</div>
-				</div>
-				<div class="main-contents2">
-					<div>
+					<div class="con1">
+					    <p class="content-title">
+					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
+					        Q&A LOUNGE
+					        <a href="#" class="more-link">MORE</a>
+					    </p>
 					</div>
-					<div>
+					<div class="con1">
+					    <p class="content-title">
+					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
+					       WITH ME
+					        <a href="#" class="more-link">MORE</a>
+					    </p>
 					</div>
-					<div>
+					<div class="con1">
+					    <p class="content-title">
+					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
+					        CHALLENGE
+					        <a href="#" class="more-link">MORE</a>
+					    </p>
 					</div>
-				</div>
+
 				</div>
 			</main>
 	</div>
-	
+	<div style="width: 100%; height: 200px;"></div>
 	<footer>
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 	</footer>

@@ -97,7 +97,7 @@ public class BoardController {
 	        
 	        // 좋아요 많은 상위 5개 게시물 가져오기
 	        List<BoardDTO> topLikedPosts = dao.listTopLikedBoard(5);
-	        
+	        mav.addObject("topLikedPosts", topLikedPosts);
 	        // 댓글 많은 상위 5개 게시물 가져오기
 	        List<BoardDTO> topCommentedPosts = dao.listTopCommentedBoard(5);
 	        
