@@ -614,7 +614,7 @@ public class WithBoardDAO {
 					+ "FROM withBoard_reply "
 					+ "WHERE answer != 0 GROUP BY answer) rr "
 					+ "ON r.replyNum = rr.answer "
-					+ "WHERE num = ? "
+					+ "WHERE num = ? AND r.answer = 0"
 					+ "ORDER BY r.replyNum ASC "
 					+ "OFFSET ? ROWS FETCH FIRST ? ROWS ONLY";
 			
@@ -656,7 +656,7 @@ public class WithBoardDAO {
 		ResultSet rs = null;
 		
 		try {
-			sql = "SELECT replyNum, userId, nickname, content, num, reg_date, answer "
+			sql = "SELECT replyNum, r.userId, nickname, content, num, reg_date, answer "
 					+ "FROM withBoard_reply r "
 					+ "JOIN member_detail d ON r.userId = d.userId "
 					+ "WHERE answer = ? "

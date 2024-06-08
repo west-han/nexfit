@@ -480,7 +480,7 @@ public class WithController {
 	}
 	
 	// 리플의 답글 리스트 - AJAX:TEXT
-	@RequestMapping(value = "/lecture/listReplyAnswer", method = RequestMethod.GET)
+	@RequestMapping(value = "/withme/listReplyAnswer", method = RequestMethod.GET)
 	public ModelAndView listReplyAnswer(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		WithBoardDAO dao = new WithBoardDAO();
 
