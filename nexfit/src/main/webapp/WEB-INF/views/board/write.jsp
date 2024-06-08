@@ -108,7 +108,7 @@ function filterCategory(category) {
 											<tr>
 												<td class="bg-light col-sm-2" scope="row">카테고리
 													<td>
-													<select name="categoryId" class="form-select" style="width: 100px;" onchange="filterCategory(this.value)">
+													<select name="categoryId" class="form-select" style="width: 100px;" onchange="filterCategory(this.value)" required>
 														<option value="1" ${categoryId=="1"?"selected":""}>IT</option>
 														<option value="2" ${categoryId=="2"?"selected":""}>잡담</option>
 														<option value="3" ${categoryId=="3"?"selected":""}>건강</option>
