@@ -9,21 +9,30 @@ public class MyChallengeDTO {
 	private String start_date;
 	private String end_date;
 	private String ch_subject;
-	private long applnumber;
-	private int requiredAc;
+	private long applNumber;
+	private int fee;
 	
+	public int getFee() {
+		return fee;
+	}
+	public void setFee(int fee) {
+		this.fee = fee;
+	}
+	public long getApplNumber() {
+		return applNumber;
+	}
+	public void setApplNumber(long applNumber) {
+		this.applNumber = applNumber;
+	}
+	private int requiredAc;
+
 	public int getRequiredAc() {
 		return requiredAc;
 	}
 	public void setRequiredAc(int requiredAc) {
 		this.requiredAc = requiredAc;
 	}
-	public long getApplnumber() {
-		return applnumber;
-	}
-	public void setApplnumber(long applnumber) {
-		this.applnumber = applnumber;
-	}
+	
 	public String getCh_subject() {
 		return ch_subject;
 	}

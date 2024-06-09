@@ -48,7 +48,7 @@ public class MyChallengeDAO {
 		String sql;
 		
 		try {
-			sql="SELECT b.subject AS board_subject, appl_score, appl_state, ch_subject,applnumber, "
+			sql="SELECT b.subject AS board_subject, appl_score, appl_state, ch_subject,applnumber,c.fee, "
 					+ " TO_CHAR(appl_date, 'YYYY-MM-DD') appl_date,"
 					+ " TO_CHAR(compl_date, 'YYYY-MM-DD') compl_date, "
 					+ " TO_CHAR(start_date, 'YYYY-MM-DD') start_date,"
@@ -80,8 +80,9 @@ public class MyChallengeDAO {
 				dto.setStart_date(rs.getString("start_date"));
 				dto.setEnd_date(rs.getString("end_date"));
 				dto.setCh_subject(rs.getString("ch_subject"));
-				dto.setApplnumber(rs.getLong("applnumber"));
+				dto.setApplNumber(rs.getLong("applnumber"));
 				dto.setRequiredAc(rs.getInt("ac"));
+				dto.setFee(rs.getInt("fee"));
 				
 				list.add(dto);
 			}

@@ -134,6 +134,42 @@ public class Ch_applFormDAO {
 		return list;
 	}
 	
+	public int findApplPoint(long num) throws SQLException {
+		
+		PreparedStatement pstmt = null;
+		String sql;
+		ResultSet rs = null;
+		int point=0;
+		try {
+			sql = "SELECT  ch.fee,c.userid"
+					+" FROM ch_applform c"
+					+" JOIN challengeboard b ON c.boardnumber=b.boardnumber"
+					+" JOIN challenge ch ON b.challengeid =ch.challengeid"
+					+" JOIN member m ON c.userid = m.userid"
+					+" JOIN member_detail t ON m.userid = t.userid"
+					+" where applnumber= ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, num);
+			
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()) {
+				point =rs.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			DBUtil.close(pstmt);
+			DBUtil.close(rs);
+		}
+		
+		return point;
+	}
+	
 	
 	public List<Ch_applFormDTO> findApplFormByuserId(String userid) throws SQLException {
 	    List<Ch_applFormDTO> list = new ArrayList<Ch_applFormDTO>();
@@ -143,7 +179,7 @@ public class Ch_applFormDAO {
 	    ResultSet rs = null;
 	    try {
 	        sql =    " SELECT c.userid,coment,appl_state,applnumber, TO_CHAR(compl_date, 'YYYY-MM-DD') compl_date,"
-	                +" appl_score, TO_CHAR(appl_date, 'YYYY-MM-DD') appl_date,ch_subject,ch.fee,b.subject,nickname,ch.ch_content,b.content,"
+	                +" appl_score, TO_CHAR(appl_date, 'YYYY-MM-DD') appl_date,ch_subject,ch.fee,b.subject,nickname,ch.ch_content,b.content,fee "
 	                +" ROUND((end_date-start_date)*0.85,0) ac"
 	                +" FROM ch_applform c"
 	                +" JOIN challengeboard b ON c.boardnumber=b.boardnumber"
@@ -225,7 +261,7 @@ public class Ch_applFormDAO {
 		String sql;
 		
 		try {
-			sql= "UPDATE ch_applform SET appl_state ='성공' WHERE applnumber=? ";
+			sql= "UPDATE ch_applform SET appl_state ='성공',compl_date = SYSDATE WHERE applnumber=? ";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setLong(1, num);
