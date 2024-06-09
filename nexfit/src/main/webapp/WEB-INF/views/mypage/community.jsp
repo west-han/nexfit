@@ -11,9 +11,25 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp"/>
 
 <style type="text/css">
+.body{
+	font-family: nexon lv2 medium;
+}
 .body-container {
     max-width: 800px;
 }
+
+.community-links > div {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.board-list-header {
+    margin-bottom: 20px;
+}
+
+
+
+
 </style>
 
 </head>
@@ -65,9 +81,11 @@
                                 </ul>
                             </div>
                             
-                            <div>
-                                <div><a href="${pageContext.request.contextPath}/mypage/community">내가 쓴 게시글</a></div>
-                                <div><a href="${pageContext.request.contextPath}/mypage/replylist">내가 쓴 댓글</a></div>
+                            <div class="community-links">
+							    <div style="border: 1px solid #dedede; border-radius: 30px; width: 150px; height: 50px; background:#dedede;  "><a href="${pageContext.request.contextPath}/mypage/community">내가 쓴 게시글</a></div>
+							    <div style="border: 1px solid #dedede; border-radius: 30px; width: 150px; height: 50px; background:#dedede;  "><a href="${pageContext.request.contextPath}/mypage/replylist">내가 쓴 댓글</a></div>
+							</div>
+
                                 <div class="row board-list-header">
                                     <div class="col-auto me-auto">${dataCount}개 (${page}/${total_page} 페이지)</div>
                                 </div>
