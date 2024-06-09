@@ -260,16 +260,18 @@ public class SportsController {
 		
 		try {
 			long num = Long.parseLong(req.getParameter("num"));
-			String filename = req.getParameter("filename");
 			
-			fileManager.doFiledelete(pathname, filename);
+			SportTypeDTO dto = dao.findById(num);
+			String filename = dto.getFilename();
+			if (filename != null && !filename.equals("")) {
+				fileManager.doFiledelete(pathname, filename);
+			}
 			dao.deleteFile(num);
 			
 			return new ModelAndView("redirect:/sports/types/update?num=" + num);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		
 		return new ModelAndView("redirect:/sports/types/list");
 	}
@@ -280,7 +282,7 @@ public class SportsController {
 		
 		try {
 			long num = Long.parseLong(req.getParameter("num"));
-			dao.deleteFile(num);
+			deleteFile(req, resp);
 			dao.delete(num);
 			
 		} catch (Exception e) {

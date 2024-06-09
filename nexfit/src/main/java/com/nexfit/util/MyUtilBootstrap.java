@@ -106,7 +106,7 @@ public class MyUtilBootstrap extends MyUtil {
 			currentPageSetUp = currentPageSetUp - numPerBlock;
 		}
 
-		sb.append("<ul class='pagination justify-content-center'>");
+		sb.append("<ul class='pagination justify-content-center nexfit-pagination'>");
 
 		// 처음페이지
 		if (current_page > 1) {

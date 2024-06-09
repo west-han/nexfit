@@ -581,14 +581,15 @@ public class WithBoardDAO {
 		}
 		
 		try {
-			sql = "DELETE FROM withBoard_Replyss WHERE replyNum IN "
-					+ "(SELECT replyNum FROM lectureReply START WITH replyNum = ? "
-					+ "CONNECT BY PRIOR replyNum = ansewr)";
+			sql = "DELETE FROM withBoard_Reply WHERE replyNum IN "
+					+ "(SELECT replyNum FROM withBoard_Reply START WITH replyNum = ? "
+					+ "CONNECT BY PRIOR replyNum = answer)";
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setLong(1, replyNum);
 			
+			pstmt.executeUpdate();
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -267,7 +267,7 @@ function listPage(page) {
 	let url = "${pageContext.request.contextPath}/withme/listReply";
 	let query = "num=${dto.num}&pageNo=" + page;
 	let selector = "#listReply";
-	
+
 	const fn = function(data) {
 		$(selector).html(data);
 	}

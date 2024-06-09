@@ -399,7 +399,7 @@ public class WithController {
 		
 		try {
 			long num = Long.parseLong(req.getParameter("num"));
-			String page = req.getParameter("page");
+			String page = req.getParameter("pageNo");
 			int currentPage = 1;
 			if (page != null) {
 				currentPage = Integer.parseInt(page);
@@ -424,7 +424,7 @@ public class WithController {
 				dto.setContent(dto.getContent().replaceAll("\n", "<br>;"));
 			}
 			
-			String paging = util.pagingMethod(currentPage, offset, "listPage");
+			String paging = util.pagingMethod(currentPage, totalPage, "listPage");
 			
 			ModelAndView mav = new ModelAndView("withme/listReply");
 			
@@ -444,7 +444,7 @@ public class WithController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/withme/deleteReply", method = RequestMethod.GET)
+	@RequestMapping(value = "/withme/deleteReply", method = RequestMethod.POST)
 	public Map<String, Object> deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, Object> model = new HashMap<String, Object>();
 		
@@ -465,9 +465,9 @@ public class WithController {
 				userId = dto.getUserId();
 			}
 			
+			dao.deleteReply(replyNum, userId);
 			PointDAO pointDAO = new PointDAO();
 			pointDAO.updatePoint(userId, Point.DELETE_COMMENT);
-			dao.deleteReply(replyNum, state);
 			
 			state = "true";
 		} catch (Exception e) {
