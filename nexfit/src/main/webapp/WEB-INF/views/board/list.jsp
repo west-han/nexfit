@@ -655,8 +655,6 @@
 		</div>
 			
 			</div>
-		
-	<div id="notification" class="notification">등록이 완료됐습니다!</div>
 	
 	<div class="row py-5">
 										

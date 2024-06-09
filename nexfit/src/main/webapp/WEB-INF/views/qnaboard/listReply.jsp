@@ -37,7 +37,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan='2' valign='top' style="text-align: left; font-size: 20px;">⠀${dto.content}</td>
+					<td colspan='2' valign='top' style="text-align: left; font-size: 20px;">${dto.content}</td>
 				</tr>
 		
 				<tr>
