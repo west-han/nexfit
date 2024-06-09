@@ -145,7 +145,7 @@
 												
 												<tr>
 													<td colspan="2" align="left">
-														<span style="color: ${dto.postType == 1? 'green' : 'blue'}">${dto.postType == 1? "[추천]" : "[질문]"}</span> |
+														<span style="color: ${dto.postType == 1? '#FF6B6B' : '#1E40AF'}">${dto.postType == 1? "추천" : "질문"}</span> |
 														<span style="color: orange"> 
 															<c:choose> 
 																<c:when test="${dto.sports == 1}">헬스</c:when>
@@ -181,6 +181,7 @@
 												
 												<tr>
 													<td colspan="2" align="left">
+														<i class="fa-regular fa-calendar-days"></i>
 														<span style="color: #D9418C;">
 															<c:choose>
 																<c:when test="${dto.week == 1}">주1회</c:when>
