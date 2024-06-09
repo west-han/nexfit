@@ -30,16 +30,17 @@ h5.card-title {
 </head>
 
 <body>
-	<div class="container-fluid px-0">
+	<div class="container-fluid px-0"  style="font-family: nexon lv2 medium;">
 		<header>
 			<jsp:include page="/WEB-INF/views/layout/header.jsp" />
 		</header>
 
-		<main class="mt-5">
+		<main>
 			<div class="container-xxl text-center">
 				<div class="row py-5">
 					<div class="col">
-						<h1 class="fs-1 text-start">운동 목록</h1>
+						<img src="/nexfit/resources/images/sportstype.png" style="width:550px; height:110px; margin-top: 76px;"><br>
+						<img src="/nexfit/resources/images/thc.png" class="overlay-image2" style="width:330px; height:25px;">
 					</div>
 				</div>
 

@@ -74,14 +74,14 @@ function deleteFile(num) {
 			<jsp:include page="/WEB-INF/views/layout/header.jsp"/> 
 		</header>
 
-		<main class="pb-5">
+		<main class="mt-5 pt-5 pb-5">
 			<div class="row justify-content-center">
 				<div class="col-6">
 					<div class="body-title pt-5">
-						<h3><i class="bi bi-app"></i> ROUTINE </h3>
+						<h3 style="font-family: nexon lv2 medium;"><i class="bi bi-app"></i> TYPES </h3>
 					</div>
 					
-					<div class="body-main">
+					<div class="body-main"  style="font-family: nexon lv1 light;">
 						<form name="sportsTypeForm" method="post" enctype="multipart/form-data">
 							<table class="table write-form mt-5">
 								<tr>

@@ -78,13 +78,13 @@ function check() {
 
 				<div class="row gx-2">
 					<div class="col-sm-2"></div>
-					<div class="col-sm-7">
+					<div class="col-sm-8">
 						<main>
 							<div class="container">
 								<div class="body-container"
 									style="font-family: 'nexon lv2 medium';">
 									<div class="body-title">
-										<h3 style="font-family: 'nexon lv2 medium';">WITH ME!</h3>
+										<h3 style="font-family: 'nexon lv2 medium';">WORKOUT TOGETHER !</h3>
 									</div>
 
 									<div class="body-main">
