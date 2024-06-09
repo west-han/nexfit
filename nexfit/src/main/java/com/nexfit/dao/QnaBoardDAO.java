@@ -739,7 +739,6 @@ public class QnaBoardDAO {
 
 		        rs = pstmt.executeQuery();
 
-		        // 결과를 QnaBoardDTO 객체에 담아 리스트에 추가
 		        while (rs.next()) {
 		            QnaBoardDTO post = new QnaBoardDTO();
 		            post.setNum(rs.getLong("num"));

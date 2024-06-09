@@ -110,7 +110,7 @@
 					    <div class="hot-now-content">
 					        <c:forEach var="post" items="${recentFreePosts}">
                     <li>
-                        <a href="<c:url value='/qnaboard/article'/>?num=${post.num}">${post.subject}</a>
+                       <a href="${pageContext.request.contextPath}/board/article?num=${post.num}" class="post-title">${post.subject}</a>
                         <span>${post.reg_date}</span>
                     </li>
                 </c:forEach>
@@ -124,18 +124,18 @@
 					    </p>
 					    <div class="routine">
 					        <c:forEach var="post" items="${recentPosts}">
-					            <div class="post-item">
-					                <a href="${pageContext.request.contextPath}/sports/routine/article?num=${post.num}" class="post-title">${post.subject}</a>
-					                <span class="post-date">${post.reg_date }</span>
-					            </div>
-					        </c:forEach>
+                    <li>
+                       <a href="${pageContext.request.contextPath}/board/article?num=${post.num}" class="post-title">${post.subject}</a>
+                        <span>${post.reg_date}</span>
+                    </li>
+                </c:forEach>
 					    </div>
 					</div>
 					<div class="con1">
 					    <p class="content-title">
 					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
 					        Q&A LOUNGE
-					        <a href="${pageContext.request.contextPath}/board/list" class="more-link">MORE</a>
+					        <a href="${pageContext.request.contextPath}/qnaboard/list" class="more-link">MORE</a>
 					    </p>
 					    <div class="hot-now-content">
 					        <c:forEach var="post" items="${recentQnaPosts}">
@@ -150,30 +150,30 @@
 					    <p class="content-title">
 					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
 					        WITH ME
-					        <a href="${pageContext.request.contextPath}/board/list" class="more-link">MORE</a>
+					        <a href="${pageContext.request.contextPath}/withme/list" class="more-link">MORE</a>
 					    </p>
 					    <div class="hot-now-content">
-					        <c:forEach var="post" items="${topLikedPosts}">
-					            <div class="post-item">
-					                <a href="${pageContext.request.contextPath}/board/article?num=${post.num}" class="post-title">${post.subject}</a>
-					                <span class="post-date">${post.reg_date }</span>
-					            </div>
-					        </c:forEach>
+					        <c:forEach var="post" items="${recentWithPosts}">
+			                    <li>
+			                       <a href="${pageContext.request.contextPath}/withme/article?num=${post.num}" class="post-title">${post.subject}</a>
+			                        <span>${post.reg_date}</span>
+			                    </li>
+			                </c:forEach>
 					    </div>
 					</div>
 					<div class="con1">
 					    <p class="content-title">
 					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
 					        CHALLENGE
-					        <a href="${pageContext.request.contextPath}/board/list" class="more-link">MORE</a>
+					        <a href="${pageContext.request.contextPath}/chboard/list" class="more-link">MORE</a>
 					    </p>
 					    <div class="hot-now-content">
-					        <c:forEach var="post" items="${topLikedPosts}">
-					            <div class="post-item">
-					                <a href="${pageContext.request.contextPath}/board/article?num=${post.num}" class="post-title">${post.subject}</a>
-					                <span class="post-date">${post.reg_date }</span>
-					            </div>
-					        </c:forEach>
+					        <c:forEach var="post" items="${recentChallengePosts}">
+			                    <li>
+			                       <a href="${pageContext.request.contextPath}/chboard/article?num=${post.boardNumber}" class="post-title">${post.subject}</a>
+			                        <span>${post.reg_date}</span>
+			                    </li>
+			                </c:forEach>
 					    </div>
 					</div>
 					
