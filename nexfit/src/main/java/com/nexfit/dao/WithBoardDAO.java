@@ -19,7 +19,7 @@ public class WithBoardDAO {
 	public void insertBoard(WithBoardDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
-
+ 
 		try {
 			sql = "INSERT INTO withBoard(num, userId, subject, content, x, y, hitCount, reg_date) "
 					+ " VALUES (withBoard_seq.NEXTVAL, ?, ?, ?, ?, ?, 0, SYSDATE)";
@@ -715,5 +715,35 @@ public class WithBoardDAO {
 		}
 		
 		return count;
+	}
+	
+	public List<WithBoardDTO> listRecentWithBoardPosts(int count) {
+	    List<WithBoardDTO> recentPosts = new ArrayList<>();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String sql;
+
+	    try {
+	        sql = "SELECT num, subject, reg_date FROM withboard ORDER BY reg_date DESC FETCH FIRST ? ROWS ONLY";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, count);
+
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            WithBoardDTO post = new WithBoardDTO();
+	            post.setNum(rs.getLong("num"));
+	            post.setSubject(rs.getString("subject"));
+	            post.setReg_date(rs.getString("reg_date"));
+	            recentPosts.add(post);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        DBUtil.close(rs);
+	        DBUtil.close(pstmt);
+	    }
+
+	    return recentPosts;
 	}
 }

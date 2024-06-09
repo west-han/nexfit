@@ -391,4 +391,34 @@ public class ChallengeBoardDAO {
 		return count;
 	}
 	
+	public List<ChallengeBoardDTO> listRecentChallengeBoardPosts(int count) {
+	    List<ChallengeBoardDTO> recentPosts = new ArrayList<>();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String sql;
+
+	    try {
+	        sql = "SELECT boardnumber, subject, reg_date FROM challengeBoard ORDER BY reg_date DESC FETCH FIRST ? ROWS ONLY";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, count);
+
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	        	ChallengeBoardDTO post = new ChallengeBoardDTO();
+	            post.setBoardNumber(rs.getLong("boardnumber"));
+	            post.setSubject(rs.getString("subject"));
+	            post.setReg_date(rs.getString("reg_date"));
+	            recentPosts.add(post);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        DBUtil.close(rs);
+	        DBUtil.close(pstmt);
+	    }
+
+	    return recentPosts;
+	}
+	
 }

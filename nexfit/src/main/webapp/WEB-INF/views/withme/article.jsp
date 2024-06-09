@@ -112,7 +112,7 @@
 							<div class="container">
 								<div class="body-container">	
 									<div class="body-title">
-										<h3 style="font-family: 'nexon lv2 medium';"> WITH ME! </h3>
+										<h3 style="font-family: 'nexon lv2 medium';"> WORKOUT TOGETHER ! </h3>
 									</div>
 								<div class="body-main">
 									<table class="table table-style">
