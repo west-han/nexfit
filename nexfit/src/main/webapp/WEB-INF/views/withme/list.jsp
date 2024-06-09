@@ -185,8 +185,8 @@
 			</div>
 		</main>
 	</div>
-	<div class="row py-5"></div>
-
+	<div style="height: 100px;"></div>
+	
 	<footer>
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp" />
 	</footer>

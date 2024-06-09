@@ -121,6 +121,8 @@ h5.card-title {
 			</div>
 		</main>
 	</div>
+	
+	<div style="height: 100px;"></div>
 
 	<footer>
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp" />

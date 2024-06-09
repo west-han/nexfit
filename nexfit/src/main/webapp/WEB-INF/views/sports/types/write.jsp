@@ -148,6 +148,8 @@ function deleteFile(num) {
 		</main>
 	</div>
 	
+	<div style="height: 100px;"></div>
+	
 	<footer>
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
 	</footer>

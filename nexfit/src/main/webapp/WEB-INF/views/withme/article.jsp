@@ -216,6 +216,8 @@
 		</main>
 	</div>
 
+		<div style="height: 100px;"></div>
+
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}"></script>
 <script type="text/javascript">
 function login() {
