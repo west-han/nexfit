@@ -11,6 +11,8 @@
 <jsp:include page="/WEB-INF/views/layout/staticHeader.jsp" />
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/css/button.css">
+<link rel="stylesheet" type="text/css"
+href="${pageContext.request.contextPath}/resources/css/Rating.css">
 <style type="text/css">
 .body-container {
 	max-width: 800px;
@@ -149,6 +151,36 @@
 							                        style="font-family: nexon lv2 medium">
 							                        <i></i><span style="font-family: 'nexon lv2 medium';" id="success">${dto.appl_state=='성공'?'달성완료':(dto.appl_score >= dto.requiredAc?'포인트받기':'진행중')}</span>
 							                    </button>
+							                    <p></p>
+							                    <c:if test="${dto.appl_state=='성공'}">
+												    <div class="starpoint_wrap">
+												        <div class="starpoint_box">
+												            <label for="starpoint_1" class="label_star" title="0.5"><span class="blind">0.5점</span></label>
+												            <label for="starpoint_2" class="label_star" title="1"><span class="blind">1점</span></label>
+												            <label for="starpoint_3" class="label_star" title="1.5"><span class="blind">1.5점</span></label>
+												            <label for="starpoint_4" class="label_star" title="2"><span class="blind">2점</span></label>
+												            <label for="starpoint_5" class="label_star" title="2.5"><span class="blind">2.5점</span></label>
+												            <label for="starpoint_6" class="label_star" title="3"><span class="blind">3점</span></label>
+												            <label for="starpoint_7" class="label_star" title="3.5"><span class="blind">3.5점</span></label>
+												            <label for="starpoint_8" class="label_star" title="4"><span class="blind">4점</span></label>
+												            <label for="starpoint_9" class="label_star" title="4.5"><span class="blind">4.5점</span></label>
+												            <label for="starpoint_10" class="label_star" title="5"><span class="blind">5점</span></label>
+												            <input type="radio" name="starpoint" id="starpoint_1" class="star_radio">
+												            <input type="radio" name="starpoint" id="starpoint_2" class="star_radio">
+												            <input type="radio" name="starpoint" id="starpoint_3" class="star_radio">
+												            <input type="radio" name="starpoint" id="starpoint_4" class="star_radio">
+												            <input type="radio" name="starpoint" id="starpoint_5" class="star_radio">
+												            <input type="radio" name="starpoint" id="starpoint_6" class="star_radio">
+												            <input type="radio" name="starpoint" id="starpoint_7" class="star_radio">
+												            <input type="radio" name="starpoint" id="starpoint_8" class="star_radio">
+												            <input type="radio" name="starpoint" id="starpoint_9" class="star_radio">
+												            <input type="radio" name="starpoint" id="starpoint_10" class="star_radio">
+												            <span class="starpoint_bg"></span>
+												        </div>
+												    </div>
+												    <button class="custom-btn btn-3" onclick="submitRating()"><span>평점등록</span></button>
+												</c:if>
+							                    
 							                </div>
 							            </div>
 							        </div>
@@ -233,7 +265,12 @@
 		        ajaxFun(url, "post", query, "json", fn);
 		    });
 		});
+		
+		function submitRating() {
+		   
+		}
 		</script>
+		
 	</div>
 	<div class="container"></div>
 	<footer>

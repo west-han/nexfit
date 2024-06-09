@@ -73,6 +73,31 @@ public class PointDAO {
 		}
 	}
 	
+	public void updatePointforCh(String userId, int point) {
+		String sql;
+		PreparedStatement pstmt = null;
+		
+		try {
+			sql = "INSERT INTO point (pointNum, reg_date, description, pointVar, currentPoint, userId) "
+					+ "VALUES(point_seq.NEXTVAL, SYSDATE, ?, ?, ?, ?) ";
+			
+			long currentPoint = findById(userId).getCurrentPoint();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "챌린지성공");
+			pstmt.setLong(2, point);
+			pstmt.setLong(3, currentPoint + point);
+			pstmt.setString(4, userId);
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt);
+		}
+	}
+	
 	public List<PointDTO> listPoints(String userId, int offset, int size) {
 		List<PointDTO> list = new ArrayList<PointDTO>();
 		String sql;

@@ -12,7 +12,7 @@ import com.nexfit.annotation.ResponseBody;
 import com.nexfit.dao.Ch_applFormDAO;
 import com.nexfit.dao.ChallengeBoardDAO;
 import com.nexfit.dao.MyChallengeDAO;
-import com.nexfit.dao.PointDAO2;
+import com.nexfit.dao.PointDAO;
 import com.nexfit.domain.MyChallengeDTO;
 import com.nexfit.domain.SessionInfo;
 import com.nexfit.servlet.ModelAndView;
@@ -95,7 +95,7 @@ public class MyChallengeController {
 	public Map<String, Object> updateChallengeState(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	    Map<String, Object> model = new HashMap<String, Object>();
 	    Ch_applFormDAO dao = new Ch_applFormDAO();
-	    PointDAO2 dao1 = new PointDAO2();
+	    PointDAO dao1 = new PointDAO();
 	    
 	    HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");

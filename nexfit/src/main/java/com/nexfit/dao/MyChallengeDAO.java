@@ -50,7 +50,7 @@ public class MyChallengeDAO {
 		try {
 			sql="SELECT b.subject AS board_subject, appl_score, appl_state, ch_subject,applnumber,c.fee, "
 					+ " TO_CHAR(appl_date, 'YYYY-MM-DD') appl_date,"
-					+ " TO_CHAR(compl_date, 'YYYY-MM-DD') compl_date, "
+					+ " TO_CHAR(compl_date, 'YYYY\"년\" MM\"월\" DD\"일\" hh24:mm') compl_date, "
 					+ " TO_CHAR(start_date, 'YYYY-MM-DD') start_date,"
 					+ " TO_CHAR(end_date, 'YYYY-MM-DD') end_date, "
 					+ " ROUND((end_date-start_date)*0.85,0) ac "
