@@ -874,4 +874,35 @@ public class RoutineDAO {
 		
 		return result;
 	}
+	public List<BoardDTO> getRecentPosts(int limit) {
+	    List<BoardDTO> recentPosts = new ArrayList<>();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String sql;
+
+	    try {
+	        sql = "SELECT num, subject, reg_date FROM routineBoard ORDER BY reg_date DESC LIMIT ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, limit);
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            BoardDTO post = new BoardDTO();
+	            post.setNum(rs.getLong("num"));
+	            post.setSubject(rs.getString("subject"));
+	            post.setReg_date(rs.getString("reg_date"));
+	            recentPosts.add(post);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        DBUtil.close(rs);
+	        DBUtil.close(pstmt);
+	    }
+
+	    return recentPosts;
+	}
+
 }
+
+
