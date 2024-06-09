@@ -149,7 +149,7 @@ public class SportsController {
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		if (!info.getUserId().equals("admin")) {
-			return new ModelAndView("redirect:/sports/type/list");
+			return new ModelAndView("redirect:/sports/types/list");
 		}
 		
 		SportsTypeDAO dao = new SportsTypeDAO();
