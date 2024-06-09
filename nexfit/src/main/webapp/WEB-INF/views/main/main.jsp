@@ -104,6 +104,21 @@
 					<div class="con1">
 					    <p class="content-title">
 					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
+					        FREE LOUNGE
+					        <a href="${pageContext.request.contextPath}/board/list" class="more-link">MORE</a>
+					    </p>
+					    <div class="hot-now-content">
+					        <c:forEach var="post" items="${recentFreePosts}">
+                    <li>
+                        <a href="<c:url value='/qnaboard/article'/>?num=${post.num}">${post.subject}</a>
+                        <span>${post.reg_date}</span>
+                    </li>
+                </c:forEach>
+					    </div>
+					</div>
+					<div class="con1">
+					    <p class="content-title">
+					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
 					        ROUTINE
 					        <a href="${pageContext.request.contextPath}/sports/routine/list" class="more-link">MORE</a>
 					    </p>
@@ -119,7 +134,22 @@
 					<div class="con1">
 					    <p class="content-title">
 					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
-					        HOT NOW
+					        Q&A LOUNGE
+					        <a href="${pageContext.request.contextPath}/board/list" class="more-link">MORE</a>
+					    </p>
+					    <div class="hot-now-content">
+					        <c:forEach var="post" items="${recentQnaPosts}">
+                    <li>
+                        <a href="<c:url value='/qnaboard/article'/>?num=${post.num}">${post.subject}</a>
+                        <span>${post.reg_date}</span>
+                    </li>
+                </c:forEach>
+					    </div>
+					</div>
+					<div class="con1">
+					    <p class="content-title">
+					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
+					        WITH ME
 					        <a href="${pageContext.request.contextPath}/board/list" class="more-link">MORE</a>
 					    </p>
 					    <div class="hot-now-content">
@@ -134,7 +164,7 @@
 					<div class="con1">
 					    <p class="content-title">
 					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
-					        HOT NOW
+					        CHALLENGE
 					        <a href="${pageContext.request.contextPath}/board/list" class="more-link">MORE</a>
 					    </p>
 					    <div class="hot-now-content">
@@ -146,36 +176,7 @@
 					        </c:forEach>
 					    </div>
 					</div>
-					<div class="con1">
-					    <p class="content-title">
-					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
-					        HOT NOW
-					        <a href="${pageContext.request.contextPath}/board/list" class="more-link">MORE</a>
-					    </p>
-					    <div class="hot-now-content">
-					        <c:forEach var="post" items="${topLikedPosts}">
-					            <div class="post-item">
-					                <a href="${pageContext.request.contextPath}/board/article?num=${post.num}" class="post-title">${post.subject}</a>
-					                <span class="post-date">${post.reg_date }</span>
-					            </div>
-					        </c:forEach>
-					    </div>
-					</div>
-					<div class="con1">
-					    <p class="content-title">
-					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
-					        HOT NOW
-					        <a href="${pageContext.request.contextPath}/board/list" class="more-link">MORE</a>
-					    </p>
-					    <div class="hot-now-content">
-					        <c:forEach var="post" items="${topLikedPosts}">
-					            <div class="post-item">
-					                <a href="${pageContext.request.contextPath}/board/article?num=${post.num}" class="post-title">${post.subject}</a>
-					                <span class="post-date">${post.reg_date }</span>
-					            </div>
-					        </c:forEach>
-					    </div>
-					</div>
+					
 				</div>
 			</main>
 	</div>

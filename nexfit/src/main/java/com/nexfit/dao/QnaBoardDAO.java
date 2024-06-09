@@ -724,4 +724,37 @@ public class QnaBoardDAO {
 				
 				return result;
 			}
+
+
+		public List<QnaBoardDTO> listRecentQnaBoardPosts(int count) {
+		    List<QnaBoardDTO> recentPosts = new ArrayList<>();
+		    PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+		    String sql;
+
+		    try {
+		        sql = "SELECT num, subject, reg_date FROM qnaBoard ORDER BY reg_date DESC FETCH FIRST ? ROWS ONLY";
+		        pstmt = conn.prepareStatement(sql);
+		        pstmt.setInt(1, count);
+
+		        rs = pstmt.executeQuery();
+
+		        // 결과를 QnaBoardDTO 객체에 담아 리스트에 추가
+		        while (rs.next()) {
+		            QnaBoardDTO post = new QnaBoardDTO();
+		            post.setNum(rs.getLong("num"));
+		            post.setSubject(rs.getString("subject"));
+		            post.setReg_date(rs.getString("reg_date"));
+		            recentPosts.add(post);
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        DBUtil.close(rs);
+		        DBUtil.close(pstmt);
+		    }
+
+		    return recentPosts;
+		}
+
 }
