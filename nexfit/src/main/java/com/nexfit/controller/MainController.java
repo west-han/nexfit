@@ -44,7 +44,7 @@ public class MainController {
         List<BoardDTO> recentRoutinePosts = dao3.listRecentRoutineBoardPosts(5);
         mav.addObject("recentPosts", recentRoutinePosts); 
         
-        
+         
         WithBoardDAO dao4 = new WithBoardDAO();
         List<WithBoardDTO> recentWithPosts = dao4.listRecentWithBoardPosts(5);
         mav.addObject("recentWithPosts", recentWithPosts);

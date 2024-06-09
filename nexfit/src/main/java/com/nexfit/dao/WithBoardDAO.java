@@ -19,7 +19,7 @@ public class WithBoardDAO {
 	public void insertBoard(WithBoardDTO dto) throws SQLException {
 		PreparedStatement pstmt = null;
 		String sql;
-
+ 
 		try {
 			sql = "INSERT INTO withBoard(num, userId, subject, content, x, y, hitCount, reg_date) "
 					+ " VALUES (withBoard_seq.NEXTVAL, ?, ?, ?, ?, ?, 0, SYSDATE)";
