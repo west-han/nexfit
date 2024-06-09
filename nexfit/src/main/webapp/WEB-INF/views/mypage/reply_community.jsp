@@ -14,6 +14,16 @@
 .body-container {
 	max-width: 800px;
 }
+
+
+.table-style {
+	border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
+    background-color: #fff;
+}
 </style>
 
 </head>
@@ -28,9 +38,7 @@
 			<div class="container-xxl text-center">
 				<div class="row py-5 " style="margin-top: 100px;">
 					<div class="col">
-						<h1 class="fs-1 text-start" style="font-family: nexon lv2 medium; font-size: 24px; letter-spacing: 10px;">
-							커뮤니티 활동
-						</h1>
+						<img src="/nexfit/resources/images/activity.png" style="width: 450px; height: 60px; float: left;">
 					</div>
 				</div>
 				
@@ -57,22 +65,29 @@
 						
 						</div>
 						
-						<div class="col-sm-6" style="margin-left:50px;">
-							<div style=" border: 1px solid #dedede; width: 800px; height: 700px; border-radius: 20px; padding: 30px;">
+						<div class="col-sm-6" style="margin-left: 50px; font-family: nexon lv2 medium;">
+							<div class="table-style" style="width: 800px; height: 700px; border-radius: 20px; padding: 30px;">
 								<div style="display: flex;">
-								<div style="border: 1px solid red; width: 100px; height: 100px ;border-radius: 50px; float: left"></div>
+								<div style="border-radius: 50px; float: left">
+									<img src="/nexfit/resources/images/muscle.PNG" style="width: 90px; height: 90px; border-radius: 50px; float: left;">
+								</div>
 								<ul style="list-style: none; float: left;">
-									<li>${sessionScope.member.nickname}</li>
-									<li>작성수 <i class="bi bi-file-earmark-text"></i>${count}
-								댓글수 <i class="bi bi-chat-right-text"></i>${rpl_count}</li>
+									<li><h4 style="text-align: left; font-family: nexon lv1 light;">${sessionScope.member.nickname}</h4></li>
+                                    <li><i class="bi bi-file-earmark-text"> 작성수 <span style="color: #5CD1E5">${count}</span></i> &nbsp;&nbsp;  
+										<i class="bi bi-chat-right-text"> 댓글수 <span style="color: #5CD1E5">${rpl_count}</span></i>
+									</li>
 								</ul>
 								</div>
 								
 								<div>
-							<div><a href="${pageContext.request.contextPath}/mypage/community">내가 쓴 게시글</a>
-							<div><a href="${pageContext.request.contextPath}/mypage/replylist">내가 쓴 댓글</a></div>
+								
+								<div class="community-links">
+								    <button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/mypage/community'">내가 쓴 게시글</button>
+	    							<button type="button" class="btn btn-outline-dark" onclick="location.href='${pageContext.request.contextPath}/mypage/replylist'">내가 쓴 댓글</button>
+								</div>
+								
 							  <div class="row board-list-header">
-				            <div class="col-auto me-auto">${dataCount}개(${page}/${total_page} 페이지)</div>
+				            <div class="col-auto me-auto">${dataCount}개 (${page}/${total_page} 페이지)</div>
 				            
 				        </div>
 						<form action="writeForm" method="post">

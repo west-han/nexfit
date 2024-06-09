@@ -17,8 +17,8 @@
 
 .table-style {
 	border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
+    border-radius: 20px;
+    padding: 30px;
     margin: 20px 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
     background-color: #fff;
@@ -96,7 +96,7 @@
 						
 						</div>
 						<div class="col-sm-6" style="margin-left:50px; font-family: nexon lv2 medium">
-							<div class="table-style" style="width: 600px; height: 320px;"> 
+							<div class="table-style" style="width: 600px; height: 330px;"> 
 								<div style="display: flex;">
 								<div style="border-radius: 50px; float: left">
 									<img src="/nexfit/resources/images/muscle.PNG" style="width: 90px; height: 90px; border-radius: 50px; float: left;">

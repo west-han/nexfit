@@ -16,7 +16,7 @@
 						<a href="${pageContext.request.contextPath}/board/list">FREE
 							LOUNGE</a>
 					</div>
-				</div> <span class="badge text-bg-dark rounded-pill">⠀⠀⠀</span>
+				</div>
 			</li>
 			<li
 				class="list-group-item d-flex justify-content-between align-items-start">
@@ -25,14 +25,13 @@
 						<a href="${pageContext.request.contextPath}/qnaboard/list">Q&amp;A
 							LOUNGE</a>
 					</div>
-				</div> <span class="badge text-bg-dark rounded-pill">⠀⠀⠀</span>
+				</div>
 			</li>
 			<li
-				class="list-group-item d-flex justify-content-between align-items-start">
+				class="list-group-item d-flex justify-content-between align-items-start" style="background: black;">
 				<div class="ms-2 me-auto">
-					<div class="fw-bold">
-						<a href="${pageContext.request.contextPath}/withme/list">WITH
-							ME</a>
+					<div class="fw-bold" style="color: white;">
+						WITH ME
 					</div>
 				</div>
 			</li>

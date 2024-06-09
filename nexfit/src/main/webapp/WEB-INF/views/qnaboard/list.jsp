@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						
 	<div class="row gx-2">
 		
-	<jsp:include page="/WEB-INF/views/board/list_leftbar.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/qnaboard/list_leftbar.jsp"></jsp:include>
 	
 	<div class="col-sm-7"> 
 		<main>

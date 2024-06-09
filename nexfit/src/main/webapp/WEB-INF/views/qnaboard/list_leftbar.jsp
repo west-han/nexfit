@@ -9,16 +9,14 @@
 <div class="container">
 			<ol class="list-group list-group" style="width:190px; position: fixed;">
 				  <li class="list-group-item d-flex justify-content-between align-items-start">
-				    <div class="ms-2 me-auto ">
+				    <div class="ms-2 me-auto">
 				      <div class="fw-bold" ><a href="${pageContext.request.contextPath}/board/list">FREE LOUNGE</a></div>
 				    </div>
-				    <span class="badge text-bg-dark rounded-pill">⠀⠀⠀</span>
 				  </li>
-				  <li class="list-group-item d-flex justify-content-between align-items-start">
+				  <li class="list-group-item d-flex justify-content-between align-items-start" style="background: black;">
 				    <div class="ms-2 me-auto">
-				      <div class="fw-bold"><a href="${pageContext.request.contextPath}/qnaboard/list">Q&A LOUNGE</a></div>
+				      <div class="fw-bold" style="color: white;">Q&A LOUNGE</div> 
 				    </div>
-				    <span class="badge text-bg-dark rounded-pill">⠀⠀⠀</span>
 				  </li>
 				  <li class="list-group-item d-flex justify-content-between align-items-start">
 				    <div class="ms-2 me-auto">

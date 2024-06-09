@@ -1,6 +1,17 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<style>
+.table-style {
+	
+    border-radius: 5px;
+    padding: 16px;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
+    background-color: #fff;
+}
+
+</style>
 
 <div class="container-fluid px-0">
 <div class="row gx-2">
@@ -11,7 +22,7 @@
 			<span>[목록, ${pageNo}/${total_page} 페이지]</span>
 		</div>
 		
-		<table class='table table-borderless reply-list'>
+		<table class='table table-borderless reply-list table-style'>
 			<c:forEach var="dto" items="${listReply}"> 
 				<tr class='list-header' style="background: black; color: white;">
 					<td width='50%'>

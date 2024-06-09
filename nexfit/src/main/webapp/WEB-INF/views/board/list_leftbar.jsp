@@ -8,17 +8,15 @@
 <div class="col-sm-2 mt-5" style="font-family: 'nexon lv2 medium'; ">
 <div class="container">
 			<ol class="list-group list-group" style="width:190px; position: fixed;">
-				  <li class="list-group-item d-flex justify-content-between align-items-start">
-				    <div class="ms-2 me-auto ">
-				      <div class="fw-bold" ><a href="${pageContext.request.contextPath}/board/list">FREE LOUNGE</a></div>
+				  <li class="list-group-item d-flex justify-content-between align-items-start" style="background: black;">
+				    <div class="ms-2 me-auto">
+				      <div class="fw-bold" style="color: white;">FREE LOUNGE</div>
 				    </div>
-				    <span class="badge text-bg-dark rounded-pill">⠀⠀⠀</span>
 				  </li>
 				  <li class="list-group-item d-flex justify-content-between align-items-start">
 				    <div class="ms-2 me-auto">
 				      <div class="fw-bold"><a href="${pageContext.request.contextPath}/qnaboard/list">Q&A LOUNGE</a></div>
 				    </div>
-				    <span class="badge text-bg-dark rounded-pill">⠀⠀⠀</span>
 				  </li>
 				  <li class="list-group-item d-flex justify-content-between align-items-start">
 				    <div class="ms-2 me-auto">

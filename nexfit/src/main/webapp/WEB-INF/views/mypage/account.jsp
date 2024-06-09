@@ -134,9 +134,7 @@ window.addEventListener('load', () => {
 			<div class="container-xxl text-center">
 				<div class="row py-5 " style="margin-top: 100px;">
 					<div class="col">
-						<h1 class="fs-1 text-start" style="font-family: nexon lv2 medium; font-size: 24px; letter-spacing: 10px;">
-							계정 관리
-						</h1>
+						<img src="/nexfit/resources/images/option.png" style="width: 350px; height: 60px; float: left;">
 					</div>
 				</div>
 				
@@ -162,8 +160,8 @@ window.addEventListener('load', () => {
 			</ol>
 						
 						</div>
-						<div class="col-sm-6" style="margin-left:50px;">
-							<div style=" border: 1px solid #dedede; width: 800px; height: 900px; border-radius: 20px; padding: 30px;">
+						<div class="col-sm-6" style="margin-left: 50px; font-family: nexon lv1 light;">
+							<div style=" border: 1px solid #dedede; width: 800px; height: 900px; border-radius: 20px; padding: 30px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);">
 			<div class="body-main">
 			
 				<form name="memberForm" method="post">
