@@ -66,7 +66,7 @@
 
 .text-sm {
 	font-size:15px;
-	line-height: 0.9rem;
+	line-height: 1rem;
 	color: rgba(0, 0, 0, 0.5);
 	
 }
