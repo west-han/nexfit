@@ -158,7 +158,9 @@ public class RoutineDAO {
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sb.append("SELECT r.num, nickname, subject, content, postType, sports, career, week, hitCount, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, r.userId ");
+			sb.append("SELECT r.num, nickname, subject, content, postType, sports, career, week, hitCount, TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, ");
+	        sb.append("(SELECT COUNT(*) FROM routineBoard_Reply rr WHERE rr.num = r.num) AS replyCount, ");
+	        sb.append("(SELECT COUNT(*) FROM routineBoard_Like l WHERE l.num = r.num) AS boardLikeCount ");
 			sb.append("FROM routineBoard r ");
 			sb.append("JOIN member_detail m ON m.userId = r.userId ");
 			sb.append("ORDER BY r.num DESC ");
@@ -182,6 +184,8 @@ public class RoutineDAO {
 				dto.setWeek(rs.getInt("week"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setReg_date(rs.getString("reg_date"));
+				dto.setReplyCount(rs.getInt("replyCount"));
+	            dto.setBoardLikeCount(rs.getInt("boardLikeCount"));
 				
 				list.add(dto);
 			}
@@ -204,15 +208,10 @@ public class RoutineDAO {
 		try {
 			sb.append(" SELECT r.num, nickName, subject, hitCount, postType, sports, career, week, ");
 			sb.append("      TO_CHAR(reg_date, 'YYYY-MM-DD') reg_date, ");
-			sb.append("      NVL(replyCount, 0) replyCount ");
+			sb.append("(SELECT COUNT(*) FROM routineBoard_reply rr WHERE rr.num = r.num) AS replyCount, ");
+	        sb.append("(SELECT COUNT(*) FROM routineBoard_Like l WHERE l.num = r.num) AS boardLikeCount ");
 			sb.append(" FROM routineBoard r ");
 			sb.append(" JOIN member_detail m ON r.userId = m.userId ");
-			sb.append(" LEFT OUTER JOIN ( ");
-			sb.append("     SELECT num, COUNT(*) replyCount ");
-			sb.append("     FROM routineBoard_Reply ");
-			sb.append("     WHERE answer=0 ");
-			sb.append("     GROUP BY num");
-			sb.append(" ) c ON r.num = c.num");
 			if (schType.equals("all")) {
 				sb.append(" WHERE INSTR(subject, ?) >= 1 OR INSTR(content, ?) >= 1 ");
 			} else if (schType.equals("reg_date")) {
@@ -251,8 +250,8 @@ public class RoutineDAO {
 				dto.setWeek(rs.getInt("week"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setReg_date(rs.getString("reg_date"));
-
 				dto.setReplyCount(rs.getInt("replyCount"));
+				dto.setBoardLikeCount(rs.getInt("boardLikeCount"));
 				
 				list.add(dto);
 			}
@@ -747,7 +746,8 @@ public class RoutineDAO {
 		try {
 			sql = "SELECT replyNum, num, rr.userId, nickName, content, rr.reg_date "
 					+ " FROM routineBoard_reply rr  "
-					+ " JOIN member1 m ON rr.userId = m.userId  "
+					+ " JOIN member m ON rr.userId = m.userId "
+					+ " JOIN member_detail d ON d.userId = m.userId  "
 					+ " WHERE replyNum = ? ";
 			pstmt = conn.prepareStatement(sql);
 			

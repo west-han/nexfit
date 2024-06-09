@@ -30,6 +30,105 @@
 	color: white;
 }
 
+/* 타원형 컨테이너 스타일 */
+        .ellipse-container {
+            display: flex; /* 자식 요소를 한 줄로 배치 */
+            align-items: center; /* 수직 가운데 정렬 */
+            justify-content: center; /* 가로 중앙 정렬 */
+            padding: 5px 15px; /* 내부 여백 추가 */
+            border-radius: 50px; /* 타원형으로 만들기 위한 경계 반경 */
+            background-color: #f1f5f9; /* 배경색 설정 */
+            border: 0px; /* 테두리 설정 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+            gap: 10px; /* 요소 사이 간격 */
+            width: fit-content; /* 컨텐츠에 맞춰 너비 자동 조정 */
+        }
+
+        /* sports와 postType 텍스트 스타일 */
+        .ellipse-text {
+            font-size: 13px; /* 텍스트 크기 */
+            color: #333; /* 텍스트 색상 */
+        }
+        
+        /* 부모 컨테이너 스타일 */
+.flex-container {
+    display: flex; /* Flexbox 활성화 */
+    gap: 10px; /* 타원형 요소 사이의 간격 */
+    align-items: center; /* 수직 가운데 정렬 */
+    margin-top: 10px;
+    margin-left:10px;
+    margin-bottom: 10px;
+}
+
+.block {
+	display: block;
+}
+
+.text-sm {
+	font-size:15px;
+	line-height: 0.9rem;
+	color: rgba(0, 0, 0, 0.5);
+	
+}
+
+.line-clamp-2 {
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.content-with-images img {
+	display: none;
+}
+
+.flex-container-inline {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-left: 20px;
+}
+
+.hit-count, .reply-count {
+	display: flex;
+    align-items: center;
+    gap: 5px;
+    color: rgba(0, 0, 0, 1);
+    font-size: 14px;
+}
+
+.reg-date {
+	display: flex;
+    align-items: center;
+    gap: 5px;
+	color: rgba(0, 0, 0, 0.6);
+	font-size:13px;
+}
+
+/* Flex 컨테이너의 기본 스타일 */
+.items-center {
+    display: flex;
+    justify-content: space-between; /* 자식 요소들을 양 끝으로 정렬 */
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+/* 왼쪽 요소들의 컨테이너 스타일 */
+.flex-container-inline {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 요소 사이의 간격 */
+}
+
+/* nickname 컨테이너의 스타일 */
+.nickname-container {
+    margin-left: auto; /* 오른쪽 끝으로 정렬 */
+    text-align: right; /* 텍스트를 오른쪽으로 정렬 */
+    margin-right: 10px;
+    color: rgba(0, 0, 0, 1);
+}
+
 
 </style>
 
@@ -57,7 +156,7 @@ function searchList() {
 						
 <c:forEach var="i" begin="0" end="0">
 	<div class="row gx-2">
-	<div class="col-sm-2">여기에는 좌측 공간에 들어갈 거 작성</div>
+	<div class="col-sm-2"></div>
 	<div class="col-sm-7">
 		<main>
 			<div class="container" style="font-family: 'nexon lv2 medium';">
@@ -94,45 +193,63 @@ function searchList() {
 				            <div class="col-auto">&nbsp;<button type="button" class="btn btn-light" onclick="location.href='${pageContext.request.contextPath}/sports/routine/write';">글쓰기</button></div>
 				        </div> 
 				     	
-				     	<div class="table-style">	
-						<table class="table table-hover board-list">
-							<thead>
-								<tr>
-									<th class="num">번호</th>
-									<th class="Sports">운동</th>
-									<th class="type">유형</th>
-									<th class="subject" style="text-align: left;">제목</th> 
-									<th class="name">작성자</th>
-									<th class="date">작성일</th>
-									<th class="hit">조회수</th>
-								</tr>
-							</thead>
-							
-							<tbody>
+				     	<div class="row px-1 py-1 g-2">	
 								<c:forEach var="dto" items="${list}" varStatus="status">
-									<tr>
-										<td>${dataCount - (page-1) * size - status.index}</td>
-										<td>
-											<c:choose>
-												<c:when test="${dto.sports == 1}">헬스</c:when>
-												<c:when test="${dto.sports == 2}">수영</c:when>
-												<c:when test="${dto.sports == 3}">클라이밍</c:when>
-												<c:when test="${dto.sports == 4}">배구</c:when>
-												<c:when test="${dto.sports == 5}">킥복싱</c:when>
-												<c:when test="${dto.sports == 6}">기타</c:when>
-											</c:choose>
-										</td> 
-										<td style="color: ${dto.postType == 1? 'green' : 'blue'}">${dto.postType == 1? "[추천]" : "[질문]"}</td> 
-										<td class="left" style="text-align: left;">
-											<a href="${articleUrl}&num=${dto.num}" class="text-reset">${dto.subject}</a>
-										</td>
-										<td>${dto.nickname}</td>
-										<td>${dto.reg_date}</td>
-										<td>${dto.hitCount}</td>
-									</tr>
+									<div>
+										<div style="background-color: #ffffff; border-radius: 13px;" class="col p-1 item">
+											<div class="flex-container">
+												<div class="ellipse-container">
+													<div class="ellipse-text">
+													<c:choose>
+														<c:when test="${dto.sports == 1}">헬스</c:when>
+														<c:when test="${dto.sports == 2}">수영</c:when>
+														<c:when test="${dto.sports == 3}">클라이밍</c:when>
+														<c:when test="${dto.sports == 4}">배구</c:when>
+														<c:when test="${dto.sports == 5}">킥복싱</c:when>
+														<c:when test="${dto.sports == 6}">기타</c:when>
+													</c:choose>
+													</div>
+												</div> 
+													<div class="ellipse-container">
+														<div class="ellipse-text" style="color: ${dto.postType == 1? '#FF6B6B' : '#1E40AF'}">${dto.postType == 1? "추천" : "질문"}</div> 
+													</div>
+											</div>
+											<a href="${articleUrl}&num=${dto.num}" class="break-all block">
+												<span style="font-size: 25px;">										
+													${dto.subject}
+												</span>	
+												<span class="my-2 mb-4 line-clamp-2 text-sm">
+													<span class="content-with-images">
+														${dto.content}
+													</span>
+												</span>		
+											</a>
+											<div class="items-center text-sm sm:flex sm:justify-between">
+												<div class="flex items-center gap-4">
+													<div class="flex-container-inline">
+														<div class="hit-count">
+															<i class="fa-solid fa-user-group"></i>
+															${dto.hitCount}
+														</div>
+														<div class="reply-count">
+															<i class="fa-solid fa-comment"></i>
+															${dto.replyCount}
+														</div>
+														<div class="reg-date">
+															${dto.reg_date}
+														</div>
+													</div>
+												</div>
+														<div class="nickname-container">
+															<i style="color: ${dto.postType == 1? '#FF6B6B' : '#1E40AF'}" class="fa-solid fa-dumbbell"></i>
+															${dto.nickname}													
+														</div>
+											</div>
+											
+									
+										</div>
+									</div>
 								</c:forEach>
-							</tbody>
-						</table>
 						</div>
 						
 						<div class="page-navigation">
@@ -145,7 +262,7 @@ function searchList() {
 			</div>
 		</main>				
 		</div>
-		<div class="col-sm-3">여기에는 우측 공간에 들어갈 거 작성</div>
+		<div class="col-sm-3"></div>
 				
 		</div>
 		
