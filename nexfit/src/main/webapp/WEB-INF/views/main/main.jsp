@@ -94,47 +94,88 @@
 					    </p>
 					    <div class="hot-now-content">
 					        <c:forEach var="post" items="${topLikedPosts}">
-					            <p><a href="${pageContext.request.contextPath}/board/article?num=${post.num}">${post.subject}</a></p>
+					            <div class="post-item">
+					                <a href="${pageContext.request.contextPath}/board/article?num=${post.num}" class="post-title">${post.subject}</a>
+					                <span class="post-date">${post.reg_date }</span>
+					            </div>
 					        </c:forEach>
 					    </div>
 					</div>
-
 					<div class="con1">
 					    <p class="content-title">
 					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
-					      	ROUTINE
-					        <a href="#" class="more-link">MORE</a>
+					        ROUTINE
+					        <a href="${pageContext.request.contextPath}/sports/routine/list" class="more-link">MORE</a>
 					    </p>
+					    <div class="routine">
+					        <c:forEach var="post" items="${recentPosts}">
+					            <div class="post-item">
+					                <a href="${pageContext.request.contextPath}/sports/routine/article?num=${post.num}" class="post-title">${post.subject}</a>
+					                <span class="post-date">${post.reg_date }</span>
+					            </div>
+					        </c:forEach>
+					    </div>
 					</div>
 					<div class="con1">
 					    <p class="content-title">
 					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
-					        FREE LOUNGE
-					        <a href="#" class="more-link">MORE</a>
+					        HOT NOW
+					        <a href="${pageContext.request.contextPath}/board/list" class="more-link">MORE</a>
 					    </p>
+					    <div class="hot-now-content">
+					        <c:forEach var="post" items="${topLikedPosts}">
+					            <div class="post-item">
+					                <a href="${pageContext.request.contextPath}/board/article?num=${post.num}" class="post-title">${post.subject}</a>
+					                <span class="post-date">${post.reg_date }</span>
+					            </div>
+					        </c:forEach>
+					    </div>
 					</div>
 					<div class="con1">
 					    <p class="content-title">
 					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
-					        Q&A LOUNGE
-					        <a href="#" class="more-link">MORE</a>
+					        HOT NOW
+					        <a href="${pageContext.request.contextPath}/board/list" class="more-link">MORE</a>
 					    </p>
+					    <div class="hot-now-content">
+					        <c:forEach var="post" items="${topLikedPosts}">
+					            <div class="post-item">
+					                <a href="${pageContext.request.contextPath}/board/article?num=${post.num}" class="post-title">${post.subject}</a>
+					                <span class="post-date">${post.reg_date }</span>
+					            </div>
+					        </c:forEach>
+					    </div>
 					</div>
 					<div class="con1">
 					    <p class="content-title">
 					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
-					       WITH ME
-					        <a href="#" class="more-link">MORE</a>
+					        HOT NOW
+					        <a href="${pageContext.request.contextPath}/board/list" class="more-link">MORE</a>
 					    </p>
+					    <div class="hot-now-content">
+					        <c:forEach var="post" items="${topLikedPosts}">
+					            <div class="post-item">
+					                <a href="${pageContext.request.contextPath}/board/article?num=${post.num}" class="post-title">${post.subject}</a>
+					                <span class="post-date">${post.reg_date }</span>
+					            </div>
+					        </c:forEach>
+					    </div>
 					</div>
 					<div class="con1">
 					    <p class="content-title">
 					        <img src="resources/images/fire.png" style="width: 20px; height: 20px;">
-					        CHALLENGE
-					        <a href="#" class="more-link">MORE</a>
+					        HOT NOW
+					        <a href="${pageContext.request.contextPath}/board/list" class="more-link">MORE</a>
 					    </p>
+					    <div class="hot-now-content">
+					        <c:forEach var="post" items="${topLikedPosts}">
+					            <div class="post-item">
+					                <a href="${pageContext.request.contextPath}/board/article?num=${post.num}" class="post-title">${post.subject}</a>
+					                <span class="post-date">${post.reg_date }</span>
+					            </div>
+					        </c:forEach>
+					    </div>
 					</div>
-
 				</div>
 			</main>
 	</div>
