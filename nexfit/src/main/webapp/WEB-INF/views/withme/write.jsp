@@ -141,7 +141,7 @@ function check() {
 			</div>
 		</main>
 		
-		
+			<div style="height: 100px;"></div>
 		<script type="text/javascript"
 			src="${pageContext.request.contextPath}/resources/se2/js/service/HuskyEZCreator.js"
 			charset="utf-8"></script>

@@ -252,7 +252,7 @@ function addNewContent(data) {
 		const bodyPart = item.bodyPart;
 		const filenum = item.filenum;
 
-		htmlText = '<div class="col-xl-3 col-lg-4 col-sm-6 col-xs-12 pb-3 d-flex justify-content-center">';
+		htmlText = '<div class="col-xl-3 col-lg-4 col-sm-6 col-xs-12 pb-3 d-flex justify-content-center col-sport">';
 		htmlText += '	<div class="card w-100 p-0 mb-2" style="min-height: 250px; max-height: 300px;" data-name="' + name + '">';
 		htmlText += '		<div class="card-body p-0 h-100 w-100">';
 		htmlText += '			<img src="${pageContext.request.contextPath}/uploads/sports/types/' + filename + '" class="card-img-top w-100 h-100" alt="' + name + '...">';
@@ -304,17 +304,19 @@ io.observe(sentinelNode);
 $(function() {
 	$("#keyword").keyup(function(event) {
         let keyword = $(this).val();
-        $(".card").hide();
-		console.log(keyword);
-		
+        $("div.col-sport").hide();
+        $("div.col-sport").removeClass('d-flex');
+        
         if (! keyword.trim()) {
-	        $(".card").show();
+	        $(".col-sport").show();
+	        $(".col-sport").addClass('d-flex');
 	        return;
         }
         
         let found = $(".card h5.card-title:contains(" + keyword + ")")
 
-        $(found).closest(".card").show();
+        $(found).closest(".col-sport").show();
+        $(found).closest(".col-sport").addClass('d-flex');
 	});
 });
 
