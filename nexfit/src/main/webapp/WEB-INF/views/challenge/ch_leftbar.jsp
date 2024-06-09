@@ -13,6 +13,7 @@
 </style>
 
 <div class="col-sm-2 mt-5 " style="font-family: 'nexon lv2 medium'; ">
+<div class="mt-5">
 <div class="container menu-container">
 			<ol class="list-group list-group" style="width:190px; position: fixed;">
 				  <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -39,5 +40,6 @@
 				  </li>
 				  </c:if>
 			</ol>
+			</div>
 			</div>
 		</div>

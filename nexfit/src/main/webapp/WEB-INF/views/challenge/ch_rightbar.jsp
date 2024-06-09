@@ -11,6 +11,8 @@
 }
 </style>
 
-<div class="col-sm-2 ">
-	<div class="menu-container"></div>
+<div class="col-sm-2 mt-5">
+	<div class="mt-5" style="padding-top: 100px;">
+	<a href="${pageContext.request.contextPath}/chboard/list"><img src="/nexfit/resources/images/4.png" style="width: 120%"></a>
+	</div>
 </div>
