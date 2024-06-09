@@ -83,22 +83,10 @@
                                         </thead>
                                         <tbody>
                                             <c:forEach var="dto" items="${list}" varStatus="status">
-                                            	<c:if test="${dto.board_name == 'routineboard'}">
-                                            		<c:set var="where" value="sports/routine" scope="page"></c:set>
-                                            	</c:if>
-                                            	<c:if test="${dto.board_name == 'freeboard'}">
-                                            		<c:set var="where" value="board" scope="page"></c:set>
-                                            	</c:if>
-                                            	<c:if test="${dto.board_name == 'qnaboard'}">
-                                            		<c:set var="where" value="qnaboard" scope="page"></c:set>
-                                            	</c:if>
-                                            	<c:if test="${dto.board_name == 'withboard'}">
-                                            		<c:set var="where" value="withme" scope="page"></c:set>
-                                            	</c:if>
                                                 <tr>
                                                     <td id="board_name">${dto.board_name}</td>
                                                     <td class="left">
-                                                        <a href="${pageContext.request.contextPath}/${pageScope.where}/article?num=${dto.num}&page=${page}" class="text-reset">${dto.subject}</a>
+                                                        <a href="${pageContext.request.contextPath}/board/article?num=${dto.num}&page=${page}" class="text-reset">${dto.subject}</a>
                                                     </td>
                                                     <td>${dto.reg_date}</td>
                                                     <td>${dto.hitCount}</td>
