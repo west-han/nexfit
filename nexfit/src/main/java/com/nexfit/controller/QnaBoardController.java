@@ -11,7 +11,9 @@ import com.nexfit.annotation.Controller;
 import com.nexfit.annotation.RequestMapping;
 import com.nexfit.annotation.RequestMethod;
 import com.nexfit.annotation.ResponseBody;
+import com.nexfit.dao.PointDAO;
 import com.nexfit.dao.QnaBoardDAO;
+import com.nexfit.domain.Point;
 import com.nexfit.domain.QnaBoardDTO;
 import com.nexfit.domain.ReplyDTO;
 import com.nexfit.domain.SessionInfo;
@@ -144,6 +146,9 @@ public class QnaBoardController {
 			dto.setContent(req.getParameter("content"));
 
 			dao.insertBoard(dto);
+			PointDAO pointDao = new PointDAO();
+			pointDao.updatePoint(info.getUserId(), Point.WRITE_POST);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -302,6 +307,9 @@ public class QnaBoardController {
 			}
 
 			dao.deleteBoard(num, info.getUserId());
+			PointDAO pointDao = new PointDAO();
+			pointDao.updatePoint(info.getUserId(), Point.DELETE_POST);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -335,6 +343,8 @@ public class QnaBoardController {
 					}
 					
 					dao.insertReply(dto);
+					PointDAO pointDAO = new PointDAO();
+					pointDAO.updatePoint(info.getUserId(), Point.WRITE_COMMENT);
 					
 					state = "true";
 				} catch (Exception e) {
@@ -419,6 +429,8 @@ public class QnaBoardController {
 					long replyNum = Long.parseLong(req.getParameter("replyNum"));
 					
 					dao.deleteReply(replyNum, info.getUserId());
+					PointDAO pointDAO = new PointDAO();
+					pointDAO.updatePoint(info.getUserId(), Point.DELETE_COMMENT);
 					
 					state = "true";
 					

@@ -16,7 +16,9 @@ import com.nexfit.annotation.RequestMapping;
 import com.nexfit.annotation.RequestMethod;
 import com.nexfit.annotation.ResponseBody;
 import com.nexfit.dao.BoardDAO;
+import com.nexfit.dao.PointDAO;
 import com.nexfit.domain.BoardDTO;
+import com.nexfit.domain.Point;
 import com.nexfit.domain.ReplyDTO;
 import com.nexfit.domain.SessionInfo;
 import com.nexfit.servlet.ModelAndView;
@@ -181,6 +183,10 @@ public class BoardController {
 			dto.setListFile(listFile);
 
 			dao.insertBoard(dto);
+			
+			PointDAO pointDao = new PointDAO();
+			pointDao.updatePoint(info.getUserId(), Point.WRITE_POST);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -450,6 +456,9 @@ public class BoardController {
 
 			dao.deleteBoard(num, info.getUserId());
 			
+			PointDAO pointDao = new PointDAO();
+			pointDao.updatePoint(info.getUserId(), Point.DELETE_POST);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -480,9 +489,13 @@ public class BoardController {
 			if (isNoLike.equals("true")) {
 				// 공감
 				dao.insertBoardLike(num, info.getUserId());
+				PointDAO pointDAO = new PointDAO();
+				pointDAO.updatePoint(info.getUserId(), Point.LIKED);
 			} else {
 				// 공감 취소
 				dao.deleteBoardLike(num, info.getUserId());
+				PointDAO pointDAO = new PointDAO();
+				pointDAO.updatePoint(info.getUserId(), Point.LIKE_CANCELED);
 			}
 			
 			boardLikeCount = dao.countBoardLike(num);
@@ -526,6 +539,10 @@ public class BoardController {
 				dao.insertReply(dto);
 				
 				state = "true";
+				
+				PointDAO pointDAO = new PointDAO();
+				pointDAO.updatePoint(info.getUserId(), Point.WRITE_COMMENT);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -608,6 +625,8 @@ public class BoardController {
 				long replyNum = Long.parseLong(req.getParameter("replyNum"));
 				
 				dao.deleteReply(replyNum, info.getUserId());
+				PointDAO pointDAO = new PointDAO();
+				pointDAO.updatePoint(info.getUserId(), Point.DELETE_COMMENT);
 				
 				state = "true";
 				
