@@ -11,6 +11,8 @@ public class MyChallengeDTO {
 	private String ch_subject;
 	private long applNumber;
 	private int fee;
+	private int requiredAc;
+	
 	
 	public int getFee() {
 		return fee;
@@ -24,7 +26,7 @@ public class MyChallengeDTO {
 	public void setApplNumber(long applNumber) {
 		this.applNumber = applNumber;
 	}
-	private int requiredAc;
+	
 
 	public int getRequiredAc() {
 		return requiredAc;
