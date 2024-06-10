@@ -138,7 +138,7 @@
   <div class="content">
     <div>
       <div><b>Member</b><a href="#">한석현</a><a href="#">서진명</a><a href="#">이창수</a><a href="#">백다송</a><a href="#">김민준</a></div>
-      <div><b>Position</b><a href="#">light</a><a href="#">sun</a><a href="#">gomoktree</a><a href="#">shine</a><a href="#">ShienMuscat</a></div>
+      <div><b>Position</b><a href="#">light</a><a href="#">sun</a><a href="#">gomoktree</a><a href="#">shine</a><a href="#">ShineMuscat</a></div>
       <div><b>Slogan</b><a href="#">다름을 인정하기</a></div>
       <div><b>GoodBye</b><a href="https://www.youtube.com/watch?v=RgKAFK5djSk">Dear My Friends. See you again.</a></div>
     </div>
