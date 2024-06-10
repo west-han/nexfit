@@ -444,7 +444,6 @@ public class WithBoardDAO {
 				pstmt = conn.prepareStatement(sql);
 
 				pstmt.setLong(1, num);
-				pstmt.setString(2, userId);
 
 				pstmt.executeUpdate();
 			} else {

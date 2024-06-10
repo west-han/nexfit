@@ -137,10 +137,10 @@
   </div>
   <div class="content">
     <div>
-      <div><b>한석현</b><a href="#">서진명</a><a href="#">이창수</a><a href="#">백다송</a><a href="#">김민준</a><a href="#">Babed</a></div>
-      <div><b>Spotha</b><a href="#">Miskasa</a><a href="#">Agithe</a><a href="#">Scesha</a><a href="#">Lulle</a></div>
-      <div><b>Chashakib</b><a href="#">Chogauw</a><a href="#">Phachuled</a><a href="#">Tiebeft</a><a href="#">Ocid</a><a href="#">Izom</a><a href="#">Ort</a></div>
-      <div><b>Athod</b><a href="#">Pamuz</a><a href="#">Vapert</a><a href="#">Neesk</a><a href="#">Omemanen</a></div>
+      <div><b>Member</b><a href="#">한석현</a><a href="#">서진명</a><a href="#">이창수</a><a href="#">백다송</a><a href="#">김민준</a></div>
+      <div><b>Position</b><a href="#">light</a><a href="#">sun</a><a href="#">gomoktree</a><a href="#">shine</a><a href="#">ShienMuscat</a></div>
+      <div><b>Slogan</b><a href="#">다름을 인정하기</a></div>
+      <div><b>GoodBye</b><a href="https://www.youtube.com/watch?v=RgKAFK5djSk">Dear My Friends. See you again.</a></div>
     </div>
     <div><a class="image" href="https://codepen.io/z-" target="_blank" style="background-image: url(&quot;https://s3-us-west-2.amazonaws.com/s.cdpn.io/199011/happy.svg&quot;)"></a>
       <p>©2019 Not Really</p>
