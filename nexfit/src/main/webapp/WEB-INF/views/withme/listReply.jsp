@@ -46,7 +46,7 @@
 			            <div id='listReplyAnswer${dto.replyNum}' class='answer-list'></div>
 			            <div class="answer-form">
 			                <div class='answer-left'>└</div>
-			                <div class='answer-right' style="width: 500px;"><textarea class='form-control'></textarea></div>
+			                <div class='answer-right' style="width: 100%;"><textarea class='form-control'></textarea></div>
 			            </div>
 			             <div class='answer-footer'>
 			                <button type='button' class='btn btn-light btnSendReplyAnswer' data-replyNum='${dto.replyNum}'>답글 등록</button>
