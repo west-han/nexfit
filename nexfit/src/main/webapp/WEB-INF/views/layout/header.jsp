@@ -56,9 +56,9 @@
 							CHALLENGE
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/chboard/list">챌린지 리스트</a></li>
-							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/certiboard/list">인증 게시판</a></li>
-							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/mychallenge/list">내가 참여한 챌린지</a></li>
+							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/chboard/list">Challenge</a></li>
+							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/certiboard/list">Look at me!</a></li>
+							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/mychallenge/list">My Challenge</a></li>
 							<c:if test="${sessionScope.member.userName=='admin'}">
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/challenge/list">챌린지관리 게시판</a></li>
