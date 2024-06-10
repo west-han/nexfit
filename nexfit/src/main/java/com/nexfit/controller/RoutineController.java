@@ -27,7 +27,7 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class RoutineController {
 	
-	@RequestMapping(value = "/sports/routine/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/sports/routine/list")
 	public ModelAndView list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 예시
 		//dto.getpostType() == 1 ? "추천" : "질문";
